@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VISIO Studio — Rendering Architettonico Roma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --gold: #C9A96E; --dark: #0A0A0A; --dark2: #0F0F0F; --dark3: #141414;
+  --light: #FAFAF8; --light2: #F5F3EF; --light3: #EEEAE4;
+  --text: #1A1A1A; --muted: #888; --border: #E0DDD8;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; cursor: none; overflow-x: hidden; }
+.serif { font-family: 'Cormorant Garamond', serif; }
+.serif-i { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+/* CURSOR */
+#cur-d { position:fixed;width:5px;height:5px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s; }
+#cur-r { position:fixed;width:28px;height:28px;border:.5px solid rgba(201,169,110,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .14s ease-out; }
+
+/* LOADER */
+#loader { position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:1000;transition:opacity .8s; }
+.loader-logo { font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;letter-spacing:14px;color:#fff;animation:fadeUp .9s ease forwards; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+
+/* NAVBAR */
+#nav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;transition:background .4s,border-color .4s;border-bottom:.5px solid transparent; }
+#nav.light { background:var(--light2);border-bottom-color:var(--border); }
+#nav.light .nl { color:var(--text); }
+#nav.light .nlink { color:var(--muted); }
+#nav.light .ncta { border-color:var(--text);color:var(--text); }
+.nl { font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:7px;color:#fff;transition:color .4s; }
+.nlinks { display:flex;gap:30px; }
+.nlink { font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.5);text-transform:uppercase;text-decoration:none;cursor:none;transition:color .3s; }
+.nlink:hover { color:var(--gold); }
+.ncta { border:.5px solid var(--gold);color:var(--gold);padding:8px 18px;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:none;background:transparent;transition:all .3s; }
+.ncta:hover { background:var(--gold);color:var(--dark); }
+
+/* JOURNEY */
+#journey { height:700vh;position:relative; }
+#sticky { position:sticky;top:0;height:100vh;overflow:hidden; }
+#sv { width:100%;height:100%;object-fit:cover;display:block; }
+#vo { position:absolute;inset:0;pointer-events:none; }
+#stw { position:absolute;bottom:0;left:0;right:0;padding:0 48px 52px;background:linear-gradient(transparent,rgba(0,0,0,.6)); }
+#stag { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s; }
+#stxt { font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:#fff;line-height:1.1;white-space:pre-line;opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s; }
+#stag.v, #stxt.v { opacity:1;transform:translateY(0); }
+#spb { position:absolute;bottom:0;left:0;height:2px;background:var(--gold);width:0%;transition:width .08s; }
+
+/* REVEAL */
+.rev { opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease; }
+.rev.in { opacity:1;transform:translateY(0); }
+.rev-l { opacity:0;transform:translateX(-28px);transition:opacity .75s ease,transform .75s ease; }
+.rev-l.in { opacity:1;transform:translateX(0); }
+.rev-r { opacity:0;transform:translateX(28px);transition:opacity .75s ease,transform .75s ease; }
+.rev-r.in { opacity:1;transform:translateX(0); }
+
+/* SECTION LABEL */
+.slabel { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:14px; }
+.gold-line { width:100%;height:.5px;background:var(--gold);opacity:.35;margin:28px 0; }
+
+/* ── SEZIONE INTRO SERVIZI ── */
+#intro-servizi { background:var(--dark2);padding:96px 48px 80px;border-top:.5px solid rgba(255,255,255,.06); }
+.intro-grid { display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center; }
+.intro-text h2 { font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;line-height:1.1;margin-bottom:20px; }
+.intro-text h2 em { font-style:italic;color:var(--gold); }
+.intro-text p { font-size:13px;color:rgba(255,255,255,.5);line-height:1.95;max-width:440px; }
+.intro-svg-wrap { display:flex;justify-content:center;align-items:center; }
+
+/* ── RENDER GALLERY ── */
+#render-gallery { background:var(--dark);padding:80px 48px; }
+.gallery-header { display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px; }
+.gallery-header h2 { font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;line-height:1.1; }
+.gallery-header p { font-size:11px;color:rgba(255,255,255,.4);max-width:280px;line-height:1.8; }
+.render-grid { display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:240px 240px;gap:3px; }
+.render-cell { position:relative;overflow:hidden;background:var(--dark3); }
+.render-cell.tall { grid-row:1/3; }
+.render-cell svg.rc-bg { width:100%;height:100%;display:block; }
+.render-cell img.rc-photo { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s; }
+.render-cell img.rc-photo.loaded { opacity:1; }
+.render-label { position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,.75));font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.7);text-transform:uppercase;opacity:0;transition:opacity .3s;z-index:2; }
+.render-cell:hover .render-label { opacity:1; }
+
+/* ── DOC HOVER PREVIEW ── */
+.doc-item { position:relative;overflow:hidden; }
+.doc-preview { position:absolute;inset:0;background:var(--light3);opacity:0;pointer-events:none;transition:opacity .35s;display:flex;align-items:center;justify-content:center;padding:12px;z-index:10; }
+.doc-item:hover .doc-preview { opacity:1; }
+.doc-preview svg { width:100%;height:100%;max-height:240px; }
+
+/* ── LIGHTING INTERACTIVE ── */
+.light-btn { background:transparent;border:.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.4);padding:10px 16px;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:none;transition:all .25s;width:100%; }
+.light-btn.active { border-color:var(--gold);color:var(--gold);background:rgba(201,169,110,.07); }
+.light-btn:hover { border-color:rgba(201,169,110,.5);color:rgba(201,169,110,.7); }
+.light-controls { display:flex;flex-direction:column;gap:8px;margin-top:28px; }
+.light-room-wrap { position:relative; }
+#light-canvas { display:block;width:100%; }
+
+/* ── LIDAR ── */
+#lidar-section { background:var(--dark2);padding:96px 48px;border-top:.5px solid rgba(255,255,255,.06); }
+.lidar-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center; }
+.lidar-text h2 { font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;line-height:1.1;margin-bottom:18px; }
+.lidar-text p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95;margin-bottom:14px; }
+.lidar-steps { margin-top:28px;display:flex;flex-direction:column;gap:16px; }
+.lidar-step { display:flex;align-items:flex-start;gap:16px; }
+.lstep-num { font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold);line-height:1;min-width:36px; }
+.lstep-body h4 { font-size:12px;letter-spacing:1px;color:#fff;margin-bottom:4px; }
+.lstep-body p { font-size:11px;color:rgba(255,255,255,.4);line-height:1.7; }
+.lidar-visual { position:relative; }
+#lidar-cv { display:block;border:.5px solid rgba(0,212,255,.15); }
+.lidar-compare { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3px; }
+.lc-box { background:var(--dark3);padding:12px 16px; }
+.lc-box span { font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase; }
+.lc-box p { font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#fff;margin-top:4px; }
+
+/* ── SITO DEDICATO ── */
+#sito-dedicato { background:var(--dark);padding:96px 48px;border-top:.5px solid rgba(255,255,255,.06); }
+.sito-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center; }
+.sito-text h2 { font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;line-height:1.1;margin-bottom:18px; }
+.sito-text h2 em { font-style:italic;color:var(--gold); }
+.sito-text p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95;margin-bottom:14px; }
+.sito-features { margin-top:28px;display:flex;flex-direction:column;gap:12px; }
+.sf-item { display:flex;align-items:center;gap:12px;font-size:11px;color:rgba(255,255,255,.6); }
+.sf-dot { width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0; }
+.phone-mockup { position:relative;display:flex;justify-content:center; }
+
+/* ── VR/AR ── */
+#vrar { background:var(--dark2);padding:96px 48px;border-top:.5px solid rgba(255,255,255,.06); }
+.vrar-intro { text-align:center;max-width:680px;margin:0 auto 56px; }
+.vrar-intro h2 { font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;margin-bottom:16px;line-height:1.1; }
+.vrar-intro p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95; }
+.vrar-cards { display:grid;grid-template-columns:1fr 1fr;gap:3px; }
+.vrar-card { background:var(--dark3);padding:40px 36px;position:relative;overflow:hidden; }
+.vrar-card-num { font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:rgba(201,169,110,.08);position:absolute;top:16px;right:24px;line-height:1; }
+.vrar-card h3 { font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:12px; }
+.vrar-card p { font-size:11px;color:rgba(255,255,255,.45);line-height:1.85;max-width:380px; }
+.vrar-card .tag { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:16px; }
+.vrar-card svg { margin-top:24px; }
+
+/* ── DOCUMENTI SECTION (light) ── */
+#documenti { background:var(--light);padding:96px 48px;color:var(--text); }
+.doc-header { margin-bottom:52px; }
+.doc-header h2 { font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;line-height:1.1;max-width:560px;margin-bottom:14px; }
+.doc-header p { font-size:12px;color:var(--muted);line-height:1.9;max-width:520px; }
+.doc-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border); }
+.doc-item { background:var(--light);padding:32px 28px; }
+.doc-item:hover { background:var(--light3); }
+.doc-icon { margin-bottom:20px; }
+.doc-num { font-size:11px;color:var(--gold);letter-spacing:1px;margin-bottom:10px; }
+.doc-title { font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--text);margin-bottom:10px;line-height:1.3; }
+.doc-desc { font-size:11px;color:var(--muted);line-height:1.8; }
+.doc-tags { display:flex;flex-wrap:wrap;gap:6px;margin-top:16px; }
+.doc-tag { font-size:9px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;border:.5px solid rgba(201,169,110,.35);padding:3px 8px; }
+
+/* ── PROGETTAZIONE (light) ── */
+#progettazione { background:var(--light2);padding:96px 48px;color:var(--text);border-top:.5px solid var(--border); }
+.prog-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-top:48px; }
+.prog-col h3 { font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;line-height:1.2;margin-bottom:14px; }
+.prog-col p { font-size:12px;color:var(--muted);line-height:1.9;margin-bottom:20px; }
+.prog-list { display:flex;flex-direction:column;gap:10px; }
+.prog-li { display:flex;align-items:flex-start;gap:12px;font-size:11px;color:var(--muted);line-height:1.6; }
+.prog-li::before { content:'—';color:var(--gold);flex-shrink:0; }
+
+/* ── ILLUMINOTECNICA (dark) ── */
+#illumino { background:var(--dark);padding:96px 48px;border-top:.5px solid rgba(255,255,255,.06); }
+.illumino-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center; }
+.illumino-text h2 { font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;line-height:1.1;margin-bottom:18px; }
+.illumino-text p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95;margin-bottom:14px; }
+.light-types { display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);margin-top:28px; }
+.lt-item { background:var(--dark);padding:20px;transition:background .3s; }
+.lt-item:hover { background:var(--dark3); }
+.lt-name { font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px; }
+.lt-desc { font-size:11px;color:rgba(255,255,255,.4);line-height:1.6; }
+
+/* ── STATS + PROCESS ── */
+#stats { background:var(--light);padding:80px 48px;color:var(--text); }
+.stats-row { display:grid;grid-template-columns:repeat(4,1fr); }
+.stat-i { padding:0 32px 0 0;border-right:.5px solid var(--border); }
+.stat-i:first-child { padding-left:0; }
+.stat-i:last-child { border-right:none;padding-left:32px;padding-right:0; }
+.stat-i:not(:first-child) { padding-left:32px; }
+.stat-n { font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--text);line-height:1; }
+.stat-l { font-size:10px;letter-spacing:2px;color:#999;text-transform:uppercase;margin-top:8px; }
+.process-row { display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:64px;position:relative; }
+.process-row::before { content:'';position:absolute;top:24px;left:10%;right:10%;height:.5px;background:var(--gold);opacity:.3; }
+.proc-step { text-align:center;padding:0 12px; }
+.proc-dot { width:10px;height:10px;background:var(--gold);border-radius:50%;margin:0 auto 16px; }
+.proc-num { font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px; }
+.proc-title { font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--text);margin-bottom:6px; }
+.proc-desc { font-size:10px;color:var(--muted);line-height:1.6; }
+
+/* ── CHI LAVORA ── */
+#chi { background:var(--light2);display:grid;grid-template-columns:1fr 1fr;border-top:.5px solid var(--border);color:var(--text); }
+.chi-col { padding:56px 44px; }
+.chi-col:first-child { border-right:.5px solid var(--gold); }
+.chi-title { font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;margin-bottom:12px; }
+.chi-desc { font-size:12px;color:var(--muted);line-height:1.85;margin-bottom:20px; }
+.chi-link { font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;border-bottom:.5px solid var(--gold);padding-bottom:2px;cursor:none; }
+
+/* ── STATEMENT ── */
+#statement { background:var(--dark2);height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:48px;border-top:.5px solid rgba(255,255,255,.06); }
+.st-title { font-family:'Cormorant Garamond',serif;font-size:58px;font-weight:300;line-height:1.1; }
+.st-sub { font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:rgba(255,255,255,.4);margin-top:14px; }
+.st-cta { display:inline-block;margin-top:32px;font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;border-bottom:.5px solid var(--gold);padding-bottom:3px;cursor:none;transition:opacity .3s; }
+.st-cta:hover { opacity:.7; }
+
+/* ── CONTATTI ── */
+#contatti { background:var(--light2);padding:72px 48px;border-top:.5px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;color:var(--text); }
+.ct-label { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:18px; }
+.ct-title { font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;line-height:1;margin-bottom:18px; }
+.ct-desc { font-size:12px;color:var(--muted);line-height:1.85;max-width:340px; }
+.ct-addr { margin-top:28px;font-size:11px;color:#AAA;line-height:1.9; }
+.ff { margin-bottom:22px; }
+.ff label { display:block;font-size:9px;letter-spacing:2px;color:#AAA;text-transform:uppercase;margin-bottom:7px; }
+.ff input,.ff select,.ff textarea { width:100%;background:transparent;border:none;border-bottom:.5px solid #C0BDB8;padding:6px 0;font-family:'Inter',sans-serif;font-size:13px;font-weight:300;color:var(--text);outline:none;transition:border-color .3s;-webkit-appearance:none;resize:none; }
+.ff input:focus,.ff select:focus,.ff textarea:focus { border-bottom-color:var(--gold); }
+.frow { display:grid;grid-template-columns:1fr 1fr;gap:22px; }
+.sbtn { width:100%;background:var(--gold);color:var(--dark);border:none;padding:14px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:none;margin-top:8px;transition:opacity .3s; }
+.sbtn:hover { opacity:.85; }
+
+/* FOOTER */
+footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between; }
+.fl { font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;letter-spacing:5px;color:rgba(255,255,255,.3); }
+.fc { font-size:10px;color:rgba(255,255,255,.18);letter-spacing:1px; }
+.fsoc { display:flex;gap:16px; }
+.fsoc a { color:rgba(255,255,255,.3);text-decoration:none;font-size:11px;cursor:none;letter-spacing:1px; }
+.fsoc a:hover { color:var(--gold); }
+
+/* WA FAB */
+#wafab { position:fixed;bottom:24px;right:24px;width:46px;height:46px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;z-index:99;box-shadow:0 4px 16px rgba(37,211,102,.3);transition:transform .2s; }
+#wafab:hover { transform:scale(1.08); }
+#wafab svg { width:22px;height:22px;fill:#fff; }
+
+/* RESPONSIVE */
+@media(max-width:900px) {
+  #nav { padding:16px 20px; }
+  .nlinks { display:none; }
+  .intro-grid,.lidar-grid,.sito-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
+  .vrar-cards { grid-template-columns:1fr; }
+  .doc-grid { grid-template-columns:1fr; }
+  .stats-row { grid-template-columns:1fr 1fr;gap:28px; }
+  .stat-i { border-right:none!important;padding:0!important; }
+  .process-row { grid-template-columns:1fr 1fr;gap:24px; }
+  .process-row::before { display:none; }
+  #chi { grid-template-columns:1fr; }
+  .chi-col:first-child { border-right:none;border-bottom:.5px solid var(--border); }
+  #contatti { grid-template-columns:1fr;gap:36px; }
+  #intro-servizi,#render-gallery,#lidar-section,#sito-dedicato,#vrar,#documenti,#progettazione,#illumino,#stats,#contatti { padding:60px 20px; }
+  .render-grid { grid-template-columns:1fr;grid-template-rows:auto; }
+  .render-cell.tall { grid-row:auto; }
+  #stxt { font-size:32px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur-d"></div>
+<div id="cur-r"></div>
+
+<div id="loader"><span class="loader-logo">VISIO</span></div>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <div class="nl">VISIO</div>
+  <div class="nlinks">
+    <a href="#render-gallery" class="nlink">Lavori</a>
+    <a href="#lidar-section" class="nlink">Tecnologia</a>
+    <a href="#documenti" class="nlink">Servizi</a>
+    <a href="#contatti" class="nlink">Contatti</a>
+  </div>
+  <button class="ncta" onclick="document.getElementById('contatti').scrollIntoView({behavior:'smooth'})">Richiedi sopralluogo</button>
+</nav>
+
+<!-- ══ VIDEO SCRUB ══ -->
+<section id="journey">
+  <div id="sticky">
+    <video id="sv" src="visio-journey-scrub.mp4" playsinline muted preload="auto"></video>
+    <div id="vo">
+      <div id="stw">
+        <p id="stag"></p>
+        <p id="stxt"></p>
+      </div>
+      <div id="spb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INTRO SERVIZI ══ -->
+<section id="intro-servizi">
+  <div class="intro-grid">
+    <div class="intro-text">
+      <p class="slabel rev">Studio VISIO · Roma</p>
+      <h2 class="rev">Dall'idea <em>all'immagine</em><br>perfetta.</h2>
+      <p class="rev">VISIO è lo studio romano di riferimento per la visualizzazione architettonica professionale. Trasformiamo progetti in immagini fotorealistiche, esperienze immersive e documentazione tecnica completa — supportando architetti, costruttori e privati in ogni fase del progetto.</p>
+    </div>
+    <div class="intro-svg-wrap rev-r">
+      <!-- Illustrazione assonometrica casa -->
+      <svg width="340" height="300" viewBox="0 0 340 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Base -->
+        <polygon points="170,260 310,200 310,100 170,160" fill="#1a1a1a" stroke="rgba(201,169,110,.3)" stroke-width=".5"/>
+        <polygon points="170,260 30,200 30,100 170,160" fill="#141414" stroke="rgba(201,169,110,.3)" stroke-width=".5"/>
+        <!-- Tetto -->
+        <polygon points="170,60 310,100 170,160 30,100" fill="#222" stroke="rgba(201,169,110,.5)" stroke-width=".8"/>
+        <!-- Finestre dx -->
+        <rect x="230" y="130" width="30" height="22" fill="rgba(135,187,219,.25)" stroke="rgba(135,187,219,.5)" stroke-width=".5"/>
+        <rect x="270" y="130" width="30" height="22" fill="rgba(135,187,219,.25)" stroke="rgba(135,187,219,.5)" stroke-width=".5"/>
+        <rect x="250" y="165" width="35" height="30" fill="rgba(135,187,219,.2)" stroke="rgba(135,187,219,.4)" stroke-width=".5"/>
+        <!-- Finestre sx -->
+        <rect x="60" y="130" width="30" height="22" fill="rgba(135,187,219,.2)" stroke="rgba(135,187,219,.4)" stroke-width=".5"/>
+        <rect x="100" y="130" width="30" height="22" fill="rgba(135,187,219,.2)" stroke="rgba(135,187,219,.4)" stroke-width=".5"/>
+        <!-- Porta -->
+        <rect x="152" y="195" width="36" height="50" rx="1" fill="#0a0a0a" stroke="rgba(201,169,110,.4)" stroke-width=".8"/>
+        <line x1="170" y1="195" x2="170" y2="245" stroke="rgba(201,169,110,.3)" stroke-width=".5"/>
+        <!-- Grid lines assonometrici -->
+        <line x1="170" y1="160" x2="170" y2="260" stroke="rgba(201,169,110,.15)" stroke-width=".5" stroke-dasharray="3,4"/>
+        <line x1="170" y1="60" x2="170" y2="160" stroke="rgba(201,169,110,.15)" stroke-width=".5" stroke-dasharray="3,4"/>
+        <!-- Dot accenti -->
+        <circle cx="310" cy="100" r="2.5" fill="var(--gold)"/>
+        <circle cx="30" cy="100" r="2.5" fill="var(--gold)"/>
+        <circle cx="170" cy="60" r="2.5" fill="var(--gold)"/>
+        <!-- Label -->
+        <text x="170" y="292" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(201,169,110,.6)" letter-spacing="3">VISIO · RENDER 3D</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RENDER GALLERY ══ -->
+<section id="render-gallery">
+  <div class="gallery-header rev">
+    <h2 class="serif">I nostri render.</h2>
+    <p>Ogni immagine nasce da un sopralluogo reale e da geometrie precise. Nessun compromesso sulla qualità.</p>
+  </div>
+  <div class="render-grid rev">
+    <!-- CELL 1 — grande verticale: esterno villa (img/render-esterno-1.jpg) -->
+    <div class="render-cell tall">
+      <svg class="rc-bg" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0d1f35"/><stop offset="55%" stop-color="#2d6ea8"/><stop offset="100%" stop-color="#87BBDB"/></linearGradient>
+          <linearGradient id="grd1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a6b3a"/><stop offset="100%" stop-color="#5a8a4a"/></linearGradient>
+        </defs>
+        <rect width="500" height="500" fill="url(#sky1)"/>
+        <!-- Nuvole -->
+        <ellipse cx="120" cy="80" rx="60" ry="20" fill="rgba(255,255,255,.07)"/>
+        <ellipse cx="350" cy="60" rx="80" ry="18" fill="rgba(255,255,255,.05)"/>
+        <!-- Terreno -->
+        <rect y="360" width="500" height="140" fill="url(#grd1)"/>
+        <!-- Villa moderna a due livelli -->
+        <rect x="30" y="240" width="440" height="125" fill="#E8E4DE"/>
+        <rect x="30" y="175" width="280" height="68" fill="#F0EDE8"/>
+        <rect x="30" y="170" width="440" height="8" fill="#C0BBB5"/>
+        <rect x="30" y="240" width="440" height="6" fill="#C0BBB5"/>
+        <!-- Piano terra finestre grandi -->
+        <rect x="55" y="258" width="90" height="100" fill="rgba(135,187,219,.55)"/>
+        <rect x="165" y="258" width="90" height="100" fill="rgba(135,187,219,.55)"/>
+        <rect x="275" y="258" width="80" height="100" fill="rgba(135,187,219,.5)"/>
+        <!-- Porta principale -->
+        <rect x="380" y="298" width="65" height="67" fill="#0a0a0a" opacity=".85"/>
+        <rect x="411" y="298" width="1.5" height="67" fill="rgba(201,169,110,.3)"/>
+        <!-- Piano primo finestre -->
+        <rect x="55" y="188" width="50" height="36" fill="rgba(135,187,219,.45)"/>
+        <rect x="125" y="188" width="50" height="36" fill="rgba(135,187,219,.45)"/>
+        <rect x="195" y="188" width="50" height="36" fill="rgba(135,187,219,.45)"/>
+        <!-- Cornicione superiore piano -->
+        <rect x="310" y="175" width="160" height="170" fill="#F5F2EE"/>
+        <rect x="355" y="188" width="70" height="44" fill="rgba(135,187,219,.5)"/>
+        <!-- Pavimento esterno / terrazza -->
+        <rect x="30" y="365" width="440" height="10" fill="#B8AFA0"/>
+        <!-- Scala esterna -->
+        <rect x="380" y="353" width="65" height="12" fill="#C8C0B5"/>
+        <rect x="385" y="342" width="55" height="12" fill="#D0C8BD"/>
+        <!-- Alberatura -->
+        <rect x="8" y="270" width="5" height="95" fill="#5C4A32"/>
+        <circle cx="10" cy="258" r="22" fill="#2D6A1B" opacity=".9"/>
+        <circle cx="10" cy="252" r="14" fill="#356020" opacity=".8"/>
+        <rect x="480" y="278" width="5" height="87" fill="#5C4A32"/>
+        <circle cx="482" cy="266" r="20" fill="#2D6A1B" opacity=".9"/>
+        <!-- Piscina -->
+        <rect x="55" y="375" width="180" height="60" rx="3" fill="rgba(20,90,160,.55)" stroke="rgba(100,180,220,.3)" stroke-width="1.5"/>
+        <rect x="55" y="375" width="180" height="5" rx="2" fill="rgba(60,150,210,.45)"/>
+        <!-- Riflessi acqua piscina -->
+        <line x1="80" y1="400" x2="110" y2="400" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+        <line x1="130" y1="390" x2="180" y2="390" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+        <!-- Sole -->
+        <circle cx="420" cy="65" r="22" fill="rgba(255,220,100,.2)"/>
+        <circle cx="420" cy="65" r="12" fill="rgba(255,220,100,.3)"/>
+        <!-- Label placeholder -->
+        <rect x="0" y="460" width="500" height="40" fill="rgba(0,0,0,.45)"/>
+        <text x="250" y="486" text-anchor="middle" font-family="Inter" font-size="10" fill="rgba(255,255,255,.35)" letter-spacing="3">INSERISCI · img/render-esterno-1.jpg</text>
+      </svg>
+      <img class="rc-photo" src="img/render-esterno-1.jpg" alt="Villa residenziale render esterno">
+      <div class="render-label">Villa Residenziale · Roma Nord</div>
+    </div>
+    <!-- CELL 2 — soggiorno interno (img/render-interno-1.jpg) -->
+    <div class="render-cell">
+      <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="isky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="100%" stop-color="#87BBDB"/></linearGradient></defs>
+        <!-- Pavimento -->
+        <rect width="300" height="240" fill="#D8D0C0"/>
+        <!-- Pareti -->
+        <rect width="300" height="175" fill="#E8E4DE"/>
+        <!-- Soffitto -->
+        <rect width="300" height="18" fill="#F0EDE8"/>
+        <!-- Grande finestra a tutta altezza -->
+        <rect x="80" y="18" width="140" height="157" fill="url(#isky2)"/>
+        <line x1="150" y1="18" x2="150" y2="175" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+        <line x1="80" y1="96" x2="220" y2="96" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+        <!-- Luce solare -->
+        <rect x="80" y="18" width="140" height="157" fill="rgba(255,230,180,.08)"/>
+        <!-- Pavimento parquet -->
+        <rect y="175" width="300" height="65" fill="#B8A880"/>
+        <line x1="0" y1="190" x2="300" y2="190" stroke="rgba(0,0,0,.1)" stroke-width=".8"/>
+        <line x1="0" y1="205" x2="300" y2="205" stroke="rgba(0,0,0,.1)" stroke-width=".8"/>
+        <line x1="0" y1="220" x2="300" y2="220" stroke="rgba(0,0,0,.1)" stroke-width=".8"/>
+        <line x1="60" y1="175" x2="60" y2="240" stroke="rgba(0,0,0,.07)" stroke-width=".8"/>
+        <line x1="120" y1="175" x2="120" y2="240" stroke="rgba(0,0,0,.07)" stroke-width=".8"/>
+        <line x1="180" y1="175" x2="180" y2="240" stroke="rgba(0,0,0,.07)" stroke-width=".8"/>
+        <line x1="240" y1="175" x2="240" y2="240" stroke="rgba(0,0,0,.07)" stroke-width=".8"/>
+        <!-- Divano -->
+        <rect x="15" y="192" width="110" height="35" rx="3" fill="#7A7268"/>
+        <rect x="15" y="192" width="110" height="10" rx="3" fill="#8A8278"/>
+        <rect x="15" y="192" width="14" height="35" rx="2" fill="#8A8278"/>
+        <rect x="111" y="192" width="14" height="35" rx="2" fill="#8A8278"/>
+        <!-- Tavolino -->
+        <rect x="50" y="224" width="40" height="16" rx="1" fill="#9B8B6A"/>
+        <!-- Lampada a piantana -->
+        <rect x="240" y="155" width="3" height="50" fill="#5A5550"/>
+        <ellipse cx="241" cy="155" rx="18" ry="8" fill="#E8E0D0" opacity=".8"/>
+        <ellipse cx="241" cy="158" rx="12" ry="5" fill="rgba(255,230,150,.3)"/>
+        <!-- Label placeholder -->
+        <rect x="0" y="218" width="300" height="22" fill="rgba(0,0,0,.35)"/>
+        <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-interno-1.jpg</text>
+      </svg>
+      <img class="rc-photo" src="img/render-interno-1.jpg" alt="Soggiorno render interno">
+      <div class="render-label">Soggiorno · Vetrate Floor-to-ceiling</div>
+    </div>
+    <!-- CELL 3 — notturna (img/render-notturna.jpg) -->
+    <div class="render-cell">
+      <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="night2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#020510"/><stop offset="100%" stop-color="#0c1828"/></linearGradient></defs>
+        <rect width="300" height="240" fill="url(#night2)"/>
+        <circle cx="40" cy="22" r=".9" fill="#fff" opacity=".8"/>
+        <circle cx="95" cy="12" r=".7" fill="#fff" opacity=".6"/>
+        <circle cx="160" cy="18" r=".8" fill="#fff" opacity=".7"/>
+        <circle cx="240" cy="8" r=".6" fill="#fff" opacity=".5"/>
+        <circle cx="280" cy="25" r=".9" fill="#fff" opacity=".6"/>
+        <!-- Luna -->
+        <circle cx="260" cy="30" r="10" fill="rgba(255,245,200,.25)"/>
+        <circle cx="265" cy="28" r="8" fill="rgba(20,5,16,1)"/>
+        <!-- Villa notte -->
+        <rect x="20" y="110" width="260" height="100" fill="#0e1a25"/>
+        <rect x="20" y="80" width="180" height="33" fill="#0a1320"/>
+        <rect x="20" y="76" width="260" height="6" fill="#080f18"/>
+        <!-- Finestre calde -->
+        <rect x="35" y="90" width="40" height="20" fill="rgba(255,210,120,.35)"/>
+        <rect x="35" y="90" width="40" height="20" fill="rgba(255,200,80,.1)"/>
+        <ellipse cx="55" cy="115" rx="25" ry="6" fill="rgba(255,200,80,.06)"/>
+        <rect x="100" y="90" width="40" height="20" fill="rgba(255,210,120,.4)"/>
+        <ellipse cx="120" cy="115" rx="25" ry="6" fill="rgba(255,200,80,.07)"/>
+        <rect x="155" y="90" width="40" height="20" fill="rgba(255,210,120,.3)"/>
+        <!-- Grandi vetrate piano terra illuminate -->
+        <rect x="35" y="125" width="70" height="78" fill="rgba(255,200,100,.15)"/>
+        <rect x="120" y="125" width="70" height="78" fill="rgba(255,200,100,.2)"/>
+        <rect x="205" y="125" width="60" height="78" fill="rgba(255,200,100,.12)"/>
+        <!-- Piscina notturna -->
+        <rect x="20" y="205" width="260" height="28" fill="rgba(10,60,130,.6)"/>
+        <rect x="20" y="205" width="260" height="4" fill="rgba(40,130,200,.4)"/>
+        <ellipse cx="150" cy="206" rx="120" ry="4" fill="rgba(60,150,220,.15)"/>
+        <!-- Faretti esterni -->
+        <circle cx="30" cy="210" r="2" fill="rgba(255,220,100,.7)"/>
+        <circle cx="270" cy="210" r="2" fill="rgba(255,220,100,.7)"/>
+        <ellipse cx="30" cy="212" rx="12" ry="4" fill="rgba(255,200,80,.1)"/>
+        <ellipse cx="270" cy="212" rx="12" ry="4" fill="rgba(255,200,80,.1)"/>
+        <!-- Label -->
+        <rect x="0" y="218" width="300" height="22" fill="rgba(0,0,0,.4)"/>
+        <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-notturna.jpg</text>
+      </svg>
+      <img class="rc-photo" src="img/render-notturna.jpg" alt="Vista notturna villa">
+      <div class="render-label">Vista Notturna · Roma Nord</div>
+    </div>
+    <!-- CELL 4 — cucina (img/render-interno-2.jpg) -->
+    <div class="render-cell">
+      <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="240" fill="#F0ECE5"/>
+        <rect width="300" height="16" fill="#E0DCD5"/>
+        <!-- Muro fondo cucina -->
+        <rect y="16" width="300" height="140" fill="#EDE9E2"/>
+        <!-- Pensili -->
+        <rect x="10" y="25" width="130" height="55" rx="1" fill="#2A2520"/>
+        <rect x="160" y="25" width="130" height="55" rx="1" fill="#2A2520"/>
+        <!-- Apertura finestra cucina -->
+        <rect x="145" y="28" width="10" height="49" fill="#EDE9E2"/>
+        <!-- Basi cucina -->
+        <rect y="155" width="300" height="85" fill="#C8C0B0"/>
+        <rect x="10" y="130" width="280" height="28" rx="1" fill="#1A1510"/>
+        <!-- Piano cottura -->
+        <rect x="110" y="132" width="80" height="24" rx="1" fill="#222"/>
+        <circle cx="130" cy="144" r="8" fill="none" stroke="#444" stroke-width="1"/>
+        <circle cx="170" cy="144" r="8" fill="none" stroke="#444" stroke-width="1"/>
+        <!-- Lavello -->
+        <rect x="20" y="133" width="70" height="22" rx="1" fill="#333" opacity=".8"/>
+        <!-- Frigorifero -->
+        <rect x="258" y="30" width="32" height="100" rx="1" fill="#D8D4CE" stroke="#C0BDB8" stroke-width=".5"/>
+        <line x1="274" y1="30" x2="274" y2="130" stroke="#C0BDB8" stroke-width=".5"/>
+        <!-- Isola cucina -->
+        <rect x="80" y="175" width="140" height="55" rx="2" fill="#2A2520"/>
+        <rect x="80" y="170" width="140" height="8" rx="1" fill="#888"/>
+        <!-- Sedie isola -->
+        <rect x="90" y="220" width="22" height="20" rx="2" fill="#1A1510" opacity=".8"/>
+        <rect x="125" y="220" width="22" height="20" rx="2" fill="#1A1510" opacity=".8"/>
+        <rect x="160" y="220" width="22" height="20" rx="2" fill="#1A1510" opacity=".8"/>
+        <!-- Label -->
+        <rect x="0" y="218" width="300" height="22" fill="rgba(0,0,0,.3)"/>
+        <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-interno-2.jpg</text>
+      </svg>
+      <img class="rc-photo" src="img/render-interno-2.jpg" alt="Cucina con isola render">
+      <div class="render-label">Cucina con Isola · Boiserie Scura</div>
+    </div>
+    <!-- CELL 5 — camera da letto (img/render-camera.jpg) -->
+    <div class="render-cell">
+      <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="240" fill="#EAE6DF"/>
+        <rect width="300" height="16" fill="#E0DCD5"/>
+        <!-- Sfondo -->
+        <rect y="16" width="300" height="130" fill="#EDE9E2"/>
+        <!-- Testata letto / boiserie -->
+        <rect x="20" y="20" width="260" height="80" fill="#C8BFB0"/>
+        <line x1="20" y1="35" x2="280" y2="35" stroke="rgba(0,0,0,.08)" stroke-width=".8"/>
+        <line x1="20" y1="55" x2="280" y2="55" stroke="rgba(0,0,0,.08)" stroke-width=".8"/>
+        <line x1="20" y1="75" x2="280" y2="75" stroke="rgba(0,0,0,.08)" stroke-width=".8"/>
+        <!-- Finestra sx -->
+        <rect x="20" y="20" width="50" height="130" fill="rgba(200,220,240,.4)"/>
+        <line x1="44" y1="20" x2="44" y2="150" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+        <!-- Letto matrimoniale -->
+        <rect x="60" y="118" width="180" height="80" rx="2" fill="#8A8278"/>
+        <rect x="60" y="118" width="180" height="22" rx="2" fill="#9A928A"/>
+        <!-- Testata letto -->
+        <rect x="60" y="100" width="180" height="22" rx="2" fill="#6A6258"/>
+        <!-- Cuscini -->
+        <rect x="70" y="122" width="70" height="12" rx="3" fill="#F0ECE8"/>
+        <rect x="160" y="122" width="70" height="12" rx="3" fill="#F0ECE8"/>
+        <!-- Comodini -->
+        <rect x="20" y="120" width="36" height="40" rx="1" fill="#7A7060"/>
+        <rect x="244" y="120" width="36" height="40" rx="1" fill="#7A7060"/>
+        <!-- Lampade comodino -->
+        <rect x="34" y="108" width="2" height="13" fill="#5A5248"/>
+        <ellipse cx="35" cy="107" rx="12" ry="5" fill="#F0ECE0" opacity=".8"/>
+        <rect x="258" y="108" width="2" height="13" fill="#5A5248"/>
+        <ellipse cx="259" cy="107" rx="12" ry="5" fill="#F0ECE0" opacity=".8"/>
+        <!-- Pavimento -->
+        <rect y="160" width="300" height="80" fill="#B8A880"/>
+        <!-- Label -->
+        <rect x="0" y="218" width="300" height="22" fill="rgba(0,0,0,.3)"/>
+        <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-camera.jpg</text>
+      </svg>
+      <img class="rc-photo" src="img/render-camera.jpg" alt="Camera da letto render">
+      <div class="render-label">Camera da Letto · Suite Principale</div>
+    </div>
+    <!-- CELL 6 — terrazza/esterno piscina (img/render-terrazza.jpg) -->
+    <div class="render-cell">
+      <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="50%" stop-color="#4a80b0"/><stop offset="100%" stop-color="#87BBDB"/></linearGradient>
+          <linearGradient id="pool" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a6090"/><stop offset="100%" stop-color="#3a8ab8"/></linearGradient>
+        </defs>
+        <rect width="300" height="240" fill="url(#sky3)"/>
+        <!-- Pavimento terrazza -->
+        <rect y="150" width="300" height="90" fill="#C8BFA8"/>
+        <!-- Linee travertino -->
+        <line x1="0" y1="168" x2="300" y2="168" stroke="rgba(0,0,0,.08)" stroke-width=".8"/>
+        <line x1="0" y1="186" x2="300" y2="186" stroke="rgba(0,0,0,.08)" stroke-width=".8"/>
+        <line x1="0" y1="204" x2="300" y2="204" stroke="rgba(0,0,0,.08)" stroke-width=".8"/>
+        <line x1="75" y1="150" x2="75" y2="240" stroke="rgba(0,0,0,.06)" stroke-width=".8"/>
+        <line x1="150" y1="150" x2="150" y2="240" stroke="rgba(0,0,0,.06)" stroke-width=".8"/>
+        <line x1="225" y1="150" x2="225" y2="240" stroke="rgba(0,0,0,.06)" stroke-width=".8"/>
+        <!-- Villa sullo sfondo -->
+        <rect x="80" y="80" width="140" height="75" fill="#E8E4DE" opacity=".85"/>
+        <rect x="80" y="68" width="140" height="14" fill="#F0EDE8" opacity=".85"/>
+        <rect x="100" y="85" width="35" height="65" fill="rgba(135,187,219,.5)"/>
+        <rect x="165" y="85" width="35" height="65" fill="rgba(135,187,219,.5)"/>
+        <!-- Piscina a sfioro -->
+        <rect x="0" y="148" width="300" height="6" fill="url(#pool)" opacity=".6"/>
+        <rect x="20" y="154" width="260" height="40" fill="url(#pool)" opacity=".45"/>
+        <!-- Riflessi acqua -->
+        <line x1="40" y1="168" x2="80" y2="168" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <line x1="120" y1="162" x2="190" y2="162" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+        <line x1="210" y1="172" x2="270" y2="172" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+        <!-- Lettini -->
+        <rect x="30" y="196" width="55" height="18" rx="3" fill="#D8CFC0"/>
+        <rect x="55" y="192" width="8" height="4" rx="1" fill="#C8C0B0"/>
+        <rect x="215" y="196" width="55" height="18" rx="3" fill="#D8CFC0"/>
+        <rect x="237" y="192" width="8" height="4" rx="1" fill="#C8C0B0"/>
+        <!-- Ombrelloni -->
+        <line x1="55" y1="185" x2="55" y2="215" stroke="#8A7A60" stroke-width="1.5"/>
+        <ellipse cx="55" cy="185" rx="22" ry="6" fill="#D8B060" opacity=".7"/>
+        <line x1="237" y1="185" x2="237" y2="215" stroke="#8A7A60" stroke-width="1.5"/>
+        <ellipse cx="237" cy="185" rx="22" ry="6" fill="#D8B060" opacity=".7"/>
+        <!-- Label -->
+        <rect x="0" y="218" width="300" height="22" fill="rgba(0,0,0,.3)"/>
+        <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-terrazza.jpg</text>
+      </svg>
+      <img class="rc-photo" src="img/render-terrazza.jpg" alt="Terrazza piscina render">
+      <div class="render-label">Terrazza con Piscina a Sfioro</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LIDAR ══ -->
+<section id="lidar-section">
+  <div class="lidar-grid">
+    <div class="lidar-text">
+      <p class="slabel rev">Tecnologia</p>
+      <h2 class="serif rev">Scansione LIDAR:<br>la precisione<br>che non vedi.</h2>
+      <p class="rev">Il LIDAR (Light Detection And Ranging) è una tecnologia laser che misura ogni punto dello spazio con precisione inferiore al millimetro. Durante il sopralluogo, lo scanner emette milioni di impulsi laser che rimbalzano sulle superfici, creando una "nuvola di punti" tridimensionale dell'ambiente reale.</p>
+      <p class="rev">Questa base geometrica perfetta è il fondamento di ogni nostro render — elimina gli errori di misura e garantisce che l'immagine finale corrisponda esattamente alla realtà dell'edificio.</p>
+      <div class="lidar-steps">
+        <div class="lidar-step rev">
+          <span class="lstep-num">01</span>
+          <div class="lstep-body"><h4>Sopralluogo</h4><p>Lo scanner LIDAR viene posizionato in più punti dell'ambiente. Ogni scansione dura 3–8 minuti e cattura milioni di punti.</p></div>
+        </div>
+        <div class="lidar-step rev">
+          <span class="lstep-num">02</span>
+          <div class="lstep-body"><h4>Elaborazione nuvola</h4><p>Le scansioni vengono unite in un unico modello 3D. Precisione garantita: &lt;1mm su distanze fino a 80m.</p></div>
+        </div>
+        <div class="lidar-step rev">
+          <span class="lstep-num">03</span>
+          <div class="lstep-body"><h4>Modellazione e render</h4><p>Dal modello LIDAR costruiamo la geometria perfetta su cui applicare materiali, luci e render fotorealistici.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="lidar-visual rev-r">
+      <!-- Confronto LIDAR: due pannelli affiancati -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
+        <!-- Pannello sx: nuvola di punti (img/lidar-scan.jpg oppure canvas) -->
+        <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#020810;">
+          <canvas id="lidar-cv" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+          <img id="lidar-scan-img" src="img/lidar-scan.jpg" alt="Scansione LIDAR nuvola di punti"
+               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s;">
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(transparent,rgba(0,0,0,.8));">
+            <p style="font-size:8px;letter-spacing:2px;color:rgba(0,212,255,.7);text-transform:uppercase;margin-bottom:2px;">Prima</p>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:#fff;">Nuvola di punti LIDAR</p>
+            <p style="font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;">~3 milioni di punti · precisione &lt;1mm</p>
+          </div>
+        </div>
+        <!-- Pannello dx: render finito (img/lidar-render.jpg oppure SVG) -->
+        <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#0a0f18;">
+          <!-- SVG fallback render -->
+          <svg id="lidar-render-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="lrsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="100%" stop-color="#87BBDB"/></linearGradient>
+            </defs>
+            <rect width="400" height="300" fill="url(#lrsky)"/>
+            <rect y="200" width="400" height="100" fill="#8A9A7A"/>
+            <!-- Struttura grezza renderizzata -->
+            <rect x="40" y="110" width="320" height="100" fill="#D8D4CE"/>
+            <rect x="40" y="80" width="200" height="32" fill="#E0DCD5"/>
+            <rect x="40" y="76" width="320" height="6" fill="#B8B4AF"/>
+            <rect x="60" y="120" width="65" height="87" fill="rgba(135,187,219,.5)"/>
+            <rect x="145" y="120" width="65" height="87" fill="rgba(135,187,219,.5)"/>
+            <rect x="230" y="120" width="65" height="87" fill="rgba(135,187,219,.45)"/>
+            <rect x="195" y="150" width="70" height="60" fill="#0a0a0a" opacity=".8"/>
+            <!-- Vegetazione -->
+            <rect x="15" y="150" width="4" height="60" fill="#5C4A32"/>
+            <circle cx="17" cy="140" r="18" fill="#2D6A1B" opacity=".9"/>
+            <rect x="370" y="155" width="4" height="55" fill="#5C4A32"/>
+            <circle cx="372" cy="145" r="16" fill="#2D6A1B" opacity=".9"/>
+            <!-- Erba e vialetto -->
+            <rect x="145" y="210" width="110" height="5" fill="#D8CFC0"/>
+          </svg>
+          <img id="lidar-render-img" src="img/lidar-render.jpg" alt="Stesso spazio renderizzato"
+               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s;">
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(transparent,rgba(0,0,0,.8));">
+            <p style="font-size:8px;letter-spacing:2px;color:rgba(201,169,110,.8);text-transform:uppercase;margin-bottom:2px;">Dopo</p>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:#fff;">Render fotorealistico</p>
+            <p style="font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;">Dallo stesso modello · materiali reali</p>
+          </div>
+        </div>
+      </div>
+      <!-- Info barre sotto -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3px;">
+        <div class="lc-box"><span>Strumento</span><p>Scanner LIDAR Leica BLK360</p></div>
+        <div class="lc-box"><span>Software</span><p>3ds Max · V-Ray · Corona</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SITO DEDICATO AL CLIENTE ══ -->
+<section id="sito-dedicato">
+  <div class="sito-grid">
+    <div class="sito-text">
+      <p class="slabel rev">Servizio esclusivo</p>
+      <h2 class="serif rev">Un sito web <em>dedicato</em><br>al tuo progetto.</h2>
+      <p class="rev">Ogni cliente può ricevere un sito web personalizzato — esattamente come questo — dove chiunque può scorrere e "camminare" dentro la propria casa futura. Un link da inviare a familiari, investitori o acquirenti.</p>
+      <p class="rev">Lo scroll porta il visitatore dall'esterno all'interno, stanza per stanza. È il modo più potente per presentare un progetto non ancora costruito — più efficace di qualsiasi brochure o presentazione tradizionale.</p>
+      <div class="sito-features rev">
+        <div class="sf-item"><span class="sf-dot"></span>Sito personalizzato con il nome del progetto</div>
+        <div class="sf-item"><span class="sf-dot"></span>Navigazione scroll-driven attraverso i render</div>
+        <div class="sf-item"><span class="sf-dot"></span>Ottimizzato per mobile e tablet</div>
+        <div class="sf-item"><span class="sf-dot"></span>Condivisibile via link — nessuna app richiesta</div>
+        <div class="sf-item"><span class="sf-dot"></span>Gallery completa di interni ed esterni</div>
+        <div class="sf-item"><span class="sf-dot"></span>Form contatto diretto con il cliente</div>
+      </div>
+    </div>
+    <div class="phone-mockup rev-r" style="align-items:flex-end;gap:0;display:block;">
+      <!-- SVG multi-device: monitor + tablet + phone -->
+      <svg width="100%" viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- ── MONITOR PC ── -->
+        <rect x="30" y="10" width="340" height="240" rx="6" fill="#111" stroke="rgba(201,169,110,.25)" stroke-width="1"/>
+        <rect x="36" y="16" width="328" height="228" rx="3" fill="#0a0a0a"/>
+        <!-- Schermo monitor: sito Villa Ferrara -->
+        <rect x="36" y="16" width="328" height="228" fill="#1a3a5c"/>
+        <!-- Cielo sfumato -->
+        <rect x="36" y="16" width="328" height="100" fill="#2d6ea8" opacity=".7"/>
+        <!-- Villa nel monitor -->
+        <rect x="76" y="95" width="248" height="95" fill="#E8E4DE"/>
+        <rect x="76" y="72" width="248" height="26" fill="#F0EDE8"/>
+        <rect x="96" y="102" width="52" height="85" fill="rgba(135,187,219,.55)"/>
+        <rect x="168" y="102" width="52" height="85" fill="rgba(135,187,219,.55)"/>
+        <rect x="240" y="102" width="52" height="85" fill="rgba(135,187,219,.55)"/>
+        <rect x="175" y="145" width="50" height="40" fill="#0a0a0a" opacity=".8"/>
+        <!-- Alberatura monitor -->
+        <rect x="48" y="120" width="3" height="70" fill="#5C4A32"/>
+        <circle cx="49" cy="112" r="14" fill="#2D6A1B" opacity=".85"/>
+        <rect x="349" y="124" width="3" height="66" fill="#5C4A32"/>
+        <circle cx="350" cy="117" r="12" fill="#2D6A1B" opacity=".85"/>
+        <!-- Navbar monitor -->
+        <rect x="36" y="16" width="328" height="22" fill="rgba(10,10,10,.85)"/>
+        <text x="52" y="31" font-family="'Cormorant Garamond',serif" font-size="10" fill="white" letter-spacing="3">VILLA FERRARA</text>
+        <text x="310" y="31" font-family="Inter,sans-serif" font-size="7" fill="rgba(255,255,255,.4)" letter-spacing="1">Contatti</text>
+        <!-- Sezione bianca dati -->
+        <rect x="36" y="190" width="328" height="54" fill="#FAFAF8"/>
+        <text x="56" y="210" font-family="'Cormorant Garamond',serif" font-size="16" fill="#1A1A1A">480 m²</text>
+        <text x="56" y="222" font-family="Inter,sans-serif" font-size="6" fill="#888" letter-spacing="1">SUPERFICIE</text>
+        <text x="148" y="210" font-family="'Cormorant Garamond',serif" font-size="16" fill="#1A1A1A">2025</text>
+        <text x="148" y="222" font-family="Inter,sans-serif" font-size="6" fill="#888" letter-spacing="1">ANNO</text>
+        <text x="228" y="210" font-family="'Cormorant Garamond',serif" font-size="16" fill="#1A1A1A">7 locali</text>
+        <text x="228" y="222" font-family="Inter,sans-serif" font-size="6" fill="#888" letter-spacing="1">PIANO TERRA + P.1</text>
+        <rect x="296" y="198" width="56" height="18" rx="1" fill="#C9A96E"/>
+        <text x="324" y="211" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" fill="#0A0A0A" letter-spacing="1">SCOPRI</text>
+        <!-- Base monitor -->
+        <rect x="175" y="250" width="50" height="16" rx="2" fill="#1a1a1a"/>
+        <rect x="145" y="266" width="110" height="6" rx="2" fill="#222"/>
+
+        <!-- ── TABLET ── -->
+        <rect x="322" y="90" width="170" height="220" rx="10" fill="#111" stroke="rgba(201,169,110,.2)" stroke-width="1"/>
+        <rect x="330" y="98" width="154" height="204" rx="5" fill="#0a0a0a"/>
+        <!-- Schermo tablet: stesso sito, scroll diverso (interno) -->
+        <rect x="330" y="98" width="154" height="204" fill="#E8E4DE"/>
+        <!-- Soffitto interno -->
+        <rect x="330" y="98" width="154" height="14" fill="#F0EDE8"/>
+        <!-- Grande finestra soggiorno tablet -->
+        <rect x="350" y="112" width="90" height="120" fill="#1a3a5c"/>
+        <rect x="350" y="112" width="90" height="120" fill="#2d6ea8" opacity=".5"/>
+        <line x1="394" y1="112" x2="394" y2="232" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+        <line x1="350" y1="172" x2="440" y2="172" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+        <!-- Pavimento parquet tablet -->
+        <rect x="330" y="232" width="154" height="70" fill="#B8A880"/>
+        <!-- Divano piccolo -->
+        <rect x="338" y="252" width="70" height="28" rx="2" fill="#7A7268"/>
+        <rect x="338" y="252" width="70" height="8" rx="2" fill="#8A8278"/>
+        <!-- Navbar tablet -->
+        <rect x="330" y="98" width="154" height="18" fill="rgba(10,10,10,.8)"/>
+        <text x="344" y="110" font-family="'Cormorant Garamond',serif" font-size="8" fill="white" letter-spacing="2">VILLA FERRARA</text>
+        <!-- Scroll hint tablet -->
+        <rect x="330" y="284" width="154" height="18" fill="rgba(10,10,10,.6)"/>
+        <text x="407" y="296" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" fill="rgba(255,255,255,.4)" letter-spacing="1">← Scorri per visitare →</text>
+        <!-- Pulsante home tablet -->
+        <circle cx="407" cy="310" r="8" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.15)" stroke-width=".8"/>
+
+        <!-- ── TELEFONO ── -->
+        <rect x="440" y="180" width="72" height="130" rx="10" fill="#111" stroke="rgba(201,169,110,.2)" stroke-width="1"/>
+        <rect x="446" y="187" width="60" height="116" rx="6" fill="#0a0a0a"/>
+        <!-- Notch piccolo -->
+        <rect x="462" y="187" width="28" height="7" rx="3" fill="#111"/>
+        <!-- Schermo phone: hero villa -->
+        <rect x="446" y="194" width="60" height="109" fill="#1a3a5c"/>
+        <rect x="446" y="218" width="60" height="55" fill="#2d6ea8" opacity=".6"/>
+        <!-- Villa mini phone -->
+        <rect x="454" y="228" width="44" height="30" fill="#E8E4DE"/>
+        <rect x="454" y="220" width="44" height="10" fill="#F0EDE8"/>
+        <rect x="458" y="232" width="10" height="26" fill="rgba(135,187,219,.5)"/>
+        <rect x="473" y="232" width="10" height="26" fill="rgba(135,187,219,.5)"/>
+        <rect x="488" y="232" width="8" height="26" fill="rgba(135,187,219,.5)"/>
+        <!-- Titolo phone -->
+        <text x="476" y="214" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="8" fill="white">VILLA FERRARA</text>
+        <!-- CTA phone -->
+        <rect x="454" y="270" width="44" height="14" rx="1" fill="#C9A96E"/>
+        <text x="476" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="5" fill="#0A0A0A" letter-spacing="1">VISITA</text>
+        <!-- Home indicator phone -->
+        <rect x="462" y="295" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.2)"/>
+
+        <!-- ── CONNESSIONI (linee stilizzate) ── -->
+        <path d="M364,250 Q364,290 330,300 Q310,305 200,305" stroke="rgba(201,169,110,.12)" stroke-width="1" fill="none" stroke-dasharray="4,4"/>
+        <path d="M476,310 Q476,340 430,350 Q400,355 200,355" stroke="rgba(201,169,110,.1)" stroke-width="1" fill="none" stroke-dasharray="4,4"/>
+
+        <!-- Label sotto -->
+        <text x="200" y="390" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="rgba(201,169,110,.4)" letter-spacing="2">UN LINK · QUALSIASI DISPOSITIVO</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VR/AR ══ -->
+<section id="vrar">
+  <div class="vrar-intro rev">
+    <p class="slabel" style="text-align:center;margin-bottom:16px;">Immersione totale</p>
+    <h2 class="serif">Realtà Virtuale<br>& Aumentata.</h2>
+    <p style="margin-top:14px;">Prima che un mattone venga posato, il tuo cliente può già camminare dentro casa. Con il visore VR o semplicemente con lo smartphone.</p>
+  </div>
+  <div class="vrar-cards">
+    <!-- VR -->
+    <div class="vrar-card rev">
+      <span class="vrar-card-num">VR</span>
+      <p class="tag">Realtà Virtuale · Visore</p>
+      <h3 class="serif">Entra nel progetto<br>prima che esista.</h3>
+      <p>Con il visore VR il cliente cammina letteralmente dentro gli spazi progettati. Può guardarsi attorno a 360°, percepire le proporzioni reali delle stanze, valutare le altezze e la qualità dei materiali. Un'esperienza che nessuna brochure può replicare.</p>
+      <p style="margin-top:10px;">Disponibile direttamente nel nostro studio a Roma, oppure portiamo il visore dal cliente per presentazioni in loco.</p>
+      <!-- VR headset SVG -->
+      <svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="20" width="180" height="45" rx="22" fill="#1a1a1a" stroke="rgba(201,169,110,.4)" stroke-width="1"/>
+        <circle cx="62" cy="42" r="16" fill="#0a0a0a" stroke="rgba(135,187,219,.5)" stroke-width="1"/>
+        <circle cx="138" cy="42" r="16" fill="#0a0a0a" stroke="rgba(135,187,219,.5)" stroke-width="1"/>
+        <line x1="78" y1="42" x2="122" y2="42" stroke="rgba(201,169,110,.3)" stroke-width="1"/>
+        <rect x="0" y="30" width="12" height="10" rx="2" fill="rgba(201,169,110,.3)"/>
+        <rect x="188" y="30" width="12" height="10" rx="2" fill="rgba(201,169,110,.3)"/>
+        <!-- Lenti con rendering -->
+        <circle cx="62" cy="42" r="11" fill="#0d1f35"/>
+        <circle cx="138" cy="42" r="11" fill="#0d1f35"/>
+        <rect x="53" y="36" width="18" height="12" rx="1" fill="#1a3a5c"/>
+        <rect x="129" y="36" width="18" height="12" rx="1" fill="#1a3a5c"/>
+      </svg>
+    </div>
+    <!-- AR -->
+    <div class="vrar-card rev">
+      <span class="vrar-card-num">AR</span>
+      <p class="tag">Realtà Aumentata · Smartphone</p>
+      <h3 class="serif">Vedi la tua casa<br>nel mondo reale.</h3>
+      <p>Con la realtà aumentata il cliente punta lo smartphone sul terreno o sull'ambiente esistente e vede il progetto sovrapposto alla realtà. Può girare attorno all'edificio, cambiare i materiali in tempo reale e condividere l'esperienza direttamente dall'app.</p>
+      <p style="margin-top:10px;">Funziona su qualsiasi iPhone o Android recente. Nessuna app da scaricare — tutto via browser.</p>
+      <!-- AR phone SVG -->
+      <svg width="180" height="90" viewBox="0 0 180 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Telefono inclinato -->
+        <rect x="60" y="5" width="55" height="80" rx="8" fill="#1a1a1a" stroke="rgba(201,169,110,.3)" stroke-width="1" transform="rotate(-10 87 45)"/>
+        <rect x="64" y="12" width="47" height="66" rx="4" fill="#0d1f35" transform="rotate(-10 87 45)"/>
+        <!-- Grid AR overlay -->
+        <line x1="64" y1="30" x2="111" y2="24" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
+        <line x1="64" y1="45" x2="111" y2="39" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
+        <line x1="64" y1="60" x2="111" y2="54" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
+        <line x1="76" y1="15" x2="70" y2="72" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
+        <line x1="92" y1="14" x2="86" y2="71" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
+        <!-- Mini casa AR -->
+        <rect x="74" y="35" width="26" height="20" fill="rgba(232,228,222,.8)" transform="rotate(-10 87 45)"/>
+        <rect x="74" y="27" width="26" height="10" fill="rgba(240,237,232,.8)" transform="rotate(-10 87 45)"/>
+        <polygon points="87,22 100,27 74,27" fill="rgba(184,180,175,.8)" transform="rotate(-10 87 45)"/>
+        <!-- Corner markers AR -->
+        <path d="M10,15 L10,5 L20,5" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
+        <path d="M160,15 L160,5 L150,5" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
+        <path d="M10,75 L10,85 L20,85" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
+        <path d="M160,75 L160,85 L150,85" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOCUMENTAZIONE TECNICA ══ -->
+<section id="documenti" data-theme="light">
+  <div class="doc-header rev">
+    <p class="slabel" style="color:var(--gold);">Documentazione completa</p>
+    <h2 class="serif" style="color:var(--text);">Consegniamo tutto.<br>Proprio tutto.</h2>
+    <p>Oltre ai render, ogni progetto VISIO include una documentazione tecnica completa pronta per essere utilizzata da professionisti, comuni, imprese e clienti finali.</p>
+  </div>
+  <p style="font-size:10px;color:var(--muted);margin-bottom:32px;letter-spacing:1px;">Passa il mouse su ogni voce per vedere un esempio →</p>
+  <div class="doc-grid">
+
+    <!-- 01 Planimetrie 2D -->
+    <div class="doc-item rev">
+      <div class="doc-preview">
+        <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="260" height="200" fill="#F5F3EF"/>
+          <text x="130" y="14" text-anchor="middle" font-family="Inter" font-size="7" fill="#888" letter-spacing="2">PLANIMETRIA · PIANO TERRA · scala 1:100</text>
+          <rect x="20" y="22" width="220" height="160" fill="none" stroke="#1A1A1A" stroke-width="2.5"/>
+          <line x1="120" y1="22" x2="120" y2="122" stroke="#1A1A1A" stroke-width="2"/>
+          <line x1="20" y1="122" x2="240" y2="122" stroke="#1A1A1A" stroke-width="2"/>
+          <line x1="120" y1="72" x2="240" y2="72" stroke="#1A1A1A" stroke-width="2"/>
+          <rect x="46" y="20" width="28" height="4" fill="#87BBDB" opacity=".8"/>
+          <rect x="160" y="20" width="28" height="4" fill="#87BBDB" opacity=".8"/>
+          <rect x="236" y="90" width="4" height="20" fill="#87BBDB" opacity=".8"/>
+          <path d="M120,44 Q138,44 138,62" fill="none" stroke="#888" stroke-width=".7" stroke-dasharray="2,2"/>
+          <rect x="30" y="32" width="55" height="38" fill="none" stroke="#C9A96E" stroke-width=".7" opacity=".5"/>
+          <text x="57" y="54" text-anchor="middle" font-family="Inter" font-size="6" fill="#C9A96E" opacity=".8">SOGGIORNO</text>
+          <rect x="130" y="80" width="55" height="32" fill="none" stroke="#C9A96E" stroke-width=".7" opacity=".5"/>
+          <text x="157" y="99" text-anchor="middle" font-family="Inter" font-size="6" fill="#C9A96E" opacity=".8">CUCINA</text>
+          <rect x="30" y="132" width="50" height="42" fill="none" stroke="#C9A96E" stroke-width=".7" opacity=".5"/>
+          <text x="55" y="156" text-anchor="middle" font-family="Inter" font-size="6" fill="#C9A96E" opacity=".8">CAMERA 1</text>
+          <rect x="128" y="132" width="52" height="42" fill="none" stroke="#C9A96E" stroke-width=".7" opacity=".5"/>
+          <text x="154" y="156" text-anchor="middle" font-family="Inter" font-size="6" fill="#C9A96E" opacity=".8">CAMERA 2</text>
+          <rect x="190" y="132" width="42" height="42" fill="none" stroke="#C9A96E" stroke-width=".7" opacity=".4"/>
+          <text x="211" y="156" text-anchor="middle" font-family="Inter" font-size="6" fill="#C9A96E" opacity=".7">BAGNO</text>
+          <line x1="20" y1="190" x2="240" y2="190" stroke="#1A1A1A" stroke-width=".5"/>
+          <line x1="20" y1="187" x2="20" y2="193" stroke="#1A1A1A" stroke-width=".5"/>
+          <line x1="240" y1="187" x2="240" y2="193" stroke="#1A1A1A" stroke-width=".5"/>
+          <text x="130" y="199" text-anchor="middle" font-family="Inter" font-size="7" fill="#1A1A1A">14.80 m</text>
+          <line x1="10" y1="22" x2="10" y2="182" stroke="#1A1A1A" stroke-width=".5"/>
+          <line x1="7" y1="22" x2="13" y2="22" stroke="#1A1A1A" stroke-width=".5"/>
+          <line x1="7" y1="182" x2="13" y2="182" stroke="#1A1A1A" stroke-width=".5"/>
+          <text x="5" y="106" text-anchor="middle" font-family="Inter" font-size="7" fill="#1A1A1A" transform="rotate(-90,5,106)">10.50 m</text>
+        </svg>
+      </div>
+      <div class="doc-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#C9A96E" stroke-width="1" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="28" height="28" rx="1"/><line x1="4" y1="14" x2="32" y2="14"/><line x1="4" y1="24" x2="32" y2="24"/><line x1="14" y1="4" x2="14" y2="32"/><line x1="24" y1="4" x2="24" y2="32"/></svg></div>
+      <p class="doc-num">01</p>
+      <p class="doc-title serif">Planimetrie 2D con quote</p>
+      <p class="doc-desc">Piante architettoniche quotate di ogni piano, con tutti gli ambienti, superfici e aperture. Formato DWG e PDF.</p>
+      <div class="doc-tags"><span class="doc-tag">DWG</span><span class="doc-tag">PDF</span><span class="doc-tag">Quotato</span></div>
+    </div>
+
+    <!-- 02 Modello 3D -->
+    <div class="doc-item rev">
+      <div class="doc-preview">
+        <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="260" height="200" fill="#0A0A0A"/>
+          <text x="130" y="14" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(201,169,110,.6)" letter-spacing="2">MODELLO 3D · WIREFRAME</text>
+          <!-- Casa wireframe assonometrica -->
+          <polygon points="130,30 220,65 220,145 130,175" fill="none" stroke="rgba(201,169,110,.5)" stroke-width=".8"/>
+          <polygon points="130,30 40,65 40,145 130,175" fill="none" stroke="rgba(201,169,110,.4)" stroke-width=".8"/>
+          <polygon points="130,10 220,45 130,75 40,45" fill="none" stroke="rgba(201,169,110,.6)" stroke-width="1"/>
+          <!-- Grid interni -->
+          <line x1="130" y1="75" x2="130" y2="175" stroke="rgba(201,169,110,.2)" stroke-width=".5" stroke-dasharray="3,3"/>
+          <line x1="130" y1="10" x2="130" y2="30" stroke="rgba(201,169,110,.2)" stroke-width=".5" stroke-dasharray="3,3"/>
+          <line x1="85" y1="55" x2="85" y2="160" stroke="rgba(201,169,110,.15)" stroke-width=".5" stroke-dasharray="2,4"/>
+          <line x1="175" y1="55" x2="175" y2="160" stroke="rgba(201,169,110,.15)" stroke-width=".5" stroke-dasharray="2,4"/>
+          <line x1="40" y1="105" x2="220" y2="105" stroke="rgba(201,169,110,.12)" stroke-width=".5" stroke-dasharray="2,4"/>
+          <!-- Finestre wireframe -->
+          <rect x="155" y="80" width="30" height="20" fill="none" stroke="rgba(135,187,219,.4)" stroke-width=".7"/>
+          <rect x="195" y="80" width="20" height="20" fill="none" stroke="rgba(135,187,219,.4)" stroke-width=".7"/>
+          <rect x="60" y="80" width="30" height="20" fill="none" stroke="rgba(135,187,219,.3)" stroke-width=".7"/>
+          <!-- Punti vertici -->
+          <circle cx="130" cy="10" r="2.5" fill="var(--gold)"/>
+          <circle cx="220" cy="45" r="2" fill="var(--gold)" opacity=".7"/>
+          <circle cx="40" cy="45" r="2" fill="var(--gold)" opacity=".7"/>
+          <circle cx="130" cy="30" r="2" fill="var(--gold)" opacity=".6"/>
+          <!-- Assi -->
+          <line x1="20" y1="185" x2="50" y2="185" stroke="rgba(255,80,80,.5)" stroke-width="1"/><text x="54" y="189" font-family="Inter" font-size="7" fill="rgba(255,80,80,.5)">X</text>
+          <line x1="20" y1="185" x2="20" y2="155" stroke="rgba(80,255,80,.5)" stroke-width="1"/><text x="16" y="152" font-family="Inter" font-size="7" fill="rgba(80,255,80,.5)">Y</text>
+          <line x1="20" y1="185" x2="38" y2="172" stroke="rgba(80,80,255,.5)" stroke-width="1"/><text x="40" y="170" font-family="Inter" font-size="7" fill="rgba(80,80,255,.5)">Z</text>
+          <text x="130" y="195" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(201,169,110,.4)" letter-spacing="1">Villa Romano · 3ds Max 2025</text>
+        </svg>
+      </div>
+      <div class="doc-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#C9A96E" stroke-width="1" xmlns="http://www.w3.org/2000/svg"><polygon points="18,4 32,12 32,28 18,32 4,28 4,12"/><polygon points="18,10 26,15 26,25 18,28 10,25 10,15" opacity=".5"/></svg></div>
+      <p class="doc-num">02</p>
+      <p class="doc-title serif">Modello 3D completo</p>
+      <p class="doc-desc">Modello tridimensionale navigabile con materiali e dettagli architettonici. Formato OBJ, FBX e file nativo.</p>
+      <div class="doc-tags"><span class="doc-tag">OBJ</span><span class="doc-tag">FBX</span><span class="doc-tag">3D</span></div>
+    </div>
+
+    <!-- 03 Schemi impianti -->
+    <div class="doc-item rev">
+      <div class="doc-preview">
+        <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="260" height="200" fill="#F5F3EF"/>
+          <text x="130" y="14" text-anchor="middle" font-family="Inter" font-size="7" fill="#888" letter-spacing="2">SCHEMA IMPIANTI · SOVRAPPOSTO</text>
+          <!-- Planimetria base leggera -->
+          <rect x="20" y="22" width="220" height="160" fill="none" stroke="#C8C4BE" stroke-width="1.5"/>
+          <line x1="120" y1="22" x2="120" y2="122" stroke="#C8C4BE" stroke-width="1.2"/>
+          <line x1="20" y1="122" x2="240" y2="122" stroke="#C8C4BE" stroke-width="1.2"/>
+          <!-- Impianto elettrico (giallo) -->
+          <circle cx="55" cy="45" r="5" fill="none" stroke="#E8C040" stroke-width="1.2"/>
+          <line x1="55" y1="45" x2="55" y2="90" stroke="#E8C040" stroke-width=".8" stroke-dasharray="3,2"/>
+          <circle cx="55" cy="90" r="4" fill="#E8C040" opacity=".7"/>
+          <circle cx="95" cy="45" r="5" fill="none" stroke="#E8C040" stroke-width="1.2"/>
+          <line x1="95" y1="45" x2="95" y2="90" stroke="#E8C040" stroke-width=".8" stroke-dasharray="3,2"/>
+          <circle cx="155" cy="88" r="5" fill="none" stroke="#E8C040" stroke-width="1.2"/>
+          <circle cx="195" cy="88" r="5" fill="none" stroke="#E8C040" stroke-width="1.2"/>
+          <!-- Impianto idrico (blu) -->
+          <circle cx="40" cy="150" r="4" fill="#4090D0" opacity=".8"/>
+          <line x1="40" y1="150" x2="100" y2="150" stroke="#4090D0" stroke-width="1" stroke-dasharray="2,3"/>
+          <circle cx="100" cy="150" r="3" fill="#4090D0" opacity=".6"/>
+          <line x1="100" y1="150" x2="100" y2="130" stroke="#4090D0" stroke-width="1" stroke-dasharray="2,3"/>
+          <circle cx="200" cy="155" r="4" fill="#4090D0" opacity=".8"/>
+          <line x1="200" y1="155" x2="200" y2="130" stroke="#4090D0" stroke-width="1" stroke-dasharray="2,3"/>
+          <!-- Impianto termico (rosso) -->
+          <rect x="28" y="130" width="18" height="12" rx="1" fill="none" stroke="#E04040" stroke-width="1"/>
+          <rect x="55" y="130" width="18" height="12" rx="1" fill="none" stroke="#E04040" stroke-width="1"/>
+          <line x1="28" y1="136" x2="55" y2="136" stroke="#E04040" stroke-width=".8" stroke-dasharray="3,2"/>
+          <rect x="148" y="130" width="18" height="12" rx="1" fill="none" stroke="#E04040" stroke-width="1"/>
+          <rect x="175" y="130" width="18" height="12" rx="1" fill="none" stroke="#E04040" stroke-width="1"/>
+          <!-- Legenda -->
+          <line x1="22" y1="186" x2="32" y2="186" stroke="#E8C040" stroke-width="1.5"/>
+          <text x="35" y="190" font-family="Inter" font-size="6" fill="#888">Elettrico</text>
+          <line x1="80" y1="186" x2="90" y2="186" stroke="#4090D0" stroke-width="1.5"/>
+          <text x="93" y="190" font-family="Inter" font-size="6" fill="#888">Idraulico</text>
+          <line x1="145" y1="186" x2="155" y2="186" stroke="#E04040" stroke-width="1.5"/>
+          <text x="158" y="190" font-family="Inter" font-size="6" fill="#888">Termico</text>
+        </svg>
+      </div>
+      <div class="doc-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#C9A96E" stroke-width="1" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="6" width="28" height="24" rx="1"/><polyline points="4,16 12,10 20,14 28,8 32,10"/><circle cx="10" cy="24" r="2"/><circle cx="18" cy="22" r="2"/><circle cx="26" cy="26" r="2"/></svg></div>
+      <p class="doc-num">03</p>
+      <p class="doc-title serif">Schemi impianti</p>
+      <p class="doc-desc">Schemi completi elettrico, idraulico, termico e climatizzazione sovrapposti alla planimetria.</p>
+      <div class="doc-tags"><span class="doc-tag">Elettrico</span><span class="doc-tag">Idraulico</span><span class="doc-tag">HVAC</span></div>
+    </div>
+
+    <!-- 04 Computo metrico -->
+    <div class="doc-item rev">
+      <div class="doc-preview">
+        <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="260" height="200" fill="#F5F3EF"/>
+          <rect width="260" height="24" fill="#1A1A1A"/>
+          <text x="130" y="16" text-anchor="middle" font-family="Inter" font-size="8" fill="white" letter-spacing="2">COMPUTO METRICO ESTIMATIVO</text>
+          <!-- Header colonne -->
+          <rect y="24" width="260" height="16" fill="#E8E4DE"/>
+          <text x="10" y="35" font-family="Inter" font-size="6" fill="#888" letter-spacing="1">VOCE</text>
+          <text x="150" y="35" font-family="Inter" font-size="6" fill="#888" letter-spacing="1">QTÀ</text>
+          <text x="185" y="35" font-family="Inter" font-size="6" fill="#888" letter-spacing="1">U.M.</text>
+          <text x="218" y="35" font-family="Inter" font-size="6" fill="#888" letter-spacing="1">TOTALE</text>
+          <!-- Righe -->
+          <line x1="0" y1="40" x2="260" y2="40" stroke="#E0DDD8" stroke-width=".5"/>
+          <text x="10" y="52" font-family="Inter" font-size="7" fill="#1A1A1A">Opere murarie – fondazioni</text>
+          <text x="150" y="52" font-family="Inter" font-size="7" fill="#555">148</text>
+          <text x="185" y="52" font-family="Inter" font-size="7" fill="#555">m³</text>
+          <text x="218" y="52" font-family="Inter" font-size="7" fill="#C9A96E">€ 42.500</text>
+          <line x1="0" y1="57" x2="260" y2="57" stroke="#E0DDD8" stroke-width=".5"/>
+          <text x="10" y="69" font-family="Inter" font-size="7" fill="#1A1A1A">Struttura in C.A.</text>
+          <text x="150" y="69" font-family="Inter" font-size="7" fill="#555">320</text>
+          <text x="185" y="69" font-family="Inter" font-size="7" fill="#555">m²</text>
+          <text x="218" y="69" font-family="Inter" font-size="7" fill="#C9A96E">€ 68.000</text>
+          <line x1="0" y1="74" x2="260" y2="74" stroke="#E0DDD8" stroke-width=".5"/>
+          <text x="10" y="86" font-family="Inter" font-size="7" fill="#1A1A1A">Tamponature e tramezzi</text>
+          <text x="150" y="86" font-family="Inter" font-size="7" fill="#555">485</text>
+          <text x="185" y="86" font-family="Inter" font-size="7" fill="#555">m²</text>
+          <text x="218" y="86" font-family="Inter" font-size="7" fill="#C9A96E">€ 31.200</text>
+          <line x1="0" y1="91" x2="260" y2="91" stroke="#E0DDD8" stroke-width=".5"/>
+          <text x="10" y="103" font-family="Inter" font-size="7" fill="#1A1A1A">Serramenti e vetrate</text>
+          <text x="150" y="103" font-family="Inter" font-size="7" fill="#555">22</text>
+          <text x="185" y="103" font-family="Inter" font-size="7" fill="#555">pz</text>
+          <text x="218" y="103" font-family="Inter" font-size="7" fill="#C9A96E">€ 55.000</text>
+          <line x1="0" y1="108" x2="260" y2="108" stroke="#E0DDD8" stroke-width=".5"/>
+          <text x="10" y="120" font-family="Inter" font-size="7" fill="#1A1A1A">Impianto elettrico</text>
+          <text x="150" y="120" font-family="Inter" font-size="7" fill="#555">1</text>
+          <text x="185" y="120" font-family="Inter" font-size="7" fill="#555">corp</text>
+          <text x="218" y="120" font-family="Inter" font-size="7" fill="#C9A96E">€ 22.000</text>
+          <line x1="0" y1="125" x2="260" y2="125" stroke="#E0DDD8" stroke-width=".5"/>
+          <text x="10" y="137" font-family="Inter" font-size="7" fill="#1A1A1A">Impianto idraulico e sanitari</text>
+          <text x="150" y="137" font-family="Inter" font-size="7" fill="#555">1</text>
+          <text x="185" y="137" font-family="Inter" font-size="7" fill="#555">corp</text>
+          <text x="218" y="137" font-family="Inter" font-size="7" fill="#C9A96E">€ 18.500</text>
+          <line x1="0" y1="142" x2="260" y2="142" stroke="#E0DDD8" stroke-width=".5"/>
+          <text x="10" y="154" font-family="Inter" font-size="7" fill="#1A1A1A">Pavimentazioni interne</text>
+          <text x="150" y="154" font-family="Inter" font-size="7" fill="#555">295</text>
+          <text x="185" y="154" font-family="Inter" font-size="7" fill="#555">m²</text>
+          <text x="218" y="154" font-family="Inter" font-size="7" fill="#C9A96E">€ 29.800</text>
+          <!-- Totale -->
+          <rect y="162" width="260" height="22" fill="#1A1A1A"/>
+          <text x="10" y="177" font-family="Inter" font-size="8" fill="white" letter-spacing="1">TOTALE STIMATO</text>
+          <text x="218" y="177" font-family="'Cormorant Garamond',serif" font-size="14" fill="#C9A96E">€ 267.000</text>
+          <text x="130" y="196" text-anchor="middle" font-family="Inter" font-size="6" fill="#888" letter-spacing="1">* Stima indicativa · soggetta a variazioni di progetto</text>
+        </svg>
+      </div>
+      <div class="doc-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#C9A96E" stroke-width="1" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="4" width="24" height="28" rx="1"/><line x1="10" y1="10" x2="26" y2="10"/><line x1="10" y1="15" x2="26" y2="15"/><line x1="10" y1="20" x2="20" y2="20"/><line x1="10" y1="25" x2="22" y2="25"/></svg></div>
+      <p class="doc-num">04</p>
+      <p class="doc-title serif">Computo metrico estimativo</p>
+      <p class="doc-desc">Stima quantità e costi di ogni lavorazione, utile per richiedere preventivi alle imprese.</p>
+      <div class="doc-tags"><span class="doc-tag">Excel</span><span class="doc-tag">PDF</span><span class="doc-tag">Dettagliato</span></div>
+    </div>
+
+    <!-- 05 Render AR -->
+    <div class="doc-item rev">
+      <div class="doc-preview">
+        <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="prev5sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0d1f35"/><stop offset="70%" stop-color="#2d6ea8"/><stop offset="100%" stop-color="#87BBDB"/></linearGradient></defs>
+          <rect width="260" height="200" fill="url(#prev5sky)"/>
+          <rect y="135" width="260" height="65" fill="#7A9070"/>
+          <rect x="30" y="70" width="200" height="75" fill="#E8E4DE"/>
+          <rect x="30" y="48" width="200" height="24" fill="#F0EDE8"/>
+          <rect x="30" y="44" width="200" height="6" fill="#C0BBB5"/>
+          <rect x="50" y="80" width="48" height="62" fill="rgba(135,187,219,.55)"/>
+          <rect x="116" y="80" width="48" height="62" fill="rgba(135,187,219,.55)"/>
+          <rect x="182" y="80" width="38" height="62" fill="rgba(135,187,219,.5)"/>
+          <rect x="116" y="110" width="48" height="32" fill="#0a0a0a" opacity=".8"/>
+          <rect x="18" y="90" width="4" height="55" fill="#5C4A32"/>
+          <circle cx="20" cy="82" r="13" fill="#2D6A1B" opacity=".9"/>
+          <rect x="236" y="95" width="4" height="50" fill="#5C4A32"/>
+          <circle cx="238" cy="88" r="11" fill="#2D6A1B" opacity=".9"/>
+          <!-- Badge 4K -->
+          <rect x="194" y="10" width="52" height="22" rx="2" fill="rgba(0,0,0,.6)"/>
+          <text x="220" y="25" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="bold">4K</text>
+          <!-- Dimensioni pixel -->
+          <text x="10" y="195" font-family="Inter" font-size="6" fill="rgba(255,255,255,.5)" letter-spacing="1">3840 × 2160 px · 300 dpi · Adobe RGB</text>
+        </svg>
+      </div>
+      <div class="doc-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#C9A96E" stroke-width="1" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="13"/><circle cx="18" cy="12" r="3"/><circle cx="26" cy="22" r="3"/><circle cx="10" cy="22" r="3"/></svg></div>
+      <p class="doc-num">05</p>
+      <p class="doc-title serif">Render alta risoluzione</p>
+      <p class="doc-desc">File 4K+ pronti per stampa, presentazioni e pubblicità immobiliare. JPEG e PNG.</p>
+      <div class="doc-tags"><span class="doc-tag">4K+</span><span class="doc-tag">JPEG</span><span class="doc-tag">PNG</span></div>
+    </div>
+
+    <!-- 06 Video -->
+    <div class="doc-item rev">
+      <div class="doc-preview">
+        <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="260" height="200" fill="#060810"/>
+          <!-- Frame video stilizzato -->
+          <rect x="10" y="20" width="240" height="135" rx="2" fill="#0a0f18" stroke="rgba(201,169,110,.2)" stroke-width=".8"/>
+          <!-- Scena: villa esterna al tramonto -->
+          <defs><linearGradient id="vs" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a0a30"/><stop offset="50%" stop-color="#b05020"/><stop offset="100%" stop-color="#e08030"/></linearGradient></defs>
+          <rect x="10" y="20" width="240" height="100" fill="url(#vs)"/>
+          <rect x="10" y="90" width="240" height="65" fill="#3a4a2a"/>
+          <rect x="40" y="55" width="180" height="70" fill="#D8D4CE"/>
+          <rect x="40" y="42" width="180" height="16" fill="#E0DCD5"/>
+          <rect x="56" y="62" width="36" height="60" fill="rgba(255,180,80,.4)"/>
+          <rect x="108" y="62" width="36" height="60" fill="rgba(255,180,80,.45)"/>
+          <rect x="160" y="62" width="36" height="60" fill="rgba(255,180,80,.35)"/>
+          <!-- Cursore video -->
+          <rect x="10" y="148" width="240" height="7" rx="0" fill="rgba(201,169,110,.1)"/>
+          <rect x="10" y="148" width="130" height="7" rx="0" fill="rgba(201,169,110,.5)"/>
+          <circle cx="140" cy="151" r="5" fill="var(--gold)"/>
+          <!-- Controlli -->
+          <polygon points="22,168 32,175 22,182" fill="rgba(255,255,255,.5)"/>
+          <text x="42" y="178" font-family="Inter" font-size="7" fill="rgba(255,255,255,.4)">00:42 / 02:15</text>
+          <text x="200" y="178" font-family="Inter" font-size="7" fill="rgba(255,255,255,.4)">4K HD</text>
+          <!-- Info sotto -->
+          <text x="130" y="196" text-anchor="middle" font-family="Inter" font-size="6" fill="rgba(201,169,110,.5)" letter-spacing="1">MP4 · H.264 · 3840×2160 · 30fps · Musica inclusa</text>
+        </svg>
+      </div>
+      <div class="doc-icon"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#C9A96E" stroke-width="1" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="8" width="28" height="20" rx="1"/><polygon points="18,13 24,18 18,23 12,18" fill="rgba(201,169,110,.2)"/><circle cx="18" cy="18" r="2" fill="#C9A96E"/></svg></div>
+      <p class="doc-num">06</p>
+      <p class="doc-title serif">Video architetturale</p>
+      <p class="doc-desc">Animazione cinematografica con musica e narrazione. MP4 4K. Ideale per agenzie e social.</p>
+      <div class="doc-tags"><span class="doc-tag">4K</span><span class="doc-tag">MP4</span><span class="doc-tag">Colonna sonora</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ PROGETTAZIONE ARREDO + ESTERNO ══ -->
+<section id="progettazione" data-theme="light">
+  <p class="slabel rev" style="color:var(--gold);">Progettazione di dettaglio</p>
+  <h2 class="serif rev" style="color:var(--text);font-size:46px;font-weight:300;max-width:600px;line-height:1.1;">Ogni spazio.<br>Ogni dettaglio.</h2>
+  <div class="prog-grid">
+    <div class="prog-col rev-l">
+      <h3 class="serif" style="color:var(--text);">Schede di progettazione arredo</h3>
+      <p>Per ogni ambiente, produciamo schede tecniche di progettazione dell'arredo che mostrano layout, scelta dei materiali, palette colori e riferimenti ai prodotti. Il cliente può vedere esattamente come sarà arredata ogni stanza prima di acquistare un singolo mobile.</p>
+      <div class="prog-list">
+        <div class="prog-li">Layout arredi quotato per ogni stanza</div>
+        <div class="prog-li">Palette materiali e colori con campioni reali</div>
+        <div class="prog-li">Schede prodotto con riferimenti ai fornitori</div>
+        <div class="prog-li">Render di dettaglio di cucine, bagni e living</div>
+        <div class="prog-li">Studio delle proporzioni e dei flussi di movimento</div>
+      </div>
+      <!-- SVG arredo scheda -->
+      <svg width="100%" height="140" viewBox="0 0 360 140" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top:24px;border:.5px solid var(--border);">
+        <rect width="360" height="140" fill="var(--light)"/>
+        <text x="12" y="18" font-family="Inter" font-size="7" fill="#888" letter-spacing="2">SCHEDA ARREDO · SOGGIORNO</text>
+        <line x1="12" y1="24" x2="348" y2="24" stroke="var(--border)" stroke-width=".5"/>
+        <!-- Divano -->
+        <rect x="12" y="35" width="90" height="40" rx="2" fill="#D8D4CE" stroke="var(--border)" stroke-width=".5"/>
+        <rect x="12" y="35" width="90" height="12" rx="2" fill="#C8C4BE"/>
+        <rect x="12" y="35" width="15" height="40" rx="2" fill="#C8C4BE"/>
+        <rect x="87" y="35" width="15" height="40" rx="2" fill="#C8C4BE"/>
+        <text x="57" y="63" text-anchor="middle" font-family="Inter" font-size="7" fill="#888">DIVANO</text>
+        <!-- Tavolino -->
+        <rect x="36" y="82" width="42" height="25" rx="1" fill="#8B7355" stroke="var(--border)" stroke-width=".5"/>
+        <text x="57" y="98" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.6)">TAVOLINO</text>
+        <!-- Swatches materiali -->
+        <rect x="120" y="32" width="22" height="22" rx="1" fill="#D8D4CE"/>
+        <rect x="148" y="32" width="22" height="22" rx="1" fill="#8B7355"/>
+        <rect x="176" y="32" width="22" height="22" rx="1" fill="#C9A96E"/>
+        <rect x="204" y="32" width="22" height="22" rx="1" fill="#1A1A1A"/>
+        <rect x="232" y="32" width="22" height="22" rx="1" fill="#E8E4DE"/>
+        <text x="131" y="68" text-anchor="middle" font-family="Inter" font-size="6" fill="#888">TESSUTO</text>
+        <text x="159" y="68" text-anchor="middle" font-family="Inter" font-size="6" fill="#888">LEGNO</text>
+        <text x="187" y="68" text-anchor="middle" font-family="Inter" font-size="6" fill="#888">OTTONE</text>
+        <text x="215" y="68" text-anchor="middle" font-family="Inter" font-size="6" fill="#888">METALLO</text>
+        <text x="243" y="68" text-anchor="middle" font-family="Inter" font-size="6" fill="#888">PIETRA</text>
+        <!-- Descrizione prodotto -->
+        <text x="120" y="90" font-family="Inter" font-size="8" fill="var(--text)">DIVANO: B&amp;B Italia Tufty-Time</text>
+        <text x="120" y="102" font-family="Inter" font-size="7" fill="#888">Tessuto bouclé grigio chiaro · 285×185cm</text>
+        <text x="120" y="114" font-family="Inter" font-size="8" fill="var(--text)">TAVOLINO: Flos Supernova</text>
+        <text x="120" y="126" font-family="Inter" font-size="7" fill="#888">Marmo Calacatta · Ø80cm</text>
+      </svg>
+    </div>
+    <div class="prog-col rev-r">
+      <h3 class="serif" style="color:var(--text);">Studio area esterna</h3>
+      <p>Il progetto non finisce alle mura. Studiamo e visualizziamo anche giardini, terrazze, spazi outdoor, vialetti, illuminazione esterna e aree piscina — tutto con la stessa qualità fotorealistica degli interni.</p>
+      <div class="prog-list">
+        <div class="prog-li">Render del giardino in ogni stagione</div>
+        <div class="prog-li">Progetto pavimentazioni e recinzioni</div>
+        <div class="prog-li">Studio vegetazione e piantumazione</div>
+        <div class="prog-li">Visualizzazione piscina e area relax</div>
+        <div class="prog-li">Illuminazione esterna notturna</div>
+        <div class="prog-li">Planimetria aree esterne quotata</div>
+      </div>
+      <!-- SVG esterno render stilizzato -->
+      <svg width="100%" height="140" viewBox="0 0 360 140" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top:24px;">
+        <defs><linearGradient id="gext" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="60%" stop-color="#87BBDB"/><stop offset="100%" stop-color="#C8D8E8"/></linearGradient></defs>
+        <rect width="360" height="140" fill="url(#gext)"/>
+        <!-- Terreno e prato -->
+        <rect y="90" width="360" height="50" fill="#4A7A3A" opacity=".6"/>
+        <rect y="100" width="360" height="40" fill="#5A8A4A" opacity=".4"/>
+        <!-- Villa -->
+        <rect x="100" y="50" width="160" height="50" fill="#E8E4DE"/>
+        <rect x="100" y="35" width="160" height="18" fill="#F0EDE8"/>
+        <rect x="115" y="58" width="35" height="38" fill="rgba(135,187,219,.55)"/>
+        <rect x="165" y="58" width="35" height="38" fill="rgba(135,187,219,.55)"/>
+        <rect x="215" y="58" width="35" height="38" fill="rgba(135,187,219,.55)"/>
+        <!-- Piscina -->
+        <rect x="40" y="80" width="50" height="55" rx="4" fill="rgba(30,100,180,.5)" stroke="rgba(135,187,219,.4)" stroke-width="1"/>
+        <!-- Alberatura -->
+        <rect x="20" y="60" width="4" height="30" fill="#5C4A32"/>
+        <circle cx="22" cy="52" r="14" fill="#2D6A1B" opacity=".85"/>
+        <rect x="305" y="55" width="4" height="35" fill="#5C4A32"/>
+        <circle cx="307" cy="46" r="16" fill="#2D6A1B" opacity=".85"/>
+        <rect x="290" y="68" width="3" height="22" fill="#5C4A32"/>
+        <circle cx="291" cy="62" r="10" fill="#3D7A2B" opacity=".85"/>
+        <!-- Illuminazione esterna -->
+        <circle cx="45" cy="95" r="3" fill="rgba(255,200,80,.6)"/>
+        <circle cx="315" cy="95" r="3" fill="rgba(255,200,80,.6)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ILLUMINOTECNICA ══ -->
+<section id="illumino">
+  <div class="illumino-grid">
+    <div class="illumino-text">
+      <p class="slabel rev">Illuminotecnica</p>
+      <h2 class="serif rev">La luce giusta<br>nel posto giusto.</h2>
+      <p class="rev">Il progetto illuminotecnico non è solo estetica — è funzione, benessere e risparmio energetico. Studiamo la distribuzione luminosa di ogni ambiente, scegliamo le sorgenti e modelliamo come la luce naturale e artificiale interagisce con i materiali nei diversi momenti della giornata.</p>
+      <p class="rev">Il risultato è un render fotorealistico che mostra esattamente l'atmosfera dell'ambiente illuminato, insieme a una scheda tecnica con i prodotti consigliati e i consumi previsti.</p>
+      <p style="font-size:10px;color:rgba(255,255,255,.3);margin-top:20px;letter-spacing:1px;">Clicca per attivare ogni tipo di luce →</p>
+      <div class="light-controls rev">
+        <button class="light-btn active" data-layer="natural" onclick="toggleLight(this,'natural')">
+          <span style="color:var(--gold);margin-right:8px;">☀</span> Luce naturale
+          <span style="float:right;font-size:8px;opacity:.5">Finestra · Sole · Cielo</span>
+        </button>
+        <button class="light-btn" data-layer="direct" onclick="toggleLight(this,'direct')">
+          <span style="color:rgba(255,230,150,.7);margin-right:8px;">◉</span> Luce diretta
+          <span style="float:right;font-size:8px;opacity:.5">Spot LED soffitto</span>
+        </button>
+        <button class="light-btn" data-layer="accent" onclick="toggleLight(this,'accent')">
+          <span style="color:rgba(255,180,80,.7);margin-right:8px;">◈</span> Luce d'accento
+          <span style="float:right;font-size:8px;opacity:.5">Faretti a parete</span>
+        </button>
+        <button class="light-btn" data-layer="ambient" onclick="toggleLight(this,'ambient')">
+          <span style="color:rgba(200,160,255,.7);margin-right:8px;">◌</span> Luce ambientale
+          <span style="float:right;font-size:8px;opacity:.5">Lampade piantana</span>
+        </button>
+      </div>
+    </div>
+    <!-- Stanza interattiva -->
+    <div class="rev-r light-room-wrap">
+      <canvas id="light-canvas" width="480" height="340"></canvas>
+      <div id="light-spec" style="background:#0a0a0a;border-top:.5px solid rgba(201,169,110,.2);padding:14px 16px;font-size:10px;color:rgba(255,255,255,.4);line-height:1.8;min-height:60px;">
+        <span style="color:rgba(201,169,110,.7);letter-spacing:2px;font-size:8px;">ATTIVO · </span>
+        <span id="light-spec-text">Luce naturale — Finestra vetrata H=2.4m · orientamento Sud</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS + PROCESSO ══ -->
+<section id="stats" data-theme="light">
+  <div class="stats-row rev">
+    <div class="stat-i">
+      <div class="stat-n serif" data-target="200">0</div>
+      <div class="stat-l">Render consegnati</div>
+    </div>
+    <div class="stat-i">
+      <div class="stat-n serif" data-target="50">0</div>
+      <div class="stat-l">Clienti soddisfatti</div>
+    </div>
+    <div class="stat-i">
+      <div class="stat-n serif">&lt;1mm</div>
+      <div class="stat-l">Tolleranza LIDAR</div>
+    </div>
+    <div class="stat-i">
+      <div class="stat-n serif">48h</div>
+      <div class="stat-l">Consegna media</div>
+    </div>
+  </div>
+  <div class="gold-line rev" style="margin-top:52px;"></div>
+  <p class="slabel rev" style="color:var(--gold);margin-top:40px;">Il nostro processo</p>
+  <div class="process-row rev">
+    <div class="proc-step">
+      <div class="proc-dot"></div>
+      <div class="proc-num">01</div>
+      <div class="proc-title serif" style="color:var(--text);">Briefing</div>
+      <div class="proc-desc">Ascoltiamo il progetto, definiamo gli obiettivi e prepariamo un preventivo dettagliato entro 24h.</div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-dot"></div>
+      <div class="proc-num">02</div>
+      <div class="proc-title serif" style="color:var(--text);">Sopralluogo LIDAR</div>
+      <div class="proc-desc">Scansione completa dell'ambiente con scanner laser. Precisione millimetrica garantita.</div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-dot"></div>
+      <div class="proc-num">03</div>
+      <div class="proc-title serif" style="color:var(--text);">Modellazione</div>
+      <div class="proc-desc">Dal modello LIDAR costruiamo la geometria 3D completa con tutti i dettagli architettonici.</div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-dot"></div>
+      <div class="proc-num">04</div>
+      <div class="proc-title serif" style="color:var(--text);">Render & Revisioni</div>
+      <div class="proc-desc">Produciamo i render e li condividiamo per la revisione. Fino a 3 round di modifiche inclusi.</div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-dot"></div>
+      <div class="proc-num">05</div>
+      <div class="proc-title serif" style="color:var(--text);">Consegna</div>
+      <div class="proc-desc">Consegna completa di tutti i file: render, modello 3D, planimetrie, schemi e documentazione.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CHI LAVORA CON NOI ══ -->
+<section id="chi" data-theme="light">
+  <div class="chi-col rev">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#C9A96E" stroke-width="1.2" style="margin-bottom:18px;"><rect x="2" y="8" width="16" height="10" rx="1"/><path d="M5 8V6a5 5 0 0110 0v2"/></svg>
+    <p class="chi-title serif">Agenzie & Sviluppatori Immobiliari</p>
+    <p class="chi-desc">Trasforma ogni annuncio in un'esperienza visiva che vende prima ancora della visita. I nostri render aumentano il valore percepito e riducono i tempi di vendita. Pacchetti dedicati per portafogli immobiliari.</p>
+    <span class="chi-link" onclick="document.getElementById('contatti').scrollIntoView({behavior:'smooth'})">Richiedi una demo →</span>
+  </div>
+  <div class="chi-col rev">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#C9A96E" stroke-width="1.2" style="margin-bottom:18px;"><circle cx="10" cy="7" r="3"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+    <p class="chi-title serif">Architetti & Privati</p>
+    <p class="chi-desc">Hai un progetto che merita di essere visto prima di essere costruito. Dalla pianta al render fotorealistico, ti accompagniamo in ogni fase con documentazione tecnica completa e un servizio personalizzato.</p>
+    <span class="chi-link" onclick="document.getElementById('contatti').scrollIntoView({behavior:'smooth'})">Inizia il tuo progetto →</span>
+  </div>
+</section>
+
+<!-- ══ STATEMENT ══ -->
+<section id="statement">
+  <div>
+    <p class="st-title serif rev">Nulla è stato costruito.<br>Eppure è tutto reale.</p>
+    <p class="st-sub serif rev">Questo è VISIO.</p>
+    <a class="st-cta rev" onclick="document.getElementById('contatti').scrollIntoView({behavior:'smooth'})">Inizia il tuo progetto →</a>
+  </div>
+</section>
+
+<!-- ══ CONTATTI ══ -->
+<section id="contatti" data-theme="light">
+  <div class="rev">
+    <p class="ct-label">Iniziamo a lavorare insieme</p>
+    <h2 class="ct-title serif">Iniziamo.</h2>
+    <p class="ct-desc">Raccontaci il tuo progetto. Risponderemo entro 24 ore con una proposta personalizzata e un preventivo senza impegno.</p>
+    <div class="ct-addr">Studio VISIO · Roma, Italia<br>info@visio-studio.it<br>+39 06 0000000</div>
+  </div>
+  <form class="rev" onsubmit="return false;">
+    <div class="frow">
+      <div class="ff"><label>Nome</label><input type="text" placeholder="Marco Rossi"></div>
+      <div class="ff"><label>Cognome</label><input type="text" placeholder="Bianchi"></div>
+    </div>
+    <div class="frow">
+      <div class="ff"><label>Email</label><input type="email" placeholder="marco@email.it"></div>
+      <div class="ff"><label>Telefono</label><input type="tel" placeholder="+39 06..."></div>
+    </div>
+    <div class="ff">
+      <label>Tipologia progetto</label>
+      <select>
+        <option value="">Seleziona...</option>
+        <option>Render fotorealistici</option>
+        <option>Scansione LIDAR</option>
+        <option>Esperienza VR/AR</option>
+        <option>Sito web dedicato al progetto</option>
+        <option>Planimetrie e documentazione</option>
+        <option>Progetto arredo e illuminotecnica</option>
+        <option>Pacchetto completo</option>
+      </select>
+    </div>
+    <div class="ff"><label>Sei un</label>
+      <select>
+        <option>Agenzia immobiliare</option>
+        <option>Sviluppatore immobiliare</option>
+        <option>Architetto / Studio</option>
+        <option>Privato</option>
+        <option>Altro</option>
+      </select>
+    </div>
+    <div class="ff"><label>Descrivi il progetto</label><textarea rows="3" placeholder="Villa residenziale 300mq, Roma Nord, zona giardino + interni..."></textarea></div>
+    <button type="submit" class="sbtn">Invia Richiesta</button>
+  </form>
+</section>
+
+<footer>
+  <span class="fl">VISIO</span>
+  <span class="fc">© 2025 VISIO Studio · Roma, Italia</span>
+  <div class="fsoc">
+    <a href="#">Instagram</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</footer>
+
+<div id="wafab" title="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</div>
+
+<script>
+// ── LOADER
+window.addEventListener('load',()=>{
+  setTimeout(()=>{ const l=document.getElementById('loader'); l.style.opacity='0'; setTimeout(()=>l.style.display='none',800); },1200);
+});
+
+// ── CURSOR
+const cd=document.getElementById('cur-d'), cr=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function animC(){cd.style.left=mx+'px';cd.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(animC);})();
+document.querySelectorAll('button,.ncta,.chi-link,.st-cta,.path-link,.sbtn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cr.style.transform='translate(-50%,-50%) scale(1.7)';cr.style.borderColor='rgba(201,169,110,.8)';});
+  el.addEventListener('mouseleave',()=>{cr.style.transform='translate(-50%,-50%) scale(1)';cr.style.borderColor='rgba(201,169,110,.5)';});
+});
+
+// ── NAVBAR
+const nav=document.getElementById('nav');
+const lights=document.querySelectorAll('[data-theme="light"]');
+new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    const anyLight=[...lights].some(s=>{ const r=s.getBoundingClientRect(); return r.top<80&&r.bottom>0; });
+    anyLight?nav.classList.add('light'):nav.classList.remove('light');
+  });
+},{threshold:0,rootMargin:'-60px 0px 0px 0px'}).observe(document.getElementById('stats'));
+lights.forEach(s=>new IntersectionObserver(entries=>{
+  const anyLight=[...lights].some(sec=>{ const r=sec.getBoundingClientRect(); return r.top<80&&r.bottom>0; });
+  anyLight?nav.classList.add('light'):nav.classList.remove('light');
+},{threshold:0,rootMargin:'-60px 0px 0px 0px'}).observe(s));
+
+// ── VIDEO SCRUB
+const video=document.getElementById('sv');
+const journey=document.getElementById('journey');
+const stag=document.getElementById('stag'), stxt=document.getElementById('stxt'), spb=document.getElementById('spb');
+const moments=[
+  {from:0.00,to:0.12,tag:'',text:''},
+  {from:0.12,to:0.30,tag:'Il render',text:'Una villa\nnon ancora\ncostruita.'},
+  {from:0.30,to:0.50,tag:'La cucina',text:'Marmo e legno.\nOgni materiale\nè già reale.'},
+  {from:0.50,to:0.70,tag:'Il living',text:'Spazio aperto.\nLuce naturale.\nVista infinita.'},
+  {from:0.70,to:0.88,tag:'La terrazza',text:'Il mare\ncome quinto\nelemento.'},
+  {from:0.88,to:1.00,tag:'',text:'Questo è\nVISIO.'},
+];
+video.pause(); video.currentTime=0;
+video.addEventListener('loadedmetadata',()=>{video.pause();video.currentTime=0;});
+video.addEventListener('play',()=>video.pause());
+let vidReady=false;
+video.addEventListener('canplay',()=>{vidReady=true;});
+let tTime=0, cTime=0;
+let lastSeek=0;
+// fastSeek() va al keyframe più vicino — molto più veloce del seek esatto
+function seekTo(t){
+  if(video.fastSeek) video.fastSeek(t);
+  else video.currentTime=t;
+}
+(function scrub(){
+  requestAnimationFrame(scrub);
+  if(!vidReady||!video.duration) return;
+  const rect=journey.getBoundingClientRect();
+  const prog=Math.max(0,Math.min(1,-rect.top/(journey.offsetHeight-window.innerHeight)));
+  tTime=prog*video.duration;
+  // lerp più lento = meno seek ravvicinati
+  cTime+=(tTime-cTime)*.05;
+  const now=performance.now();
+  // seek max ogni 50ms e solo se la differenza è significativa
+  if(Math.abs(video.currentTime-cTime)>.06 && now-lastSeek>50){
+    seekTo(cTime);
+    lastSeek=now;
+  }
+  spb.style.width=(prog*100)+'%';
+  const m=moments.find(m=>prog>=m.from&&prog<m.to);
+  if(m&&m.text){
+    if(stxt.textContent!==m.text){stag.textContent=m.tag;stxt.textContent=m.text;stag.classList.add('v');stxt.classList.add('v');}
+  } else { stag.classList.remove('v');stxt.classList.remove('v'); }
+})();
+
+// ── REVEAL ON SCROLL
+const revEls=document.querySelectorAll('.rev,.rev-l,.rev-r');
+new IntersectionObserver((entries,obs)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*70);obs.unobserve(e.target);}
+  });
+},{threshold:.1}).observe(document.body);
+const revObs=new IntersectionObserver((entries,obs)=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*60);obs.unobserve(e.target);}});
+},{threshold:.08});
+revEls.forEach(el=>revObs.observe(el));
+
+// ── COUNTERS
+document.querySelectorAll('[data-target]').forEach(el=>{
+  new IntersectionObserver((entries,obs)=>{
+    if(!entries[0].isIntersecting) return;
+    const tgt=+el.dataset.target; let cur=0; const step=tgt/55;
+    const t=setInterval(()=>{ cur=Math.min(cur+step,tgt); el.textContent='+'+Math.floor(cur); if(cur>=tgt)clearInterval(t); },18);
+    obs.unobserve(el);
+  },{threshold:.5}).observe(el);
+});
+
+// ── IMG LOAD (render gallery + lidar)
+document.querySelectorAll('.rc-photo').forEach(img=>{
+  if(img.complete && img.naturalWidth) img.classList.add('loaded');
+  else img.addEventListener('load',()=>img.classList.add('loaded'));
+});
+['lidar-scan-img','lidar-render-img'].forEach(id=>{
+  const img=document.getElementById(id); if(!img) return;
+  const onload=()=>{ img.style.opacity='1'; };
+  if(img.complete && img.naturalWidth) onload();
+  else img.addEventListener('load',onload);
+});
+
+// ── LIDAR CANVAS (nuvola di punti)
+(function(){
+  const c=document.getElementById('lidar-cv');
+  if(!c) return;
+  // size canvas to container
+  const resize=()=>{ c.width=c.offsetWidth||440; c.height=c.offsetHeight||330; };
+  resize();
+  const ctx=c.getContext('2d');
+  const pts=[];
+  const W=()=>c.width, H=()=>c.height;
+  function gen(){
+    pts.length=0;
+    const w=W(),h=H();
+    for(let i=0;i<280;i++) pts.push({x:20+Math.random()*(w-40),y:h*.72+Math.random()*(h*.2),type:'floor'});
+    for(let i=0;i<180;i++) pts.push({x:18+Math.random()*5,y:30+Math.random()*(h*.75),type:'wall'});
+    for(let i=0;i<180;i++) pts.push({x:w-22+Math.random()*5,y:30+Math.random()*(h*.75),type:'wall'});
+    for(let i=0;i<130;i++) pts.push({x:20+Math.random()*(w-40),y:28+Math.random()*5,type:'ceil'});
+    for(let i=0;i<70;i++) pts.push({x:w*.22+Math.random()*(w*.25),y:h*.15+Math.random()*(h*.4),type:'win'});
+    for(let i=0;i<70;i++) pts.push({x:w*.58+Math.random()*(w*.25),y:h*.15+Math.random()*(h*.4),type:'win'});
+    for(let i=0;i<55;i++) pts.push({x:w*.12+Math.random()*(w*.3),y:h*.62+Math.random()*(h*.1),type:'furn'});
+    for(let i=0;i<40;i++) pts.push({x:w*.56+Math.random()*(w*.25),y:h*.6+Math.random()*(h*.12),type:'furn'});
+  }
+  gen();
+  const colors={floor:'rgba(0,180,255,{a})',wall:'rgba(0,212,255,{a})',ceil:'rgba(0,212,255,{a})',win:'rgba(100,200,255,{a})',furn:'rgba(0,150,220,{a})'};
+  let t=0;
+  function draw(){
+    const w=W(),h=H();
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#020810'; ctx.fillRect(0,0,w,h);
+    t+=0.012;
+    pts.forEach(p=>{
+      const flicker=(Math.sin(t*2+p.x*.05+p.y*.03)+1)/2;
+      const alpha=(0.2+flicker*0.6).toFixed(2);
+      ctx.fillStyle=colors[p.type].replace('{a}',alpha);
+      const r=p.type==='wall'?1.5:p.type==='furn'?1.2:0.9;
+      ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill();
+    });
+    ctx.fillStyle='rgba(0,212,255,.22)';
+    ctx.font='8px Inter';
+    ctx.fillText('NUVOLA DI PUNTI LIDAR · 2.847.332 pt',14,h-10);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── LIGHTING INTERACTIVE ROOM
+const lightState={natural:true,direct:false,accent:false,ambient:false};
+const lightSpecText={
+  natural:'Luce naturale — Finestra vetrata H=2.4m · orientamento Sud · 4500K · 8000 lux',
+  direct:'Luce diretta — 3× Spot LED 8W 3000K · Artemide · cono 24° · 850 lm cad.',
+  accent:'Luce d\'accento — 4× Faretto a parete 6W 2700K · Flos · CRI>95',
+  ambient:'Luce ambientale — 2× Lampada piantana 40W · Diffusa · 2200K · atmosfera serale'
+};
+function toggleLight(btn,layer){
+  lightState[layer]=!lightState[layer];
+  btn.classList.toggle('active',lightState[layer]);
+  drawRoom();
+  const active=Object.keys(lightState).filter(k=>lightState[k]);
+  if(active.length===0){document.getElementById('light-spec-text').textContent='Nessuna luce attiva — ambiente buio';return;}
+  document.getElementById('light-spec-text').textContent=lightSpecText[active[active.length-1]];
+}
+function drawRoom(){
+  const canvas=document.getElementById('light-canvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  // BASE ROOM (buia di default)
+  // Sfondo muro
+  ctx.fillStyle='#0a0c10'; ctx.fillRect(0,0,W,H);
+  // Pavimento parquet
+  const pf=ctx.createLinearGradient(0,H*.72,0,H);
+  pf.addColorStop(0,'#1a1208'); pf.addColorStop(1,'#120d06');
+  ctx.fillStyle=pf; ctx.fillRect(0,H*.72,W,H*.28);
+  // Linee parquet
+  ctx.strokeStyle='rgba(255,255,255,.04)'; ctx.lineWidth=.8;
+  for(let y=H*.74;y<H;y+=14){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  for(let x=0;x<W;x+=36){ctx.beginPath();ctx.moveTo(x,H*.72);ctx.lineTo(x,H);ctx.stroke();}
+  // Soffitto
+  ctx.fillStyle='#0d0f14'; ctx.fillRect(0,0,W,20);
+  // Muri laterali ombra
+  const ml=ctx.createLinearGradient(0,0,50,0); ml.addColorStop(0,'rgba(0,0,0,.6)'); ml.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=ml; ctx.fillRect(0,0,50,H);
+  const mr=ctx.createLinearGradient(W-50,0,W,0); mr.addColorStop(0,'rgba(0,0,0,0)'); mr.addColorStop(1,'rgba(0,0,0,.6)');
+  ctx.fillStyle=mr; ctx.fillRect(W-50,0,50,H);
+
+  // Cornice finestra (sempre visibile come struttura)
+  ctx.fillStyle='#14181e'; ctx.fillRect(W*.32,20,W*.36,H*.55);
+  ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=1.5;
+  ctx.strokeRect(W*.32,20,W*.36,H*.55);
+  ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(W*.5,20); ctx.lineTo(W*.5,H*.55+20); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W*.32,H*.275+10); ctx.lineTo(W*.68,H*.275+10); ctx.stroke();
+
+  // Divano (sagoma arredo)
+  ctx.fillStyle='#1a1610'; ctx.fillRect(W*.1,H*.6,W*.45,H*.18);
+  ctx.fillStyle='#221e14'; ctx.fillRect(W*.1,H*.6,W*.45,H*.05);
+  ctx.fillStyle='#1e1a10'; ctx.fillRect(W*.1,H*.6,W*.045,H*.18);
+  ctx.fillStyle='#1e1a10'; ctx.fillRect(W*.1+W*.405,H*.6,W*.045,H*.18);
+  // Tavolino
+  ctx.fillStyle='#151008'; ctx.fillRect(W*.18,H*.72,W*.18,H*.06);
+  // Lampada piantana (struttura)
+  ctx.fillStyle='#1a1610'; ctx.fillRect(W*.72,H*.38,W*.015,H*.34);
+  ctx.fillStyle='#1e1a12'; ctx.beginPath(); ctx.ellipse(W*.728,H*.38,W*.045,W*.012,0,0,Math.PI*2); ctx.fill();
+  // Quadro a parete
+  ctx.fillStyle='#14121a'; ctx.fillRect(W*.78,H*.18,W*.14,H*.22);
+  ctx.strokeStyle='rgba(201,169,110,.06)'; ctx.lineWidth=1; ctx.strokeRect(W*.78,H*.18,W*.14,H*.22);
+
+  // ── LAYER 1: LUCE NATURALE (finestra)
+  if(lightState.natural){
+    // Cielo visibile attraverso la finestra
+    const sky=ctx.createLinearGradient(0,0,0,H*.5);
+    sky.addColorStop(0,'#1a3a5c'); sky.addColorStop(1,'#4a90c0');
+    ctx.fillStyle=sky; ctx.fillRect(W*.32+2,21,W*.36-4,H*.55-2);
+    ctx.strokeStyle='rgba(135,187,219,.15)'; ctx.lineWidth=1;
+    ctx.strokeRect(W*.32+2,21,W*.36-4,H*.55-2);
+    // Fascio luce che entra
+    ctx.save();
+    const sunBeam=ctx.createLinearGradient(W*.32,0,W*.75,H);
+    sunBeam.addColorStop(0,'rgba(200,220,255,.12)');
+    sunBeam.addColorStop(1,'rgba(200,220,255,0)');
+    ctx.fillStyle=sunBeam;
+    ctx.beginPath(); ctx.moveTo(W*.32,20); ctx.lineTo(W*.68,20); ctx.lineTo(W*.85,H); ctx.lineTo(W*.15,H); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    // Illuminazione diffusa sulle superfici
+    const ambN=ctx.createRadialGradient(W*.5,H*.3,0,W*.5,H*.3,W*.5);
+    ambN.addColorStop(0,'rgba(180,210,255,.08)'); ambN.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=ambN; ctx.fillRect(0,0,W,H);
+    // Riflesso sul pavimento
+    const floorRef=ctx.createLinearGradient(W*.3,H*.72,W*.7,H*.72);
+    floorRef.addColorStop(0,'rgba(135,187,219,0)'); floorRef.addColorStop(.5,'rgba(135,187,219,.06)'); floorRef.addColorStop(1,'rgba(135,187,219,0)');
+    ctx.fillStyle=floorRef; ctx.fillRect(W*.15,H*.72,W*.7,H*.28);
+  }
+
+  // ── LAYER 2: LUCE DIRETTA (spot soffitto)
+  if(lightState.direct){
+    const spots=[{x:W*.22},{x:W*.5},{x:W*.78}];
+    spots.forEach(s=>{
+      // Bulbo spot
+      ctx.fillStyle='rgba(255,230,150,.9)';
+      ctx.beginPath(); ctx.arc(s.x,16,5,0,Math.PI*2); ctx.fill();
+      // Cono luce
+      const cone=ctx.createRadialGradient(s.x,16,0,s.x,H*.65,W*.12);
+      cone.addColorStop(0,'rgba(255,220,120,.22)'); cone.addColorStop(.5,'rgba(255,200,80,.07)'); cone.addColorStop(1,'rgba(255,200,80,0)');
+      ctx.fillStyle=cone;
+      ctx.beginPath(); ctx.moveTo(s.x-5,16); ctx.lineTo(s.x-W*.12,H*.72); ctx.lineTo(s.x+W*.12,H*.72); ctx.closePath(); ctx.fill();
+      // Pool di luce sul pavimento
+      const pool=ctx.createRadialGradient(s.x,H*.75,0,s.x,H*.75,W*.09);
+      pool.addColorStop(0,'rgba(255,220,100,.14)'); pool.addColorStop(1,'rgba(255,220,100,0)');
+      ctx.fillStyle=pool; ctx.beginPath(); ctx.ellipse(s.x,H*.78,W*.09,W*.025,0,0,Math.PI*2); ctx.fill();
+    });
+    // Illuminazione generale calda
+    const warm=ctx.createLinearGradient(0,0,0,H*.72);
+    warm.addColorStop(0,'rgba(255,200,80,.05)'); warm.addColorStop(1,'rgba(255,200,80,0)');
+    ctx.fillStyle=warm; ctx.fillRect(0,0,W,H*.72);
+  }
+
+  // ── LAYER 3: LUCE D'ACCENTO (faretti parete)
+  if(lightState.accent){
+    // Faretto sx alto
+    ctx.fillStyle='rgba(255,180,80,.8)'; ctx.beginPath(); ctx.arc(W*.06,H*.22,4,0,Math.PI*2); ctx.fill();
+    const wa1=ctx.createRadialGradient(W*.06,H*.22,0,W*.22,H*.3,W*.2);
+    wa1.addColorStop(0,'rgba(255,160,60,.18)'); wa1.addColorStop(1,'rgba(255,160,60,0)');
+    ctx.fillStyle=wa1; ctx.fillRect(0,0,W*.4,H*.6);
+    // Faretto sx basso
+    ctx.fillStyle='rgba(255,180,80,.8)'; ctx.beginPath(); ctx.arc(W*.06,H*.55,4,0,Math.PI*2); ctx.fill();
+    const wa2=ctx.createRadialGradient(W*.06,H*.55,0,W*.2,H*.6,W*.15);
+    wa2.addColorStop(0,'rgba(255,160,60,.15)'); wa2.addColorStop(1,'rgba(255,160,60,0)');
+    ctx.fillStyle=wa2; ctx.fillRect(0,H*.4,W*.35,H*.4);
+    // Illuminazione quadro a parete
+    const qa=ctx.createRadialGradient(W*.85,H*.25,0,W*.85,H*.3,W*.12);
+    qa.addColorStop(0,'rgba(255,200,100,.2)'); qa.addColorStop(1,'rgba(255,200,100,0)');
+    ctx.fillStyle=qa; ctx.fillRect(W*.72,H*.12,W*.25,H*.4);
+    // Bordo quadro illuminato
+    ctx.strokeStyle='rgba(255,200,100,.2)'; ctx.lineWidth=1.5; ctx.strokeRect(W*.78,H*.18,W*.14,H*.22);
+  }
+
+  // ── LAYER 4: LUCE AMBIENTALE (lampada piantana)
+  if(lightState.ambient){
+    // Bagliore lampada piantana
+    ctx.fillStyle='rgba(255,160,60,.7)'; ctx.beginPath(); ctx.arc(W*.728,H*.38,6,0,Math.PI*2); ctx.fill();
+    const lamp=ctx.createRadialGradient(W*.728,H*.38,0,W*.728,H*.38,W*.35);
+    lamp.addColorStop(0,'rgba(200,120,40,.2)'); lamp.addColorStop(.3,'rgba(180,100,30,.08)'); lamp.addColorStop(1,'rgba(180,100,30,0)');
+    ctx.fillStyle=lamp; ctx.fillRect(W*.4,H*.15,W*.58,H*.85);
+    // Luce sul soffitto
+    const ceil=ctx.createRadialGradient(W*.728,0,0,W*.728,0,W*.28);
+    ceil.addColorStop(0,'rgba(255,150,50,.15)'); ceil.addColorStop(1,'rgba(255,150,50,0)');
+    ctx.fillStyle=ceil; ctx.fillRect(W*.45,0,W*.56,H*.25);
+    // Cono verso il basso
+    const down=ctx.createRadialGradient(W*.728,H*.38,0,W*.728,H*.72,W*.18);
+    down.addColorStop(0,'rgba(255,160,60,.12)'); down.addColorStop(1,'rgba(255,160,60,0)');
+    ctx.fillStyle=down; ctx.fillRect(W*.54,H*.38,W*.38,H*.4);
+    // Warm glow sul pavimento
+    const pg=ctx.createRadialGradient(W*.728,H*.9,0,W*.728,H*.9,W*.2);
+    pg.addColorStop(0,'rgba(200,120,40,.1)'); pg.addColorStop(1,'rgba(200,120,40,0)');
+    ctx.fillStyle=pg; ctx.fillRect(W*.52,H*.7,W*.42,H*.3);
+  }
+
+  // OVERLAY ETICHETTA TIPO LUCE
+  const active=Object.keys(lightState).filter(k=>lightState[k]);
+  if(active.length>0){
+    const names={natural:'Naturale',direct:'Diretta',accent:'Accento',ambient:'Ambientale'};
+    ctx.fillStyle='rgba(0,0,0,.5)';
+    ctx.fillRect(12,H-28,180,20);
+    ctx.fillStyle='rgba(201,169,110,.6)'; ctx.font='8px Inter';
+    ctx.fillText('ATTIVO: '+active.map(k=>names[k]).join(' + '),18,H-15);
+  } else {
+    ctx.fillStyle='rgba(0,0,0,.6)'; ctx.fillRect(12,H-28,140,20);
+    ctx.fillStyle='rgba(255,255,255,.2)'; ctx.font='8px Inter';
+    ctx.fillText('Nessuna luce attiva',18,H-15);
+  }
+}
+// Prima render
+window.addEventListener('load', drawRoom);
+</script>
+</body>
+</html>
