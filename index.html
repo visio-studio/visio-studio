@@ -71,19 +71,29 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .intro-text p { font-size:13px;color:rgba(255,255,255,.5);line-height:1.95;max-width:440px; }
 .intro-svg-wrap { display:flex;justify-content:center;align-items:center; }
 
-/* ── RENDER GALLERY ── */
-#render-gallery { background:var(--dark);padding:80px 48px; }
-.gallery-header { display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px; }
-.gallery-header h2 { font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;line-height:1.1; }
-.gallery-header p { font-size:11px;color:rgba(255,255,255,.4);max-width:280px;line-height:1.8; }
-.render-grid { display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:240px 240px;gap:3px; }
-.render-cell { position:relative;overflow:hidden;background:var(--dark3); }
-.render-cell.tall { grid-row:1/3; }
-.render-cell svg.rc-bg { width:100%;height:100%;display:block; }
-.render-cell img.rc-photo { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s; }
-.render-cell img.rc-photo.loaded { opacity:1; }
-.render-label { position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,.75));font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.7);text-transform:uppercase;opacity:0;transition:opacity .3s;z-index:2; }
-.render-cell:hover .render-label { opacity:1; }
+/* ── RENDER GALLERY HORIZONTAL SCROLL ── */
+#render-gallery { position:relative;height:700vh; }
+#render-sticky { position:sticky;top:0;height:100vh;overflow:hidden;background:var(--dark); }
+#render-strip { display:flex;height:100%;will-change:transform;transition:transform .05s linear; }
+.render-slide { position:relative;flex-shrink:0;width:100vw;height:100vh;overflow:hidden;background:var(--dark3); }
+.render-slide svg.rc-bg { position:absolute;inset:0;width:100%;height:100%; }
+.render-slide img.rc-photo { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s; }
+.render-slide img.rc-photo.loaded { opacity:1; }
+.render-slide-info { position:absolute;bottom:0;left:0;right:0;padding:32px 48px 40px;background:linear-gradient(transparent,rgba(0,0,0,.7));z-index:2; }
+.render-slide-num { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px; }
+.render-slide-title { font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#fff;line-height:1.1; }
+/* Intestazione sovrapposta in alto a sinistra */
+#render-header { position:absolute;top:0;left:0;right:0;padding:32px 48px;display:flex;align-items:flex-start;justify-content:space-between;z-index:10;background:linear-gradient(rgba(0,0,0,.5),transparent);pointer-events:none; }
+#render-header h2 { font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:#fff;line-height:1.1; }
+#render-header p { font-size:11px;color:rgba(255,255,255,.4);max-width:260px;line-height:1.8;text-align:right; }
+/* Barra progresso e counter */
+#render-progress-wrap { position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.08);z-index:10; }
+#render-progress-bar { height:100%;background:var(--gold);width:0%;transition:width .08s linear; }
+#render-counter { position:absolute;top:32px;right:48px;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:2px;z-index:10; }
+/* Freccia scroll hint */
+#render-hint { position:absolute;bottom:52px;right:48px;z-index:10;display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;transition:opacity .4s; }
+#render-hint svg { animation:hintArrow 1.5s ease-in-out infinite; }
+@keyframes hintArrow { 0%,100%{transform:translateX(0)}50%{transform:translateX(6px)} }
 
 /* ── DOC HOVER PREVIEW ── */
 .doc-item { position:relative;overflow:hidden; }
@@ -330,13 +340,20 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 
 <!-- ══ RENDER GALLERY ══ -->
 <section id="render-gallery">
-  <div class="gallery-header rev">
-    <h2 class="serif">I nostri render.</h2>
-    <p>Ogni immagine nasce da un sopralluogo reale e da geometrie precise. Nessun compromesso sulla qualità.</p>
-  </div>
-  <div class="render-grid rev">
+  <div id="render-sticky">
+    <div id="render-header">
+      <h2 class="serif">I nostri render.</h2>
+      <p>Ogni immagine nasce da un sopralluogo reale e da geometrie precise. Nessun compromesso sulla qualità.</p>
+    </div>
+    <div id="render-counter">01 / 06</div>
+    <div id="render-hint">
+      Scorri per esplorare
+      <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><path d="M0 6h22M16 1l6 5-6 5" stroke="rgba(255,255,255,.3)" stroke-width="1"/></svg>
+    </div>
+    <div id="render-strip">
+    <!-- SLIDE 1 -->
     <!-- CELL 1 — grande verticale: esterno villa (img/render-esterno-1.jpg) -->
-    <div class="render-cell tall">
+    <div class="render-slide">
       <svg class="rc-bg" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0d1f35"/><stop offset="55%" stop-color="#2d6ea8"/><stop offset="100%" stop-color="#87BBDB"/></linearGradient>
@@ -392,10 +409,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="250" y="486" text-anchor="middle" font-family="Inter" font-size="10" fill="rgba(255,255,255,.35)" letter-spacing="3">INSERISCI · img/render-esterno-1.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-esterno-1.jpg" alt="Villa residenziale render esterno">
-      <div class="render-label">Villa Residenziale · Roma Nord</div>
+      <div class="render-slide-info"><p class="render-slide-num">01 / 06</p><p class="render-slide-title serif">Villa Residenziale<br>Roma Nord</p></div>
     </div>
-    <!-- CELL 2 — soggiorno interno (img/render-interno-1.jpg) -->
-    <div class="render-cell">
+    <!-- SLIDE 2 -->
+    <div class="render-slide">
       <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="isky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="100%" stop-color="#87BBDB"/></linearGradient></defs>
         <!-- Pavimento -->
@@ -435,10 +452,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-interno-1.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-interno-1.jpg" alt="Soggiorno render interno">
-      <div class="render-label">Soggiorno · Vetrate Floor-to-ceiling</div>
+      <div class="render-slide-info"><p class="render-slide-num">02 / 06</p><p class="render-slide-title serif">Soggiorno<br>Vetrate floor-to-ceiling</p></div>
     </div>
-    <!-- CELL 3 — notturna (img/render-notturna.jpg) -->
-    <div class="render-cell">
+    <!-- SLIDE 3 -->
+    <div class="render-slide">
       <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="night2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#020510"/><stop offset="100%" stop-color="#0c1828"/></linearGradient></defs>
         <rect width="300" height="240" fill="url(#night2)"/>
@@ -479,10 +496,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-notturna.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-notturna.jpg" alt="Vista notturna villa">
-      <div class="render-label">Vista Notturna · Roma Nord</div>
+      <div class="render-slide-info"><p class="render-slide-num">03 / 06</p><p class="render-slide-title serif">Vista Notturna<br>Roma Nord</p></div>
     </div>
-    <!-- CELL 4 — cucina (img/render-interno-2.jpg) -->
-    <div class="render-cell">
+    <!-- SLIDE 4 -->
+    <div class="render-slide">
       <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="240" fill="#F0ECE5"/>
         <rect width="300" height="16" fill="#E0DCD5"/>
@@ -517,10 +534,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-interno-2.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-interno-2.jpg" alt="Cucina con isola render">
-      <div class="render-label">Cucina con Isola · Boiserie Scura</div>
+      <div class="render-slide-info"><p class="render-slide-num">04 / 06</p><p class="render-slide-title serif">Cucina con Isola<br>Boiserie Scura</p></div>
     </div>
-    <!-- CELL 5 — camera da letto (img/render-camera.jpg) -->
-    <div class="render-cell">
+    <!-- SLIDE 5 -->
+    <div class="render-slide">
       <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <rect width="300" height="240" fill="#EAE6DF"/>
         <rect width="300" height="16" fill="#E0DCD5"/>
@@ -557,10 +574,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-camera.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-camera.jpg" alt="Camera da letto render">
-      <div class="render-label">Camera da Letto · Suite Principale</div>
+      <div class="render-slide-info"><p class="render-slide-num">05 / 06</p><p class="render-slide-title serif">Camera da Letto<br>Suite Principale</p></div>
     </div>
-    <!-- CELL 6 — terrazza/esterno piscina (img/render-terrazza.jpg) -->
-    <div class="render-cell">
+    <!-- SLIDE 6 -->
+    <div class="render-slide">
       <svg class="rc-bg" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="50%" stop-color="#4a80b0"/><stop offset="100%" stop-color="#87BBDB"/></linearGradient>
@@ -603,9 +620,11 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-terrazza.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-terrazza.jpg" alt="Terrazza piscina render">
-      <div class="render-label">Terrazza con Piscina a Sfioro</div>
+      <div class="render-slide-info"><p class="render-slide-num">06 / 06</p><p class="render-slide-title serif">Terrazza con<br>Piscina a Sfioro</p></div>
     </div>
-  </div>
+    </div><!-- fine render-strip -->
+    <div id="render-progress-wrap"><div id="render-progress-bar"></div></div>
+  </div><!-- fine render-sticky -->
 </section>
 
 <!-- ══ LIDAR ══ -->
@@ -1499,11 +1518,45 @@ document.querySelectorAll('[data-target]').forEach(el=>{
   },{threshold:.5}).observe(el);
 });
 
+// ── HORIZONTAL RENDER GALLERY
+(function(){
+  const gallery = document.getElementById('render-gallery');
+  const strip   = document.getElementById('render-strip');
+  const bar     = document.getElementById('render-progress-bar');
+  const counter = document.getElementById('render-counter');
+  const hint    = document.getElementById('render-hint');
+  if(!gallery || !strip) return;
+  const SLIDES = strip.querySelectorAll('.render-slide').length;
+
+  function update(){
+    const rect  = gallery.getBoundingClientRect();
+    const total = gallery.offsetHeight - window.innerHeight;
+    const scrolled = Math.max(0, -rect.top);
+    const prog  = Math.min(1, scrolled / total);
+    // translate strip orizzontalmente
+    const maxX  = strip.scrollWidth - window.innerWidth;
+    strip.style.transform = 'translateX(-' + (prog * maxX) + 'px)';
+    // barra progresso
+    if(bar) bar.style.width = (prog * 100) + '%';
+    // counter
+    const idx = Math.min(SLIDES, Math.ceil(prog * SLIDES + 0.001));
+    if(counter) counter.textContent = String(idx).padStart(2,'0') + ' / ' + String(SLIDES).padStart(2,'0');
+    // nascondi hint dopo il primo scroll
+    if(hint) hint.style.opacity = prog > 0.05 ? '0' : '1';
+  }
+
+  window.addEventListener('scroll', update, {passive:true});
+  update();
+})();
+
 // ── IMG LOAD (render gallery + lidar)
 document.querySelectorAll('.rc-photo').forEach(img=>{
-  if(img.complete && img.naturalWidth) img.classList.add('loaded');
-  else img.addEventListener('load',()=>img.classList.add('loaded'));
+  const show=()=>img.classList.add('loaded');
+  if(img.complete) show();
+  else { img.addEventListener('load',show); img.addEventListener('error',()=>{}); }
 });
+// secondo controllo dopo rendering (file:// carica velocissimo)
+setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.complete && img.naturalWidth) img.classList.add('loaded'); }); },200);
 ['lidar-scan-img','lidar-render-img'].forEach(id=>{
   const img=document.getElementById(id); if(!img) return;
   const onload=()=>{ img.style.opacity='1'; };
