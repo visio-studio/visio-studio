@@ -1281,7 +1281,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     </div>
     <!-- Stanza interattiva -->
     <div class="rev-r light-room-wrap">
-      <canvas id="light-canvas" width="480" height="340"></canvas>
+      <canvas id="light-canvas" width="600" height="400" style="max-width:100%;height:auto;display:block;"></canvas>
       <div id="light-spec" style="background:#0a0a0a;border-top:.5px solid rgba(201,169,110,.2);padding:14px 16px;font-size:10px;color:rgba(255,255,255,.4);line-height:1.8;min-height:60px;">
         <span style="color:rgba(201,169,110,.7);letter-spacing:2px;font-size:8px;">ATTIVO · </span>
         <span id="light-spec-text">Luce naturale — Finestra vetrata H=2.4m · orientamento Sud</span>
@@ -1644,149 +1644,343 @@ function drawRoom(){
   const W=canvas.width, H=canvas.height;
   ctx.clearRect(0,0,W,H);
 
-  // BASE ROOM (buia di default)
-  // Sfondo muro
-  ctx.fillStyle='#0a0c10'; ctx.fillRect(0,0,W,H);
-  // Pavimento parquet
-  const pf=ctx.createLinearGradient(0,H*.72,0,H);
-  pf.addColorStop(0,'#1a1208'); pf.addColorStop(1,'#120d06');
-  ctx.fillStyle=pf; ctx.fillRect(0,H*.72,W,H*.28);
-  // Linee parquet
-  ctx.strokeStyle='rgba(255,255,255,.04)'; ctx.lineWidth=.8;
-  for(let y=H*.74;y<H;y+=14){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-  for(let x=0;x<W;x+=36){ctx.beginPath();ctx.moveTo(x,H*.72);ctx.lineTo(x,H);ctx.stroke();}
+  // ── SISTEMA PROSPETTICO 1-PUNTO ─────────────────────────────────────────
+  // Parete di fondo: x∈[130,470], y∈[60,295]
+  // p3(h,elev,t): h=0-1 orizzontale, elev=0-1 altezza, t=0=fondo 1=vicino
+  function px3(h,t){return 130*(1-t)+h*(340+t*200);}
+  function py3(elev,t){const fy=295+t*105,cy=60*(1-t);return fy-elev*(fy-cy);}
+  function pt(h,elev,t){return[px3(h,t),py3(elev,t)];}
+  function poly(pts,fill,stroke,lw){
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);
+    ctx.closePath();
+    if(fill){ctx.fillStyle=fill;ctx.fill();}
+    if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw||.5;ctx.stroke();}
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // STANZA BASE (tutto buio)
+  // ═══════════════════════════════════════════════════════════════════════
+  ctx.fillStyle='#070810';ctx.fillRect(0,0,W,H);
+
   // Soffitto
-  ctx.fillStyle='#0d0f14'; ctx.fillRect(0,0,W,20);
-  // Muri laterali ombra
-  const ml=ctx.createLinearGradient(0,0,50,0); ml.addColorStop(0,'rgba(0,0,0,.6)'); ml.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle=ml; ctx.fillRect(0,0,50,H);
-  const mr=ctx.createLinearGradient(W-50,0,W,0); mr.addColorStop(0,'rgba(0,0,0,0)'); mr.addColorStop(1,'rgba(0,0,0,.6)');
-  ctx.fillStyle=mr; ctx.fillRect(W-50,0,50,H);
+  poly([pt(0,1,0),pt(1,1,0),pt(1,1,1),pt(0,1,1)],'#08090e');
+  ctx.strokeStyle='rgba(255,255,255,.035)';ctx.lineWidth=.5;
+  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(px3(0,0),60);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W,0);ctx.lineTo(px3(1,0),60);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(px3(0,0),60);ctx.lineTo(px3(1,0),60);ctx.stroke();
 
-  // Cornice finestra (sempre visibile come struttura)
-  ctx.fillStyle='#14181e'; ctx.fillRect(W*.32,20,W*.36,H*.55);
-  ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=1.5;
-  ctx.strokeRect(W*.32,20,W*.36,H*.55);
-  ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(W*.5,20); ctx.lineTo(W*.5,H*.55+20); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(W*.32,H*.275+10); ctx.lineTo(W*.68,H*.275+10); ctx.stroke();
+  // Parete di fondo
+  const bwG=ctx.createLinearGradient(0,60,0,295);
+  bwG.addColorStop(0,'#0d0f18');bwG.addColorStop(1,'#0b0d16');
+  poly([pt(0,1,0),pt(1,1,0),pt(1,0,0),pt(0,0,0)],bwG);
 
-  // Divano (sagoma arredo)
-  ctx.fillStyle='#1a1610'; ctx.fillRect(W*.1,H*.6,W*.45,H*.18);
-  ctx.fillStyle='#221e14'; ctx.fillRect(W*.1,H*.6,W*.45,H*.05);
-  ctx.fillStyle='#1e1a10'; ctx.fillRect(W*.1,H*.6,W*.045,H*.18);
-  ctx.fillStyle='#1e1a10'; ctx.fillRect(W*.1+W*.405,H*.6,W*.045,H*.18);
-  // Tavolino
-  ctx.fillStyle='#151008'; ctx.fillRect(W*.18,H*.72,W*.18,H*.06);
-  // Lampada piantana (struttura)
-  ctx.fillStyle='#1a1610'; ctx.fillRect(W*.72,H*.38,W*.015,H*.34);
-  ctx.fillStyle='#1e1a12'; ctx.beginPath(); ctx.ellipse(W*.728,H*.38,W*.045,W*.012,0,0,Math.PI*2); ctx.fill();
-  // Quadro a parete
-  ctx.fillStyle='#14121a'; ctx.fillRect(W*.78,H*.18,W*.14,H*.22);
-  ctx.strokeStyle='rgba(201,169,110,.06)'; ctx.lineWidth=1; ctx.strokeRect(W*.78,H*.18,W*.14,H*.22);
+  // Parete sinistra
+  const lwG=ctx.createLinearGradient(0,0,130,0);
+  lwG.addColorStop(0,'#090a0e');lwG.addColorStop(1,'#0c0e15');
+  poly([pt(0,1,1),pt(0,1,0),pt(0,0,0),pt(0,0,1)],lwG);
 
-  // ── LAYER 1: LUCE NATURALE (finestra)
+  // Parete destra
+  const rwG=ctx.createLinearGradient(470,0,W,0);
+  rwG.addColorStop(0,'#0c0e15');rwG.addColorStop(1,'#090a0e');
+  poly([pt(1,1,0),pt(1,1,1),pt(1,0,1),pt(1,0,0)],rwG);
+
+  // Pavimento marmo
+  const flG=ctx.createLinearGradient(0,295,0,H);
+  flG.addColorStop(0,'#0d1018');flG.addColorStop(1,'#0b0d14');
+  poly([pt(0,0,0),pt(1,0,0),pt(1,0,1),pt(0,0,1)],flG);
+  // Griglia marmo in prospettiva
+  ctx.strokeStyle='rgba(255,255,255,.022)';ctx.lineWidth=.4;
+  for(let t=0.08;t<1;t+=0.14){
+    ctx.beginPath();ctx.moveTo(px3(0,t),py3(0,t));ctx.lineTo(px3(1,t),py3(0,t));ctx.stroke();
+  }
+  for(let h=0.12;h<1;h+=0.22){
+    ctx.beginPath();ctx.moveTo(px3(h,0),295);ctx.lineTo(px3(h,1),H);ctx.stroke();
+  }
+  // Venatura marmo (diagonali sottili)
+  ctx.strokeStyle='rgba(255,255,255,.012)';ctx.lineWidth=.3;
+  [[0.08,0.28],[0.35,0.55],[0.62,0.80]].forEach(([h1,h2])=>{
+    ctx.beginPath();ctx.moveTo(px3(h1,0),295);ctx.lineTo(px3(h2,1),H);ctx.stroke();
+  });
+
+  // ─────────────────────────────────────────────────────────────────────
+  // ELEMENTI PARETE DI FONDO
+  // ─────────────────────────────────────────────────────────────────────
+
+  // Mobile TV basso (tutta la larghezza)
+  const tvTop=0.195;
+  poly([pt(0.15,tvTop,0),pt(0.85,tvTop,0),pt(0.85,0,0),pt(0.15,0,0)],'#0d0e13');
+  poly([pt(0.15,tvTop,0.05),pt(0.85,tvTop,0.05),pt(0.85,tvTop,0),pt(0.15,tvTop,0)],'#121420');
+  ctx.strokeStyle='rgba(255,255,255,.025)';ctx.lineWidth=.4;
+  [0.26,0.40,0.55,0.70].forEach(h=>{
+    ctx.beginPath();ctx.moveTo(px3(h,0),py3(tvTop,0));ctx.lineTo(px3(h,0),py3(0,0));ctx.stroke();
+  });
+
+  // Caminetto (centro parete)
+  const fpX1=0.31,fpX2=0.69,fpBot=0.195,fpTop2=0.60;
+  const fpOX1=0.355,fpOX2=0.645,fpOBot=0.195,fpOTop=0.505;
+  poly([pt(fpX1,fpTop2,0),pt(fpX2,fpTop2,0),pt(fpX2,fpBot,0),pt(fpX1,fpBot,0)],'#0b0c12');
+  ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=.7;
+  ctx.strokeRect(px3(fpX1,0),py3(fpTop2,0),px3(fpX2,0)-px3(fpX1,0),py3(fpBot,0)-py3(fpTop2,0));
+  // Apertura
+  poly([pt(fpOX1,fpOTop,0),pt(fpOX2,fpOTop,0),pt(fpOX2,fpOBot,0),pt(fpOX1,fpOBot,0)],'#040406');
+  // Mensola
+  poly([pt(fpX1-0.01,fpTop2+0.03,0.03),pt(fpX2+0.01,fpTop2+0.03,0.03),pt(fpX2+0.01,fpTop2+0.03,0),pt(fpX1-0.01,fpTop2+0.03,0)],'#13141a');
+  poly([pt(fpX1-0.01,fpTop2+0.03,0),pt(fpX2+0.01,fpTop2+0.03,0),pt(fpX2+0.01,fpTop2,0),pt(fpX1-0.01,fpTop2,0)],'#101118');
+
+  // Quadro sinistro
+  poly([pt(0.07,0.78,0),pt(0.22,0.78,0),pt(0.22,0.42,0),pt(0.07,0.42,0)],'#0d0e14');
+  ctx.strokeStyle='rgba(201,169,110,.055)';ctx.lineWidth=.5;
+  ctx.strokeRect(px3(0.07,0),py3(0.78,0),px3(0.22,0)-px3(0.07,0),py3(0.42,0)-py3(0.78,0));
+  // Quadro destro
+  poly([pt(0.78,0.78,0),pt(0.93,0.78,0),pt(0.93,0.42,0),pt(0.78,0.42,0)],'#0d0e14');
+  ctx.strokeStyle='rgba(201,169,110,.055)';ctx.lineWidth=.5;
+  ctx.strokeRect(px3(0.78,0),py3(0.78,0),px3(0.93,0)-px3(0.78,0),py3(0.42,0)-py3(0.78,0));
+
+  // ─────────────────────────────────────────────────────────────────────
+  // FINESTRA PARETE SINISTRA
+  // ─────────────────────────────────────────────────────────────────────
+  const wt1=0.22,wt2=0.58,we1=0.16,we2=0.90;
+  const wBL=[px3(0,wt2),py3(we1,wt2)],wBR=[px3(0,wt1),py3(we1,wt1)];
+  const wTR=[px3(0,wt1),py3(we2,wt1)],wTL=[px3(0,wt2),py3(we2,wt2)];
+  poly([wTL,wTR,wBR,wBL],'#0c0d14');
+  ctx.strokeStyle='rgba(255,255,255,.06)';ctx.lineWidth=1;
+  ctx.strokeRect(wBL[0]+2,wTL[1]+2,wBR[0]-wBL[0]-4,wBL[1]-wTL[1]-4);
+  const wMX=(wBL[0]+wBR[0])/2,wMY=(wTL[1]+wBL[1])/2;
+  ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=.6;
+  ctx.beginPath();ctx.moveTo(wMX,wTL[1]+3);ctx.lineTo(wMX,wBL[1]-3);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(wBL[0]+3,wMY);ctx.lineTo(wBR[0]-3,wMY);ctx.stroke();
+
+  // ─────────────────────────────────────────────────────────────────────
+  // ARREDAMENTO
+  // ─────────────────────────────────────────────────────────────────────
+
+  // Divano (3 posti, sinistra)
+  const sfH1=0.04,sfH2=0.55,sfT1=0.52,sfT2=0.70;
+  const seatElev=0.155,backElev=0.295;
+  // Seduta (faccia superiore)
+  poly([pt(sfH1,seatElev,sfT2),pt(sfH2,seatElev,sfT2),pt(sfH2,seatElev,sfT1),pt(sfH1,seatElev,sfT1)],'#181a22');
+  // Frontale seduta
+  poly([pt(sfH1,seatElev,sfT2),pt(sfH2,seatElev,sfT2),pt(sfH2,0,sfT2),pt(sfH1,0,sfT2)],'#141519');
+  // Schienale (faccia frontale)
+  poly([pt(sfH1,backElev,sfT1),pt(sfH2,backElev,sfT1),pt(sfH2,seatElev,sfT1),pt(sfH1,seatElev,sfT1)],'#12141a');
+  // Schienale (faccia superiore)
+  poly([pt(sfH1,backElev,sfT2-0.03),pt(sfH2,backElev,sfT2-0.03),pt(sfH2,backElev,sfT1),pt(sfH1,backElev,sfT1)],'#181a21');
+  // Bracciolo sinistro
+  poly([pt(sfH1,backElev,sfT2),pt(sfH1,backElev,sfT1),pt(sfH1,0,sfT1),pt(sfH1,0,sfT2)],'#161720');
+  // Bracciolo destro
+  poly([pt(sfH2,backElev,sfT2),pt(sfH2,backElev,sfT1),pt(sfH2,seatElev,sfT1),pt(sfH2,seatElev,sfT2)],'#161720');
+  // Cuscini schienale
+  const nCush=3;
+  for(let i=0;i<nCush;i++){
+    const ch1=sfH1+0.025+i*(sfH2-sfH1-0.05)/nCush;
+    const ch2=ch1+(sfH2-sfH1-0.05)/nCush-0.012;
+    poly([pt(ch1,backElev-0.015,sfT1),pt(ch2,backElev-0.015,sfT1),pt(ch2,seatElev+0.01,sfT1),pt(ch1,seatElev+0.01,sfT1)],'#161820',null);
+    ctx.strokeStyle='rgba(255,255,255,.018)';ctx.lineWidth=.3;
+    poly([pt(ch1,backElev-0.015,sfT1),pt(ch2,backElev-0.015,sfT1),pt(ch2,seatElev+0.01,sfT1),pt(ch1,seatElev+0.01,sfT1)],null,'rgba(255,255,255,.018)',.3);
+  }
+
+  // Tavolino da caffè
+  const ctH1=0.16,ctH2=0.45,ctT1=0.38,ctT2=0.49;
+  const ctElev=0.115;
+  poly([pt(ctH1,ctElev,ctT1),pt(ctH2,ctElev,ctT1),pt(ctH2,ctElev,ctT2),pt(ctH1,ctElev,ctT2)],'#111318');
+  ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=.4;
+  ctx.beginPath();ctx.moveTo(px3(ctH1,ctT2),py3(ctElev,ctT2));ctx.lineTo(px3(ctH2,ctT2),py3(ctElev,ctT2));ctx.stroke();
+  poly([pt(ctH1,ctElev,ctT2),pt(ctH2,ctElev,ctT2),pt(ctH2,0,ctT2),pt(ctH1,0,ctT2)],'#0e0f14');
+  // Gambe
+  [[ctH1+0.012,ctH1+0.028],[ctH2-0.028,ctH2-0.012]].forEach(([l1,l2])=>{
+    poly([pt(l1,ctElev,ctT2),pt(l2,ctElev,ctT2),pt(l2,0,ctT2),pt(l1,0,ctT2)],'#0c0d12');
+  });
+
+  // Lampada piantana (destra)
+  const lampH=0.82,lampT=0.56;
+  const [lpx,lpy]=pt(0.84,lampH,lampT);
+  const [lbx,lby]=pt(0.835,0,lampT+0.02);
+  ctx.strokeStyle='#1a1b20';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(lbx,lby);ctx.lineTo(lpx,lpy);ctx.stroke();
+  const [ls1x,ls1y]=pt(0.814,lampH,lampT);
+  const [ls2x,ls2y]=pt(0.866,lampH,lampT);
+  const [ld1x,ld1y]=pt(0.805,lampH-0.13,lampT);
+  const [ld2x,ld2y]=pt(0.875,lampH-0.13,lampT);
+  poly([[ls1x,ls1y],[ls2x,ls2y],[ld2x,ld2y],[ld1x,ld1y]],'#161820');
+
+  // Spot a soffitto (3 punti)
+  const spotPos=[{h:0.28},{h:0.50},{h:0.72}];
+  spotPos.forEach(s=>{
+    const[sx,sy]=pt(s.h,1,0);
+    ctx.fillStyle='#13141a';ctx.beginPath();ctx.arc(sx,sy,3.5,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.045)';ctx.lineWidth=.5;
+    ctx.beginPath();ctx.arc(sx,sy,5.5,0,Math.PI*2);ctx.stroke();
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // LAYER LUCI (screen blending — additivo realistico)
+  // ═══════════════════════════════════════════════════════════════════════
+  ctx.save();
+  ctx.globalCompositeOperation='screen';
+
+  // ── 1. LUCE NATURALE ──────────────────────────────────────────────────
   if(lightState.natural){
-    // Cielo visibile attraverso la finestra
-    const sky=ctx.createLinearGradient(0,0,0,H*.5);
-    sky.addColorStop(0,'#1a3a5c'); sky.addColorStop(1,'#4a90c0');
-    ctx.fillStyle=sky; ctx.fillRect(W*.32+2,21,W*.36-4,H*.55-2);
-    ctx.strokeStyle='rgba(135,187,219,.15)'; ctx.lineWidth=1;
-    ctx.strokeRect(W*.32+2,21,W*.36-4,H*.55-2);
-    // Fascio luce che entra
-    ctx.save();
-    const sunBeam=ctx.createLinearGradient(W*.32,0,W*.75,H);
-    sunBeam.addColorStop(0,'rgba(200,220,255,.12)');
-    sunBeam.addColorStop(1,'rgba(200,220,255,0)');
-    ctx.fillStyle=sunBeam;
-    ctx.beginPath(); ctx.moveTo(W*.32,20); ctx.lineTo(W*.68,20); ctx.lineTo(W*.85,H); ctx.lineTo(W*.15,H); ctx.closePath(); ctx.fill();
-    ctx.restore();
-    // Illuminazione diffusa sulle superfici
-    const ambN=ctx.createRadialGradient(W*.5,H*.3,0,W*.5,H*.3,W*.5);
-    ambN.addColorStop(0,'rgba(180,210,255,.08)'); ambN.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=ambN; ctx.fillRect(0,0,W,H);
-    // Riflesso sul pavimento
-    const floorRef=ctx.createLinearGradient(W*.3,H*.72,W*.7,H*.72);
-    floorRef.addColorStop(0,'rgba(135,187,219,0)'); floorRef.addColorStop(.5,'rgba(135,187,219,.06)'); floorRef.addColorStop(1,'rgba(135,187,219,0)');
-    ctx.fillStyle=floorRef; ctx.fillRect(W*.15,H*.72,W*.7,H*.28);
+    // Cielo nella finestra
+    const sky=ctx.createLinearGradient(0,wTL[1],0,wBL[1]);
+    sky.addColorStop(0,'rgba(120,175,235,.88)');
+    sky.addColorStop(0.45,'rgba(95,155,215,.72)');
+    sky.addColorStop(1,'rgba(70,130,190,.38)');
+    ctx.fillStyle=sky;
+    ctx.beginPath();ctx.moveTo(wTL[0]+2,wTL[1]+2);ctx.lineTo(wTR[0]-2,wTR[1]+2);
+    ctx.lineTo(wBR[0]-2,wBR[1]-2);ctx.lineTo(wBL[0]+2,wBL[1]-2);ctx.closePath();ctx.fill();
+    // Fascio di luce sul pavimento
+    const shaft=ctx.createLinearGradient(wBL[0],wMY,W*0.65,H*0.9);
+    shaft.addColorStop(0,'rgba(150,190,235,.22)');
+    shaft.addColorStop(1,'rgba(110,160,210,0)');
+    ctx.fillStyle=shaft;
+    ctx.beginPath();ctx.moveTo(wTL[0],wTL[1]);ctx.lineTo(wTR[0],wTR[1]);
+    ctx.lineTo(W*0.62,H);ctx.lineTo(0,H);ctx.closePath();ctx.fill();
+    // Luce diffusa ambiente (fredda, 4500K)
+    const dayG=ctx.createRadialGradient(px3(0.18,0),py3(0.52,0),0,px3(0.18,0),py3(0.52,0),W*0.60);
+    dayG.addColorStop(0,'rgba(70,120,175,.14)');
+    dayG.addColorStop(1,'rgba(70,120,175,0)');
+    ctx.fillStyle=dayG;ctx.fillRect(0,0,W,H);
+    // Riflesso pavimento
+    const flRef=ctx.createRadialGradient(px3(0.12,0.48),py3(0.02,0.48),0,px3(0.18,0.48),py3(0.02,0.48),W*0.38);
+    flRef.addColorStop(0,'rgba(110,165,215,.10)');
+    flRef.addColorStop(1,'rgba(110,165,215,0)');
+    ctx.fillStyle=flRef;ctx.fillRect(0,295,W,H-295);
+    // Luce parete sinistra
+    const lwLight=ctx.createLinearGradient(0,0,130,0);
+    lwLight.addColorStop(0,'rgba(70,120,175,.10)');
+    lwLight.addColorStop(1,'rgba(70,120,175,0)');
+    ctx.fillStyle=lwLight;
+    poly([pt(0,1,1),pt(0,1,0),pt(0,0,0),pt(0,0,1)],lwLight);
   }
 
-  // ── LAYER 2: LUCE DIRETTA (spot soffitto)
+  // ── 2. LUCE DIRETTA (spot LED 3000K) ─────────────────────────────────
   if(lightState.direct){
-    const spots=[{x:W*.22},{x:W*.5},{x:W*.78}];
-    spots.forEach(s=>{
-      // Bulbo spot
-      ctx.fillStyle='rgba(255,230,150,.9)';
-      ctx.beginPath(); ctx.arc(s.x,16,5,0,Math.PI*2); ctx.fill();
-      // Cono luce
-      const cone=ctx.createRadialGradient(s.x,16,0,s.x,H*.65,W*.12);
-      cone.addColorStop(0,'rgba(255,220,120,.22)'); cone.addColorStop(.5,'rgba(255,200,80,.07)'); cone.addColorStop(1,'rgba(255,200,80,0)');
+    spotPos.forEach(s=>{
+      const[sx,sy]=pt(s.h,1,0);
+      // Bulbo incandescente
+      ctx.fillStyle='rgba(255,238,180,1)';
+      ctx.beginPath();ctx.arc(sx,sy,4.5,0,Math.PI*2);ctx.fill();
+      // Alone soffitto
+      const halo=ctx.createRadialGradient(sx,sy,0,sx,sy,22);
+      halo.addColorStop(0,'rgba(255,225,140,.35)');
+      halo.addColorStop(1,'rgba(255,225,140,0)');
+      ctx.fillStyle=halo;ctx.beginPath();ctx.arc(sx,sy,22,0,Math.PI*2);ctx.fill();
+      // Cono luminoso
+      const lx=px3(s.h,0.20),ly=py3(0,0.20);
+      const cone=ctx.createRadialGradient(sx,sy+5,0,lx,ly+20,W*0.14);
+      cone.addColorStop(0,'rgba(255,228,155,.28)');
+      cone.addColorStop(0.45,'rgba(255,215,130,.09)');
+      cone.addColorStop(1,'rgba(255,210,110,0)');
       ctx.fillStyle=cone;
-      ctx.beginPath(); ctx.moveTo(s.x-5,16); ctx.lineTo(s.x-W*.12,H*.72); ctx.lineTo(s.x+W*.12,H*.72); ctx.closePath(); ctx.fill();
-      // Pool di luce sul pavimento
-      const pool=ctx.createRadialGradient(s.x,H*.75,0,s.x,H*.75,W*.09);
-      pool.addColorStop(0,'rgba(255,220,100,.14)'); pool.addColorStop(1,'rgba(255,220,100,0)');
-      ctx.fillStyle=pool; ctx.beginPath(); ctx.ellipse(s.x,H*.78,W*.09,W*.025,0,0,Math.PI*2); ctx.fill();
+      ctx.beginPath();ctx.moveTo(sx,sy);
+      ctx.lineTo(lx-W*0.13,ly);ctx.lineTo(lx+W*0.13,ly);ctx.closePath();ctx.fill();
+      // Pool sul pavimento / parete
+      const pool=ctx.createRadialGradient(lx,ly,0,lx,ly,W*0.10);
+      pool.addColorStop(0,'rgba(255,222,135,.20)');
+      pool.addColorStop(1,'rgba(255,222,135,0)');
+      ctx.fillStyle=pool;ctx.beginPath();ctx.ellipse(lx,ly,W*0.10,W*0.028,0,0,Math.PI*2);ctx.fill();
     });
-    // Illuminazione generale calda
-    const warm=ctx.createLinearGradient(0,0,0,H*.72);
-    warm.addColorStop(0,'rgba(255,200,80,.05)'); warm.addColorStop(1,'rgba(255,200,80,0)');
-    ctx.fillStyle=warm; ctx.fillRect(0,0,W,H*.72);
+    // Atmosfera calda generale da spot
+    const wArm=ctx.createLinearGradient(0,60,0,295);
+    wArm.addColorStop(0,'rgba(255,215,130,.07)');
+    wArm.addColorStop(1,'rgba(255,210,110,.02)');
+    ctx.fillStyle=wArm;ctx.fillRect(px3(0,0),60,px3(1,0)-px3(0,0),295-60);
   }
 
-  // ── LAYER 3: LUCE D'ACCENTO (faretti parete)
+  // ── 3. LUCE D'ACCENTO (caminetto + faretti quadri) ───────────────────
   if(lightState.accent){
-    // Faretto sx alto
-    ctx.fillStyle='rgba(255,180,80,.8)'; ctx.beginPath(); ctx.arc(W*.06,H*.22,4,0,Math.PI*2); ctx.fill();
-    const wa1=ctx.createRadialGradient(W*.06,H*.22,0,W*.22,H*.3,W*.2);
-    wa1.addColorStop(0,'rgba(255,160,60,.18)'); wa1.addColorStop(1,'rgba(255,160,60,0)');
-    ctx.fillStyle=wa1; ctx.fillRect(0,0,W*.4,H*.6);
-    // Faretto sx basso
-    ctx.fillStyle='rgba(255,180,80,.8)'; ctx.beginPath(); ctx.arc(W*.06,H*.55,4,0,Math.PI*2); ctx.fill();
-    const wa2=ctx.createRadialGradient(W*.06,H*.55,0,W*.2,H*.6,W*.15);
-    wa2.addColorStop(0,'rgba(255,160,60,.15)'); wa2.addColorStop(1,'rgba(255,160,60,0)');
-    ctx.fillStyle=wa2; ctx.fillRect(0,H*.4,W*.35,H*.4);
-    // Illuminazione quadro a parete
-    const qa=ctx.createRadialGradient(W*.85,H*.25,0,W*.85,H*.3,W*.12);
-    qa.addColorStop(0,'rgba(255,200,100,.2)'); qa.addColorStop(1,'rgba(255,200,100,0)');
-    ctx.fillStyle=qa; ctx.fillRect(W*.72,H*.12,W*.25,H*.4);
-    // Bordo quadro illuminato
-    ctx.strokeStyle='rgba(255,200,100,.2)'; ctx.lineWidth=1.5; ctx.strokeRect(W*.78,H*.18,W*.14,H*.22);
+    const fpCX=px3(0.50,0),fpCY=py3(0.33,0);
+    // Bagliore interno caminetto (brace incandescente)
+    const fpI=ctx.createRadialGradient(fpCX,fpCY,0,fpCX,fpCY,58);
+    fpI.addColorStop(0,'rgba(255,210,80,.75)');
+    fpI.addColorStop(0.35,'rgba(255,165,50,.38)');
+    fpI.addColorStop(1,'rgba(255,140,40,0)');
+    ctx.fillStyle=fpI;
+    ctx.fillRect(px3(fpOX1,0),py3(fpOTop,0),px3(fpOX2,0)-px3(fpOX1,0),py3(fpOBot,0)-py3(fpOTop,0));
+    // Irradiazione caminetto sulla parete
+    const fpG=ctx.createRadialGradient(fpCX,fpCY,0,fpCX,fpCY,165);
+    fpG.addColorStop(0,'rgba(255,155,45,.42)');
+    fpG.addColorStop(0.30,'rgba(245,130,38,.18)');
+    fpG.addColorStop(0.60,'rgba(230,110,30,.06)');
+    fpG.addColorStop(1,'rgba(220,100,25,0)');
+    ctx.fillStyle=fpG;ctx.fillRect(px3(0.15,0),55,px3(0.85,0)-px3(0.15,0),295-55);
+    // Riflesso caminetto sul pavimento
+    const fpF=ctx.createRadialGradient(px3(0.50,0.30),py3(0,0.30),0,px3(0.50,0.32),py3(0,0.32),145);
+    fpF.addColorStop(0,'rgba(255,140,40,.16)');
+    fpF.addColorStop(1,'rgba(255,120,30,0)');
+    ctx.fillStyle=fpF;ctx.fillRect(px3(0.20,0),295,px3(0.80,0)-px3(0.20,0),H-295);
+    // Spotlight quadro sinistro
+    const laX=px3(0.145,0),laY=py3(0.58,0);
+    const laG=ctx.createRadialGradient(laX,laY,0,laX,laY,62);
+    laG.addColorStop(0,'rgba(255,228,155,.30)');
+    laG.addColorStop(1,'rgba(255,228,155,0)');
+    ctx.fillStyle=laG;ctx.fillRect(px3(0.04,0),py3(0.82,0),px3(0.25,0)-px3(0.04,0),py3(0.38,0)-py3(0.82,0));
+    ctx.fillStyle='rgba(255,228,155,.07)';
+    ctx.fillRect(px3(0.07,0),py3(0.78,0),px3(0.22,0)-px3(0.07,0),py3(0.42,0)-py3(0.78,0));
+    // Spotlight quadro destro
+    const raX=px3(0.855,0),raY=py3(0.58,0);
+    const raG=ctx.createRadialGradient(raX,raY,0,raX,raY,62);
+    raG.addColorStop(0,'rgba(255,228,155,.30)');
+    raG.addColorStop(1,'rgba(255,228,155,0)');
+    ctx.fillStyle=raG;ctx.fillRect(px3(0.75,0),py3(0.82,0),px3(0.96,0)-px3(0.75,0),py3(0.38,0)-py3(0.82,0));
+    ctx.fillStyle='rgba(255,228,155,.07)';
+    ctx.fillRect(px3(0.78,0),py3(0.78,0),px3(0.93,0)-px3(0.78,0),py3(0.42,0)-py3(0.78,0));
   }
 
-  // ── LAYER 4: LUCE AMBIENTALE (lampada piantana)
+  // ── 4. LUCE AMBIENTALE (piantana 2200K) ──────────────────────────────
   if(lightState.ambient){
-    // Bagliore lampada piantana
-    ctx.fillStyle='rgba(255,160,60,.7)'; ctx.beginPath(); ctx.arc(W*.728,H*.38,6,0,Math.PI*2); ctx.fill();
-    const lamp=ctx.createRadialGradient(W*.728,H*.38,0,W*.728,H*.38,W*.35);
-    lamp.addColorStop(0,'rgba(200,120,40,.2)'); lamp.addColorStop(.3,'rgba(180,100,30,.08)'); lamp.addColorStop(1,'rgba(180,100,30,0)');
-    ctx.fillStyle=lamp; ctx.fillRect(W*.4,H*.15,W*.58,H*.85);
-    // Luce sul soffitto
-    const ceil=ctx.createRadialGradient(W*.728,0,0,W*.728,0,W*.28);
-    ceil.addColorStop(0,'rgba(255,150,50,.15)'); ceil.addColorStop(1,'rgba(255,150,50,0)');
-    ctx.fillStyle=ceil; ctx.fillRect(W*.45,0,W*.56,H*.25);
+    const[llx,lly]=pt(0.84,lampH,lampT);
+    // Alone diffuso piantana
+    const lampG=ctx.createRadialGradient(llx,lly,0,llx,lly,W*0.38);
+    lampG.addColorStop(0,'rgba(255,195,75,.35)');
+    lampG.addColorStop(0.28,'rgba(240,170,55,.14)');
+    lampG.addColorStop(0.60,'rgba(225,150,45,.05)');
+    lampG.addColorStop(1,'rgba(215,140,40,0)');
+    ctx.fillStyle=lampG;ctx.fillRect(0,0,W,H);
+    // Fascio verso l'alto (soffitto)
+    const lampUp=ctx.createRadialGradient(llx,lly,0,llx,py3(1,lampT),90);
+    lampUp.addColorStop(0,'rgba(255,205,85,.22)');
+    lampUp.addColorStop(1,'rgba(255,195,75,0)');
+    ctx.fillStyle=lampUp;ctx.fillRect(0,0,W,lly+10);
     // Cono verso il basso
-    const down=ctx.createRadialGradient(W*.728,H*.38,0,W*.728,H*.72,W*.18);
-    down.addColorStop(0,'rgba(255,160,60,.12)'); down.addColorStop(1,'rgba(255,160,60,0)');
-    ctx.fillStyle=down; ctx.fillRect(W*.54,H*.38,W*.38,H*.4);
-    // Warm glow sul pavimento
-    const pg=ctx.createRadialGradient(W*.728,H*.9,0,W*.728,H*.9,W*.2);
-    pg.addColorStop(0,'rgba(200,120,40,.1)'); pg.addColorStop(1,'rgba(200,120,40,0)');
-    ctx.fillStyle=pg; ctx.fillRect(W*.52,H*.7,W*.42,H*.3);
+    const lampDn=ctx.createRadialGradient(llx,lly+30,0,llx,lly+95,W*0.16);
+    lampDn.addColorStop(0,'rgba(255,195,70,.28)');
+    lampDn.addColorStop(1,'rgba(255,185,65,0)');
+    ctx.fillStyle=lampDn;ctx.fillRect(px3(0.62,lampT),lly,W,H-lly);
+    // Pool sul pavimento
+    const lampFloor=ctx.createRadialGradient(llx,py3(0,lampT),0,llx,py3(0,lampT),110);
+    lampFloor.addColorStop(0,'rgba(255,190,65,.16)');
+    lampFloor.addColorStop(1,'rgba(255,185,60,0)');
+    ctx.fillStyle=lampFloor;ctx.fillRect(0,295,W,H-295);
+    // Luce calda lato destro parete/divano
+    const warmR=ctx.createLinearGradient(W,0,W*0.52,0);
+    warmR.addColorStop(0,'rgba(255,185,60,.07)');
+    warmR.addColorStop(1,'rgba(255,185,60,0)');
+    ctx.fillStyle=warmR;ctx.fillRect(W*0.50,60,W*0.50,295+H-295);
   }
 
-  // OVERLAY ETICHETTA TIPO LUCE
+  ctx.restore();
+
+  // ── VIGNETTA ────────────────────────────────────────────────────────────
+  const vig=ctx.createRadialGradient(W/2,H/2,W*0.18,W/2,H/2,W*0.82);
+  vig.addColorStop(0,'rgba(0,0,0,0)');
+  vig.addColorStop(1,'rgba(0,0,0,.58)');
+  ctx.fillStyle=vig;ctx.fillRect(0,0,W,H);
+
+  // ── ETICHETTA LUCI ATTIVE ───────────────────────────────────────────────
   const active=Object.keys(lightState).filter(k=>lightState[k]);
   if(active.length>0){
     const names={natural:'Naturale',direct:'Diretta',accent:'Accento',ambient:'Ambientale'};
-    ctx.fillStyle='rgba(0,0,0,.5)';
-    ctx.fillRect(12,H-28,180,20);
-    ctx.fillStyle='rgba(201,169,110,.6)'; ctx.font='8px Inter';
-    ctx.fillText('ATTIVO: '+active.map(k=>names[k]).join(' + '),18,H-15);
-  } else {
-    ctx.fillStyle='rgba(0,0,0,.6)'; ctx.fillRect(12,H-28,140,20);
-    ctx.fillStyle='rgba(255,255,255,.2)'; ctx.font='8px Inter';
-    ctx.fillText('Nessuna luce attiva',18,H-15);
+    const txt='ATTIVO: '+active.map(k=>names[k]).join(' + ');
+    ctx.fillStyle='rgba(0,0,0,.58)';
+    ctx.fillRect(12,H-30,Math.min(210,txt.length*5.8+16),22);
+    ctx.fillStyle='rgba(201,169,110,.70)';ctx.font='bold 7.5px Inter,sans-serif';
+    ctx.fillText(txt,18,H-16);
+  }else{
+    ctx.fillStyle='rgba(0,0,0,.60)';ctx.fillRect(12,H-30,148,22);
+    ctx.fillStyle='rgba(255,255,255,.25)';ctx.font='7.5px Inter,sans-serif';
+    ctx.fillText('Nessuna luce — ambiente buio',18,H-16);
   }
 }
 // Prima render
