@@ -40,6 +40,13 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .ncta { border:.5px solid var(--gold);color:var(--gold);padding:8px 18px;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:none;background:transparent;transition:all .3s; }
 .ncta:hover { background:var(--gold);color:var(--dark); }
 
+/* Nascondi controlli video Safari iOS */
+#sv::-webkit-media-controls { display:none !important; }
+#sv::-webkit-media-controls-panel { display:none !important; }
+#sv::-webkit-media-controls-play-button { display:none !important; }
+#sv::-webkit-media-controls-start-playback-button { display:none !important; }
+#sv::-webkit-media-controls-overlay-play-button { display:none !important; }
+
 /* JOURNEY */
 #journey { height:700vh;position:relative; }
 #sticky { position:sticky;top:0;height:100vh;overflow:hidden; }
@@ -287,7 +294,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 <!-- ══ VIDEO SCRUB ══ -->
 <section id="journey">
   <div id="sticky">
-    <video id="sv" src="visio-journey-scrub.mp4" playsinline muted preload="auto" webkit-playsinline autoplay></video>
+    <video id="sv" src="visio-journey-scrub.mp4" playsinline muted preload="auto" webkit-playsinline x-webkit-airplay="deny" disablepictureinpicture></video>
     <div id="vo">
       <div id="stw">
         <p id="stag"></p>
@@ -1463,6 +1470,11 @@ const moments=[
   {from:0.70,to:0.88,tag:'La terrazza',text:'Il mare\ncome quinto\nelemento.'},
   {from:0.88,to:1.00,tag:'',text:'Questo è\nVISIO.'},
 ];
+// Sblocca video iOS al primo tocco
+document.addEventListener('touchstart', function unlock(){
+  video.play().then(()=>video.pause()).catch(()=>{});
+  document.removeEventListener('touchstart', unlock);
+}, {once:true});
 video.pause(); video.currentTime=0;
 video.addEventListener('loadedmetadata',()=>{video.pause();video.currentTime=0;});
 video.addEventListener('play',()=>video.pause());
