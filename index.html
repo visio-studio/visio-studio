@@ -1281,7 +1281,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     </div>
     <!-- Stanza interattiva -->
     <div class="rev-r light-room-wrap">
-      <canvas id="light-canvas" width="600" height="400" style="max-width:100%;height:auto;display:block;"></canvas>
+      <div id="light-room-container" style="position:relative;display:block;width:100%;line-height:0;">
+        <img id="light-room-img" src="img/living-room-base.jpg" alt="Soggiorno" style="width:100%;display:block;border-radius:0;">
+        <canvas id="light-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
+      </div>
       <div id="light-spec" style="background:#0a0a0a;border-top:.5px solid rgba(201,169,110,.2);padding:14px 16px;font-size:10px;color:rgba(255,255,255,.4);line-height:1.8;min-height:60px;">
         <span style="color:rgba(201,169,110,.7);letter-spacing:2px;font-size:8px;">ATTIVO · </span>
         <span id="light-spec-text">Luce naturale — Finestra vetrata H=2.4m · orientamento Sud</span>
@@ -1639,12 +1642,167 @@ function toggleLight(btn,layer){
 }
 function drawRoom(){
   const canvas=document.getElementById('light-canvas');
-  if(!canvas) return;
+  const img=document.getElementById('light-room-img');
+  if(!canvas||!img) return;
+  // Adatta il buffer canvas alle dimensioni reali dell'immagine
+  const W=img.offsetWidth||600, H=img.offsetHeight||400;
+  if(canvas.width!==W||canvas.height!==H){canvas.width=W;canvas.height=H;}
   const ctx=canvas.getContext('2d');
-  const W=canvas.width, H=canvas.height;
   ctx.clearRect(0,0,W,H);
 
-  // ── SISTEMA PROSPETTICO 1-PUNTO ─────────────────────────────────────────
+  const active=Object.keys(lightState).filter(k=>lightState[k]);
+
+  // Oscuramento base — si alleggerisce man mano che le luci vengono attivate
+  const darkness = active.length===0 ? 0.80 : 0.62;
+  ctx.fillStyle=`rgba(0,0,0,${darkness})`;
+  ctx.fillRect(0,0,W,H);
+
+  if(active.length===0){
+    ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(12,H-30,162,22);
+    ctx.fillStyle='rgba(255,255,255,.28)';ctx.font='7.5px Inter,sans-serif';
+    ctx.fillText('Nessuna luce — ambiente buio',18,H-16);
+    return;
+  }
+
+  // Helper: disegna un layer luce su canvas offscreen, poi lo sfoca e compone
+  function softLight(drawFn,blurPx){
+    const off=document.createElement('canvas');
+    off.width=W;off.height=H;
+    drawFn(off.getContext('2d'),W,H);
+    ctx.save();
+    ctx.filter=`blur(${blurPx}px)`;
+    ctx.globalCompositeOperation='screen';
+    ctx.drawImage(off,0,0);
+    ctx.restore();
+  }
+
+  // ── 1. LUCE NATURALE — finestra sinistra, 4500K fredda ───────────────
+  if(lightState.natural){
+    softLight((oc,W,H)=>{
+      // Finestra (zona sinistra)
+      const sky=oc.createLinearGradient(0,H*.05,W*.22,H*.55);
+      sky.addColorStop(0,'rgba(155,200,255,.80)');
+      sky.addColorStop(.5,'rgba(120,170,245,.52)');
+      sky.addColorStop(1,'rgba(85,140,225,.18)');
+      oc.fillStyle=sky;oc.fillRect(0,H*.04,W*.22,H*.65);
+      // Fascio luminoso che si apre nella stanza
+      const shaft=oc.createLinearGradient(W*.22,H*.30,W*.78,H);
+      shaft.addColorStop(0,'rgba(135,185,245,.42)');
+      shaft.addColorStop(.5,'rgba(105,160,230,.18)');
+      shaft.addColorStop(1,'rgba(80,135,215,0)');
+      oc.fillStyle=shaft;
+      oc.beginPath();oc.moveTo(0,H*.04);oc.lineTo(W*.22,H*.04);
+      oc.lineTo(W*.80,H);oc.lineTo(0,H);oc.closePath();oc.fill();
+      // Diffusione ambiente fredda
+      const amb=oc.createRadialGradient(W*.18,H*.42,0,W*.18,H*.42,W*.72);
+      amb.addColorStop(0,'rgba(90,140,210,.22)');
+      amb.addColorStop(1,'rgba(90,140,210,0)');
+      oc.fillStyle=amb;oc.fillRect(0,0,W,H);
+    },24);
+  }
+
+  // ── 2. LUCE DIRETTA — 3 spot LED soffitto, 3000K calda ───────────────
+  if(lightState.direct){
+    softLight((oc,W,H)=>{
+      [{cx:W*.28},{cx:W*.50},{cx:W*.72}].forEach(s=>{
+        const cone=oc.createRadialGradient(s.cx,H*.02,0,s.cx,H*.58,W*.20);
+        cone.addColorStop(0,'rgba(255,235,165,.55)');
+        cone.addColorStop(.30,'rgba(255,220,140,.24)');
+        cone.addColorStop(.65,'rgba(255,210,120,.08)');
+        cone.addColorStop(1,'rgba(255,205,110,0)');
+        oc.fillStyle=cone;
+        oc.beginPath();oc.moveTo(s.cx,H*.02);
+        oc.lineTo(s.cx-W*.20,H*.82);oc.lineTo(s.cx+W*.20,H*.82);
+        oc.closePath();oc.fill();
+        // Pool pavimento
+        const pool=oc.createRadialGradient(s.cx,H*.68,0,s.cx,H*.68,W*.13);
+        pool.addColorStop(0,'rgba(255,230,155,.32)');
+        pool.addColorStop(1,'rgba(255,230,155,0)');
+        oc.fillStyle=pool;oc.beginPath();
+        oc.ellipse(s.cx,H*.68,W*.13,H*.042,0,0,Math.PI*2);oc.fill();
+      });
+      // Alone caldo generale
+      const warm=oc.createLinearGradient(0,0,0,H);
+      warm.addColorStop(0,'rgba(255,225,145,.11)');
+      warm.addColorStop(.55,'rgba(255,215,125,.04)');
+      warm.addColorStop(1,'rgba(255,215,125,0)');
+      oc.fillStyle=warm;oc.fillRect(0,0,W,H);
+    },16);
+  }
+
+  // ── 3. LUCE D'ACCENTO — caminetto + spotlight quadri, 2700K ──────────
+  if(lightState.accent){
+    softLight((oc,W,H)=>{
+      // Bagliore caminetto (centro basso)
+      const fp=oc.createRadialGradient(W*.50,H*.65,0,W*.50,H*.65,W*.36);
+      fp.addColorStop(0,'rgba(255,185,55,.72)');
+      fp.addColorStop(.18,'rgba(255,155,42,.42)');
+      fp.addColorStop(.42,'rgba(240,128,32,.16)');
+      fp.addColorStop(1,'rgba(220,108,22,0)');
+      oc.fillStyle=fp;oc.fillRect(0,0,W,H);
+      // Riflesso sul pavimento
+      const fpf=oc.createRadialGradient(W*.50,H*.90,0,W*.50,H*.90,W*.32);
+      fpf.addColorStop(0,'rgba(255,165,42,.24)');
+      fpf.addColorStop(1,'rgba(255,145,32,0)');
+      oc.fillStyle=fpf;oc.beginPath();
+      oc.ellipse(W*.50,H*.90,W*.32,H*.058,0,0,Math.PI*2);oc.fill();
+      // Spotlight quadro sinistro
+      const la=oc.createRadialGradient(W*.14,H*.30,0,W*.14,H*.30,W*.14);
+      la.addColorStop(0,'rgba(255,238,160,.38)');
+      la.addColorStop(1,'rgba(255,238,160,0)');
+      oc.fillStyle=la;oc.fillRect(W*.02,H*.04,W*.26,H*.54);
+      // Spotlight quadro destro
+      const ra=oc.createRadialGradient(W*.86,H*.30,0,W*.86,H*.30,W*.14);
+      ra.addColorStop(0,'rgba(255,238,160,.38)');
+      ra.addColorStop(1,'rgba(255,238,160,0)');
+      oc.fillStyle=ra;oc.fillRect(W*.72,H*.04,W*.26,H*.54);
+    },26);
+  }
+
+  // ── 4. LUCE AMBIENTALE — piantana destra, 2200K molto calda ─────────
+  if(lightState.ambient){
+    softLight((oc,W,H)=>{
+      const lx=W*.82,ly=H*.40;
+      // Alone diffuso principale
+      const lamp=oc.createRadialGradient(lx,ly,0,lx,ly,W*.52);
+      lamp.addColorStop(0,'rgba(255,200,72,.52)');
+      lamp.addColorStop(.22,'rgba(242,175,55,.22)');
+      lamp.addColorStop(.52,'rgba(228,155,45,.08)');
+      lamp.addColorStop(1,'rgba(212,138,38,0)');
+      oc.fillStyle=lamp;oc.fillRect(0,0,W,H);
+      // Fascio verso soffitto
+      const up=oc.createRadialGradient(lx,ly,0,lx,H*.02,W*.24);
+      up.addColorStop(0,'rgba(255,210,82,.30)');
+      up.addColorStop(1,'rgba(255,200,78,0)');
+      oc.fillStyle=up;oc.fillRect(W*.58,0,W*.42,ly+8);
+      // Pool pavimento sotto lampada
+      const fl=oc.createRadialGradient(lx,H*.88,0,lx,H*.88,W*.22);
+      fl.addColorStop(0,'rgba(255,198,68,.26)');
+      fl.addColorStop(1,'rgba(255,188,62,0)');
+      oc.fillStyle=fl;oc.beginPath();
+      oc.ellipse(lx,H*.88,W*.24,H*.052,0,0,Math.PI*2);oc.fill();
+    },32);
+  }
+
+  // Vignetta finale
+  const vig=ctx.createRadialGradient(W/2,H/2,W*.18,W/2,H/2,W*.82);
+  vig.addColorStop(0,'rgba(0,0,0,0)');
+  vig.addColorStop(1,'rgba(0,0,0,.42)');
+  ctx.fillStyle=vig;ctx.fillRect(0,0,W,H);
+
+  // Etichetta luci attive
+  const names={natural:'Naturale',direct:'Diretta',accent:'Accento',ambient:'Ambientale'};
+  const txt='ATTIVO: '+active.map(k=>names[k]).join(' + ');
+  ctx.fillStyle='rgba(0,0,0,.55)';
+  ctx.fillRect(12,H-30,Math.min(220,txt.length*5.8+16),22);
+  ctx.fillStyle='rgba(201,169,110,.72)';ctx.font='bold 7.5px Inter,sans-serif';
+  ctx.fillText(txt,18,H-16);
+}
+// Prima render
+window.addEventListener('load', drawRoom);
+
+  // ── [VECCHIO CODICE RIMOSSO] ─────────────────────────────────────────────
+  function _removed(){
   // Parete di fondo: x∈[130,470], y∈[60,295]
   // p3(h,elev,t): h=0-1 orizzontale, elev=0-1 altezza, t=0=fondo 1=vicino
   function px3(h,t){return 130*(1-t)+h*(340+t*200);}
@@ -1982,9 +2140,7 @@ function drawRoom(){
     ctx.fillStyle='rgba(255,255,255,.25)';ctx.font='7.5px Inter,sans-serif';
     ctx.fillText('Nessuna luce — ambiente buio',18,H-16);
   }
-}
-// Prima render
-window.addEventListener('load', drawRoom);
+} // fine _removed
 </script>
 </body>
 </html>
