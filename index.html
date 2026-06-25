@@ -1643,166 +1643,119 @@ function toggleLight(btn,layer){
 function drawRoom(){
   const canvas=document.getElementById('light-canvas');
   const img=document.getElementById('light-room-img');
-  if(!canvas||!img) return;
-  // Adatta il buffer canvas alle dimensioni reali dell'immagine
-  const W=img.offsetWidth||600, H=img.offsetHeight||400;
+  if(!canvas||!img||!img.complete||!img.naturalWidth) return;
+
+  // Adatta il buffer al render reale
+  const W=img.offsetWidth||img.naturalWidth;
+  const H=img.offsetHeight||img.naturalHeight;
+  if(!W||!H) return;
   if(canvas.width!==W||canvas.height!==H){canvas.width=W;canvas.height=H;}
+
   const ctx=canvas.getContext('2d');
   ctx.clearRect(0,0,W,H);
 
-  const active=Object.keys(lightState).filter(k=>lightState[k]);
+  // ── PASSO 1: disegna l'immagine reale nel canvas ──────────────────────
+  ctx.drawImage(img,0,0,W,H);
 
-  // Oscuramento base — si alleggerisce man mano che le luci vengono attivate
-  const darkness = active.length===0 ? 0.80 : 0.62;
-  ctx.fillStyle=`rgba(0,0,0,${darkness})`;
+  // ── PASSO 2: oscura con multiply (preserva la texture, niente foschia) ─
+  const active=Object.keys(lightState).filter(k=>lightState[k]);
+  const lvl=active.length===0 ? 35 : 72; // 0-255: più basso = più buio
+  ctx.save();
+  ctx.globalCompositeOperation='multiply';
+  ctx.fillStyle=`rgb(${lvl},${Math.round(lvl*.92)},${Math.round(lvl*1.06)})`;
   ctx.fillRect(0,0,W,H);
+  ctx.restore();
 
   if(active.length===0){
-    ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(12,H-30,162,22);
-    ctx.fillStyle='rgba(255,255,255,.28)';ctx.font='7.5px Inter,sans-serif';
-    ctx.fillText('Nessuna luce — ambiente buio',18,H-16);
+    _lightLabel(ctx,W,H,[]);
     return;
   }
 
-  // Helper: disegna un layer luce su canvas offscreen, poi lo sfoca e compone
-  function softLight(drawFn,blurPx){
+  // ── PASSO 3: layer luce sfocati (screen blending) ─────────────────────
+  function softLight(drawFn,blur){
     const off=document.createElement('canvas');
     off.width=W;off.height=H;
     drawFn(off.getContext('2d'),W,H);
     ctx.save();
-    ctx.filter=`blur(${blurPx}px)`;
+    ctx.filter=`blur(${blur}px)`;
     ctx.globalCompositeOperation='screen';
     ctx.drawImage(off,0,0);
     ctx.restore();
   }
 
-  // ── 1. LUCE NATURALE — finestra sinistra, 4500K fredda ───────────────
+  // LUCE NATURALE — 4500K fredda, tinge tutta l'immagine di bianco-azzurro
   if(lightState.natural){
     softLight((oc,W,H)=>{
-      // Finestra (zona sinistra)
-      const sky=oc.createLinearGradient(0,H*.05,W*.22,H*.55);
-      sky.addColorStop(0,'rgba(155,200,255,.80)');
-      sky.addColorStop(.5,'rgba(120,170,245,.52)');
-      sky.addColorStop(1,'rgba(85,140,225,.18)');
-      oc.fillStyle=sky;oc.fillRect(0,H*.04,W*.22,H*.65);
-      // Fascio luminoso che si apre nella stanza
-      const shaft=oc.createLinearGradient(W*.22,H*.30,W*.78,H);
-      shaft.addColorStop(0,'rgba(135,185,245,.42)');
-      shaft.addColorStop(.5,'rgba(105,160,230,.18)');
-      shaft.addColorStop(1,'rgba(80,135,215,0)');
-      oc.fillStyle=shaft;
-      oc.beginPath();oc.moveTo(0,H*.04);oc.lineTo(W*.22,H*.04);
-      oc.lineTo(W*.80,H);oc.lineTo(0,H);oc.closePath();oc.fill();
-      // Diffusione ambiente fredda
-      const amb=oc.createRadialGradient(W*.18,H*.42,0,W*.18,H*.42,W*.72);
-      amb.addColorStop(0,'rgba(90,140,210,.22)');
-      amb.addColorStop(1,'rgba(90,140,210,0)');
-      oc.fillStyle=amb;oc.fillRect(0,0,W,H);
-    },24);
+      const g=oc.createLinearGradient(0,0,W*.7,H);
+      g.addColorStop(0,'rgba(175,210,255,.38)');
+      g.addColorStop(.55,'rgba(140,182,248,.18)');
+      g.addColorStop(1,'rgba(105,155,235,.05)');
+      oc.fillStyle=g;oc.fillRect(0,0,W,H);
+    },35);
   }
 
-  // ── 2. LUCE DIRETTA — 3 spot LED soffitto, 3000K calda ───────────────
+  // LUCE DIRETTA — 3000K calda, 3 coni dal soffitto
   if(lightState.direct){
     softLight((oc,W,H)=>{
-      [{cx:W*.28},{cx:W*.50},{cx:W*.72}].forEach(s=>{
-        const cone=oc.createRadialGradient(s.cx,H*.02,0,s.cx,H*.58,W*.20);
-        cone.addColorStop(0,'rgba(255,235,165,.55)');
-        cone.addColorStop(.30,'rgba(255,220,140,.24)');
-        cone.addColorStop(.65,'rgba(255,210,120,.08)');
-        cone.addColorStop(1,'rgba(255,205,110,0)');
-        oc.fillStyle=cone;
-        oc.beginPath();oc.moveTo(s.cx,H*.02);
-        oc.lineTo(s.cx-W*.20,H*.82);oc.lineTo(s.cx+W*.20,H*.82);
-        oc.closePath();oc.fill();
-        // Pool pavimento
-        const pool=oc.createRadialGradient(s.cx,H*.68,0,s.cx,H*.68,W*.13);
-        pool.addColorStop(0,'rgba(255,230,155,.32)');
-        pool.addColorStop(1,'rgba(255,230,155,0)');
-        oc.fillStyle=pool;oc.beginPath();
-        oc.ellipse(s.cx,H*.68,W*.13,H*.042,0,0,Math.PI*2);oc.fill();
+      [{x:.22},{x:.50},{x:.78}].forEach(s=>{
+        const g=oc.createRadialGradient(s.x*W,0,0,s.x*W,H*.50,W*.28);
+        g.addColorStop(0,'rgba(255,235,160,.48)');
+        g.addColorStop(.40,'rgba(255,218,135,.20)');
+        g.addColorStop(.75,'rgba(255,208,115,.07)');
+        g.addColorStop(1,'rgba(255,205,110,0)');
+        oc.fillStyle=g;oc.fillRect(0,0,W,H);
       });
-      // Alone caldo generale
-      const warm=oc.createLinearGradient(0,0,0,H);
-      warm.addColorStop(0,'rgba(255,225,145,.11)');
-      warm.addColorStop(.55,'rgba(255,215,125,.04)');
-      warm.addColorStop(1,'rgba(255,215,125,0)');
-      oc.fillStyle=warm;oc.fillRect(0,0,W,H);
-    },16);
+    },22);
   }
 
-  // ── 3. LUCE D'ACCENTO — caminetto + spotlight quadri, 2700K ──────────
+  // LUCE D'ACCENTO — 2700K arancio-oro, caminetto + radente
   if(lightState.accent){
     softLight((oc,W,H)=>{
-      // Bagliore caminetto (centro basso)
-      const fp=oc.createRadialGradient(W*.50,H*.65,0,W*.50,H*.65,W*.36);
-      fp.addColorStop(0,'rgba(255,185,55,.72)');
-      fp.addColorStop(.18,'rgba(255,155,42,.42)');
-      fp.addColorStop(.42,'rgba(240,128,32,.16)');
-      fp.addColorStop(1,'rgba(220,108,22,0)');
-      oc.fillStyle=fp;oc.fillRect(0,0,W,H);
-      // Riflesso sul pavimento
-      const fpf=oc.createRadialGradient(W*.50,H*.90,0,W*.50,H*.90,W*.32);
-      fpf.addColorStop(0,'rgba(255,165,42,.24)');
-      fpf.addColorStop(1,'rgba(255,145,32,0)');
-      oc.fillStyle=fpf;oc.beginPath();
-      oc.ellipse(W*.50,H*.90,W*.32,H*.058,0,0,Math.PI*2);oc.fill();
-      // Spotlight quadro sinistro
-      const la=oc.createRadialGradient(W*.14,H*.30,0,W*.14,H*.30,W*.14);
-      la.addColorStop(0,'rgba(255,238,160,.38)');
-      la.addColorStop(1,'rgba(255,238,160,0)');
-      oc.fillStyle=la;oc.fillRect(W*.02,H*.04,W*.26,H*.54);
-      // Spotlight quadro destro
-      const ra=oc.createRadialGradient(W*.86,H*.30,0,W*.86,H*.30,W*.14);
-      ra.addColorStop(0,'rgba(255,238,160,.38)');
-      ra.addColorStop(1,'rgba(255,238,160,0)');
-      oc.fillStyle=ra;oc.fillRect(W*.72,H*.04,W*.26,H*.54);
-    },26);
+      const g=oc.createRadialGradient(W*.50,H*.72,0,W*.50,H*.72,W*.55);
+      g.addColorStop(0,'rgba(255,172,40,.60)');
+      g.addColorStop(.25,'rgba(245,145,32,.30)');
+      g.addColorStop(.55,'rgba(230,120,25,.10)');
+      g.addColorStop(1,'rgba(215,105,18,0)');
+      oc.fillStyle=g;oc.fillRect(0,0,W,H);
+    },40);
   }
 
-  // ── 4. LUCE AMBIENTALE — piantana destra, 2200K molto calda ─────────
+  // LUCE AMBIENTALE — 2200K molto calda, diffusa lato destro
   if(lightState.ambient){
     softLight((oc,W,H)=>{
-      const lx=W*.82,ly=H*.40;
-      // Alone diffuso principale
-      const lamp=oc.createRadialGradient(lx,ly,0,lx,ly,W*.52);
-      lamp.addColorStop(0,'rgba(255,200,72,.52)');
-      lamp.addColorStop(.22,'rgba(242,175,55,.22)');
-      lamp.addColorStop(.52,'rgba(228,155,45,.08)');
-      lamp.addColorStop(1,'rgba(212,138,38,0)');
-      oc.fillStyle=lamp;oc.fillRect(0,0,W,H);
-      // Fascio verso soffitto
-      const up=oc.createRadialGradient(lx,ly,0,lx,H*.02,W*.24);
-      up.addColorStop(0,'rgba(255,210,82,.30)');
-      up.addColorStop(1,'rgba(255,200,78,0)');
-      oc.fillStyle=up;oc.fillRect(W*.58,0,W*.42,ly+8);
-      // Pool pavimento sotto lampada
-      const fl=oc.createRadialGradient(lx,H*.88,0,lx,H*.88,W*.22);
-      fl.addColorStop(0,'rgba(255,198,68,.26)');
-      fl.addColorStop(1,'rgba(255,188,62,0)');
-      oc.fillStyle=fl;oc.beginPath();
-      oc.ellipse(lx,H*.88,W*.24,H*.052,0,0,Math.PI*2);oc.fill();
-    },32);
+      const g=oc.createRadialGradient(W*.78,H*.42,0,W*.78,H*.42,W*.62);
+      g.addColorStop(0,'rgba(255,192,62,.50)');
+      g.addColorStop(.28,'rgba(240,168,48,.22)');
+      g.addColorStop(.58,'rgba(225,148,40,.08)');
+      g.addColorStop(1,'rgba(210,132,32,0)');
+      oc.fillStyle=g;oc.fillRect(0,0,W,H);
+    },42);
   }
 
-  // Vignetta finale
-  const vig=ctx.createRadialGradient(W/2,H/2,W*.18,W/2,H/2,W*.82);
+  // Vignetta sottile
+  const vig=ctx.createRadialGradient(W/2,H/2,W*.22,W/2,H/2,W*.80);
   vig.addColorStop(0,'rgba(0,0,0,0)');
-  vig.addColorStop(1,'rgba(0,0,0,.42)');
+  vig.addColorStop(1,'rgba(0,0,0,.30)');
   ctx.fillStyle=vig;ctx.fillRect(0,0,W,H);
 
-  // Etichetta luci attive
-  const names={natural:'Naturale',direct:'Diretta',accent:'Accento',ambient:'Ambientale'};
-  const txt='ATTIVO: '+active.map(k=>names[k]).join(' + ');
-  ctx.fillStyle='rgba(0,0,0,.55)';
-  ctx.fillRect(12,H-30,Math.min(220,txt.length*5.8+16),22);
-  ctx.fillStyle='rgba(201,169,110,.72)';ctx.font='bold 7.5px Inter,sans-serif';
-  ctx.fillText(txt,18,H-16);
+  _lightLabel(ctx,W,H,active);
 }
-// Prima render
-window.addEventListener('load', drawRoom);
-
-  // ── [VECCHIO CODICE RIMOSSO] ─────────────────────────────────────────────
-  function _removed(){
+function _lightLabel(ctx,W,H,active){
+  const names={natural:'Naturale',direct:'Diretta',accent:'Accento',ambient:'Ambientale'};
+  if(active.length>0){
+    const txt='ATTIVO: '+active.map(k=>names[k]).join(' + ');
+    ctx.fillStyle='rgba(0,0,0,.52)';ctx.fillRect(12,H-30,Math.min(230,txt.length*5.8+16),22);
+    ctx.fillStyle='rgba(201,169,110,.78)';ctx.font='bold 7.5px Inter,sans-serif';
+    ctx.fillText(txt,18,H-16);
+  }else{
+    ctx.fillStyle='rgba(0,0,0,.52)';ctx.fillRect(12,H-30,168,22);
+    ctx.fillStyle='rgba(255,255,255,.32)';ctx.font='7.5px Inter,sans-serif';
+    ctx.fillText('Nessuna luce — ambiente buio',18,H-16);
+  }
+}
+window.addEventListener('load',drawRoom);
+// ─── fine lighting ──────────────────────────────────────────────────────────
+function _dead(){
   // Parete di fondo: x∈[130,470], y∈[60,295]
   // p3(h,elev,t): h=0-1 orizzontale, elev=0-1 altezza, t=0=fondo 1=vicino
   function px3(h,t){return 130*(1-t)+h*(340+t*200);}
@@ -2140,7 +2093,7 @@ window.addEventListener('load', drawRoom);
     ctx.fillStyle='rgba(255,255,255,.25)';ctx.font='7.5px Inter,sans-serif';
     ctx.fillText('Nessuna luce — ambiente buio',18,H-16);
   }
-} // fine _removed
+} // fine _dead
 </script>
 </body>
 </html>
