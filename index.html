@@ -1833,7 +1833,10 @@ window.addEventListener('load',drawRoom);
   const hint2    = document.getElementById('vr-hint2');
   const progBar  = document.getElementById('vr-prog-bar');
   const bgCv     = document.getElementById('vr-bg-canvas');
-  if(!section||!goggle||!roomCv) return;
+  if(!section||!goggle||!roomCv||!bgCv) return;
+
+  // layout-relative position, computed after load
+  let sectionTop=0, sectionH=0;
 
   // Stelle di sfondo
   const stars=[];
@@ -1852,8 +1855,6 @@ window.addEventListener('load',drawRoom);
       ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     });
   }
-  initStars(); drawStars();
-
   // ── Disegno stanza 3D prospettica ────────────────────────────────────────
   function drawVRRoom(pan){
     // pan: 0 = dritto, 1 = sguardo a destra
@@ -2082,10 +2083,10 @@ window.addEventListener('load',drawRoom);
   function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
 
   function updateVR(){
-    if(!section) return;
-    const rect=section.getBoundingClientRect();
-    const total=section.offsetHeight-window.innerHeight;
-    const scrolled=Math.max(0,-rect.top);
+    if(!sectionH) return;
+    const total=sectionH-window.innerHeight;
+    if(total<=0) return;
+    const scrolled=Math.max(0,window.scrollY-sectionTop);
     const prog=Math.min(1,scrolled/total);
     if(progBar) progBar.style.width=(prog*100)+'%';
 
@@ -2117,9 +2118,25 @@ window.addEventListener('load',drawRoom);
     hint2.style.opacity=prog>0.55?Math.min(1,(prog-0.55)/0.10):0;
   }
 
-  window.addEventListener('scroll',updateVR,{passive:true});
-  window.addEventListener('resize',()=>{initStars();drawStars();lastPan=-1;},{ passive:true});
-  updateVR();
+  function measureSection(){
+    const r=section.getBoundingClientRect();
+    sectionTop=r.top+window.scrollY;
+    sectionH=section.offsetHeight;
+  }
+
+  // RAF loop — polling scrollY è più affidabile di eventi scroll su GitHub Pages
+  let rafId=null;
+  function loop(){
+    updateVR();
+    rafId=requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('load',()=>{
+    measureSection();
+    initStars(); drawStars();
+    loop();
+  });
+  window.addEventListener('resize',()=>{measureSection();initStars();drawStars();lastPan=-1;},{passive:true});
 })();
 // ─── fine lighting ──────────────────────────────────────────────────────────
 function _dead(){
