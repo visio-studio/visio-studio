@@ -1829,15 +1829,20 @@ window.addEventListener('load',drawRoom);
 (function(){
   const section  = document.getElementById('vr-scroll');
   const goggle   = document.getElementById('vr-goggle-wrap');
-  const headline = document.getElementById('vr-headline');
-  const roomCv   = document.getElementById('vr-room-canvas');
-  const hint1    = document.getElementById('vr-hint1');
-  const hint2    = document.getElementById('vr-hint2');
-  const progBar  = document.getElementById('vr-prog-bar');
-  const bgCv     = document.getElementById('vr-bg-canvas');
-  if(!section||!goggle||!roomCv||!bgCv) return;
-
-  // Stelle di sfondo
+  const dbg      = document.getElementById('vr-debug');
+  if(!section||!goggle){ if(dbg) dbg.textContent='ELEMENTI MANCANTI'; return; }
+  if(dbg) dbg.textContent='JS ATTIVO';
+  (function loop(){
+    requestAnimationFrame(loop);
+    const rect=section.getBoundingClientRect();
+    const sH=section.offsetHeight, iH=window.innerHeight;
+    const prog=Math.max(0,Math.min(1,-rect.top/(sH-iH)));
+    if(dbg) dbg.textContent='prog:'+prog.toFixed(3)+' top:'+Math.round(rect.top)+' sH:'+sH;
+    goggle.style.transform='scale('+(1+prog*20)+')';
+    goggle.style.opacity=prog<0.7?1:Math.max(0,1-(prog-0.7)/0.15);
+  })();
+  // fine
+  /*
   const stars=[];
   function initStars(){
     const W=bgCv.offsetWidth, H=bgCv.offsetHeight;
@@ -2112,14 +2117,7 @@ window.addEventListener('load',drawRoom);
       drawVRRoom(pan);
     }
 
-    // Hints
-    hint1.style.opacity=prog<0.25?1:Math.max(0,1-(prog-0.25)/0.10);
-    hint2.style.opacity=prog>0.55?Math.min(1,(prog-0.55)/0.10):0;
-  }
-
-  initStars(); drawStars();
-  window.addEventListener('resize',()=>{initStars();drawStars();lastPan=-1;},{passive:true});
-  (function loop(){ requestAnimationFrame(loop); updateVR(); })();
+    */
 })();
 // ─── fine lighting ──────────────────────────────────────────────────────────
 function _dead(){
