@@ -832,63 +832,127 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 </section>
 
 <!-- ══ VR/AR ══ -->
-<section id="vrar">
-  <div class="vrar-intro rev">
-    <p class="slabel" style="text-align:center;margin-bottom:16px;">Immersione totale</p>
-    <h2 class="serif">Realtà Virtuale<br>& Aumentata.</h2>
-    <p style="margin-top:14px;">Prima che un mattone venga posato, il tuo cliente può già camminare dentro casa. Con il visore VR o semplicemente con lo smartphone.</p>
-  </div>
-  <div class="vrar-cards">
-    <!-- VR -->
-    <div class="vrar-card rev">
-      <span class="vrar-card-num">VR</span>
-      <p class="tag">Realtà Virtuale · Visore</p>
-      <h3 class="serif">Entra nel progetto<br>prima che esista.</h3>
-      <p>Con il visore VR il cliente cammina letteralmente dentro gli spazi progettati. Può guardarsi attorno a 360°, percepire le proporzioni reali delle stanze, valutare le altezze e la qualità dei materiali. Un'esperienza che nessuna brochure può replicare.</p>
-      <p style="margin-top:10px;">Disponibile direttamente nel nostro studio a Roma, oppure portiamo il visore dal cliente per presentazioni in loco.</p>
-      <!-- VR headset SVG -->
-      <svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="20" width="180" height="45" rx="22" fill="#1a1a1a" stroke="rgba(201,169,110,.4)" stroke-width="1"/>
-        <circle cx="62" cy="42" r="16" fill="#0a0a0a" stroke="rgba(135,187,219,.5)" stroke-width="1"/>
-        <circle cx="138" cy="42" r="16" fill="#0a0a0a" stroke="rgba(135,187,219,.5)" stroke-width="1"/>
-        <line x1="78" y1="42" x2="122" y2="42" stroke="rgba(201,169,110,.3)" stroke-width="1"/>
-        <rect x="0" y="30" width="12" height="10" rx="2" fill="rgba(201,169,110,.3)"/>
-        <rect x="188" y="30" width="12" height="10" rx="2" fill="rgba(201,169,110,.3)"/>
-        <!-- Lenti con rendering -->
-        <circle cx="62" cy="42" r="11" fill="#0d1f35"/>
-        <circle cx="138" cy="42" r="11" fill="#0d1f35"/>
-        <rect x="53" y="36" width="18" height="12" rx="1" fill="#1a3a5c"/>
-        <rect x="129" y="36" width="18" height="12" rx="1" fill="#1a3a5c"/>
+<!-- ══ VR — SCROLL ZOOM INTO GOGGLES ══ -->
+<section id="vr-scroll" style="position:relative;height:520vh;background:#000;">
+  <div id="vr-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden;background:#000;">
+
+    <!-- Sfondo stellato -->
+    <canvas id="vr-bg-canvas" style="position:absolute;inset:0;width:100%;height:100%;opacity:.5;"></canvas>
+
+    <!-- Headline (svanisce) -->
+    <div id="vr-headline" style="position:absolute;top:14%;width:100%;text-align:center;z-index:6;pointer-events:none;">
+      <p style="font-size:9px;letter-spacing:5px;color:rgba(201,169,110,.7);margin-bottom:14px;text-transform:uppercase;">Realtà Virtuale</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,62px);font-weight:300;color:#fff;line-height:1.1;">Entra nel progetto<br>prima che esista.</h2>
+    </div>
+
+    <!-- Visore VR (zoom) -->
+    <div id="vr-goggle-wrap" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:5;transform-origin:center center;will-change:transform,opacity;">
+      <svg id="vr-goggle" viewBox="0 0 440 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:min(400px,72vw);filter:drop-shadow(0 0 40px rgba(135,187,219,.12));">
+        <!-- Corpo -->
+        <rect x="10" y="18" width="420" height="144" rx="52" fill="#111114" stroke="rgba(201,169,110,.30)" stroke-width="1.2"/>
+        <path d="M62 18 Q220 4 378 18" stroke="rgba(255,255,255,.06)" stroke-width="1" fill="none"/>
+        <!-- Cinghie -->
+        <rect x="0" y="62" width="12" height="56" rx="4" fill="#1a1a1e" stroke="rgba(255,255,255,.06)" stroke-width=".8"/>
+        <rect x="428" y="62" width="12" height="56" rx="4" fill="#1a1a1e" stroke="rgba(255,255,255,.06)" stroke-width=".8"/>
+        <!-- Interno corpo -->
+        <rect x="20" y="28" width="400" height="124" rx="44" fill="#0a0a0d"/>
+        <!-- Lente sinistra -->
+        <ellipse cx="148" cy="90" rx="98" ry="72" fill="#04050c" stroke="rgba(135,187,219,.35)" stroke-width="1.2"/>
+        <ellipse cx="148" cy="90" rx="84" ry="60" fill="#060812"/>
+        <!-- Lente destra -->
+        <ellipse cx="292" cy="90" rx="98" ry="72" fill="#04050c" stroke="rgba(135,187,219,.35)" stroke-width="1.2"/>
+        <ellipse cx="292" cy="90" rx="84" ry="60" fill="#060812"/>
+        <!-- Nasale -->
+        <path d="M236 56 Q220 74 204 56" stroke="rgba(255,255,255,.08)" stroke-width="1.5" fill="none"/>
+        <!-- Riflesso lenti -->
+        <ellipse cx="122" cy="68" rx="26" ry="14" fill="rgba(255,255,255,.035)" transform="rotate(-18 122 68)"/>
+        <ellipse cx="266" cy="68" rx="26" ry="14" fill="rgba(255,255,255,.035)" transform="rotate(-18 266 68)"/>
+        <!-- Linee prospettiva dentro lenti (mini scene 3D) -->
+        <defs>
+          <clipPath id="cl-l"><ellipse cx="148" cy="90" rx="82" ry="58"/></clipPath>
+          <clipPath id="cl-r"><ellipse cx="292" cy="90" rx="82" ry="58"/></clipPath>
+        </defs>
+        <!-- Lente sx: scena prospettica -->
+        <rect x="66" y="32" width="164" height="116" fill="#080c18" clip-path="url(#cl-l)"/>
+        <line x1="148" y1="86" x2="68" y2="148" stroke="rgba(135,187,219,.18)" stroke-width=".8" clip-path="url(#cl-l)"/>
+        <line x1="148" y1="86" x2="228" y2="148" stroke="rgba(135,187,219,.18)" stroke-width=".8" clip-path="url(#cl-l)"/>
+        <line x1="68" y1="86" x2="228" y2="86" stroke="rgba(255,255,255,.06)" stroke-width=".6" clip-path="url(#cl-l)"/>
+        <rect x="118" y="70" width="60" height="36" fill="rgba(201,169,110,.06)" clip-path="url(#cl-l)"/>
+        <!-- Lente dx: stessa scena -->
+        <rect x="210" y="32" width="164" height="116" fill="#080c18" clip-path="url(#cl-r)"/>
+        <line x1="292" y1="86" x2="212" y2="148" stroke="rgba(135,187,219,.18)" stroke-width=".8" clip-path="url(#cl-r)"/>
+        <line x1="292" y1="86" x2="372" y2="148" stroke="rgba(135,187,219,.18)" stroke-width=".8" clip-path="url(#cl-r)"/>
+        <line x1="212" y1="86" x2="372" y2="86" stroke="rgba(255,255,255,.06)" stroke-width=".6" clip-path="url(#cl-r)"/>
+        <rect x="262" y="70" width="60" height="36" fill="rgba(201,169,110,.06)" clip-path="url(#cl-r)"/>
+        <!-- LED status -->
+        <circle cx="28" cy="38" r="2.5" fill="rgba(0,212,100,.55)"/>
+        <!-- Logo -->
+        <text x="220" y="173" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="10" fill="rgba(201,169,110,.35)" letter-spacing="7">VISIO</text>
       </svg>
     </div>
-    <!-- AR -->
+
+    <!-- Stanza 3D (appare dopo lo zoom) -->
+    <canvas id="vr-room-canvas" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:3;will-change:opacity;"></canvas>
+
+    <!-- Etichette scroll -->
+    <div id="vr-hint1" style="position:absolute;bottom:9%;width:100%;text-align:center;z-index:7;pointer-events:none;">
+      <p style="font-size:8px;letter-spacing:4px;color:rgba(255,255,255,.30);text-transform:uppercase;">↓ Scorri per entrare</p>
+    </div>
+    <div id="vr-hint2" style="position:absolute;bottom:9%;width:100%;text-align:center;z-index:7;opacity:0;pointer-events:none;">
+      <p style="font-size:8px;letter-spacing:4px;color:rgba(255,255,255,.30);text-transform:uppercase;">↔ Ruota la testa</p>
+    </div>
+
+    <!-- Barra progresso -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:.5px;background:rgba(255,255,255,.04);z-index:8;">
+      <div id="vr-prog-bar" style="height:100%;background:var(--gold);width:0%;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AR ══ -->
+<section id="vrar" style="padding:96px 48px;background:var(--dark2);border-top:.5px solid rgba(255,255,255,.06);">
+  <div class="vrar-intro rev">
+    <p class="slabel" style="text-align:center;margin-bottom:16px;">Realtà Aumentata</p>
+    <h2 class="serif">Vedi la tua casa<br>nel mondo reale.</h2>
+    <p style="margin-top:14px;">Con la realtà aumentata il cliente punta lo smartphone sul terreno o sull'ambiente esistente e vede il progetto sovrapposto alla realtà. Nessuna app da scaricare — tutto via browser.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;" class="vrar-cards">
     <div class="vrar-card rev">
       <span class="vrar-card-num">AR</span>
-      <p class="tag">Realtà Aumentata · Smartphone</p>
-      <h3 class="serif">Vedi la tua casa<br>nel mondo reale.</h3>
-      <p>Con la realtà aumentata il cliente punta lo smartphone sul terreno o sull'ambiente esistente e vede il progetto sovrapposto alla realtà. Può girare attorno all'edificio, cambiare i materiali in tempo reale e condividere l'esperienza direttamente dall'app.</p>
-      <p style="margin-top:10px;">Funziona su qualsiasi iPhone o Android recente. Nessuna app da scaricare — tutto via browser.</p>
-      <!-- AR phone SVG -->
-      <svg width="180" height="90" viewBox="0 0 180 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Telefono inclinato -->
+      <p class="tag">Smartphone · Browser</p>
+      <h3 class="serif">Il progetto<br>sovrapposto al reale.</h3>
+      <p>Punta lo smartphone sul terreno o sull'ambiente esistente: il modello 3D appare in scala reale. Puoi girare attorno all'edificio, cambiare materiali in tempo reale e condividere la visualizzazione direttamente dall'app.</p>
+      <p style="margin-top:10px;">Funziona su qualsiasi iPhone o Android recente.</p>
+      <svg width="180" height="90" viewBox="0 0 180 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top:24px;">
         <rect x="60" y="5" width="55" height="80" rx="8" fill="#1a1a1a" stroke="rgba(201,169,110,.3)" stroke-width="1" transform="rotate(-10 87 45)"/>
         <rect x="64" y="12" width="47" height="66" rx="4" fill="#0d1f35" transform="rotate(-10 87 45)"/>
-        <!-- Grid AR overlay -->
         <line x1="64" y1="30" x2="111" y2="24" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
         <line x1="64" y1="45" x2="111" y2="39" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
         <line x1="64" y1="60" x2="111" y2="54" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
         <line x1="76" y1="15" x2="70" y2="72" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
         <line x1="92" y1="14" x2="86" y2="71" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
-        <!-- Mini casa AR -->
         <rect x="74" y="35" width="26" height="20" fill="rgba(232,228,222,.8)" transform="rotate(-10 87 45)"/>
         <rect x="74" y="27" width="26" height="10" fill="rgba(240,237,232,.8)" transform="rotate(-10 87 45)"/>
         <polygon points="87,22 100,27 74,27" fill="rgba(184,180,175,.8)" transform="rotate(-10 87 45)"/>
-        <!-- Corner markers AR -->
         <path d="M10,15 L10,5 L20,5" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
         <path d="M160,15 L160,5 L150,5" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
         <path d="M10,75 L10,85 L20,85" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
         <path d="M160,75 L160,85 L150,85" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
       </svg>
+    </div>
+    <div class="vrar-card rev" style="display:flex;flex-direction:column;justify-content:center;gap:28px;">
+      <div>
+        <p class="tag">Proporzioni reali</p>
+        <p>Percepisce le dimensioni vere degli spazi prima che siano costruiti.</p>
+      </div>
+      <div>
+        <p class="tag">Materiali live</p>
+        <p>Cambia pavimento, pareti, infissi in tempo reale con un tocco.</p>
+      </div>
+      <div>
+        <p class="tag">Condivisibile</p>
+        <p>Il link funziona su qualsiasi smartphone — nessuna installazione.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1758,6 +1822,305 @@ function _lightLabel(ctx,W,H,active){
   }
 }
 window.addEventListener('load',drawRoom);
+
+// ══ VR SCROLL ANIMATION ══════════════════════════════════════════════════════
+(function(){
+  const section  = document.getElementById('vr-scroll');
+  const goggle   = document.getElementById('vr-goggle-wrap');
+  const headline = document.getElementById('vr-headline');
+  const roomCv   = document.getElementById('vr-room-canvas');
+  const hint1    = document.getElementById('vr-hint1');
+  const hint2    = document.getElementById('vr-hint2');
+  const progBar  = document.getElementById('vr-prog-bar');
+  const bgCv     = document.getElementById('vr-bg-canvas');
+  if(!section||!goggle||!roomCv) return;
+
+  // Stelle di sfondo
+  const stars=[];
+  function initStars(){
+    const W=bgCv.offsetWidth, H=bgCv.offsetHeight;
+    bgCv.width=W; bgCv.height=H;
+    stars.length=0;
+    for(let i=0;i<180;i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.9+.2,a:Math.random()*.6+.2});
+  }
+  function drawStars(){
+    const ctx=bgCv.getContext('2d');
+    const W=bgCv.width,H=bgCv.height;
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      ctx.fillStyle=`rgba(255,255,255,${s.a})`;
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+    });
+  }
+  initStars(); drawStars();
+
+  // ── Disegno stanza 3D prospettica ────────────────────────────────────────
+  function drawVRRoom(pan){
+    // pan: 0 = dritto, 1 = sguardo a destra
+    const W=roomCv.offsetWidth, H=roomCv.offsetHeight;
+    if(!W||!H) return;
+    roomCv.width=W; roomCv.height=H;
+    const ctx=roomCv.getContext('2d');
+    ctx.clearRect(0,0,W,H);
+
+    // Camera: altezza occhio, lievemente rientrata
+    const camX=4, camY=1.65, camZ=0.6;
+    // Punto di fuga si sposta lateralmente con il pan
+    const VX = W*(0.50 - pan*0.38);
+    const VY = H*0.40;
+    const F  = H*0.62; // lunghezza focale
+
+    function proj(x,y,z){
+      const dz=z-camZ; if(dz<=0.01) return null;
+      return [VX+(x-camX)*F/dz, VY-(y-camY)*F/dz];
+    }
+    function quad(pts,fill,stroke){
+      const p2=pts.map(([x,y,z])=>proj(x,y,z));
+      if(p2.some(p=>!p)) return;
+      ctx.beginPath();
+      ctx.moveTo(p2[0][0],p2[0][1]);
+      p2.slice(1).forEach(([px,py])=>ctx.lineTo(px,py));
+      ctx.closePath();
+      if(fill){ctx.fillStyle=fill;ctx.fill();}
+      if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=.5;ctx.stroke();}
+    }
+
+    // Dimensioni stanza: 8m larghezza, 3.2m altezza, 13m profondità
+    const RW=8, RH=3.2, RD=13;
+
+    // ── Sfondo scuro ──
+    ctx.fillStyle='#04050a'; ctx.fillRect(0,0,W,H);
+
+    // ── Soffitto ──
+    const ceilG=ctx.createLinearGradient(0,0,0,VY);
+    ceilG.addColorStop(0,'#0a0b12'); ceilG.addColorStop(1,'#0d0e18');
+    quad([[0,RH,camZ+.1],[RW,RH,camZ+.1],[RW,RH,RD],[0,RH,RD]],ceilG);
+
+    // ── Parete di fondo ──
+    const bwG=ctx.createLinearGradient(0,VY-100,0,VY+100);
+    bwG.addColorStop(0,'#141520'); bwG.addColorStop(1,'#0f1018');
+    quad([[0,0,RD],[RW,0,RD],[RW,RH,RD],[0,RH,RD]],bwG);
+    // Cornice architettonica parete fondo
+    quad([[.2,.1,RD],[RW-.2,.1,RD],[RW-.2,RH-.1,RD],[.2,RH-.1,RD]],null,'rgba(255,255,255,.04)');
+
+    // ── Parete sinistra ──
+    const lwG=ctx.createLinearGradient(0,0,W*.25,0);
+    lwG.addColorStop(0,'#0a0b10'); lwG.addColorStop(1,'#111220');
+    quad([[0,0,camZ+.1],[0,RH,camZ+.1],[0,RH,RD],[0,0,RD]],lwG);
+
+    // ── Parete destra ──
+    const rwG=ctx.createLinearGradient(W*.75,0,W,0);
+    rwG.addColorStop(0,'#111220'); rwG.addColorStop(1,'#0a0b10');
+    quad([[RW,0,RD],[RW,RH,RD],[RW,RH,camZ+.1],[RW,0,camZ+.1]],rwG);
+
+    // ── Pavimento marmo ──
+    const flG=ctx.createLinearGradient(0,VY,0,H);
+    flG.addColorStop(0,'#1e1c1a'); flG.addColorStop(1,'#161412');
+    quad([[0,0,camZ+.1],[RW,0,camZ+.1],[RW,0,RD],[0,0,RD]],flG);
+    // Griglia marmo prospettica
+    ctx.strokeStyle='rgba(255,255,255,.028)'; ctx.lineWidth=.4;
+    for(let z=2;z<=RD;z+=1.6){
+      const a=proj(0,0,z), b=proj(RW,0,z);
+      if(a&&b){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}
+    }
+    for(let x=0;x<=RW;x+=1.6){
+      const a=proj(x,0,camZ+.1),b=proj(x,0,RD);
+      if(a&&b){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}
+    }
+    // Venature marmo
+    ctx.strokeStyle='rgba(255,255,255,.018)'; ctx.lineWidth=.3;
+    [[1,3.5],[3,5.5],[5.5,7.5],[2.5,8]].forEach(([x1,x2])=>{
+      const a=proj(x1,0,camZ+1),b=proj(x2,0,RD);
+      if(a&&b){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}
+    });
+
+    // ── Finestra parete sinistra ──
+    const wz1=2.5, wz2=7.5, we1=0.25, we2=2.95;
+    const wpts=[[0,we1,wz1],[0,we2,wz1],[0,we2,wz2],[0,we1,wz2]];
+    const skyG=ctx.createLinearGradient(0,proj(0,we2,wz1)?.[1]||0,0,proj(0,we1,wz1)?.[1]||200);
+    skyG.addColorStop(0,'rgba(80,140,210,.70)');
+    skyG.addColorStop(.5,'rgba(55,110,185,.50)');
+    skyG.addColorStop(1,'rgba(35,80,160,.25)');
+    quad(wpts,skyG,'rgba(255,255,255,.05)');
+    // Montante finestra
+    const wmid=(wz1+wz2)/2;
+    const wa=proj(0,(we1+we2)/2,wz1), wb=proj(0,(we1+we2)/2,wz2);
+    const wc=proj(0,we1,wmid), wd=proj(0,we2,wmid);
+    ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=1;
+    if(wa&&wb){ctx.beginPath();ctx.moveTo(wa[0],wa[1]);ctx.lineTo(wb[0],wb[1]);ctx.stroke();}
+    if(wc&&wd){ctx.beginPath();ctx.moveTo(wc[0],wc[1]);ctx.lineTo(wd[0],wd[1]);ctx.stroke();}
+    // Raggio di luce dalla finestra
+    ctx.save();ctx.globalCompositeOperation='screen';
+    const shaft=ctx.createLinearGradient(
+      proj(0,we1,wz1)?.[0]||0, 0,
+      W*.65, H
+    );
+    shaft.addColorStop(0,'rgba(100,155,220,.14)');
+    shaft.addColorStop(1,'rgba(80,130,200,0)');
+    ctx.fillStyle=shaft;
+    const pa=proj(0,we2,wz1),pb=proj(0,we1,wz1),pc=proj(RW*.8,0,RD-.5),pd=proj(0,0,RD);
+    if(pa&&pb&&pc&&pd){
+      ctx.beginPath();ctx.moveTo(pa[0],pa[1]);ctx.lineTo(pb[0],pb[1]);
+      ctx.lineTo(pc[0],pc[1]);ctx.lineTo(pd[0],pd[1]);ctx.closePath();ctx.fill();
+    }
+    ctx.restore();
+
+    // ── Caminetto parete fondo ──
+    quad([[2.8,0,RD],[5.2,0,RD],[5.2,1.6,RD],[2.8,1.6,RD]],'#0d0e14');
+    quad([[3.1,0,RD],[4.9,0,RD],[4.9,1.1,RD],[3.1,1.1,RD]],'#050507');
+    quad([[2.7,1.65,RD-.05],[5.3,1.65,RD-.05],[5.3,1.65,RD],[2.7,1.65,RD]],'#1a1b22');
+    // Bagliore caminetto
+    ctx.save();ctx.globalCompositeOperation='screen';
+    const fpC=proj(4,0.5,RD);
+    if(fpC){
+      const fpG2=ctx.createRadialGradient(fpC[0],fpC[1],0,fpC[0],fpC[1],W*.25);
+      fpG2.addColorStop(0,'rgba(255,150,40,.22)');
+      fpG2.addColorStop(1,'rgba(255,100,20,0)');
+      ctx.fillStyle=fpG2;ctx.fillRect(0,0,W,H);
+    }
+    ctx.restore();
+
+    // ── Mobile TV ──
+    quad([[.8,0,RD],[RW-.8,0,RD],[RW-.8,.22,RD],[.8,.22,RD]],'#111218');
+
+    // ── Quadro parete fondo sx ──
+    quad([[.4,.5,RD],[2.2,.5,RD],[2.2,2.0,RD],[.4,2.0,RD]],'#0e0f16','rgba(201,169,110,.07)');
+    // ── Quadro parete fondo dx ──
+    quad([[5.8,.5,RD],[7.6,.5,RD],[7.6,2.0,RD],[5.8,2.0,RD]],'#0e0f16','rgba(201,169,110,.07)');
+
+    // ── Divano ──
+    const sfZ1=7.5, sfZ2=9.2;
+    quad([[.3,0,sfZ1],[3.8,0,sfZ1],[3.8,0,sfZ2],[.3,0,sfZ2]],'#1a1b24'); // seduta top
+    quad([[.3,.72,sfZ1],[3.8,.72,sfZ1],[3.8,0,sfZ1],[.3,0,sfZ1]],'#141520'); // frontale
+    quad([[.3,1.05,sfZ2],[3.8,1.05,sfZ2],[3.8,.72,sfZ2],[.3,.72,sfZ2]],'#111218'); // schienale front
+    quad([[.3,.72,sfZ1],[.3,1.05,sfZ2],[.3,0,sfZ2],[.3,0,sfZ1]],'#131420'); // bracciolo sx
+    quad([[3.8,1.05,sfZ2],[3.8,.72,sfZ1],[3.8,0,sfZ1],[3.8,0,sfZ2]],'#131420'); // bracciolo dx
+
+    // ── Tavolino ──
+    const ctZ1=5.8, ctZ2=7.0;
+    quad([[1.0,.38,ctZ1],[3.1,.38,ctZ1],[3.1,.38,ctZ2],[1.0,.38,ctZ2]],'#1c1a18'); // top
+    quad([[1.0,.38,ctZ2],[3.1,.38,ctZ2],[3.1,0,ctZ2],[1.0,0,ctZ2]],'#141210'); // frontale
+    ctx.save();ctx.globalCompositeOperation='screen';
+    // Riflesso luce sul tavolino
+    const ctC=proj(2.0,.38,ctZ1+.5);
+    if(ctC){
+      const ctR=ctx.createRadialGradient(ctC[0],ctC[1],0,ctC[0],ctC[1],60);
+      ctR.addColorStop(0,'rgba(160,190,230,.06)');ctR.addColorStop(1,'rgba(160,190,230,0)');
+      ctx.fillStyle=ctR;ctx.fillRect(0,0,W,H);
+    }
+    ctx.restore();
+
+    // ── Lampada piantana ──
+    const lx=6.8,lz=8.0,lh=1.9;
+    const lb=proj(lx,0,lz),lt=proj(lx,lh,lz);
+    if(lb&&lt){
+      ctx.strokeStyle='#22232c';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(lb[0],lb[1]);ctx.lineTo(lt[0],lt[1]);ctx.stroke();
+      // Paralume
+      const ls1=proj(lx-.18,lh,lz),ls2=proj(lx+.18,lh,lz);
+      const ld1=proj(lx-.28,lh-.22,lz),ld2=proj(lx+.28,lh-.22,lz);
+      if(ls1&&ls2&&ld1&&ld2){
+        ctx.fillStyle='#1a1b22';
+        ctx.beginPath();ctx.moveTo(ls1[0],ls1[1]);ctx.lineTo(ls2[0],ls2[1]);
+        ctx.lineTo(ld2[0],ld2[1]);ctx.lineTo(ld1[0],ld1[1]);ctx.closePath();ctx.fill();
+      }
+      // Bagliore lampada
+      ctx.save();ctx.globalCompositeOperation='screen';
+      const lg=ctx.createRadialGradient(lt[0],lt[1],0,lt[0],lt[1],W*.30);
+      lg.addColorStop(0,'rgba(255,190,60,.20)');
+      lg.addColorStop(1,'rgba(255,170,50,0)');
+      ctx.fillStyle=lg;ctx.fillRect(0,0,W,H);
+      ctx.restore();
+    }
+
+    // ── Spot soffitto (3 luci) ──
+    [1.5,4.0,6.5].forEach(sx=>{
+      const sp=proj(sx,RH,5); if(!sp) return;
+      ctx.fillStyle='rgba(255,235,160,.55)';
+      ctx.beginPath();ctx.arc(sp[0],sp[1],3,0,Math.PI*2);ctx.fill();
+      ctx.save();ctx.globalCompositeOperation='screen';
+      const sg=ctx.createRadialGradient(sp[0],sp[1]+5,0,sp[0],sp[1]+F*.35,W*.12);
+      sg.addColorStop(0,'rgba(255,228,155,.18)');
+      sg.addColorStop(1,'rgba(255,228,155,0)');
+      ctx.fillStyle=sg;ctx.fillRect(0,0,W,H);
+      ctx.restore();
+    });
+
+    // ── HUD VR ──
+    ctx.strokeStyle='rgba(255,255,255,.055)'; ctx.lineWidth=1;
+    const m=22;
+    // Frame sottile
+    ctx.strokeRect(m,m,W-m*2,H-m*2);
+    // Corner markers
+    const cm=14;
+    [[m,m],[W-m,m],[W-m,H-m],[m,H-m]].forEach(([cx,cy],i)=>{
+      ctx.beginPath();
+      if(i===0){ctx.moveTo(cx+cm,cy);ctx.lineTo(cx,cy);ctx.lineTo(cx,cy+cm);}
+      if(i===1){ctx.moveTo(cx-cm,cy);ctx.lineTo(cx,cy);ctx.lineTo(cx,cy+cm);}
+      if(i===2){ctx.moveTo(cx-cm,cy);ctx.lineTo(cx,cy);ctx.lineTo(cx,cy-cm);}
+      if(i===3){ctx.moveTo(cx+cm,cy);ctx.lineTo(cx,cy);ctx.lineTo(cx,cy-cm);}
+      ctx.stroke();
+    });
+    // Crosshair centrale
+    ctx.strokeStyle='rgba(255,255,255,.10)'; ctx.lineWidth=.8;
+    ctx.beginPath();
+    ctx.moveTo(W/2-10,H/2);ctx.lineTo(W/2+10,H/2);
+    ctx.moveTo(W/2,H/2-10);ctx.lineTo(W/2,H/2+10);
+    ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,.18)';
+    ctx.beginPath();ctx.arc(W/2,H/2,2,0,Math.PI*2);ctx.fill();
+
+    // ── Vignetta ──
+    const vig=ctx.createRadialGradient(W/2,H/2,W*.10,W/2,H/2,W*.75);
+    vig.addColorStop(0,'rgba(0,0,0,0)');
+    vig.addColorStop(1,'rgba(0,0,0,.72)');
+    ctx.fillStyle=vig;ctx.fillRect(0,0,W,H);
+  }
+
+  // ── Scroll driver ─────────────────────────────────────────────────────────
+  let lastPan=-1;
+  function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+
+  function updateVR(){
+    if(!section) return;
+    const rect=section.getBoundingClientRect();
+    const total=section.offsetHeight-window.innerHeight;
+    const scrolled=Math.max(0,-rect.top);
+    const prog=Math.min(1,scrolled/total);
+    if(progBar) progBar.style.width=(prog*100)+'%';
+
+    // Fase 1: zoom visore (0 → 0.42)
+    const p1=Math.min(1,prog/0.42);
+    const p1e=ease(p1);
+    const scale=1+p1e*p1e*28;
+    goggle.style.transform=`scale(${scale})`;
+    goggle.style.opacity=prog<0.32?1:Math.max(0,1-(prog-0.32)/0.12);
+
+    // Headline
+    headline.style.opacity=prog<0.18?1:Math.max(0,1-(prog-0.18)/0.12);
+
+    // Fase 2: stanza appare (0.38 → 0.52)
+    const roomOp=prog<0.38?0:Math.min(1,(prog-0.38)/0.14);
+    roomCv.style.opacity=roomOp;
+
+    // Fase 3: pan stanza (0.50 → 1.0)
+    const pan=prog<0.50?0:ease((prog-0.50)/0.50);
+
+    // Ridisegna solo se pan cambia significativamente
+    if(Math.abs(pan-lastPan)>0.005 || roomOp>0.01&&lastPan<0){
+      lastPan=pan;
+      drawVRRoom(pan);
+    }
+
+    // Hints
+    hint1.style.opacity=prog<0.25?1:Math.max(0,1-(prog-0.25)/0.10);
+    hint2.style.opacity=prog>0.55?Math.min(1,(prog-0.55)/0.10):0;
+  }
+
+  window.addEventListener('scroll',updateVR,{passive:true});
+  window.addEventListener('resize',()=>{initStars();drawStars();lastPan=-1;},{ passive:true});
+  updateVR();
+})();
 // ─── fine lighting ──────────────────────────────────────────────────────────
 function _dead(){
   // Parete di fondo: x∈[130,470], y∈[60,295]
