@@ -1835,9 +1835,6 @@ window.addEventListener('load',drawRoom);
   const bgCv     = document.getElementById('vr-bg-canvas');
   if(!section||!goggle||!roomCv||!bgCv) return;
 
-  // layout-relative position, computed after load
-  let sectionTop=0, sectionH=0;
-
   // Stelle di sfondo
   const stars=[];
   function initStars(){
@@ -2083,11 +2080,8 @@ window.addEventListener('load',drawRoom);
   function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
 
   function updateVR(){
-    if(!sectionH) return;
-    const total=sectionH-window.innerHeight;
-    if(total<=0) return;
-    const scrolled=Math.max(0,window.scrollY-sectionTop);
-    const prog=Math.min(1,scrolled/total);
+    const rect=section.getBoundingClientRect();
+    const prog=Math.max(0,Math.min(1,-rect.top/(section.offsetHeight-window.innerHeight)));
     if(progBar) progBar.style.width=(prog*100)+'%';
 
     // Fase 1: zoom visore (0 → 0.42)
@@ -2118,25 +2112,9 @@ window.addEventListener('load',drawRoom);
     hint2.style.opacity=prog>0.55?Math.min(1,(prog-0.55)/0.10):0;
   }
 
-  function measureSection(){
-    const r=section.getBoundingClientRect();
-    sectionTop=r.top+window.scrollY;
-    sectionH=section.offsetHeight;
-  }
-
-  // RAF loop — polling scrollY è più affidabile di eventi scroll su GitHub Pages
-  let rafId=null;
-  function loop(){
-    updateVR();
-    rafId=requestAnimationFrame(loop);
-  }
-
-  window.addEventListener('load',()=>{
-    measureSection();
-    initStars(); drawStars();
-    loop();
-  });
-  window.addEventListener('resize',()=>{measureSection();initStars();drawStars();lastPan=-1;},{passive:true});
+  initStars(); drawStars();
+  window.addEventListener('resize',()=>{initStars();drawStars();lastPan=-1;},{passive:true});
+  (function loop(){ requestAnimationFrame(loop); updateVR(); })();
 })();
 // ─── fine lighting ──────────────────────────────────────────────────────────
 function _dead(){
