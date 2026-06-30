@@ -906,6 +906,8 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     <div style="position:absolute;bottom:0;left:0;right:0;height:.5px;background:rgba(255,255,255,.04);z-index:8;">
       <div id="vr-prog-bar" style="height:100%;background:var(--gold);width:0%;"></div>
     </div>
+    <!-- DEBUG TEMPORANEO -->
+    <div id="vr-debug" style="position:absolute;top:10px;left:10px;z-index:99;color:#ff0;font-size:13px;font-family:monospace;pointer-events:none;background:rgba(0,0,0,.7);padding:4px 8px;"></div>
   </div>
 </section>
 
@@ -2079,9 +2081,12 @@ window.addEventListener('load',drawRoom);
   let lastPan=-1;
   function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
 
+  const dbg=document.getElementById('vr-debug');
   function updateVR(){
     const rect=section.getBoundingClientRect();
-    const prog=Math.max(0,Math.min(1,-rect.top/(section.offsetHeight-window.innerHeight)));
+    const sH=section.offsetHeight;
+    const prog=Math.max(0,Math.min(1,-rect.top/(sH-window.innerHeight)));
+    if(dbg) dbg.textContent=`prog:${prog.toFixed(3)} top:${rect.top.toFixed(0)} sH:${sH} iH:${window.innerHeight}`;
     if(progBar) progBar.style.width=(prog*100)+'%';
 
     // Fase 1: zoom visore (0 → 0.42)
