@@ -906,8 +906,6 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     <div style="position:absolute;bottom:0;left:0;right:0;height:.5px;background:rgba(255,255,255,.04);z-index:8;">
       <div id="vr-prog-bar" style="height:100%;background:var(--gold);width:0%;"></div>
     </div>
-    <!-- DEBUG TEMPORANEO -->
-    <div id="vr-debug" style="position:absolute;top:10px;left:10px;z-index:99;color:#ff0;font-size:13px;font-family:monospace;pointer-events:none;background:rgba(0,0,0,.7);padding:4px 8px;">VR-v4-LOADING</div>
   </div>
 </section>
 
@@ -1823,27 +1821,216 @@ function _lightLabel(ctx,W,H,active){
     ctx.fillText('Nessuna luce — ambiente buio',18,H-16);
   }
 }
-window.addEventListener('load',drawRoom);
 
-// ══ VR SCROLL ANIMATION ══════════════════════════════════════════════════════
+// ══ VR SCROLL — ZOOM NEGLI OCCHIALI + STANZA NAVIGABILE ═══════════════════════
 (function(){
-  const section  = document.getElementById('vr-scroll');
-  const goggle   = document.getElementById('vr-goggle-wrap');
-  const dbg      = document.getElementById('vr-debug');
-  if(!section||!goggle){ if(dbg) dbg.textContent='ELEMENTI MANCANTI'; return; }
-  if(dbg) dbg.textContent='JS ATTIVO';
-  (function loop(){
-    requestAnimationFrame(loop);
+  const section = document.getElementById('vr-scroll');
+  const goggle  = document.getElementById('vr-goggle-wrap');
+  const head    = document.getElementById('vr-headline');
+  const hint1   = document.getElementById('vr-hint1');
+  const hint2   = document.getElementById('vr-hint2');
+  const bar     = document.getElementById('vr-prog-bar');
+  const bgC     = document.getElementById('vr-bg-canvas');
+  const roomC   = document.getElementById('vr-room-canvas');
+  if(!section||!goggle||!roomC) return;
+  goggle.style.transformOrigin='34% 50%';
+
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const smooth=t=>t*t*(3-2*t);
+
+  // ── Stanza pre-renderizzata su buffer offscreen (una volta sola) ──────────
+  const RW=540, RH=400, RS=2;
+  const lightState={natural:true,direct:true,accent:true,ambient:false};
+  const buf=document.createElement('canvas');
+  buf.width=RW*RS; buf.height=RH*RS;
+  const bctx=buf.getContext('2d');
+  bctx.scale(RS,RS);
+  drawRoomBuffer(bctx,RW,RH,lightState);
+
+  // ── Panorama 360° equirettangolare (immagine reale) ──────────────────────
+  const pano=new Image();
+  let panoReady=false;
+
+  // ── Renderer WebGL: proiezione prospettica corretta (niente distorsione) ──
+  const glC=document.createElement('canvas');
+  glC.style.cssText='position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:2;will-change:opacity;';
+  roomC.parentNode.insertBefore(glC, roomC);   // sotto al canvas 2D della vignetta
+  const gl=glC.getContext('webgl')||glC.getContext('experimental-webgl');
+  let glReady=false, glTex=null, uYaw,uPitch,uFov,uAspect;
+
+  function initGL(){
+    if(!gl) return false;
+    const vs='attribute vec2 p;varying vec2 uv;void main(){uv=p;gl_Position=vec4(p,0.0,1.0);}';
+    const fs='precision highp float;varying vec2 uv;uniform float yaw,pitch,fov,aspect;uniform sampler2D tex;'+
+      'const float PI=3.141592653589793;void main(){'+
+      'float t=tan(fov*0.5);'+
+      'vec3 d=normalize(vec3(uv.x*t*aspect,uv.y*t,-1.0));'+      // raggio prospettico
+      'float cp=cos(pitch),sp=sin(pitch);'+                      // rotazione pitch (X)
+      'd=vec3(d.x,d.y*cp-d.z*sp,d.y*sp+d.z*cp);'+
+      'float cy=cos(yaw),sy=sin(yaw);'+                          // rotazione yaw (Y)
+      'd=vec3(d.x*cy+d.z*sy,d.y,-d.x*sy+d.z*cy);'+
+      'float lon=atan(d.x,-d.z);float lat=asin(clamp(d.y,-1.0,1.0));'+
+      'gl_FragColor=texture2D(tex,vec2(lon/(2.0*PI)+0.5,0.5-lat/PI));}';
+    const sh=(ty,src)=>{const s=gl.createShader(ty);gl.shaderSource(s,src);gl.compileShader(s);
+      if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.warn(gl.getShaderInfoLog(s));return null;}return s;};
+    const vsh=sh(gl.VERTEX_SHADER,vs),fsh=sh(gl.FRAGMENT_SHADER,fs);
+    if(!vsh||!fsh) return false;
+    const prog=gl.createProgram();gl.attachShader(prog,vsh);gl.attachShader(prog,fsh);gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){console.warn(gl.getProgramInfoLog(prog));return false;}
+    gl.useProgram(prog);
+    const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    const pl=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(pl);gl.vertexAttribPointer(pl,2,gl.FLOAT,false,0,0);
+    uYaw=gl.getUniformLocation(prog,'yaw');uPitch=gl.getUniformLocation(prog,'pitch');
+    uFov=gl.getUniformLocation(prog,'fov');uAspect=gl.getUniformLocation(prog,'aspect');
+    gl.uniform1i(gl.getUniformLocation(prog,'tex'),0);
+    return true;
+  }
+  const glProgramOK=initGL();
+
+  pano.onload=()=>{
+    panoReady=true;
+    if(glProgramOK){
+      // riduci a max 4096px (potenza di due → wrap REPEAT senza cuciture)
+      const lim=Math.min(gl.getParameter(gl.MAX_TEXTURE_SIZE),4096);
+      let src=pano;
+      if(pano.naturalWidth>lim){
+        const c=document.createElement('canvas');
+        c.width=lim; c.height=Math.round(pano.naturalHeight*lim/pano.naturalWidth);
+        c.getContext('2d').drawImage(pano,0,0,c.width,c.height); src=c;
+      }
+      glTex=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,glTex);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,src);
+      glReady=true;
+    }
+  };
+  pano.src='img/room-360.jpg';
+
+  // ── Canvas visibili con gestione DPR ──────────────────────────────────────
+  const rctx=roomC.getContext('2d');
+  let vw=0,vh=0,DPR=1;
+  function sizeRoom(){
+    DPR=Math.min(window.devicePixelRatio||1,2);
+    vw=window.innerWidth; vh=window.innerHeight;
+    roomC.width=vw*DPR; roomC.height=vh*DPR;
+    bgC.width=vw*DPR; bgC.height=vh*DPR;
+    glC.width=vw*DPR; glC.height=vh*DPR;
+    if(gl) gl.viewport(0,0,glC.width,glC.height);
+    drawStars();
+  }
+
+  // ── Campo stellare di sfondo (la scena prima di "entrare") ────────────────
+  function drawStars(){
+    const c=bgC.getContext('2d');
+    c.setTransform(DPR,0,0,DPR,0,0);
+    c.clearRect(0,0,vw,vh);
+    for(let i=0;i<140;i++){
+      const x=(Math.sin(i*12.9898)*43758.5453)%1, y=(Math.sin(i*78.233)*12543.123)%1;
+      const px=Math.abs(x)*vw, py=Math.abs(y)*vh;
+      const r=Math.abs(Math.sin(i*3.7))*1.1+0.2;
+      c.fillStyle='rgba(180,205,235,'+(0.06+Math.abs(Math.cos(i))*0.22)+')';
+      c.beginPath();c.arc(px,py,r,0,Math.PI*2);c.fill();
+    }
+  }
+  window.addEventListener('resize',sizeRoom);
+  sizeRoom();
+
+  // ── Loop principale guidato dallo scroll ──────────────────────────────────
+  function paint(){
+    requestAnimationFrame(paint);
     const rect=section.getBoundingClientRect();
     const sH=section.offsetHeight, iH=window.innerHeight;
-    const prog=Math.max(0,Math.min(1,-rect.top/(sH-iH)));
-    if(dbg) dbg.textContent='prog:'+prog.toFixed(3)+' top:'+Math.round(rect.top)+' sH:'+sH;
-    goggle.style.transform='scale('+(1+prog*20)+')';
-    goggle.style.opacity=prog<0.7?1:Math.max(0,1-(prog-0.7)/0.15);
-  })();
+    const prog=clamp(-rect.top/(sH-iH),0,1);
+
+    // Zoom del visore dentro la lente
+    const zT=smooth(clamp(prog/0.46,0,1));
+    goggle.style.transform='scale('+(1+zT*zT*19)+')';
+    goggle.style.opacity=String(1-clamp((prog-0.32)/0.12,0,1));
+
+    // Testo headline + suggerimenti
+    if(head)  head.style.opacity =String(1-clamp(prog/0.13,0,1));
+    if(hint1) hint1.style.opacity=String(1-clamp(prog/0.06,0,1));
+    if(hint2) hint2.style.opacity=String(clamp((prog-0.55)/0.05,0,1)*(1-clamp((prog-0.86)/0.08,0,1)));
+    if(bar)   bar.style.width=(prog*100).toFixed(2)+'%';
+
+    // Dissolvenza stanza ↔ sfondo
+    const roomFade=clamp((prog-0.40)/0.12,0,1);
+    roomC.style.opacity=String(roomFade);
+    glC.style.opacity=String(roomFade);
+    bgC.style.opacity=String((1-roomFade)*0.6);
+
+    if(roomFade>0.002) drawRoom(prog);
+  }
+
+  function drawRoom(prog){
+    rctx.setTransform(DPR,0,0,DPR,0,0);
+    rctx.clearRect(0,0,vw,vh);
+
+    // Orientamento della testa (look around) nella fase finale dello scroll
+    const lookT=smooth(clamp((prog-0.50)/0.50,0,1));
+
+    if(glReady){
+      // ── Proiezione prospettica corretta del 360° (WebGL) ─────────────────
+      const sweep=Math.PI*1.7;                       // ~306° di rotazione totale
+      const yaw=(lookT-0.5)*sweep;
+      const pitch=Math.sin(lookT*Math.PI)*0.10;      // leggero sguardo in alto a metà
+      gl.uniform1f(uYaw,yaw);
+      gl.uniform1f(uPitch,pitch);
+      gl.uniform1f(uFov,75*Math.PI/180);
+      gl.uniform1f(uAspect,vw/vh);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,glTex);
+      gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+    } else if(panoReady){
+      // ── Fallback 2D: finestra panoramica (curvatura leggera) ─────────────
+      const iw=pano.naturalWidth, ih=pano.naturalHeight;
+      let sw=iw*0.30, sh=sw*(vh/vw);
+      if(sh>ih){ sh=ih; sw=sh*(vw/vh); }
+      const cx=(0.05+lookT*0.90)*iw;
+      const tiltN=Math.sin(lookT*Math.PI);
+      const cy=ih/2 - tiltN*(ih*0.06);
+      let sx=((cx-sw/2)%iw+iw)%iw;
+      const sy=clamp(cy-sh/2,0,ih-sh);
+      if(sx+sw<=iw){
+        rctx.drawImage(pano, sx,sy,sw,sh, 0,0,vw,vh);
+      }else{
+        const w1=iw-sx, frac=w1/sw;
+        rctx.drawImage(pano, sx,sy,w1,sh, 0,0,vw*frac,vh);
+        rctx.drawImage(pano, 0,sy,sw-w1,sh, vw*frac,0,vw*(1-frac),vh);
+      }
+    } else {
+      // Fallback: stanza sintetica finché il panorama non è caricato
+      const yawN=lookT*2-1;
+      const overscan=1.55+lookT*0.14;
+      const scale=Math.max(vw/RW,vh/RH)*overscan;
+      const drawW=RW*scale, drawH=RH*scale;
+      const panRangeX=Math.max(0,(drawW-vw)/2);
+      const panRangeY=Math.max(0,(drawH-vh)/2);
+      const tiltN=Math.sin(lookT*Math.PI);
+      const bob=Math.sin(lookT*Math.PI*2)*4;
+      const tx=vw/2-drawW/2 + (-yawN)*panRangeX*0.97;
+      const ty=vh/2-drawH/2 - tiltN*panRangeY*0.30 + bob;
+      rctx.drawImage(buf,tx,ty,drawW,drawH);
+    }
+
+    // Vignettatura tipo visore (binocolo)
+    const vig=rctx.createRadialGradient(vw/2,vh/2,Math.min(vw,vh)*0.28,vw/2,vh/2,Math.max(vw,vh)*0.62);
+    vig.addColorStop(0,'rgba(0,0,0,0)');
+    vig.addColorStop(0.7,'rgba(0,0,0,.35)');
+    vig.addColorStop(1,'rgba(0,0,0,.92)');
+    rctx.fillStyle=vig; rctx.fillRect(0,0,vw,vh);
+
+    // Bagliore freddo dello "schermo" all'accensione
+    const onGlow=clamp(1-(prog-0.40)/0.10,0,1);
+    if(onGlow>0){ rctx.fillStyle='rgba(120,170,225,'+(onGlow*0.18)+')'; rctx.fillRect(0,0,vw,vh); }
+  }
+
+  requestAnimationFrame(paint);
 })();
-// ─── fine lighting ──────────────────────────────────────────────────────────
-function _dead(){
+function drawRoomBuffer(ctx,W,H,lightState){
   // Parete di fondo: x∈[130,470], y∈[60,295]
   // p3(h,elev,t): h=0-1 orizzontale, elev=0-1 altezza, t=0=fondo 1=vicino
   function px3(h,t){return 130*(1-t)+h*(340+t*200);}
@@ -2167,21 +2354,7 @@ function _dead(){
   vig.addColorStop(1,'rgba(0,0,0,.58)');
   ctx.fillStyle=vig;ctx.fillRect(0,0,W,H);
 
-  // ── ETICHETTA LUCI ATTIVE ───────────────────────────────────────────────
-  const active=Object.keys(lightState).filter(k=>lightState[k]);
-  if(active.length>0){
-    const names={natural:'Naturale',direct:'Diretta',accent:'Accento',ambient:'Ambientale'};
-    const txt='ATTIVO: '+active.map(k=>names[k]).join(' + ');
-    ctx.fillStyle='rgba(0,0,0,.58)';
-    ctx.fillRect(12,H-30,Math.min(210,txt.length*5.8+16),22);
-    ctx.fillStyle='rgba(201,169,110,.70)';ctx.font='bold 7.5px Inter,sans-serif';
-    ctx.fillText(txt,18,H-16);
-  }else{
-    ctx.fillStyle='rgba(0,0,0,.60)';ctx.fillRect(12,H-30,148,22);
-    ctx.fillStyle='rgba(255,255,255,.25)';ctx.font='7.5px Inter,sans-serif';
-    ctx.fillText('Nessuna luce — ambiente buio',18,H-16);
-  }
-} // fine _dead
+}
 </script>
 </body>
 </html>
