@@ -1891,14 +1891,14 @@ function _lightLabel(ctx,W,H,active){
   pano.onload=()=>{
     panoReady=true;
     if(glProgramOK){
-      // riduci a max 4096px (potenza di due → wrap REPEAT senza cuciture)
+      // normalizza SEMPRE a dimensioni potenza-di-due 2:1 (necessario per wrap REPEAT)
       const lim=Math.min(gl.getParameter(gl.MAX_TEXTURE_SIZE),4096);
-      let src=pano;
-      if(pano.naturalWidth>lim){
-        const c=document.createElement('canvas');
-        c.width=lim; c.height=Math.round(pano.naturalHeight*lim/pano.naturalWidth);
-        c.getContext('2d').drawImage(pano,0,0,c.width,c.height); src=c;
-      }
+      const potCeil=n=>{let p=1;while(p<n)p*=2;return p;};
+      let tw=Math.min(potCeil(pano.naturalWidth),lim); if(tw<1024) tw=1024;
+      const th=tw/2;
+      const c=document.createElement('canvas'); c.width=tw; c.height=th;
+      c.getContext('2d').drawImage(pano,0,0,tw,th);
+      const src=c;
       glTex=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,glTex);
       gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
@@ -1908,7 +1908,7 @@ function _lightLabel(ctx,W,H,active){
       glReady=true;
     }
   };
-  pano.src='img/room-360.jpg';
+  pano.src='img/room-360-tour.jpg';
 
   // ── Canvas visibili con gestione DPR ──────────────────────────────────────
   const rctx=roomC.getContext('2d');
