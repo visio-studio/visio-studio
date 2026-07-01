@@ -1833,7 +1833,7 @@ function _lightLabel(ctx,W,H,active){
   const bgC     = document.getElementById('vr-bg-canvas');
   const roomC   = document.getElementById('vr-room-canvas');
   if(!section||!goggle||!roomC) return;
-  goggle.style.transformOrigin='34% 50%';
+  goggle.style.transformOrigin='50% 50%';
 
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   const smooth=t=>t*t*(3-2*t);
