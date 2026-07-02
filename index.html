@@ -294,7 +294,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 <!-- ══ VIDEO SCRUB ══ -->
 <section id="journey">
   <div id="sticky">
-    <video id="sv" src="visio-journey-scrub.mp4" playsinline muted preload="auto" webkit-playsinline x-webkit-airplay="deny" disablepictureinpicture></video>
+    <canvas id="sv"></canvas>
     <div id="vo">
       <div id="stw">
         <p id="stag"></p>
@@ -1529,7 +1529,9 @@ lights.forEach(s=>new IntersectionObserver(entries=>{
 },{threshold:0,rootMargin:'-60px 0px 0px 0px'}).observe(s));
 
 // ── VIDEO SCRUB
-const video=document.getElementById('sv');
+// ── JOURNEY SCRUB — sequenza di immagini (ogni frame nitido, niente sfocatura video) ──
+const sv=document.getElementById('sv');
+const svctx=sv.getContext('2d');
 const journey=document.getElementById('journey');
 const stag=document.getElementById('stag'), stxt=document.getElementById('stxt'), spb=document.getElementById('spb');
 const moments=[
@@ -1540,37 +1542,54 @@ const moments=[
   {from:0.70,to:0.88,tag:'La terrazza',text:'Il mare\ncome quinto\nelemento.'},
   {from:0.88,to:1.00,tag:'',text:'Questo è\nVISIO.'},
 ];
-// Sblocca video iOS al primo tocco
-document.addEventListener('touchstart', function unlock(){
-  video.play().then(()=>video.pause()).catch(()=>{});
-  document.removeEventListener('touchstart', unlock);
-}, {once:true});
-video.pause(); video.currentTime=0;
-video.addEventListener('loadedmetadata',()=>{video.pause();video.currentTime=0;});
-video.addEventListener('play',()=>video.pause());
-let vidReady=false;
-video.addEventListener('canplay',()=>{vidReady=true;});
-let tTime=0, cTime=0;
-let lastSeek=0;
-// fastSeek() va al keyframe più vicino — molto più veloce del seek esatto
-function seekTo(t){
-  if(video.fastSeek) video.fastSeek(t);
-  else video.currentTime=t;
+
+const J_FRAMES=289;
+const jFramePath=i=>'img/journey/frame-'+String(i+1).padStart(4,'0')+'.jpg';
+const jImgs=new Array(J_FRAMES);
+const jLoaded=new Array(J_FRAMES).fill(false);
+let jCurIndex=0, jFirstDrawn=false;
+
+let jDPR=1;
+function jSize(){
+  jDPR=Math.min(window.devicePixelRatio||1,2);
+  sv.width=window.innerWidth*jDPR; sv.height=window.innerHeight*jDPR;
+  jDrawIndex(jCurIndex);
 }
+window.addEventListener('resize',jSize);
+
+function jDrawCover(img){
+  const iw=img.naturalWidth, ih=img.naturalHeight, cw=sv.width, ch=sv.height;
+  const scale=Math.max(cw/iw, ch/ih), w=iw*scale, h=ih*scale;
+  svctx.drawImage(img,(cw-w)/2,(ch-h)/2,w,h);
+}
+function jNearestLoaded(i){
+  if(jLoaded[i]) return i;
+  for(let d=1;d<J_FRAMES;d++){
+    if(i-d>=0 && jLoaded[i-d]) return i-d;
+    if(i+d<J_FRAMES && jLoaded[i+d]) return i+d;
+  }
+  return -1;
+}
+function jDrawIndex(i){
+  const j=jNearestLoaded(i);
+  if(j>=0) jDrawCover(jImgs[j]);
+}
+
+// preload di tutti i frame
+for(let i=0;i<J_FRAMES;i++){
+  const im=new Image();
+  im.onload=()=>{ jLoaded[i]=true; if(!jFirstDrawn){ jFirstDrawn=true; jDrawIndex(jCurIndex); } else if(i===jCurIndex){ jDrawIndex(i); } };
+  im.src=jFramePath(i);
+  jImgs[i]=im;
+}
+jSize();
+
 (function scrub(){
   requestAnimationFrame(scrub);
-  if(!vidReady||!video.duration) return;
   const rect=journey.getBoundingClientRect();
   const prog=Math.max(0,Math.min(1,-rect.top/(journey.offsetHeight-window.innerHeight)));
-  tTime=prog*video.duration;
-  // lerp più lento = meno seek ravvicinati
-  cTime+=(tTime-cTime)*.05;
-  const now=performance.now();
-  // seek max ogni 50ms e solo se la differenza è significativa
-  if(Math.abs(video.currentTime-cTime)>.06 && now-lastSeek>50){
-    seekTo(cTime);
-    lastSeek=now;
-  }
+  const idx=Math.round(prog*(J_FRAMES-1));
+  if(idx!==jCurIndex){ jCurIndex=idx; jDrawIndex(idx); }
   spb.style.width=(prog*100)+'%';
   const m=moments.find(m=>prog>=m.from&&prog<m.to);
   if(m&&m.text){
