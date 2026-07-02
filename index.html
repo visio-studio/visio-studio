@@ -424,7 +424,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="250" y="486" text-anchor="middle" font-family="Inter" font-size="10" fill="rgba(255,255,255,.35)" letter-spacing="3">INSERISCI · img/render-esterno-1.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-esterno-1.jpg" alt="Villa residenziale render esterno">
-      <div class="render-slide-info"><p class="render-slide-num">01 / 06</p><p class="render-slide-title serif">Villa Residenziale<br>Roma Nord</p></div>
+      <div class="render-slide-info"><p class="render-slide-num">01 / 06</p><p class="render-slide-title serif">Villa Moderna<br>Esterno & Piscina</p></div>
     </div>
     <!-- SLIDE 2 -->
     <div class="render-slide">
@@ -467,7 +467,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-interno-1.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-interno-1.jpg" alt="Soggiorno render interno">
-      <div class="render-slide-info"><p class="render-slide-num">02 / 06</p><p class="render-slide-title serif">Soggiorno<br>Vetrate floor-to-ceiling</p></div>
+      <div class="render-slide-info"><p class="render-slide-num">02 / 06</p><p class="render-slide-title serif">Vialetto d'Ingresso<br>Atmosfera Serale</p></div>
     </div>
     <!-- SLIDE 3 -->
     <div class="render-slide">
@@ -511,7 +511,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-notturna.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-notturna.jpg" alt="Vista notturna villa">
-      <div class="render-slide-info"><p class="render-slide-num">03 / 06</p><p class="render-slide-title serif">Vista Notturna<br>Roma Nord</p></div>
+      <div class="render-slide-info"><p class="render-slide-num">03 / 06</p><p class="render-slide-title serif">Bagno Padronale<br>Doccia Walk-in</p></div>
     </div>
     <!-- SLIDE 4 -->
     <div class="render-slide">
@@ -549,7 +549,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-interno-2.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-interno-2.jpg" alt="Cucina con isola render">
-      <div class="render-slide-info"><p class="render-slide-num">04 / 06</p><p class="render-slide-title serif">Cucina con Isola<br>Boiserie Scura</p></div>
+      <div class="render-slide-info"><p class="render-slide-num">04 / 06</p><p class="render-slide-title serif">Soggiorno<br>Open Space in Legno</p></div>
     </div>
     <!-- SLIDE 5 -->
     <div class="render-slide">
@@ -589,7 +589,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-camera.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-camera.jpg" alt="Camera da letto render">
-      <div class="render-slide-info"><p class="render-slide-num">05 / 06</p><p class="render-slide-title serif">Camera da Letto<br>Suite Principale</p></div>
+      <div class="render-slide-info"><p class="render-slide-num">05 / 06</p><p class="render-slide-title serif">Camera da Letto<br>Camino in Marmo</p></div>
     </div>
     <!-- SLIDE 6 -->
     <div class="render-slide">
@@ -635,7 +635,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <text x="150" y="233" text-anchor="middle" font-family="Inter" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="2">img/render-terrazza.jpg</text>
       </svg>
       <img class="rc-photo" src="img/render-terrazza.jpg" alt="Terrazza piscina render">
-      <div class="render-slide-info"><p class="render-slide-num">06 / 06</p><p class="render-slide-title serif">Terrazza con<br>Piscina a Sfioro</p></div>
+      <div class="render-slide-info"><p class="render-slide-num">06 / 06</p><p class="render-slide-title serif">Cabina Armadio<br>Vista Giardino</p></div>
     </div>
     </div><!-- fine render-strip -->
     <div id="render-progress-wrap"><div id="render-progress-bar"></div></div>
@@ -1656,6 +1656,28 @@ document.querySelectorAll('[data-target]').forEach(el=>{
 
   window.addEventListener('scroll', update, {passive:true});
   update();
+
+  // ── Aggancio morbido: si ferma centrato sulla foto più vicina ──────────────
+  let snapTimer=null, snapping=false;
+  function snap(){
+    const rect  = gallery.getBoundingClientRect();
+    const total = gallery.offsetHeight - window.innerHeight;
+    const scrolled = -rect.top;
+    if(scrolled < 0 || scrolled > total) return;        // solo dentro la galleria
+    const prog = scrolled / total;
+    const seg  = 1/(SLIDES-1);
+    const k    = Math.round(prog/seg);
+    const targetY = Math.round(gallery.offsetTop + k*seg*total);
+    if(Math.abs(targetY - window.scrollY) < 2) return;
+    snapping = true;
+    window.scrollTo({top:targetY, behavior:'smooth'});
+    setTimeout(()=>{ snapping=false; }, 700);
+  }
+  window.addEventListener('scroll', ()=>{
+    if(snapping) return;
+    clearTimeout(snapTimer);
+    snapTimer=setTimeout(snap, 150);
+  }, {passive:true});
 })();
 
 // ── IMG LOAD (render gallery + lidar)
