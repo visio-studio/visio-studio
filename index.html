@@ -265,10 +265,18 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   #chi { grid-template-columns:1fr; }
   .chi-col:first-child { border-right:none;border-bottom:.5px solid var(--border); }
   #contatti { grid-template-columns:1fr;gap:36px; }
-  #intro-servizi,#render-gallery,#lidar-section,#sito-dedicato,#vrar,#documenti,#progettazione,#illumino,#stats,#contatti { padding:60px 20px; }
+  #intro-servizi,#lidar-section,#sito-dedicato,#vrar,#documenti,#progettazione,#illumino,#stats,#contatti { padding:60px 20px; }
   .render-grid { grid-template-columns:1fr;grid-template-rows:auto; }
   .render-cell.tall { grid-row:auto; }
   #stxt { font-size:32px; }
+  /* Galleria render su mobile: niente sovrapposizioni */
+  #render-header { padding:66px 20px 20px; }
+  #render-header h2 { font-size:26px; }
+  #render-header p { display:none; }
+  #render-counter { display:none; }
+  .render-slide-info { padding:22px 20px 30px; }
+  .render-slide-title { font-size:25px; }
+  #render-hint { right:20px;bottom:34px; }
 }
 </style>
 </head>
