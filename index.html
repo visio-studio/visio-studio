@@ -26,6 +26,26 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 #loader { position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:1000;transition:opacity .8s; }
 .loader-logo { font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;letter-spacing:14px;color:#fff;animation:fadeUp .9s ease forwards; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+/* Logo VISIO che si disegna (loader) */
+.logo-draw { width:min(300px,56vw); height:auto; overflow:visible; }
+.logo-draw > * { fill:none; stroke:#fff; stroke-width:2.2; stroke-linejoin:round; stroke-linecap:round;
+  stroke-dasharray:1; stroke-dashoffset:1; animation:logoDraw 1s ease forwards; }
+.logo-draw > *:nth-child(1){animation-delay:0s}
+.logo-draw > *:nth-child(2){animation-delay:.09s}
+.logo-draw > *:nth-child(3){animation-delay:.18s}
+.logo-draw > *:nth-child(4){animation-delay:.30s}
+.logo-draw > *:nth-child(5){animation-delay:.39s}
+.logo-draw > *:nth-child(6){animation-delay:.51s}
+.logo-draw > *:nth-child(7){animation-delay:.60s}
+.logo-draw > *:nth-child(8){animation-delay:.72s}
+.logo-draw > *:nth-child(9){animation-delay:.81s}
+@keyframes logoDraw { to { stroke-dashoffset:0; } }
+#loader .logo-draw { animation:logoGlow 2.2s ease-in-out 1.9s infinite; }
+@keyframes logoGlow { 0%,100%{opacity:1;filter:drop-shadow(0 0 0 rgba(201,169,110,0))} 50%{opacity:.82;filter:drop-shadow(0 0 6px rgba(201,169,110,.35))} }
+/* Logo VISIO in navbar */
+.nl-logo { height:24px; width:auto; display:block; }
+.nl-logo > * { fill:none; stroke:#fff; stroke-width:9; stroke-linejoin:round; transition:stroke .4s; }
+#nav.light .nl-logo > * { stroke:var(--text); }
 
 /* NAVBAR */
 #nav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;transition:background .4s,border-color .4s;border-bottom:.5px solid transparent; }
@@ -285,11 +305,31 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 <div id="cur-d"></div>
 <div id="cur-r"></div>
 
-<div id="loader"><span class="loader-logo">VISIO</span></div>
+<div id="loader"><svg class="logo-draw" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
+  <polygon pathLength="1" points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
+  <polygon pathLength="1" points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
+  <polygon pathLength="1" points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
+  <polyline pathLength="1" points="415.49 215.83 415.49 215.83 415.49 269.8 386.12 298.03 386.12 187.16 467.94 187.16 467.94 215.83 415.49 215.83"/>
+  <polyline pathLength="1" points="438.57 322.36 438.57 268.19 467.94 240.04 467.94 351.03 386.12 351.03 386.12 322.36 438.57 322.36"/>
+  <polygon pathLength="1" points="502.59 187.16 484.77 187.16 484.77 204.16 502.59 187.16"/>
+  <polygon pathLength="1" points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
+  <polyline pathLength="1" points="562.86 215.83 562.86 215.83 562.86 302.72 533.49 330.39 533.49 187.16 615.31 187.16 586.57 215.83 562.86 215.83"/>
+  <polyline pathLength="1" points="585.94 323.99 585.94 323.99 585.94 237.33 615.31 209.54 615.31 352.66 533.49 352.66 562.29 323.99 585.94 323.99"/>
+</svg></div>
 
 <!-- NAVBAR -->
 <nav id="nav">
-  <div class="nl">VISIO</div>
+  <div class="nl"><svg class="nl-logo" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
+    <polygon points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
+    <polygon points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
+    <polygon points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
+    <polyline points="415.49 215.83 415.49 215.83 415.49 269.8 386.12 298.03 386.12 187.16 467.94 187.16 467.94 215.83 415.49 215.83"/>
+    <polyline points="438.57 322.36 438.57 268.19 467.94 240.04 467.94 351.03 386.12 351.03 386.12 322.36 438.57 322.36"/>
+    <polygon points="502.59 187.16 484.77 187.16 484.77 204.16 502.59 187.16"/>
+    <polygon points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
+    <polyline points="562.86 215.83 562.86 215.83 562.86 302.72 533.49 330.39 533.49 187.16 615.31 187.16 586.57 215.83 562.86 215.83"/>
+    <polyline points="585.94 323.99 585.94 323.99 585.94 237.33 615.31 209.54 615.31 352.66 533.49 352.66 562.29 323.99 585.94 323.99"/>
+  </svg></div>
   <div class="nlinks">
     <a href="#render-gallery" class="nlink">Lavori</a>
     <a href="#lidar-section" class="nlink">Tecnologia</a>
@@ -1509,7 +1549,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 <script>
 // ── LOADER
 window.addEventListener('load',()=>{
-  setTimeout(()=>{ const l=document.getElementById('loader'); l.style.opacity='0'; setTimeout(()=>l.style.display='none',800); },1200);
+  setTimeout(()=>{ const l=document.getElementById('loader'); l.style.opacity='0'; setTimeout(()=>l.style.display='none',800); },2200);
 });
 
 // ── CURSOR
