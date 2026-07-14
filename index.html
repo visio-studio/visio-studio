@@ -346,6 +346,13 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .frow { display:grid;grid-template-columns:1fr 1fr;gap:22px; }
 .sbtn { width:100%;background:var(--gold);color:var(--dark);border:none;padding:14px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:none;margin-top:8px;transition:opacity .3s; }
 .sbtn:hover { opacity:.85; }
+.sbtn:disabled { opacity:.5; }
+.ff input[type=file] { border:.5px dashed #C0BDB8;border-radius:0;padding:12px;font-size:11px;color:var(--muted);cursor:none; }
+.ff input[type=file]:focus { border-color:var(--gold); }
+.ff input[type=file]::file-selector-button { font-family:'Inter',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:transparent;border:.5px solid var(--gold);color:var(--gold);padding:6px 12px;margin-right:12px;cursor:none; }
+#ct-status { font-size:11px;letter-spacing:.5px;line-height:1.7;margin-top:14px;min-height:18px; }
+#ct-status.ok { color:#5A8A4A; }
+#ct-status.err { color:#B0563C; }
 
 /* FOOTER */
 footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between; }
@@ -1968,18 +1975,20 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     <p class="ct-desc">Raccontaci il tuo progetto. Risponderemo entro 24 ore con una proposta personalizzata e un preventivo senza impegno.</p>
     <div class="ct-addr">Studio VISIO · Roma, Italia<br>info@visio-studio.it<br>+39 06 0000000</div>
   </div>
-  <form class="rev" onsubmit="return false;">
+  <form class="rev" id="ct-form" name="contatti" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+    <input type="hidden" name="form-name" value="contatti">
+    <div style="display:none;"><label>Non compilare questo campo: <input name="bot-field"></label></div>
     <div class="frow">
-      <div class="ff"><label>Nome</label><input type="text" placeholder="Marco Rossi"></div>
-      <div class="ff"><label>Cognome</label><input type="text" placeholder="Bianchi"></div>
+      <div class="ff"><label>Nome</label><input type="text" name="nome" placeholder="Marco Rossi" required></div>
+      <div class="ff"><label>Cognome</label><input type="text" name="cognome" placeholder="Bianchi"></div>
     </div>
     <div class="frow">
-      <div class="ff"><label>Email</label><input type="email" placeholder="marco@email.it"></div>
-      <div class="ff"><label>Telefono</label><input type="tel" placeholder="+39 06..."></div>
+      <div class="ff"><label>Email</label><input type="email" name="email" placeholder="marco@email.it" required></div>
+      <div class="ff"><label>Telefono</label><input type="tel" name="telefono" placeholder="+39 06..."></div>
     </div>
     <div class="ff">
       <label>Tipologia progetto</label>
-      <select id="f-serv">
+      <select id="f-serv" name="tipologia">
         <option value="">Seleziona...</option>
         <option>Render fotorealistici</option>
         <option>Scansione LIDAR</option>
@@ -1994,7 +2003,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
       </select>
     </div>
     <div class="ff"><label>Sei un</label>
-      <select>
+      <select name="profilo">
         <option>Agenzia immobiliare</option>
         <option>Sviluppatore immobiliare</option>
         <option>Architetto / Studio</option>
@@ -2002,8 +2011,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <option>Altro</option>
       </select>
     </div>
-    <div class="ff"><label>Descrivi il progetto</label><textarea rows="3" placeholder="Villa residenziale 300mq, Roma Nord, zona giardino + interni..."></textarea></div>
+    <div class="ff"><label>Descrivi il progetto</label><textarea rows="3" name="messaggio" placeholder="Villa residenziale 300mq, Roma Nord, zona giardino + interni..."></textarea></div>
+    <div class="ff"><label>Allegato — planimetria o foto (facoltativo, max 8 MB)</label><input type="file" name="allegato" accept=".pdf,.jpg,.jpeg,.png,.dwg,.zip"></div>
     <button type="submit" class="sbtn">Invia Richiesta</button>
+    <p id="ct-status" role="status"></p>
   </form>
 </section>
 
@@ -2264,6 +2275,38 @@ document.querySelectorAll('.modo-cta[data-serv]').forEach(a=>{
     if(sel) sel.value=a.dataset.serv;
   });
 });
+
+// ── FORM CONTATTI: invio a Netlify Forms senza ricaricare la pagina
+(function(){
+  const f=document.getElementById('ct-form');
+  if(!f) return;
+  const st=document.getElementById('ct-status'), btn=f.querySelector('.sbtn');
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const file=f.querySelector('input[type=file]').files[0];
+    if(file && file.size>8*1024*1024){
+      st.textContent='L’allegato supera gli 8 MB: riduci il file o invialo via email dopo il primo contatto.';
+      st.className='err';
+      return;
+    }
+    btn.disabled=true;
+    btn.textContent='Invio in corso…';
+    st.textContent='';
+    st.className='';
+    try{
+      const res=await fetch('/',{method:'POST',body:new FormData(f)});
+      if(!res.ok) throw new Error(res.status);
+      f.reset();
+      st.textContent='Richiesta inviata. Ti risponderemo entro 24 ore.';
+      st.className='ok';
+    }catch(_){
+      st.textContent='Invio non riuscito. Riprova, oppure scrivici su WhatsApp o a info@visio-studio.it.';
+      st.className='err';
+    }
+    btn.disabled=false;
+    btn.textContent='Invia Richiesta';
+  });
+})();
 
 // ── HORIZONTAL RENDER GALLERY
 (function(){

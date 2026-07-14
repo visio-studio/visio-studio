@@ -4,6 +4,7 @@ Sito vetrina one-page di **VISIO Studio**, studio di rendering architettonico a 
 
 - Repository GitHub: https://github.com/visio-studio/visio-studio
 - **Sito live (GitHub Pages): https://visio-studio.github.io/visio-studio/** — ogni push su `main` aggiorna il sito pubblico dopo 1-2 minuti.
+- **Hosting in migrazione verso Netlify** (per i form): il form contatti (`#ct-form`) usa Netlify Forms (`data-netlify="true"`, invio AJAX via fetch, honeypot `bot-field`, allegato max 8 MB). Le richieste arrivano nella tab "Forms" del pannello Netlify. Il form NON funziona su GitHub Pages né in locale (mostra il messaggio d'errore con i contatti alternativi).
 
 ## Struttura del progetto
 
