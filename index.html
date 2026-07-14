@@ -197,7 +197,7 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .arredo-sub { font-size:12px;color:var(--muted);line-height:1.9;max-width:520px;margin-top:16px; }
 #esploso-wrap { height:340vh;position:relative; }
 #esploso-sticky { position:sticky;top:0;height:100vh;display:grid;grid-template-columns:360px 1fr;align-items:center;gap:24px;padding:0 48px;overflow:hidden; }
-.esp-phase { position:relative;min-height:280px;z-index:2; }
+.esp-phase { position:relative;min-height:350px;z-index:2; }
 .esp-txt { position:absolute;inset:0;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;pointer-events:none; }
 .esp-txt.v { opacity:1;transform:translateY(0);pointer-events:auto; }
 .esp-txt h3 { font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1.15;margin-bottom:14px;color:var(--text); }
@@ -211,6 +211,11 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .esp-sw:hover { transform:scale(1.15); }
 .esp-sw.on { transform:scale(1.15);border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.25); }
 .esp-fin-name { font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:12px;display:block; }
+.esp-optrow { display:flex;align-items:center;gap:8px;margin-top:14px; }
+.esp-optrow > span { font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;width:64px; }
+.esp-opt { font-family:'Inter',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:transparent;border:.5px solid var(--border);padding:6px 12px;cursor:none;transition:all .25s; }
+.esp-opt:hover { border-color:var(--gold); }
+.esp-opt.on { color:var(--gold);border-color:var(--gold); }
 .modi-head { padding:0 48px; }
 .modi-head h3 { font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--text); }
 .modi-head p { font-size:12px;color:var(--muted);line-height:1.9;max-width:560px;margin-top:12px; }
@@ -223,6 +228,30 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .modo-tag { font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;border-top:.5px solid var(--border);padding-top:16px;margin-top:22px; }
 .modo-badge { position:absolute;top:-9px;right:22px;background:var(--gold);color:var(--dark);font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px; }
 .modo-icon { margin-bottom:20px; }
+.modo-cta { display:inline-block;margin-top:16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text);text-decoration:none;cursor:none;border-bottom:.5px solid var(--gold);padding-bottom:4px;transition:color .3s; }
+.modo-cta:hover { color:var(--gold); }
+.modo-cta.sec { border-bottom-color:var(--border);margin-left:22px; }
+/* TIMELINE CHIAVI IN MANO */
+.kim-wrap { padding:8px 48px 80px; }
+.kim-row { display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:34px;position:relative; }
+.kim-row::before { content:'';position:absolute;top:5px;left:2%;right:2%;height:.5px;background:var(--border); }
+.kim-step { position:relative;padding-top:26px; }
+.kim-step::before { content:'';position:absolute;top:0;left:0;width:11px;height:11px;border-radius:50%;background:var(--light2);border:1.5px solid var(--gold); }
+.kim-num { font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold);letter-spacing:2px;margin-bottom:8px; }
+.kim-step h5 { font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--text);line-height:1.25;margin-bottom:8px; }
+.kim-step p { font-size:10.5px;color:var(--muted);line-height:1.7; }
+.kim-dur { display:inline-block;margin-top:10px;font-size:8.5px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;border:.5px solid var(--border);padding:4px 9px; }
+/* SLIDER RENDER / REALTÀ */
+.ba-wrap { padding:0 48px 96px; }
+.ba-grid { display:grid;grid-template-columns:340px 1fr;gap:56px;align-items:center;margin-top:34px; }
+.ba-slider { position:relative;overflow:hidden;aspect-ratio:16/10;user-select:none;touch-action:none;cursor:none; }
+.ba-slider img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none; }
+.ba-top { position:absolute;inset:0;clip-path:inset(0 50% 0 0); }
+.ba-handle { position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--gold);transform:translateX(-.5px); }
+.ba-handle::after { content:'◂ ▸';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:var(--light);border:.5px solid var(--gold);color:var(--gold);font-size:10px;display:flex;align-items:center;justify-content:center;letter-spacing:1px; }
+.ba-tag { position:absolute;bottom:14px;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:rgba(10,10,10,.55);padding:5px 10px;pointer-events:none; }
+.ba-tag.l { left:14px; } .ba-tag.r { right:14px; }
+.ba-note { font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:10px; }
 /* ESTERNI */
 #esterni { background:var(--light);padding:96px 48px;color:var(--text);border-top:.5px solid var(--border); }
 .prog-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-top:48px; }
@@ -322,10 +351,15 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .modi-grid { grid-template-columns:1fr;padding:36px 20px 60px; }
   #esploso-wrap { height:300vh; }
   #esploso-sticky { grid-template-columns:1fr;grid-template-rows:auto 1fr;align-items:start;gap:0;padding:74px 20px 20px; }
-  .esp-phase { min-height:250px; }
+  .esp-phase { min-height:320px; }
+  .kim-wrap { padding:8px 20px 60px; }
+  .kim-row { grid-template-columns:1fr;gap:26px; }
+  .kim-row::before { display:none; }
+  .ba-wrap { padding:0 20px 60px; }
+  .ba-grid { grid-template-columns:1fr;gap:28px; }
   .esp-txt h3 { font-size:26px; }
   .esp-stage { height:auto;align-self:stretch; }
-  #esploso-svg { height:min(52vh,420px); }
+  #esploso-svg { height:min(44vh,400px); }
   .render-grid { grid-template-columns:1fr;grid-template-rows:auto; }
   .render-cell.tall { grid-row:auto; }
   #stxt { font-size:32px; }
@@ -1348,6 +1382,8 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
             <div class="esp-sw" data-fin="#4A4A4C" data-name="Antracite opaco" style="background:#3C3C3E;"></div>
           </div>
           <span class="esp-fin-name" id="esp-fin-name">Rovere naturale</span>
+          <div class="esp-optrow"><span>Maniglia</span><button class="esp-opt on" data-opt="man" data-val="gola">Gola</button><button class="esp-opt" data-opt="man" data-val="pomello">Pomello</button></div>
+          <div class="esp-optrow"><span>Base</span><button class="esp-opt on" data-opt="base" data-val="metallo">Metallo nero</button><button class="esp-opt" data-opt="base" data-val="legno">Legno</button></div>
         </div>
       </div>
       <div class="esp-stage">
@@ -1368,12 +1404,12 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
           </g>
           <!-- BASE + GAMBE -->
           <g id="p-base">
-            <rect x="246" y="404" width="10" height="32" fill="#3A3A3C" opacity=".55"/>
+            <rect class="esp-leg-b" x="246" y="404" width="10" height="32" fill="#3A3A3C" opacity=".55"/>
             <path d="M170,430 L230,394 L530,394 L470,430 Z" fill="#EDE6D8" stroke="rgba(26,26,26,.35)" stroke-width=".75"/>
             <rect x="170" y="430" width="300" height="10" fill="#D8CDB8" stroke="rgba(26,26,26,.4)" stroke-width=".75"/>
-            <rect x="184" y="440" width="10" height="34" fill="#2A2A2A"/>
-            <rect x="446" y="440" width="10" height="34" fill="#2A2A2A"/>
-            <rect x="506" y="404" width="10" height="34" fill="#3A3A3C" opacity=".75"/>
+            <rect class="esp-leg-f" x="184" y="440" width="10" height="34" fill="#2A2A2A"/>
+            <rect class="esp-leg-f" x="446" y="440" width="10" height="34" fill="#2A2A2A"/>
+            <rect class="esp-leg-b" x="506" y="404" width="10" height="34" fill="#3A3A3C" opacity=".75"/>
           </g>
           <!-- FIANCO DX -->
           <g id="p-dx">
@@ -1390,8 +1426,14 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
           <g id="p-ante">
             <rect class="esp-fin" x="184" y="282" width="135" height="146" fill="#E7DFCE" stroke="rgba(26,26,26,.4)" stroke-width=".75"/>
             <rect class="esp-fin" x="321" y="282" width="135" height="146" fill="#E7DFCE" stroke="rgba(26,26,26,.4)" stroke-width=".75"/>
-            <rect x="309" y="344" width="2.5" height="22" fill="var(--gold)"/>
-            <rect x="328" y="344" width="2.5" height="22" fill="var(--gold)"/>
+            <g id="man-gola">
+              <rect x="309" y="344" width="2.5" height="22" fill="var(--gold)"/>
+              <rect x="328" y="344" width="2.5" height="22" fill="var(--gold)"/>
+            </g>
+            <g id="man-pomello" opacity="0">
+              <circle cx="310" cy="355" r="4.5" fill="var(--gold)"/>
+              <circle cx="330" cy="355" r="4.5" fill="var(--gold)"/>
+            </g>
           </g>
           <!-- QUOTE -->
           <g id="p-quote" font-family="Inter" font-size="9" fill="var(--gold)" stroke="var(--gold)" stroke-width=".6">
@@ -1443,6 +1485,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
       <h4>Arredo standard</h4>
       <p>Arrediamo la stanza con mobili di catalogo selezionati per te. Per ogni pezzo ricevi la scheda prodotto con marca, modello, finitura e prezzo — e ti indirizziamo verso i fornitori giusti per l'acquisto, senza intermediari.</p>
       <p class="modo-tag">Noi selezioniamo · tu acquisti</p>
+      <a class="modo-cta" href="#contatti" data-serv="Arredo standard — selezione fornitori">Richiedi questo servizio →</a>
     </div>
     <div class="modo rev">
       <div class="modo-icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1"><path d="M5 29 L23 11 L28 16 L10 34" stroke-linejoin="round"/><path d="M23 11 L26 8 L31 13 L28 16"/><line x1="9" y1="25" x2="12" y2="28"/><line x1="13" y1="21" x2="16" y2="24"/><line x1="17" y1="17" x2="20" y2="20"/></svg></div>
@@ -1450,6 +1493,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
       <h4>Scheda tecnico-esecutiva</h4>
       <p>Progettiamo il mobile su misura per il tuo spazio e prepariamo la tavola esecutiva completa: quote, sezioni, materiali, ferramenta e dettagli costruttivi. La consegni al tuo falegname di fiducia, che realizza esattamente ciò che vedi nel render.</p>
       <p class="modo-tag">Noi disegniamo · il tuo artigiano realizza</p>
+      <div><a class="modo-cta" href="#contatti" data-serv="Arredo su misura — scheda esecutiva">Richiedi questo servizio →</a><a class="modo-cta sec" href="scheda-esempio.html" target="_blank" rel="noopener">Esempio di scheda ↗</a></div>
     </div>
     <div class="modo rev">
       <div class="modo-badge">Servizio completo</div>
@@ -1458,6 +1502,65 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
       <h4>Chiavi in mano</h4>
       <p>Ci occupiamo di tutto: preventivo, progettazione esecutiva, realizzazione con i nostri artigiani e installazione a casa tua. Vedi il mobile nel render, lo ritrovi identico nella stanza — con un unico referente dall'inizio alla fine.</p>
       <p class="modo-tag">Progetto · Realizzazione · Installazione</p>
+      <a class="modo-cta" href="#contatti" data-serv="Arredo chiavi in mano">Richiedi questo servizio →</a>
+    </div>
+  </div>
+
+  <!-- ── TIMELINE CHIAVI IN MANO ── -->
+  <div class="kim-wrap">
+    <p class="slabel rev">Chiavi in mano · come funziona</p>
+    <div class="kim-row">
+      <div class="kim-step rev">
+        <p class="kim-num">01</p>
+        <h5>Sopralluogo<br>e rilievo</h5>
+        <p>Misuriamo lo spazio (anche con scansione LiDAR) e ascoltiamo come vivi la stanza.</p>
+        <span class="kim-dur">1 giorno</span>
+      </div>
+      <div class="kim-step rev">
+        <p class="kim-num">02</p>
+        <h5>Progetto<br>e render</h5>
+        <p>Disegniamo il mobile su misura e te lo mostriamo fotorealistico, nella tua stanza.</p>
+        <span class="kim-dur">1–2 settimane</span>
+      </div>
+      <div class="kim-step rev">
+        <p class="kim-num">03</p>
+        <h5>Preventivo<br>e conferma</h5>
+        <p>Un prezzo chiaro, voce per voce: materiali, lavorazione, trasporto e posa.</p>
+        <span class="kim-dur">2–3 giorni</span>
+      </div>
+      <div class="kim-step rev">
+        <p class="kim-num">04</p>
+        <h5>Realizzazione<br>in laboratorio</h5>
+        <p>I nostri artigiani costruiscono il mobile seguendo la scheda esecutiva al millimetro.</p>
+        <span class="kim-dur">4–6 settimane</span>
+      </div>
+      <div class="kim-step rev">
+        <p class="kim-num">05</p>
+        <h5>Consegna<br>e installazione</h5>
+        <p>Montiamo tutto noi, con verifica finale insieme a te. La stanza è identica al render.</p>
+        <span class="kim-dur">1–2 giorni</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDER RENDER / REALTÀ ── -->
+  <div class="ba-wrap">
+    <div class="ba-grid">
+      <div class="rev-l">
+        <p class="slabel">La prova</p>
+        <h3 class="serif" style="color:var(--text);font-size:38px;font-weight:300;line-height:1.15;">Render<br>vs realtà.</h3>
+        <p style="font-size:12px;color:var(--muted);line-height:1.9;margin-top:14px;">Quello che ti mostriamo prima è quello che ottieni dopo. Trascina il cursore per confrontare il render di progetto con la fotografia del mobile installato.</p>
+      </div>
+      <div class="rev-r">
+        <div class="ba-slider" id="ba-slider">
+          <img src="img/render-interno-1.jpg" alt="Fotografia del mobile realizzato" style="filter:saturate(.88) contrast(.95) brightness(.97);">
+          <div class="ba-top" id="ba-top"><img src="img/render-interno-1.jpg" alt="Render di progetto"></div>
+          <div class="ba-handle" id="ba-handle"></div>
+          <span class="ba-tag l">Render</span>
+          <span class="ba-tag r">Realizzato</span>
+        </div>
+        <p class="ba-note">INSERISCI · foto reale del mobile installato al posto di img/render-interno-1.jpg (lato destro)</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1654,7 +1757,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     </div>
     <div class="ff">
       <label>Tipologia progetto</label>
-      <select>
+      <select id="f-serv">
         <option value="">Seleziona...</option>
         <option>Render fotorealistici</option>
         <option>Scansione LIDAR</option>
@@ -1662,6 +1765,9 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <option>Sito web dedicato al progetto</option>
         <option>Planimetrie e documentazione</option>
         <option>Progetto arredo e illuminotecnica</option>
+        <option>Arredo standard — selezione fornitori</option>
+        <option>Arredo su misura — scheda esecutiva</option>
+        <option>Arredo chiavi in mano</option>
         <option>Pacchetto completo</option>
       </select>
     </div>
@@ -1861,7 +1967,49 @@ document.querySelectorAll('[data-target]').forEach(el=>{
       finName.textContent=sw.dataset.name;
     });
   });
+  // opzioni: maniglia e base
+  const legCol={metallo:{f:'#2A2A2A',b:'#3A3A3C'},legno:{f:'#A9885B',b:'#8F7350'}};
+  document.querySelectorAll('.esp-opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.esp-opt[data-opt="'+btn.dataset.opt+'"]').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      if(btn.dataset.opt==='man'){
+        document.getElementById('man-gola').setAttribute('opacity',btn.dataset.val==='gola'?1:0);
+        document.getElementById('man-pomello').setAttribute('opacity',btn.dataset.val==='pomello'?1:0);
+      } else {
+        const c=legCol[btn.dataset.val];
+        document.querySelectorAll('.esp-leg-f').forEach(r=>r.setAttribute('fill',c.f));
+        document.querySelectorAll('.esp-leg-b').forEach(r=>r.setAttribute('fill',c.b));
+      }
+    });
+  });
 })();
+
+// ── SLIDER RENDER vs REALTÀ
+(function(){
+  const s=document.getElementById('ba-slider');
+  if(!s) return;
+  const top=document.getElementById('ba-top'), h=document.getElementById('ba-handle');
+  function setX(cx){
+    const r=s.getBoundingClientRect();
+    const x=Math.max(.02,Math.min(.98,(cx-r.left)/r.width));
+    top.style.clipPath='inset(0 '+((1-x)*100)+'% 0 0)';
+    h.style.left=(x*100)+'%';
+  }
+  let drag=false;
+  s.addEventListener('pointerdown',e=>{drag=true;s.setPointerCapture(e.pointerId);setX(e.clientX);});
+  s.addEventListener('pointermove',e=>{if(drag)setX(e.clientX);});
+  s.addEventListener('pointerup',()=>drag=false);
+  s.addEventListener('pointercancel',()=>drag=false);
+})();
+
+// ── CTA CARD: precompila la tipologia nel form contatti
+document.querySelectorAll('.modo-cta[data-serv]').forEach(a=>{
+  a.addEventListener('click',()=>{
+    const sel=document.getElementById('f-serv');
+    if(sel) sel.value=a.dataset.serv;
+  });
+});
 
 // ── HORIZONTAL RENDER GALLERY
 (function(){
