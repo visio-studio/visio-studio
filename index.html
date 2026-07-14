@@ -219,7 +219,7 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .modi-head { padding:0 48px; }
 .modi-head h3 { font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--text); }
 .modi-head p { font-size:12px;color:var(--muted);line-height:1.9;max-width:560px;margin-top:12px; }
-.modi-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:44px 48px 96px; }
+.modi-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:44px 48px 28px; }
 .modo { position:relative;border:.5px solid var(--border);background:var(--light);padding:38px 30px 30px;display:flex;flex-direction:column;transition:border-color .35s,transform .35s,box-shadow .35s; }
 .modo:hover { border-color:var(--gold);transform:translateY(-6px);box-shadow:0 24px 48px rgba(0,0,0,.07); }
 .modo-num { font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold);letter-spacing:2px;margin-bottom:18px; }
@@ -231,8 +231,37 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .modo-cta { display:inline-block;margin-top:16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text);text-decoration:none;cursor:none;border-bottom:.5px solid var(--gold);padding-bottom:4px;transition:color .3s; }
 .modo-cta:hover { color:var(--gold); }
 .modo-cta.sec { border-bottom-color:var(--border);margin-left:22px; }
+.modo-open { font-family:'Inter',sans-serif;margin-top:20px;width:100%;background:transparent;border:.5px solid var(--gold);color:var(--gold);font-size:9.5px;letter-spacing:2px;text-transform:uppercase;padding:12px 0;cursor:none;transition:all .3s; }
+.modo-open:hover,.modo-open.on { background:var(--gold);color:var(--dark); }
+/* PANNELLO ESPANDIBILE */
+#modo-panel { max-height:0;overflow:hidden;opacity:0;transition:max-height .7s ease,opacity .5s ease;margin:0 48px; }
+#modo-panel.open { opacity:1; }
+.mp-content { display:none;border:.5px solid var(--gold);background:var(--light);padding:40px 36px;margin-bottom:12px; }
+.mp-content.act { display:block; }
+.mp-title { font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--text);margin-bottom:6px; }
+.mp-sub { font-size:11px;color:var(--muted);line-height:1.8;max-width:560px;margin-bottom:28px; }
+/* pannello 1: disegno → ecommerce */
+.shop-row { display:grid;grid-template-columns:1fr 44px 1fr;gap:18px;align-items:center;padding:20px 0;border-top:.5px solid var(--border); }
+.shop-row:first-of-type { border-top:none; }
+.shop-sketch { border:.5px solid var(--border);background:var(--light2); }
+.shop-arrow { text-align:center;color:var(--gold);font-size:18px; }
+.shop-card { border:.5px solid var(--border);background:#fff;overflow:hidden; }
+.shop-chrome { display:flex;align-items:center;gap:6px;background:var(--light3);padding:7px 10px;border-bottom:.5px solid var(--border); }
+.shop-chrome i { width:7px;height:7px;border-radius:50%;background:#D0CCC5;display:block; }
+.shop-url { flex:1;background:#fff;border:.5px solid var(--border);font-size:8px;color:var(--muted);padding:3px 8px;letter-spacing:.5px;border-radius:8px; }
+.shop-body { display:grid;grid-template-columns:110px 1fr;gap:14px;padding:14px; }
+.shop-ph { background:var(--light2);border:.5px solid var(--border);display:flex;align-items:center;justify-content:center;min-height:96px; }
+.shop-info h6 { font-size:11px;font-weight:500;color:var(--text);letter-spacing:.5px;margin-bottom:2px; }
+.shop-info .sb { font-size:8.5px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase; }
+.shop-price { font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin:8px 0 2px; }
+.shop-stock { font-size:8.5px;color:#5A8A4A;letter-spacing:1px;text-transform:uppercase; }
+.shop-btn { display:inline-block;margin-top:9px;background:var(--text);color:#fff;font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px; }
+/* pannello 2: scheda */
+.mp-frame { width:100%;height:620px;border:.5px solid var(--border);background:#EEEAE4; }
+.mp-actions { display:flex;gap:26px;margin-top:16px; }
+/* slider */
+.ba-slider svg { position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none; }
 /* TIMELINE CHIAVI IN MANO */
-.kim-wrap { padding:8px 48px 80px; }
 .kim-row { display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:34px;position:relative; }
 .kim-row::before { content:'';position:absolute;top:5px;left:2%;right:2%;height:.5px;background:var(--border); }
 .kim-step { position:relative;padding-top:26px; }
@@ -242,7 +271,7 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .kim-step p { font-size:10.5px;color:var(--muted);line-height:1.7; }
 .kim-dur { display:inline-block;margin-top:10px;font-size:8.5px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;border:.5px solid var(--border);padding:4px 9px; }
 /* SLIDER RENDER / REALTÀ */
-.ba-wrap { padding:0 48px 96px; }
+.ba-wrap { padding:56px 48px 96px; }
 .ba-grid { display:grid;grid-template-columns:340px 1fr;gap:56px;align-items:center;margin-top:34px; }
 .ba-slider { position:relative;overflow:hidden;aspect-ratio:16/10;user-select:none;touch-action:none;cursor:none; }
 .ba-slider img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none; }
@@ -348,15 +377,19 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   #intro-servizi,#lidar-section,#sito-dedicato,#vrar,#documenti,#esterni,#illumino,#stats,#contatti { padding:60px 20px; }
   .arredo-head { padding:60px 20px 0; }
   .modi-head { padding:0 20px; }
-  .modi-grid { grid-template-columns:1fr;padding:36px 20px 60px; }
+  .modi-grid { grid-template-columns:1fr;padding:36px 20px 20px; }
   #esploso-wrap { height:300vh; }
   #esploso-sticky { grid-template-columns:1fr;grid-template-rows:auto 1fr;align-items:start;gap:0;padding:74px 20px 20px; }
   .esp-phase { min-height:320px; }
-  .kim-wrap { padding:8px 20px 60px; }
   .kim-row { grid-template-columns:1fr;gap:26px; }
   .kim-row::before { display:none; }
-  .ba-wrap { padding:0 20px 60px; }
+  .ba-wrap { padding:40px 20px 60px; }
   .ba-grid { grid-template-columns:1fr;gap:28px; }
+  #modo-panel { margin:0 20px; }
+  .mp-content { padding:26px 18px; }
+  .shop-row { grid-template-columns:1fr;gap:12px; }
+  .shop-arrow { transform:rotate(90deg); }
+  .mp-frame { height:420px; }
   .esp-txt h3 { font-size:26px; }
   .esp-stage { height:auto;align-self:stretch; }
   #esploso-svg { height:min(44vh,400px); }
@@ -1486,6 +1519,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
       <p>Arrediamo la stanza con mobili di catalogo selezionati per te. Per ogni pezzo ricevi la scheda prodotto con marca, modello, finitura e prezzo — e ti indirizziamo verso i fornitori giusti per l'acquisto, senza intermediari.</p>
       <p class="modo-tag">Noi selezioniamo · tu acquisti</p>
       <a class="modo-cta" href="#contatti" data-serv="Arredo standard — selezione fornitori">Richiedi questo servizio →</a>
+      <button class="modo-open" data-mp="mp1">Vedi un esempio ↓</button>
     </div>
     <div class="modo rev">
       <div class="modo-icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1"><path d="M5 29 L23 11 L28 16 L10 34" stroke-linejoin="round"/><path d="M23 11 L26 8 L31 13 L28 16"/><line x1="9" y1="25" x2="12" y2="28"/><line x1="13" y1="21" x2="16" y2="24"/><line x1="17" y1="17" x2="20" y2="20"/></svg></div>
@@ -1493,7 +1527,8 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
       <h4>Scheda tecnico-esecutiva</h4>
       <p>Progettiamo il mobile su misura per il tuo spazio e prepariamo la tavola esecutiva completa: quote, sezioni, materiali, ferramenta e dettagli costruttivi. La consegni al tuo falegname di fiducia, che realizza esattamente ciò che vedi nel render.</p>
       <p class="modo-tag">Noi disegniamo · il tuo artigiano realizza</p>
-      <div><a class="modo-cta" href="#contatti" data-serv="Arredo su misura — scheda esecutiva">Richiedi questo servizio →</a><a class="modo-cta sec" href="scheda-esempio.html" target="_blank" rel="noopener">Esempio di scheda ↗</a></div>
+      <a class="modo-cta" href="#contatti" data-serv="Arredo su misura — scheda esecutiva">Richiedi questo servizio →</a>
+      <button class="modo-open" data-mp="mp2">Vedi la scheda di esempio ↓</button>
     </div>
     <div class="modo rev">
       <div class="modo-badge">Servizio completo</div>
@@ -1503,63 +1538,250 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
       <p>Ci occupiamo di tutto: preventivo, progettazione esecutiva, realizzazione con i nostri artigiani e installazione a casa tua. Vedi il mobile nel render, lo ritrovi identico nella stanza — con un unico referente dall'inizio alla fine.</p>
       <p class="modo-tag">Progetto · Realizzazione · Installazione</p>
       <a class="modo-cta" href="#contatti" data-serv="Arredo chiavi in mano">Richiedi questo servizio →</a>
+      <button class="modo-open" data-mp="mp3">Vedi il percorso completo ↓</button>
     </div>
   </div>
 
-  <!-- ── TIMELINE CHIAVI IN MANO ── -->
-  <div class="kim-wrap">
-    <p class="slabel rev">Chiavi in mano · come funziona</p>
-    <div class="kim-row">
-      <div class="kim-step rev">
-        <p class="kim-num">01</p>
-        <h5>Sopralluogo<br>e rilievo</h5>
-        <p>Misuriamo lo spazio (anche con scansione LiDAR) e ascoltiamo come vivi la stanza.</p>
-        <span class="kim-dur">1 giorno</span>
+  <!-- ── PANNELLO ESPANDIBILE SERVIZI ── -->
+  <div id="modo-panel">
+
+    <!-- MP1: disegno → e-commerce -->
+    <div class="mp-content" id="mp1">
+      <p class="mp-title serif">Dal progetto all'acquisto.</p>
+      <p class="mp-sub">Ogni mobile che vedi nel render è un prodotto reale, di catalogo. Nella scheda arredo trovi il disegno quotato e il riferimento diretto al fornitore: non devi cercare nulla, solo ordinare.</p>
+
+      <div class="shop-row">
+        <svg class="shop-sketch" viewBox="0 0 300 150" width="100%" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <text x="12" y="20" font-family="Inter" font-size="7" fill="#999" letter-spacing="2">DISEGNO 04 · POLTRONA</text>
+          <path d="M80,95 L80,60 Q80,52 88,52 L104,52" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <path d="M104,52 Q120,50 122,66 L124,86" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <path d="M70,95 Q70,84 82,84 L128,84 Q140,84 140,95 Q140,106 128,106 L82,106 Q70,106 70,95 Z" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <line x1="82" y1="106" x2="78" y2="122" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <line x1="128" y1="106" x2="132" y2="122" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <g font-family="Inter" font-size="7.5" fill="#C9A96E" stroke="#C9A96E" stroke-width=".5">
+            <line x1="70" y1="134" x2="140" y2="134"/><line x1="70" y1="130" x2="70" y2="138"/><line x1="140" y1="130" x2="140" y2="138"/>
+            <text x="105" y="146" text-anchor="middle" stroke="none" letter-spacing="1">78</text>
+            <line x1="156" y1="52" x2="156" y2="122"/><line x1="152" y1="52" x2="160" y2="52"/><line x1="152" y1="122" x2="160" y2="122"/>
+            <text x="166" y="90" stroke="none" letter-spacing="1">72</text>
+          </g>
+          <text x="200" y="70" font-family="Inter" font-size="6.5" fill="#999" letter-spacing="1">TESSUTO BOUCLÉ</text>
+          <text x="200" y="82" font-family="Inter" font-size="6.5" fill="#999" letter-spacing="1">STRUTTURA FRASSINO</text>
+        </svg>
+        <div class="shop-arrow">→</div>
+        <div class="shop-card">
+          <div class="shop-chrome"><i></i><i></i><i></i><span class="shop-url">shop.fornitore.it/poltrona-club-boucle</span></div>
+          <div class="shop-body">
+            <div class="shop-ph"><svg viewBox="0 0 80 80" width="64" xmlns="http://www.w3.org/2000/svg" fill="none"><path d="M22,50 L22,32 Q22,26 28,26 L38,26" stroke="#8B7355" stroke-width="2"/><path d="M38,26 Q50,24 51,36 L52,46" stroke="#8B7355" stroke-width="2"/><path d="M16,50 Q16,42 25,42 L55,42 Q64,42 64,50 Q64,58 55,58 L25,58 Q16,58 16,50 Z" fill="#D8D4CE" stroke="#8B7355" stroke-width="1.5"/><line x1="25" y1="58" x2="22" y2="68" stroke="#8B7355" stroke-width="2"/><line x1="55" y1="58" x2="58" y2="68" stroke="#8B7355" stroke-width="2"/></svg></div>
+            <div class="shop-info">
+              <p class="sb">Fornitore selezionato</p>
+              <h6>Poltrona Club · Bouclé naturale</h6>
+              <p class="shop-price">€ 1.290</p>
+              <p class="shop-stock">● Disponibile · consegna 4 settimane</p>
+              <span class="shop-btn">Vai al prodotto →</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="kim-step rev">
-        <p class="kim-num">02</p>
-        <h5>Progetto<br>e render</h5>
-        <p>Disegniamo il mobile su misura e te lo mostriamo fotorealistico, nella tua stanza.</p>
-        <span class="kim-dur">1–2 settimane</span>
+
+      <div class="shop-row">
+        <svg class="shop-sketch" viewBox="0 0 300 150" width="100%" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <text x="12" y="20" font-family="Inter" font-size="7" fill="#999" letter-spacing="2">DISEGNO 05 · LAMPADA DA TERRA</text>
+          <line x1="105" y1="38" x2="105" y2="118" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <ellipse cx="105" cy="122" rx="16" ry="3" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <path d="M91,38 L119,38 L113,24 L97,24 Z" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <g font-family="Inter" font-size="7.5" fill="#C9A96E" stroke="#C9A96E" stroke-width=".5">
+            <line x1="140" y1="24" x2="140" y2="125"/><line x1="136" y1="24" x2="144" y2="24"/><line x1="136" y1="125" x2="144" y2="125"/>
+            <text x="150" y="78" stroke="none" letter-spacing="1">165</text>
+          </g>
+          <text x="190" y="70" font-family="Inter" font-size="6.5" fill="#999" letter-spacing="1">OTTONE SATINATO</text>
+          <text x="190" y="82" font-family="Inter" font-size="6.5" fill="#999" letter-spacing="1">DIMMER TATTILE</text>
+        </svg>
+        <div class="shop-arrow">→</div>
+        <div class="shop-card">
+          <div class="shop-chrome"><i></i><i></i><i></i><span class="shop-url">shop.fornitore.it/lampada-stelo-ottone</span></div>
+          <div class="shop-body">
+            <div class="shop-ph"><svg viewBox="0 0 80 80" width="64" xmlns="http://www.w3.org/2000/svg" fill="none"><line x1="40" y1="26" x2="40" y2="64" stroke="#C9A96E" stroke-width="2"/><ellipse cx="40" cy="66" rx="11" ry="2.5" stroke="#C9A96E" stroke-width="1.5"/><path d="M30,26 L50,26 L46,15 L34,15 Z" fill="#F5F3EF" stroke="#C9A96E" stroke-width="1.5"/></svg></div>
+            <div class="shop-info">
+              <p class="sb">Fornitore selezionato</p>
+              <h6>Lampada a stelo · Ottone satinato</h6>
+              <p class="shop-price">€ 480</p>
+              <p class="shop-stock">● Disponibile · consegna 2 settimane</p>
+              <span class="shop-btn">Vai al prodotto →</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="kim-step rev">
-        <p class="kim-num">03</p>
-        <h5>Preventivo<br>e conferma</h5>
-        <p>Un prezzo chiaro, voce per voce: materiali, lavorazione, trasporto e posa.</p>
-        <span class="kim-dur">2–3 giorni</span>
-      </div>
-      <div class="kim-step rev">
-        <p class="kim-num">04</p>
-        <h5>Realizzazione<br>in laboratorio</h5>
-        <p>I nostri artigiani costruiscono il mobile seguendo la scheda esecutiva al millimetro.</p>
-        <span class="kim-dur">4–6 settimane</span>
-      </div>
-      <div class="kim-step rev">
-        <p class="kim-num">05</p>
-        <h5>Consegna<br>e installazione</h5>
-        <p>Montiamo tutto noi, con verifica finale insieme a te. La stanza è identica al render.</p>
-        <span class="kim-dur">1–2 giorni</span>
+
+      <div class="shop-row">
+        <svg class="shop-sketch" viewBox="0 0 300 150" width="100%" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <text x="12" y="20" font-family="Inter" font-size="7" fill="#999" letter-spacing="2">DISEGNO 06 · TAVOLINO</text>
+          <ellipse cx="105" cy="60" rx="42" ry="10" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <line x1="105" y1="70" x2="105" y2="112" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <ellipse cx="105" cy="115" rx="18" ry="4" stroke="rgba(26,26,26,.6)" stroke-width="1"/>
+          <g font-family="Inter" font-size="7.5" fill="#C9A96E" stroke="#C9A96E" stroke-width=".5">
+            <line x1="63" y1="40" x2="147" y2="40"/><line x1="63" y1="36" x2="63" y2="44"/><line x1="147" y1="36" x2="147" y2="44"/>
+            <text x="105" y="32" text-anchor="middle" stroke="none" letter-spacing="1">Ø 80</text>
+          </g>
+          <text x="190" y="70" font-family="Inter" font-size="6.5" fill="#999" letter-spacing="1">MARMO CALACATTA</text>
+          <text x="190" y="82" font-family="Inter" font-size="6.5" fill="#999" letter-spacing="1">BASE ACCIAIO NERO</text>
+        </svg>
+        <div class="shop-arrow">→</div>
+        <div class="shop-card">
+          <div class="shop-chrome"><i></i><i></i><i></i><span class="shop-url">shop.fornitore.it/tavolino-marmo-80</span></div>
+          <div class="shop-body">
+            <div class="shop-ph"><svg viewBox="0 0 80 80" width="64" xmlns="http://www.w3.org/2000/svg" fill="none"><ellipse cx="40" cy="30" rx="24" ry="6" fill="#F5F3EF" stroke="#8B7355" stroke-width="1.5"/><line x1="40" y1="36" x2="40" y2="60" stroke="#2A2A2A" stroke-width="2"/><ellipse cx="40" cy="62" rx="11" ry="2.5" stroke="#2A2A2A" stroke-width="1.5"/></svg></div>
+            <div class="shop-info">
+              <p class="sb">Fornitore selezionato</p>
+              <h6>Tavolino Ø80 · Marmo Calacatta</h6>
+              <p class="shop-price">€ 740</p>
+              <p class="shop-stock">● Disponibile · consegna 3 settimane</p>
+              <span class="shop-btn">Vai al prodotto →</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- MP2: scheda esecutiva -->
+    <div class="mp-content" id="mp2">
+      <p class="mp-title serif">La scheda che consegni al falegname.</p>
+      <p class="mp-sub">Esploso assonometrico, prospetti quotati, distinta base, ferramenta e note di lavorazione: tutto ciò che serve per realizzare il mobile esattamente come nel render.</p>
+      <iframe class="mp-frame" id="mp2-frame" data-src="scheda-esempio.html" title="Scheda tecnico-esecutiva di esempio" loading="lazy"></iframe>
+      <div class="mp-actions">
+        <a class="modo-cta" href="scheda-esempio.html" target="_blank" rel="noopener" style="margin-top:0;">Apri a schermo intero ↗</a>
+      </div>
+    </div>
+
+    <!-- MP3: timeline chiavi in mano -->
+    <div class="mp-content" id="mp3">
+      <p class="mp-title serif">Il percorso, passo per passo.</p>
+      <p class="mp-sub">Dal primo sopralluogo al mobile installato: un unico referente, tempi chiari e nessun pensiero per te.</p>
+      <div class="kim-row">
+        <div class="kim-step">
+          <p class="kim-num">01</p>
+          <h5>Sopralluogo<br>e rilievo</h5>
+          <p>Misuriamo lo spazio (anche con scansione LiDAR) e ascoltiamo come vivi la stanza.</p>
+          <span class="kim-dur">1 giorno</span>
+        </div>
+        <div class="kim-step">
+          <p class="kim-num">02</p>
+          <h5>Progetto<br>e render</h5>
+          <p>Disegniamo il mobile su misura e te lo mostriamo fotorealistico, nella tua stanza.</p>
+          <span class="kim-dur">1–2 settimane</span>
+        </div>
+        <div class="kim-step">
+          <p class="kim-num">03</p>
+          <h5>Preventivo<br>e conferma</h5>
+          <p>Un prezzo chiaro, voce per voce: materiali, lavorazione, trasporto e posa.</p>
+          <span class="kim-dur">2–3 giorni</span>
+        </div>
+        <div class="kim-step">
+          <p class="kim-num">04</p>
+          <h5>Realizzazione<br>in laboratorio</h5>
+          <p>I nostri artigiani costruiscono il mobile seguendo la scheda esecutiva al millimetro.</p>
+          <span class="kim-dur">4–6 settimane</span>
+        </div>
+        <div class="kim-step">
+          <p class="kim-num">05</p>
+          <h5>Consegna<br>e installazione</h5>
+          <p>Montiamo tutto noi, con verifica finale insieme a te. La stanza è identica al render.</p>
+          <span class="kim-dur">1–2 giorni</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ── SLIDER RENDER / REALTÀ ── -->
   <div class="ba-wrap">
     <div class="ba-grid">
       <div class="rev-l">
-        <p class="slabel">La prova</p>
-        <h3 class="serif" style="color:var(--text);font-size:38px;font-weight:300;line-height:1.15;">Render<br>vs realtà.</h3>
-        <p style="font-size:12px;color:var(--muted);line-height:1.9;margin-top:14px;">Quello che ti mostriamo prima è quello che ottieni dopo. Trascina il cursore per confrontare il render di progetto con la fotografia del mobile installato.</p>
+        <p class="slabel">Il progetto completo</p>
+        <h3 class="serif" style="color:var(--text);font-size:38px;font-weight:300;line-height:1.15;">Prima<br>e dopo.</h3>
+        <p style="font-size:12px;color:var(--muted);line-height:1.9;margin-top:14px;">La stessa stanza, vuota e poi arredata in ogni dettaglio: mobili, tende, luci e complementi d'arredo. Trascina il cursore per vedere la trasformazione.</p>
       </div>
       <div class="rev-r">
         <div class="ba-slider" id="ba-slider">
-          <img src="img/render-interno-1.jpg" alt="Fotografia del mobile realizzato" style="filter:saturate(.88) contrast(.95) brightness(.97);">
-          <div class="ba-top" id="ba-top"><img src="img/render-interno-1.jpg" alt="Render di progetto"></div>
+          <!-- STANZA ARREDATA (sotto, lato destro) -->
+          <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <rect width="800" height="380" fill="#F2EEE7"/>
+            <rect y="380" width="800" height="120" fill="#D9CBB2"/>
+            <line x1="0" y1="380" x2="800" y2="380" stroke="rgba(26,26,26,.25)" stroke-width="1"/>
+            <g stroke="rgba(26,26,26,.08)" stroke-width="1">
+              <line x1="100" y1="380" x2="40" y2="500"/><line x1="250" y1="380" x2="210" y2="500"/><line x1="400" y1="380" x2="385" y2="500"/><line x1="550" y1="380" x2="560" y2="500"/><line x1="700" y1="380" x2="735" y2="500"/>
+            </g>
+            <!-- finestra -->
+            <rect x="570" y="60" width="170" height="240" fill="#DCE4E8" stroke="rgba(26,26,26,.35)" stroke-width="1.5"/>
+            <line x1="655" y1="60" x2="655" y2="300" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
+            <line x1="570" y1="180" x2="740" y2="180" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
+            <!-- tende -->
+            <line x1="540" y1="42" x2="770" y2="42" stroke="#C9A96E" stroke-width="2"/>
+            <path d="M546,44 Q542,180 550,336 L586,336 Q580,180 584,44 Z" fill="#E7DFCE" stroke="rgba(26,26,26,.15)"/>
+            <path d="M556,44 L558,336 M568,44 L570,336" stroke="rgba(26,26,26,.1)"/>
+            <path d="M726,44 Q722,180 728,336 L764,336 Q760,180 758,44 Z" fill="#E7DFCE" stroke="rgba(26,26,26,.15)"/>
+            <path d="M738,44 L740,336 M748,44 L750,336" stroke="rgba(26,26,26,.1)"/>
+            <!-- lampada a sospensione -->
+            <line x1="330" y1="0" x2="330" y2="95" stroke="rgba(26,26,26,.5)" stroke-width="1"/>
+            <path d="M310,95 L350,95 L342,75 L318,75 Z" fill="#1A1A1A"/>
+            <circle cx="330" cy="112" r="26" fill="rgba(255,205,110,.22)"/>
+            <!-- quadri -->
+            <rect x="150" y="110" width="58" height="74" fill="#FAFAF8" stroke="#C9A96E" stroke-width="1.5"/>
+            <path d="M158,160 Q175,128 200,152" stroke="#8B7355" stroke-width="1.5"/>
+            <rect x="222" y="130" width="44" height="54" fill="#FAFAF8" stroke="#C9A96E" stroke-width="1.5"/>
+            <circle cx="244" cy="155" r="12" stroke="#8B7355" stroke-width="1.5"/>
+            <!-- tappeto -->
+            <rect x="120" y="398" width="420" height="76" rx="4" fill="#C6BCA8" opacity=".8"/>
+            <rect x="132" y="406" width="396" height="60" rx="3" stroke="rgba(26,26,26,.15)" stroke-width="1"/>
+            <!-- divano -->
+            <rect x="170" y="240" width="240" height="60" rx="8" fill="#CFC9BE" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
+            <rect x="160" y="290" width="260" height="70" rx="10" fill="#D8D4CE" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
+            <rect x="150" y="255" width="26" height="95" rx="8" fill="#CFC9BE" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
+            <rect x="404" y="255" width="26" height="95" rx="8" fill="#CFC9BE" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
+            <rect x="196" y="262" width="42" height="34" rx="5" fill="#C9A96E" opacity=".75"/>
+            <rect x="342" y="262" width="42" height="34" rx="5" fill="#B0A890"/>
+            <line x1="185" y1="360" x2="182" y2="382" stroke="#2A2A2A" stroke-width="3"/>
+            <line x1="395" y1="360" x2="398" y2="382" stroke="#2A2A2A" stroke-width="3"/>
+            <!-- tavolino -->
+            <ellipse cx="490" cy="352" rx="46" ry="12" fill="#F5F3EF" stroke="rgba(26,26,26,.35)" stroke-width="1"/>
+            <line x1="490" y1="364" x2="490" y2="400" stroke="#2A2A2A" stroke-width="2.5"/>
+            <ellipse cx="490" cy="402" rx="20" ry="5" fill="#2A2A2A"/>
+            <rect x="468" y="332" width="20" height="14" rx="1" fill="#8B7355"/>
+            <ellipse cx="508" cy="340" rx="7" ry="4" fill="#4A7A3A" opacity=".8"/>
+            <!-- lampada da terra -->
+            <line x1="90" y1="200" x2="90" y2="392" stroke="#C9A96E" stroke-width="2"/>
+            <ellipse cx="90" cy="394" rx="18" ry="4" fill="#C9A96E"/>
+            <path d="M72,200 L108,200 L100,172 L80,172 Z" fill="#F5F3EF" stroke="#C9A96E" stroke-width="1.5"/>
+            <circle cx="90" cy="212" r="30" fill="rgba(255,205,110,.2)"/>
+            <!-- pianta -->
+            <path d="M508,296 L524,296 L521,330 L511,330 Z" fill="#B0A890" stroke="rgba(26,26,26,.25)"/>
+            <path d="M516,296 Q498,270 490,252 M516,296 Q516,262 522,244 M516,296 Q534,268 544,254" stroke="#4A7A3A" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="489" cy="250" r="7" fill="#4A7A3A" opacity=".85"/><circle cx="523" cy="242" r="8" fill="#5A8A4A" opacity=".85"/><circle cx="545" cy="252" r="7" fill="#4A7A3A" opacity=".85"/>
+          </svg>
+          <!-- STANZA VUOTA (sopra, lato sinistro) -->
+          <div class="ba-top" id="ba-top">
+            <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <rect width="800" height="380" fill="#F2EEE7"/>
+              <rect y="380" width="800" height="120" fill="#D9CBB2"/>
+              <line x1="0" y1="380" x2="800" y2="380" stroke="rgba(26,26,26,.25)" stroke-width="1"/>
+              <g stroke="rgba(26,26,26,.08)" stroke-width="1">
+                <line x1="100" y1="380" x2="40" y2="500"/><line x1="250" y1="380" x2="210" y2="500"/><line x1="400" y1="380" x2="385" y2="500"/><line x1="550" y1="380" x2="560" y2="500"/><line x1="700" y1="380" x2="735" y2="500"/>
+              </g>
+              <rect x="570" y="60" width="170" height="240" fill="#DCE4E8" stroke="rgba(26,26,26,.35)" stroke-width="1.5"/>
+              <line x1="655" y1="60" x2="655" y2="300" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
+              <line x1="570" y1="180" x2="740" y2="180" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
+              <!-- cavo nudo -->
+              <line x1="330" y1="0" x2="330" y2="88" stroke="rgba(26,26,26,.45)" stroke-width="1"/>
+              <circle cx="330" cy="94" r="6" stroke="rgba(26,26,26,.4)" stroke-width="1"/>
+              <!-- presa e segni -->
+              <rect x="184" y="352" width="14" height="9" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
+              <line x1="150" y1="140" x2="266" y2="140" stroke="rgba(26,26,26,.12)" stroke-width="1" stroke-dasharray="4 4"/>
+            </svg>
+          </div>
           <div class="ba-handle" id="ba-handle"></div>
-          <span class="ba-tag l">Render</span>
-          <span class="ba-tag r">Realizzato</span>
+          <span class="ba-tag l">Stanza vuota</span>
+          <span class="ba-tag r">Arredata</span>
         </div>
-        <p class="ba-note">INSERISCI · foto reale del mobile installato al posto di img/render-interno-1.jpg (lato destro)</p>
+        <p class="ba-note">INSERISCI · quando disponibili, sostituisci le illustrazioni con i render reali della stanza vuota e arredata</p>
       </div>
     </div>
   </div>
@@ -1997,10 +2219,42 @@ document.querySelectorAll('[data-target]').forEach(el=>{
     h.style.left=(x*100)+'%';
   }
   let drag=false;
-  s.addEventListener('pointerdown',e=>{drag=true;s.setPointerCapture(e.pointerId);setX(e.clientX);});
+  s.addEventListener('pointerdown',e=>{drag=true;setX(e.clientX);try{s.setPointerCapture(e.pointerId);}catch(_){}});
   s.addEventListener('pointermove',e=>{if(drag)setX(e.clientX);});
   s.addEventListener('pointerup',()=>drag=false);
   s.addEventListener('pointercancel',()=>drag=false);
+})();
+
+// ── PANNELLI SERVIZI: apertura sotto le card
+(function(){
+  const panel=document.getElementById('modo-panel');
+  if(!panel) return;
+  const btns=document.querySelectorAll('.modo-open');
+  btns.forEach(b=>b.dataset.lbl=b.innerHTML);
+  let cur=null;
+  btns.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id=btn.dataset.mp;
+      if(cur===id){
+        panel.style.maxHeight='0px';
+        panel.classList.remove('open');
+        btn.classList.remove('on');
+        btn.innerHTML=btn.dataset.lbl;
+        cur=null;
+        return;
+      }
+      const fr=document.getElementById('mp2-frame');
+      if(id==='mp2'&&fr&&!fr.src) fr.src=fr.dataset.src;
+      btns.forEach(b=>{b.classList.remove('on');b.innerHTML=b.dataset.lbl;});
+      document.querySelectorAll('.mp-content').forEach(c=>c.classList.toggle('act',c.id===id));
+      btn.classList.add('on');
+      btn.innerHTML='Chiudi −';
+      panel.classList.add('open');
+      panel.style.maxHeight=panel.scrollHeight+'px';
+      cur=id;
+      setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),200);
+    });
+  });
 })();
 
 // ── CTA CARD: precompila la tipologia nel form contatti
