@@ -180,16 +180,77 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .lc-box span { font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase; }
 .lc-box p { font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#fff;margin-top:4px; }
 
-/* ── SITO DEDICATO ── */
-#sito-dedicato { background:var(--dark);padding:96px 48px;border-top:.5px solid rgba(255,255,255,.06); }
-.sito-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center; }
-.sito-text h2 { font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;line-height:1.1;margin-bottom:18px; }
-.sito-text h2 em { font-style:italic;color:var(--gold); }
-.sito-text p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95;margin-bottom:14px; }
-.sito-features { margin-top:28px;display:flex;flex-direction:column;gap:12px; }
-.sf-item { display:flex;align-items:center;gap:12px;font-size:11px;color:rgba(255,255,255,.6); }
-.sf-dot { width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0; }
-.phone-mockup { position:relative;display:flex;justify-content:center; }
+/* ── SITO DEDICATO (pin + dispositivi + mini-sito) ── */
+#sito-dedicato { background:var(--dark);border-top:.5px solid rgba(255,255,255,.06); }
+#sd-wrap { position:relative;height:380vh; }
+#sd-sticky { position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;padding:84px 48px 0; }
+#sd-head { max-width:640px; }
+#sd-head h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.6vw,46px);font-weight:300;line-height:1.1;margin-bottom:14px; }
+#sd-head h2 em { font-style:italic;color:var(--gold); }
+#sd-head p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.9;max-width:520px; }
+#sd-stage { position:relative;flex:1; }
+.sd-dev { position:absolute;opacity:0;will-change:transform,opacity; }
+.sd-laptop { left:2%;bottom:9vh;width:min(46vw,600px);z-index:1; }
+.sd-lt-body { background:#0d0d0d;border:1px solid #262626;border-bottom:none;border-radius:12px 12px 0 0;padding:10px 10px 12px; }
+.sd-lt-base { height:12px;background:linear-gradient(#2a2a2a,#151515);border-radius:0 0 14px 14px;position:relative; }
+.sd-lt-base::after { content:'';position:absolute;left:50%;top:0;transform:translateX(-50%);width:90px;height:5px;background:#0c0c0c;border-radius:0 0 6px 6px; }
+.sd-tablet { right:13%;bottom:12vh;width:min(17vw,225px);z-index:2;background:#0d0d0d;border:1px solid #2a2a2a;border-radius:16px;padding:8px; }
+.sd-phone { right:1.5%;bottom:6vh;width:min(9.5vw,122px);z-index:3;background:#0d0d0d;border:1px solid #2e2e2e;border-radius:18px;padding:5px; }
+.sd-screen { position:relative;overflow:hidden;background:#0a0a0a;width:100%; }
+.sd-laptop .sd-screen { aspect-ratio:16/10;border-radius:4px; }
+.sd-tablet .sd-screen { aspect-ratio:3/4.1;border-radius:9px; }
+.sd-phone .sd-screen { aspect-ratio:9/18.6;border-radius:13px; }
+.sd-fit { position:absolute;top:0;left:0;width:320px;transform-origin:0 0; }
+#sd-caps { position:absolute;left:0;right:0;bottom:3.2vh;height:22px;text-align:center;pointer-events:none; }
+.sd-cap { position:absolute;left:0;right:0;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,110,.75);opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s; }
+.sd-cap.on { opacity:1;transform:none; }
+/* mini-sito dentro gli schermi (larghezza di progetto 320px) */
+.sd-site { width:320px;background:#0a0a0a;font-family:Inter,sans-serif; }
+.ms-sec { position:relative;overflow:hidden; }
+.ms-in { opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease; }
+.ms-sec.on .ms-in { opacity:1;transform:none; }
+.ms-hero { height:300px;background:linear-gradient(#0a0a0a 0%,#16324f 34%,#2d6ea8 78%,#3d7eb8 100%); }
+.ms-clouds { position:absolute;top:70px;left:0;width:200%;height:60px;background:radial-gradient(60px 16px at 15% 50%,rgba(255,255,255,.16),transparent 70%),radial-gradient(80px 18px at 45% 40%,rgba(255,255,255,.11),transparent 70%),radial-gradient(50px 14px at 75% 60%,rgba(255,255,255,.14),transparent 70%);animation:msClouds 26s linear infinite; }
+@keyframes msClouds { to{transform:translateX(-160px)} }
+.ms-hero svg { position:absolute;bottom:0;left:0;width:100%; }
+.ms-logo { position:absolute;top:44px;left:0;right:0;text-align:center;font-family:'Cormorant Garamond',serif;font-size:24px;letter-spacing:5px;color:#fff; }
+.ms-slogo { position:absolute;top:78px;left:0;right:0;text-align:center;font-size:7px;letter-spacing:2px;color:rgba(255,255,255,.55);text-transform:uppercase; }
+.ms-sdot { position:absolute;bottom:14px;left:50%;width:1px;height:22px;margin-left:-.5px;background:rgba(255,255,255,.35);overflow:hidden; }
+.ms-sdot::after { content:'';position:absolute;left:0;top:0;width:1px;height:8px;background:#fff;animation:msDrop 1.8s ease-in-out infinite; }
+@keyframes msDrop { 0%{transform:translateY(-9px)}100%{transform:translateY(24px)} }
+.ms-band { padding:26px 22px; }
+.ms-k { font-size:7px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px; }
+.ms-dati { background:#FAFAF8;height:170px; }
+.ms-dati .ms-k { color:#9a7b45; }
+.ms-row { display:flex;gap:26px; }
+.ms-stat b { display:block;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:#1a1a1a;line-height:1.1; }
+.ms-stat span { font-size:6.5px;letter-spacing:1.5px;color:#999;text-transform:uppercase; }
+.ms-piante { background:#F4F2ED;height:260px; }
+.ms-piante .ms-k { color:#9a7b45; }
+.ms-plan path,.ms-plan line,.ms-plan rect,.ms-plan circle { stroke-dasharray:640;stroke-dashoffset:640;transition:stroke-dashoffset 1.4s ease .15s; }
+.ms-sec.on .ms-plan path,.ms-sec.on .ms-plan line,.ms-sec.on .ms-plan rect,.ms-sec.on .ms-plan circle { stroke-dashoffset:0; }
+.ms-render { background:#0e0e0e;height:240px; }
+.ms-cards { display:flex;gap:10px; }
+.ms-card { width:118px;height:130px;border-radius:6px;flex-shrink:0;opacity:0;transform:translateX(26px);transition:opacity .6s ease,transform .6s ease; }
+.ms-sec.on .ms-card { opacity:1;transform:none; }
+.ms-card:nth-child(2) { transition-delay:.12s; }
+.ms-card:nth-child(3) { transition-delay:.24s; }
+.ms-c1 { background:linear-gradient(160deg,#2d6ea8,#16324f 60%,#0d1f30); }
+.ms-c2 { background:linear-gradient(160deg,#c9a96e,#7a5f35 55%,#3c2f1a); }
+.ms-c3 { background:linear-gradient(160deg,#8a8278,#4a453e 60%,#23201c); }
+.ms-count { margin-top:12px;font-size:7px;letter-spacing:2px;color:rgba(255,255,255,.4); }
+.ms-360 { background:#101010;height:220px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px; }
+.ms-360 .ms-k { margin-bottom:0; }
+.ms-ring { width:86px;height:86px;border-radius:50%;border:1px dashed rgba(201,169,110,.6);display:flex;align-items:center;justify-content:center;animation:svSpin 14s linear infinite; }
+.ms-ring b { font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);font-weight:400;animation:svSpin 14s linear infinite reverse; }
+.ms-mobili { background:#FAFAF8;height:240px; }
+.ms-mobili .ms-k { color:#9a7b45; }
+.ms-sw { display:flex;gap:8px;margin-top:14px; }
+.ms-sw i { width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.1); }
+.ms-cta { background:#0a0a0a;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px; }
+.ms-cta .ms-k { margin-bottom:0; }
+.ms-btn { background:var(--gold);color:#0a0a0a;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:10px 22px;border-radius:2px; }
+.ms-foot { font-size:6.5px;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase; }
 
 /* ── VR/AR ── */
 #vrar { background:var(--dark2);padding:96px 48px;border-top:.5px solid rgba(255,255,255,.06); }
@@ -400,7 +461,12 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 @media(max-width:900px) {
   #nav { padding:16px 20px; }
   .nlinks { display:none; }
-  .intro-grid,.lidar-grid,.sito-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
+  .intro-grid,.lidar-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
+  #sd-sticky { padding:74px 20px 0; }
+  .sd-laptop { width:88vw;left:0;bottom:17vh; }
+  .sd-tablet { width:30vw;right:2vw;bottom:9vh; }
+  .sd-phone { width:19vw;right:auto;left:6vw;bottom:9vh; }
+  .sd-cap { font-size:8px;letter-spacing:1.8px;padding:0 24px; }
   #sv-wrap { grid-template-columns:repeat(2,1fr);gap:12px;margin-top:36px; }
   .sv-in { padding:20px 12px 18px; }
   #sv-lead { margin-top:64px; }
@@ -415,7 +481,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   #chi { grid-template-columns:1fr; }
   .chi-col:first-child { border-right:none;border-bottom:.5px solid var(--border); }
   #contatti { grid-template-columns:1fr;gap:36px; }
-  #intro-servizi,#lidar-section,#sito-dedicato,#vrar,#documenti,#esterni,#illumino,#stats,#contatti { padding:60px 20px; }
+  #intro-servizi,#lidar-section,#vrar,#documenti,#esterni,#illumino,#stats,#contatti { padding:60px 20px; }
   .arredo-head { padding:60px 20px 0; }
   .modi-head { padding:0 20px; }
   .modi-grid { grid-template-columns:1fr;padding:36px 20px 20px; }
@@ -1053,117 +1119,105 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 
 <!-- ══ SITO DEDICATO AL CLIENTE ══ -->
 <section id="sito-dedicato">
-  <div class="sito-grid">
-    <div class="sito-text">
-      <p class="slabel rev">Servizio esclusivo</p>
-      <h2 class="serif rev">Un sito web <em>dedicato</em><br>al tuo progetto.</h2>
-      <p class="rev">Ogni cliente può ricevere un sito web personalizzato — esattamente come questo — dove chiunque può scorrere e "camminare" dentro la propria casa futura. Un link da inviare a familiari, investitori o acquirenti.</p>
-      <p class="rev">Lo scroll porta il visitatore dall'esterno all'interno, stanza per stanza. È il modo più potente per presentare un progetto non ancora costruito — più efficace di qualsiasi brochure o presentazione tradizionale.</p>
-      <div class="sito-features rev">
-        <div class="sf-item"><span class="sf-dot"></span>Sito personalizzato con il nome del progetto</div>
-        <div class="sf-item"><span class="sf-dot"></span>Navigazione scroll-driven attraverso i render</div>
-        <div class="sf-item"><span class="sf-dot"></span>Ottimizzato per mobile e tablet</div>
-        <div class="sf-item"><span class="sf-dot"></span>Condivisibile via link — nessuna app richiesta</div>
-        <div class="sf-item"><span class="sf-dot"></span>Gallery completa di interni ed esterni</div>
-        <div class="sf-item"><span class="sf-dot"></span>Form contatto diretto con il cliente</div>
+  <div id="sd-wrap">
+    <div id="sd-sticky">
+      <div id="sd-head">
+        <p class="slabel rev">Servizio esclusivo</p>
+        <h2 class="rev">Un sito web <em>dedicato</em><br>al tuo progetto.</h2>
+        <p class="rev">Niente tavole sparse, cartelle di immagini o PDF: ricevi un link. Si apre il sito della tua casa &mdash; un racconto da scorrere con piante e sezioni, render, tour 360&deg; e il dettaglio di ogni arredo.</p>
       </div>
-    </div>
-    <div class="phone-mockup rev-r" style="align-items:flex-end;gap:0;display:block;">
-      <!-- SVG multi-device: monitor + tablet + phone -->
-      <svg width="100%" viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div id="sd-stage">
 
-        <!-- ── MONITOR PC ── -->
-        <rect x="30" y="10" width="340" height="240" rx="6" fill="#111" stroke="rgba(201,169,110,.25)" stroke-width="1"/>
-        <rect x="36" y="16" width="328" height="228" rx="3" fill="#0a0a0a"/>
-        <!-- Schermo monitor: sito Villa Ferrara -->
-        <rect x="36" y="16" width="328" height="228" fill="#1a3a5c"/>
-        <!-- Cielo sfumato -->
-        <rect x="36" y="16" width="328" height="100" fill="#2d6ea8" opacity=".7"/>
-        <!-- Villa nel monitor -->
-        <rect x="76" y="95" width="248" height="95" fill="#E8E4DE"/>
-        <rect x="76" y="72" width="248" height="26" fill="#F0EDE8"/>
-        <rect x="96" y="102" width="52" height="85" fill="rgba(135,187,219,.55)"/>
-        <rect x="168" y="102" width="52" height="85" fill="rgba(135,187,219,.55)"/>
-        <rect x="240" y="102" width="52" height="85" fill="rgba(135,187,219,.55)"/>
-        <rect x="175" y="145" width="50" height="40" fill="#0a0a0a" opacity=".8"/>
-        <!-- Alberatura monitor -->
-        <rect x="48" y="120" width="3" height="70" fill="#5C4A32"/>
-        <circle cx="49" cy="112" r="14" fill="#2D6A1B" opacity=".85"/>
-        <rect x="349" y="124" width="3" height="66" fill="#5C4A32"/>
-        <circle cx="350" cy="117" r="12" fill="#2D6A1B" opacity=".85"/>
-        <!-- Navbar monitor -->
-        <rect x="36" y="16" width="328" height="22" fill="rgba(10,10,10,.85)"/>
-        <text x="52" y="31" font-family="'Cormorant Garamond',serif" font-size="10" fill="white" letter-spacing="3">VILLA FERRARA</text>
-        <text x="310" y="31" font-family="Inter,sans-serif" font-size="7" fill="rgba(255,255,255,.4)" letter-spacing="1">Contatti</text>
-        <!-- Sezione bianca dati -->
-        <rect x="36" y="190" width="328" height="54" fill="#FAFAF8"/>
-        <text x="56" y="210" font-family="'Cormorant Garamond',serif" font-size="16" fill="#1A1A1A">480 m²</text>
-        <text x="56" y="222" font-family="Inter,sans-serif" font-size="6" fill="#888" letter-spacing="1">SUPERFICIE</text>
-        <text x="148" y="210" font-family="'Cormorant Garamond',serif" font-size="16" fill="#1A1A1A">2025</text>
-        <text x="148" y="222" font-family="Inter,sans-serif" font-size="6" fill="#888" letter-spacing="1">ANNO</text>
-        <text x="228" y="210" font-family="'Cormorant Garamond',serif" font-size="16" fill="#1A1A1A">7 locali</text>
-        <text x="228" y="222" font-family="Inter,sans-serif" font-size="6" fill="#888" letter-spacing="1">PIANO TERRA + P.1</text>
-        <rect x="296" y="198" width="56" height="18" rx="1" fill="#C9A96E"/>
-        <text x="324" y="211" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" fill="#0A0A0A" letter-spacing="1">SCOPRI</text>
-        <!-- Base monitor -->
-        <rect x="175" y="250" width="50" height="16" rx="2" fill="#1a1a1a"/>
-        <rect x="145" y="266" width="110" height="6" rx="2" fill="#222"/>
+        <div class="sd-dev sd-laptop" data-in=".03" data-dx="0" data-dy="90" data-depth="7">
+          <div class="sd-lt-body"><div class="sd-screen"><div class="sd-fit">
+            <div class="sd-site">
+              <div class="ms-sec ms-hero">
+                <div class="ms-clouds"></div>
+                <p class="ms-logo">VILLA FERRARA</p>
+                <p class="ms-slogo">Il progetto della tua casa</p>
+                <svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="0" y="120" width="320" height="30" fill="#0f2438"/>
+                  <rect x="70" y="52" width="180" height="70" fill="#E8E4DE"/>
+                  <rect x="70" y="38" width="180" height="18" fill="#F0EDE8"/>
+                  <rect x="86" y="62" width="34" height="60" fill="rgba(135,187,219,.6)"/>
+                  <rect x="143" y="62" width="34" height="60" fill="rgba(135,187,219,.6)"/>
+                  <rect x="200" y="62" width="34" height="60" fill="rgba(135,187,219,.6)"/>
+                  <rect x="150" y="92" width="24" height="30" fill="#0a0a0a" opacity=".8"/>
+                  <rect x="30" y="70" width="3" height="52" fill="#1c3b25"/>
+                  <circle cx="31" cy="64" r="12" fill="#1f4f2e"/>
+                  <rect x="286" y="76" width="3" height="46" fill="#1c3b25"/>
+                  <circle cx="287" cy="70" r="10" fill="#1f4f2e"/>
+                </svg>
+                <span class="ms-sdot"></span>
+              </div>
+              <div class="ms-sec ms-dati"><div class="ms-band">
+                <p class="ms-k ms-in">Il progetto</p>
+                <div class="ms-row ms-in">
+                  <div class="ms-stat"><b>480 m&sup2;</b><span>Superficie</span></div>
+                  <div class="ms-stat"><b>7</b><span>Locali</span></div>
+                  <div class="ms-stat"><b>2026</b><span>Consegna</span></div>
+                </div>
+              </div></div>
+              <div class="ms-sec ms-piante"><div class="ms-band">
+                <p class="ms-k ms-in">Piante &amp; sezioni</p>
+                <svg class="ms-plan" viewBox="0 0 276 160" fill="none" stroke="#9a7b45" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="8" y="8" width="260" height="140"/>
+                  <line x1="108" y1="8" x2="108" y2="92"/>
+                  <line x1="8" y1="92" x2="182" y2="92"/>
+                  <line x1="182" y1="62" x2="182" y2="148"/>
+                  <line x1="182" y1="62" x2="268" y2="62"/>
+                  <rect x="200" y="96" width="46" height="24"/>
+                  <circle cx="56" cy="52" r="15"/>
+                  <line x1="128" y1="112" x2="164" y2="112"/>
+                  <line x1="128" y1="124" x2="164" y2="124"/>
+                </svg>
+              </div></div>
+              <div class="ms-sec ms-render"><div class="ms-band">
+                <p class="ms-k ms-in">I render</p>
+                <div class="ms-cards"><i class="ms-card ms-c1"></i><i class="ms-card ms-c2"></i><i class="ms-card ms-c3"></i></div>
+                <p class="ms-count ms-in">01 / 12 &mdash; scorri la gallery</p>
+              </div></div>
+              <div class="ms-sec ms-360">
+                <div class="ms-ring ms-in"><b>360&deg;</b></div>
+                <p class="ms-k ms-in">Tour delle stanze</p>
+              </div>
+              <div class="ms-sec ms-mobili"><div class="ms-band">
+                <p class="ms-k ms-in">Dettagli d&rsquo;arredo</p>
+                <svg viewBox="0 0 276 90" fill="none" stroke="#3a3a3a" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="60" y="14" width="156" height="46" rx="2"/>
+                  <line x1="138" y1="14" x2="138" y2="60"/>
+                  <line x1="76" y1="60" x2="76" y2="72"/>
+                  <line x1="200" y1="60" x2="200" y2="72"/>
+                  <circle cx="126" cy="37" r="2"/>
+                  <circle cx="150" cy="37" r="2"/>
+                </svg>
+                <div class="ms-sw ms-in"><i style="background:#B8A880"></i><i style="background:#C9A96E"></i><i style="background:#6E6A63"></i></div>
+              </div></div>
+              <div class="ms-sec ms-cta">
+                <p class="ms-k ms-in">Villa Ferrara</p>
+                <span class="ms-btn ms-in">Prenota una visita</span>
+                <p class="ms-foot ms-in">un sito VISIO &middot; condividi il link</p>
+              </div>
+            </div>
+          </div></div></div>
+          <div class="sd-lt-base"></div>
+        </div>
 
-        <!-- ── TABLET ── -->
-        <rect x="322" y="90" width="170" height="220" rx="10" fill="#111" stroke="rgba(201,169,110,.2)" stroke-width="1"/>
-        <rect x="330" y="98" width="154" height="204" rx="5" fill="#0a0a0a"/>
-        <!-- Schermo tablet: stesso sito, scroll diverso (interno) -->
-        <rect x="330" y="98" width="154" height="204" fill="#E8E4DE"/>
-        <!-- Soffitto interno -->
-        <rect x="330" y="98" width="154" height="14" fill="#F0EDE8"/>
-        <!-- Grande finestra soggiorno tablet -->
-        <rect x="350" y="112" width="90" height="120" fill="#1a3a5c"/>
-        <rect x="350" y="112" width="90" height="120" fill="#2d6ea8" opacity=".5"/>
-        <line x1="394" y1="112" x2="394" y2="232" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
-        <line x1="350" y1="172" x2="440" y2="172" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
-        <!-- Pavimento parquet tablet -->
-        <rect x="330" y="232" width="154" height="70" fill="#B8A880"/>
-        <!-- Divano piccolo -->
-        <rect x="338" y="252" width="70" height="28" rx="2" fill="#7A7268"/>
-        <rect x="338" y="252" width="70" height="8" rx="2" fill="#8A8278"/>
-        <!-- Navbar tablet -->
-        <rect x="330" y="98" width="154" height="18" fill="rgba(10,10,10,.8)"/>
-        <text x="344" y="110" font-family="'Cormorant Garamond',serif" font-size="8" fill="white" letter-spacing="2">VILLA FERRARA</text>
-        <!-- Scroll hint tablet -->
-        <rect x="330" y="284" width="154" height="18" fill="rgba(10,10,10,.6)"/>
-        <text x="407" y="296" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" fill="rgba(255,255,255,.4)" letter-spacing="1">← Scorri per visitare →</text>
-        <!-- Pulsante home tablet -->
-        <circle cx="407" cy="310" r="8" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.15)" stroke-width=".8"/>
+        <div class="sd-dev sd-tablet" data-in=".17" data-dx="140" data-dy="20" data-depth="14">
+          <div class="sd-screen"><div class="sd-fit"></div></div>
+        </div>
 
-        <!-- ── TELEFONO ── -->
-        <rect x="440" y="180" width="72" height="130" rx="10" fill="#111" stroke="rgba(201,169,110,.2)" stroke-width="1"/>
-        <rect x="446" y="187" width="60" height="116" rx="6" fill="#0a0a0a"/>
-        <!-- Notch piccolo -->
-        <rect x="462" y="187" width="28" height="7" rx="3" fill="#111"/>
-        <!-- Schermo phone: hero villa -->
-        <rect x="446" y="194" width="60" height="109" fill="#1a3a5c"/>
-        <rect x="446" y="218" width="60" height="55" fill="#2d6ea8" opacity=".6"/>
-        <!-- Villa mini phone -->
-        <rect x="454" y="228" width="44" height="30" fill="#E8E4DE"/>
-        <rect x="454" y="220" width="44" height="10" fill="#F0EDE8"/>
-        <rect x="458" y="232" width="10" height="26" fill="rgba(135,187,219,.5)"/>
-        <rect x="473" y="232" width="10" height="26" fill="rgba(135,187,219,.5)"/>
-        <rect x="488" y="232" width="8" height="26" fill="rgba(135,187,219,.5)"/>
-        <!-- Titolo phone -->
-        <text x="476" y="214" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="8" fill="white">VILLA FERRARA</text>
-        <!-- CTA phone -->
-        <rect x="454" y="270" width="44" height="14" rx="1" fill="#C9A96E"/>
-        <text x="476" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="5" fill="#0A0A0A" letter-spacing="1">VISITA</text>
-        <!-- Home indicator phone -->
-        <rect x="462" y="295" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <div class="sd-dev sd-phone" data-in=".30" data-dx="60" data-dy="70" data-depth="22">
+          <div class="sd-screen"><div class="sd-fit"></div></div>
+        </div>
 
-        <!-- ── CONNESSIONI (linee stilizzate) ── -->
-        <path d="M364,250 Q364,290 330,300 Q310,305 200,305" stroke="rgba(201,169,110,.12)" stroke-width="1" fill="none" stroke-dasharray="4,4"/>
-        <path d="M476,310 Q476,340 430,350 Q400,355 200,355" stroke="rgba(201,169,110,.1)" stroke-width="1" fill="none" stroke-dasharray="4,4"/>
-
-        <!-- Label sotto -->
-        <text x="200" y="390" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="rgba(201,169,110,.4)" letter-spacing="2">UN LINK · QUALSIASI DISPOSITIVO</text>
-      </svg>
+      </div>
+      <div id="sd-caps">
+        <p class="sd-cap">Ti inviamo un link &mdash; si apre il racconto del tuo progetto</p>
+        <p class="sd-cap">Sul tavolo con i tuoi ospiti, come una presentazione</p>
+        <p class="sd-cap">E in tasca, ovunque: nessuna app, solo il browser</p>
+        <p class="sd-cap">Scorri: piante, render, tour 360&deg;, dettagli d&rsquo;arredo</p>
+      </div>
     </div>
   </div>
 </section>
@@ -2324,6 +2378,43 @@ document.querySelectorAll('.sv-card').forEach(c=>{
   c.addEventListener('mouseleave',()=>{inn.style.transform='';});
   c.addEventListener('click',()=>{const t=document.querySelector(c.dataset.go);if(t)t.scrollIntoView({behavior:'smooth'});});
 });
+
+// ── SITO DEDICATO: pin, dispositivi che entrano, mini-sito che scorre negli schermi
+(function(){
+  const wrap=document.getElementById('sd-wrap');if(!wrap)return;
+  const stage=document.getElementById('sd-stage');
+  const devs=[...wrap.querySelectorAll('.sd-dev')];
+  const caps=[...wrap.querySelectorAll('.sd-cap')];
+  const master=wrap.querySelector('.sd-site');
+  wrap.querySelectorAll('.sd-tablet .sd-fit,.sd-phone .sd-fit').forEach(f=>f.appendChild(master.cloneNode(true)));
+  const screens=[...wrap.querySelectorAll('.sd-screen')];
+  function fit(){screens.forEach(sc=>{const s=sc.clientWidth/320;sc.querySelector('.sd-fit').style.transform='scale('+s+')';sc.dataset.s=s;});}
+  let mx=0,my=0;
+  stage.addEventListener('mousemove',e=>{const r=stage.getBoundingClientRect();mx=(e.clientX-r.left)/r.width-.5;my=(e.clientY-r.top)/r.height-.5;upd();});
+  stage.addEventListener('mouseleave',()=>{mx=0;my=0;upd();});
+  function upd(){
+    const total=wrap.offsetHeight-window.innerHeight;
+    const p=Math.max(0,Math.min(1,-wrap.getBoundingClientRect().top/total));
+    devs.forEach(d=>{
+      const e=Math.max(0,Math.min(1,(p-+d.dataset.in)/.13)),k=1-Math.pow(1-e,3);
+      d.style.opacity=k;
+      d.style.transform='translate('+((1-k)*+d.dataset.dx+mx*+d.dataset.depth)+'px,'+((1-k)*+d.dataset.dy+my*+d.dataset.depth)+'px)';
+    });
+    const sp=Math.max(0,Math.min(1,(p-.34)/.63));
+    screens.forEach(sc=>{
+      const s=+sc.dataset.s||1,site=sc.querySelector('.sd-site');
+      const view=sc.clientHeight/s;
+      const max=Math.max(0,site.offsetHeight-view);
+      site.style.transform='translateY('+(-sp*max)+'px)';
+      site.querySelectorAll('.ms-sec').forEach(ms=>{ms.classList.toggle('on',ms.offsetTop-sp*max<view*.8);});
+    });
+    const ci=p<.17?0:p<.30?1:p<.42?2:3;
+    caps.forEach((c,i)=>c.classList.toggle('on',i===ci));
+  }
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',()=>{fit();upd();});
+  fit();upd();
+})();
 
 // ── COUNTERS
 document.querySelectorAll('[data-target]').forEach(el=>{
