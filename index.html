@@ -257,12 +257,34 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .vrar-intro { text-align:center;max-width:680px;margin:0 auto 56px; }
 .vrar-intro h2 { font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;margin-bottom:16px;line-height:1.1; }
 .vrar-intro p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95; }
-.vrar-cards { display:grid;grid-template-columns:1fr 1fr;gap:3px; }
-.vrar-card { background:var(--dark3);padding:40px 36px;position:relative;overflow:hidden; }
-.vrar-card-num { font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:rgba(201,169,110,.08);position:absolute;top:16px;right:24px;line-height:1; }
-.vrar-card h3 { font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:12px; }
-.vrar-card p { font-size:11px;color:rgba(255,255,255,.45);line-height:1.85;max-width:380px; }
-.vrar-card .tag { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:16px; }
+/* demo AR: stanza + telefono-mirino */
+#ar-scene { position:relative;max-width:1000px;margin:0 auto;aspect-ratio:16/9;overflow:hidden;border-radius:10px;border:.5px solid rgba(255,255,255,.07);cursor:none; }
+#ar-scene>svg.ar-bg { position:absolute;inset:0;width:100%;height:100%; }
+#ar-phone { position:absolute;top:0;left:0;width:37%;aspect-ratio:21/10;will-change:transform;pointer-events:none;filter:drop-shadow(0 18px 30px rgba(0,0,0,.55)); }
+.ar-body { position:absolute;inset:0;background:#0b0b0b;border:1px solid #3a3a3a;border-radius:22px;padding:7px; }
+.ar-cam { position:absolute;left:13px;top:50%;transform:translateY(-50%);width:5px;height:32px;border-radius:3px;background:#000;border:.5px solid #2c2c2c;z-index:4; }
+#ar-screen { position:relative;width:100%;height:100%;overflow:hidden;border-radius:15px;background:#0a0a0a; }
+.ar-inner { position:absolute;top:0;left:0;will-change:transform; }
+.ar-inner>svg { position:absolute;inset:0;width:100%;height:100%; }
+.ar-tag { position:absolute;z-index:2; }
+.ar-tag i { display:block;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(201,169,110,.5);animation:arPing 2.2s ease-out infinite; }
+.ar-tag span { position:absolute;left:14px;top:-7px;white-space:nowrap;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,10,.55);border:.5px solid rgba(201,169,110,.4);padding:3px 8px;border-radius:2px; }
+@keyframes arPing { 70%{box-shadow:0 0 0 12px rgba(201,169,110,0)}100%{box-shadow:0 0 0 0 rgba(201,169,110,0)} }
+.ar-hud { position:absolute;inset:0;z-index:3;pointer-events:none; }
+.ar-cor { position:absolute;width:16px;height:16px;border:1px solid rgba(201,169,110,.8); }
+.ar-cor.c1 { top:9px;left:9px;border-right:none;border-bottom:none; }
+.ar-cor.c2 { top:9px;right:9px;border-left:none;border-bottom:none; }
+.ar-cor.c3 { bottom:9px;left:9px;border-right:none;border-top:none; }
+.ar-cor.c4 { bottom:9px;right:9px;border-left:none;border-top:none; }
+.ar-live { position:absolute;top:10px;left:0;right:0;text-align:center;font-size:7px;letter-spacing:2.5px;color:rgba(201,169,110,.85);text-transform:uppercase; }
+.ar-live::before { content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold);margin-right:6px;vertical-align:1px;animation:svBlink 1.6s ease-in-out infinite; }
+.ar-scan { position:absolute;left:7%;right:7%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,.75),transparent);animation:arScan 3.6s ease-in-out infinite alternate; }
+@keyframes arScan { 0%{top:14%}100%{top:86%} }
+#ar-hint { text-align:center;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,110,.6);margin-top:18px; }
+.ar-feats { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-width:1000px;margin:34px auto 0; }
+.ar-feat { background:var(--dark3);padding:26px 24px; }
+.ar-feat .tag { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:10px; }
+.ar-feat p { font-size:11px;color:rgba(255,255,255,.45);line-height:1.85; }
 .vrar-card svg { margin-top:24px; }
 
 /* ── DOCUMENTI SECTION (light) ── */
@@ -472,7 +494,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   #sv-lead { margin-top:64px; }
   #sv-lead h3 { font-size:25px; }
   #sv-hint { margin-top:48px; }
-  .vrar-cards { grid-template-columns:1fr; }
+  #ar-scene { aspect-ratio:4/3; }
+  #ar-phone { width:58%; }
+  .ar-feats { grid-template-columns:1fr;gap:2px; }
+  #ar-hint { font-size:8px; }
   .doc-grid { grid-template-columns:1fr; }
   .stats-row { grid-template-columns:1fr 1fr;gap:28px; }
   .stat-i { border-right:none!important;padding:0!important; }
@@ -1301,49 +1326,115 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 </section>
 
 <!-- ══ AR ══ -->
-<section id="vrar" style="padding:96px 48px;background:var(--dark2);border-top:.5px solid rgba(255,255,255,.06);">
+<section id="vrar">
   <div class="vrar-intro rev">
     <p class="slabel" style="text-align:center;margin-bottom:16px;">Realtà Aumentata</p>
     <h2 class="serif">Vedi la tua casa<br>nel mondo reale.</h2>
-    <p style="margin-top:14px;">Con la realtà aumentata il cliente punta lo smartphone sul terreno o sull'ambiente esistente e vede il progetto sovrapposto alla realtà. Nessuna app da scaricare — tutto via browser.</p>
+    <p style="margin-top:14px;">Punta lo smartphone sull'ambiente esistente e il progetto appare sovrapposto alla realtà, in scala reale. Nessuna app da scaricare — tutto via browser. Prova qui sotto: guarda la stanza attraverso lo schermo.</p>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;" class="vrar-cards">
-    <div class="vrar-card rev">
-      <span class="vrar-card-num">AR</span>
-      <p class="tag">Smartphone · Browser</p>
-      <h3 class="serif">Il progetto<br>sovrapposto al reale.</h3>
-      <p>Punta lo smartphone sul terreno o sull'ambiente esistente: il modello 3D appare in scala reale. Puoi girare attorno all'edificio, cambiare materiali in tempo reale e condividere la visualizzazione direttamente dall'app.</p>
-      <p style="margin-top:10px;">Funziona su qualsiasi iPhone o Android recente.</p>
-      <svg width="180" height="90" viewBox="0 0 180 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top:24px;">
-        <rect x="60" y="5" width="55" height="80" rx="8" fill="#1a1a1a" stroke="rgba(201,169,110,.3)" stroke-width="1" transform="rotate(-10 87 45)"/>
-        <rect x="64" y="12" width="47" height="66" rx="4" fill="#0d1f35" transform="rotate(-10 87 45)"/>
-        <line x1="64" y1="30" x2="111" y2="24" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
-        <line x1="64" y1="45" x2="111" y2="39" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
-        <line x1="64" y1="60" x2="111" y2="54" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
-        <line x1="76" y1="15" x2="70" y2="72" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
-        <line x1="92" y1="14" x2="86" y2="71" stroke="rgba(0,212,255,.3)" stroke-width=".8" stroke-dasharray="3,3" transform="rotate(-10 87 45)"/>
-        <rect x="74" y="35" width="26" height="20" fill="rgba(232,228,222,.8)" transform="rotate(-10 87 45)"/>
-        <rect x="74" y="27" width="26" height="10" fill="rgba(240,237,232,.8)" transform="rotate(-10 87 45)"/>
-        <polygon points="87,22 100,27 74,27" fill="rgba(184,180,175,.8)" transform="rotate(-10 87 45)"/>
-        <path d="M10,15 L10,5 L20,5" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
-        <path d="M160,15 L160,5 L150,5" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
-        <path d="M10,75 L10,85 L20,85" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
-        <path d="M160,75 L160,85 L150,85" stroke="rgba(0,212,255,.7)" stroke-width="1.5" fill="none"/>
-      </svg>
+
+  <div id="ar-scene" class="rev">
+    <!-- stanza vuota (sfondo) -->
+    <svg class="ar-bg" viewBox="0 0 1000 562" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="arSkyA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d6ea8"/><stop offset="1" stop-color="#7fa8c9"/></linearGradient></defs>
+      <rect width="1000" height="400" fill="#191919"/>
+      <rect y="400" width="1000" height="162" fill="#211d17"/>
+      <g stroke="#2a2419" stroke-width="1">
+        <line x1="100" y1="400" x2="-40" y2="562"/><line x1="233" y1="400" x2="140" y2="562"/><line x1="366" y1="400" x2="320" y2="562"/><line x1="500" y1="400" x2="500" y2="562"/><line x1="633" y1="400" x2="680" y2="562"/><line x1="766" y1="400" x2="860" y2="562"/><line x1="900" y1="400" x2="1040" y2="562"/>
+        <line x1="0" y1="460" x2="1000" y2="460"/><line x1="0" y1="520" x2="1000" y2="520"/>
+      </g>
+      <rect y="394" width="1000" height="7" fill="#232323"/>
+      <rect x="560" y="70" width="330" height="270" fill="url(#arSkyA)"/>
+      <g fill="#5f88a8" opacity=".55"><rect x="585" y="245" width="34" height="95"/><rect x="630" y="215" width="26" height="125"/><rect x="668" y="260" width="40" height="80"/><rect x="720" y="230" width="30" height="110"/><rect x="762" y="270" width="44" height="70"/><rect x="818" y="240" width="28" height="100"/></g>
+      <rect x="560" y="70" width="330" height="270" fill="none" stroke="#2e2e2e" stroke-width="10"/>
+      <line x1="725" y1="75" x2="725" y2="335" stroke="#2e2e2e" stroke-width="6"/>
+      <rect x="898" y="58" width="48" height="292" rx="8" fill="#242019"/>
+      <rect x="180" y="468" width="36" height="30" rx="2" fill="#2c2c2c"/><ellipse cx="198" cy="468" rx="18" ry="4" fill="#3a3a3a"/>
+      <line x1="240" y1="492" x2="300" y2="480" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+
+    <!-- telefono-mirino -->
+    <div id="ar-phone">
+      <div class="ar-body">
+        <span class="ar-cam"></span>
+        <div id="ar-screen">
+          <div class="ar-inner">
+            <!-- stanza arredata (dentro lo schermo) -->
+            <svg viewBox="0 0 1000 562" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+              <defs><linearGradient id="arSkyB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d6ea8"/><stop offset="1" stop-color="#7fa8c9"/></linearGradient></defs>
+              <rect width="1000" height="400" fill="#1d1c1a"/>
+              <rect y="400" width="1000" height="162" fill="#2a241c"/>
+              <g stroke="#352d21" stroke-width="1">
+                <line x1="100" y1="400" x2="-40" y2="562"/><line x1="233" y1="400" x2="140" y2="562"/><line x1="366" y1="400" x2="320" y2="562"/><line x1="500" y1="400" x2="500" y2="562"/><line x1="633" y1="400" x2="680" y2="562"/><line x1="766" y1="400" x2="860" y2="562"/><line x1="900" y1="400" x2="1040" y2="562"/>
+                <line x1="0" y1="460" x2="1000" y2="460"/><line x1="0" y1="520" x2="1000" y2="520"/>
+              </g>
+              <rect y="394" width="1000" height="7" fill="#2b2b2b"/>
+              <rect x="560" y="70" width="330" height="270" fill="url(#arSkyB)"/>
+              <g fill="#5f88a8" opacity=".55"><rect x="585" y="245" width="34" height="95"/><rect x="630" y="215" width="26" height="125"/><rect x="668" y="260" width="40" height="80"/><rect x="720" y="230" width="30" height="110"/><rect x="762" y="270" width="44" height="70"/><rect x="818" y="240" width="28" height="100"/></g>
+              <rect x="560" y="70" width="330" height="270" fill="none" stroke="#2e2e2e" stroke-width="10"/>
+              <line x1="725" y1="75" x2="725" y2="335" stroke="#2e2e2e" stroke-width="6"/>
+              <rect x="898" y="58" width="48" height="292" rx="8" fill="#242019"/>
+              <!-- quadri -->
+              <rect x="120" y="128" width="122" height="90" fill="#221f1b" stroke="#3a332a" stroke-width="3"/>
+              <path d="M132 200 L165 158 L188 184 L206 150 L230 200 Z" fill="#3d3730"/>
+              <circle cx="212" cy="150" r="9" fill="#C9A96E" opacity=".7"/>
+              <rect x="268" y="108" width="88" height="122" fill="#221f1b" stroke="#3a332a" stroke-width="3"/>
+              <line x1="284" y1="210" x2="340" y2="126" stroke="#4a4136" stroke-width="6"/>
+              <!-- lampada da terra -->
+              <polygon points="800,212 840,212 900,398 745,398" fill="rgba(201,169,110,.06)"/>
+              <line x1="820" y1="430" x2="820" y2="212" stroke="#3a332a" stroke-width="4"/>
+              <ellipse cx="820" cy="432" rx="26" ry="7" fill="#2c2721"/>
+              <path d="M792 212 L848 212 L838 168 L802 168 Z" fill="#C9A96E" opacity=".85"/>
+              <ellipse cx="820" cy="216" rx="54" ry="22" fill="rgba(201,169,110,.12)"/>
+              <!-- tappeto -->
+              <rect x="190" y="428" width="470" height="112" rx="10" fill="#2b2620" stroke="#3f382e" stroke-width="1.5"/>
+              <!-- divano -->
+              <rect x="240" y="296" width="330" height="60" rx="12" fill="#5b544c"/>
+              <rect x="222" y="310" width="36" height="102" rx="10" fill="#635b53"/>
+              <rect x="552" y="310" width="36" height="102" rx="10" fill="#635b53"/>
+              <rect x="240" y="342" width="330" height="66" rx="8" fill="#514a43"/>
+              <rect x="262" y="308" width="92" height="42" rx="8" fill="#6e665d"/>
+              <rect x="362" y="308" width="92" height="42" rx="8" fill="#6e665d"/>
+              <rect x="462" y="308" width="92" height="42" rx="8" fill="#69615a"/>
+              <rect x="250" y="408" width="8" height="14" fill="#171310"/>
+              <rect x="552" y="408" width="8" height="14" fill="#171310"/>
+              <!-- tavolino -->
+              <ellipse cx="700" cy="472" rx="80" ry="26" fill="#39322a"/>
+              <ellipse cx="700" cy="464" rx="80" ry="26" fill="#4a4136"/>
+              <rect x="690" y="432" width="16" height="22" rx="4" fill="#23201c"/>
+              <path d="M698 434 Q690 414 700 402 M700 434 Q712 418 706 404" stroke="#5c4f3a" stroke-width="2" fill="none"/>
+              <!-- pianta -->
+              <path d="M118 470 h48 l-7 36 h-34 Z" fill="#2c2721"/>
+              <circle cx="132" cy="446" r="16" fill="#24422c"/><circle cx="152" cy="436" r="19" fill="#1d3624"/><circle cx="164" cy="452" r="13" fill="#2a4a32"/>
+            </svg>
+            <!-- tag AR (coordinate in % della scena) -->
+            <div class="ar-tag" style="left:40%;top:60%;"><i></i><span>Divano su misura</span></div>
+            <div class="ar-tag" style="left:26%;top:87%;"><i style="animation-delay:.7s"></i><span>Rovere naturale</span></div>
+            <div class="ar-tag" style="left:81%;top:36%;"><i style="animation-delay:1.4s"></i><span>Luce calda 2700K</span></div>
+          </div>
+          <div class="ar-hud">
+            <span class="ar-cor c1"></span><span class="ar-cor c2"></span><span class="ar-cor c3"></span><span class="ar-cor c4"></span>
+            <p class="ar-live">Visio AR &middot; Live</p>
+            <span class="ar-scan"></span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="vrar-card rev" style="display:flex;flex-direction:column;justify-content:center;gap:28px;">
-      <div>
-        <p class="tag">Proporzioni reali</p>
-        <p>Percepisce le dimensioni vere degli spazi prima che siano costruiti.</p>
-      </div>
-      <div>
-        <p class="tag">Materiali live</p>
-        <p>Cambia pavimento, pareti, infissi in tempo reale con un tocco.</p>
-      </div>
-      <div>
-        <p class="tag">Condivisibile</p>
-        <p>Il link funziona su qualsiasi smartphone — nessuna installazione.</p>
-      </div>
+  </div>
+  <p id="ar-hint" class="rev">Guarda la stanza attraverso lo schermo &mdash; il progetto appare al posto del vuoto</p>
+
+  <div class="ar-feats rev">
+    <div class="ar-feat">
+      <p class="tag">Proporzioni reali</p>
+      <p>Percepisci le dimensioni vere degli spazi prima che siano costruiti, camminando nell'ambiente reale.</p>
+    </div>
+    <div class="ar-feat">
+      <p class="tag">Materiali live</p>
+      <p>Cambia pavimento, pareti e infissi in tempo reale con un tocco, direttamente sul posto.</p>
+    </div>
+    <div class="ar-feat">
+      <p class="tag">Condivisibile</p>
+      <p>Il link funziona su qualsiasi iPhone o Android recente &mdash; nessuna app, nessuna installazione.</p>
     </div>
   </div>
 </section>
@@ -2414,6 +2505,29 @@ document.querySelectorAll('.sv-card').forEach(c=>{
   window.addEventListener('scroll',upd,{passive:true});
   window.addEventListener('resize',()=>{fit();upd();});
   fit();upd();
+})();
+
+// ── AR: telefono-mirino sulla stanza (segue il mouse, altrimenti si muove da solo)
+(function(){
+  const sc=document.getElementById('ar-scene');if(!sc)return;
+  const ph=document.getElementById('ar-phone'),scr=document.getElementById('ar-screen'),inn=scr.querySelector('.ar-inner');
+  let tx=.5,ty=.55,x=.42,y=.5,mouse=0,run=false,raf=0;
+  sc.addEventListener('pointermove',e=>{const r=sc.getBoundingClientRect();tx=(e.clientX-r.left)/r.width;ty=(e.clientY-r.top)/r.height;mouse=performance.now();});
+  function frame(t){
+    if(!run)return;
+    if(t-mouse>2600){tx=.5+.3*Math.sin(t/3400);ty=.55+.13*Math.cos(t/2600);}
+    x+=(tx-x)*.07;y+=(ty-y)*.07;
+    const r=sc.getBoundingClientRect(),pw=ph.offsetWidth,phh=ph.offsetHeight;
+    ph.style.transform='translate('+Math.max(0,Math.min(r.width-pw,x*r.width-pw/2))+'px,'+Math.max(0,Math.min(r.height-phh,y*r.height-phh/2))+'px)';
+    const sr=scr.getBoundingClientRect();
+    inn.style.width=r.width+'px';inn.style.height=r.height+'px';
+    inn.style.transform='translate('+(r.left-sr.left)+'px,'+(r.top-sr.top)+'px)';
+    raf=requestAnimationFrame(frame);
+  }
+  new IntersectionObserver(en=>{en.forEach(e=>{
+    if(e.isIntersecting&&!run){run=true;raf=requestAnimationFrame(frame);}
+    else if(!e.isIntersecting&&run){run=false;cancelAnimationFrame(raf);}
+  });},{threshold:.05}).observe(sc);
 })();
 
 // ── COUNTERS
