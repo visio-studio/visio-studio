@@ -405,7 +405,23 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 #ex-caps { position:relative;height:20px;margin-top:20px;width:100%;text-align:center; }
 .ex-cap { position:absolute;left:0;right:0;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#9a7b45;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s; }
 .ex-cap.on { opacity:1;transform:none; }
-.ex-ph { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;will-change:opacity,transform; }
+#ex-base { position:absolute;inset:0;overflow:hidden; }
+#ex-base>img,#ex-blue>img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform,filter; }
+#ex-warm { position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,150,60,.55),rgba(255,95,95,.30) 45%,rgba(130,45,85,.28));mix-blend-mode:overlay;opacity:0; }
+#ex-nite { position:absolute;inset:0;background:linear-gradient(180deg,#0b1626 0%,rgba(16,32,58,.9) 45%,rgba(10,20,40,.6) 100%);mix-blend-mode:multiply;opacity:0; }
+#ex-stars2 { position:absolute;inset:0 0 55% 0;opacity:0; }
+#ex-stars2 i { position:absolute;width:2px;height:2px;border-radius:50%;background:#fff; }
+.ex-gl { position:absolute;opacity:0;transition:opacity 1.2s ease;mix-blend-mode:screen;filter:blur(5px);border-radius:50%; }
+.ex-gl.on { opacity:1; }
+#gl-win { left:0;top:30%;width:28%;height:40%;background:radial-gradient(closest-side,rgba(255,190,100,.85),transparent 72%);border-radius:10%; }
+#gl-pool { left:26%;top:60%;width:62%;height:40%;background:radial-gradient(closest-side,rgba(80,215,235,.75),transparent 72%); }
+#gl-tree { left:72%;top:2%;width:28%;height:52%;background:radial-gradient(closest-side,rgba(255,205,130,.35),transparent 75%); }
+.gl-dot { width:5%;height:8%;background:radial-gradient(closest-side,rgba(255,215,140,.9),transparent 70%); }
+#ex-blue { position:absolute;inset:0;will-change:clip-path; }
+#ex-blue>img { filter:grayscale(1) contrast(1.12) brightness(1.06); }
+#ex-grid { position:absolute;inset:0;background:rgba(244,242,237,.72);background-image:repeating-linear-gradient(0deg,rgba(154,123,69,.22) 0 1px,transparent 1px 40px),repeating-linear-gradient(90deg,rgba(154,123,69,.22) 0 1px,transparent 1px 40px); }
+#ex-blab { position:absolute;top:14px;left:16px;font-size:8px;letter-spacing:2.5px;color:#9a7b45;text-transform:uppercase; }
+#ex-wipe { position:absolute;top:0;bottom:0;width:2px;background:var(--gold);box-shadow:0 0 16px rgba(201,169,110,.9);opacity:0; }
 #ex-servizi { max-width:1000px;margin:0 auto;padding:64px 48px 90px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px 40px; }
 .prog-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-top:48px; }
 .prog-col h3 { font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;line-height:1.2;margin-bottom:14px; }
@@ -2139,23 +2155,30 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <h2 class="serif rev">Studio <em>area esterna</em>.</h2>
       </div>
       <div id="ex-scene" class="rev">
-        
-        <img class="ex-ph" src="img/esterni/fase-1.jpg" alt="Render area esterna, fase 1">
-        <img class="ex-ph" src="img/esterni/fase-2.jpg" alt="Render area esterna, fase 2" loading="lazy">
-        <img class="ex-ph" src="img/esterni/fase-3.jpg" alt="Render area esterna, fase 3" loading="lazy">
-        <img class="ex-ph" src="img/esterni/fase-4.jpg" alt="Render area esterna, fase 4" loading="lazy">
-        <img class="ex-ph" src="img/esterni/fase-5.jpg" alt="Render area esterna, fase 5" loading="lazy">
-        <img class="ex-ph" src="img/esterni/fase-6.jpg" alt="Render area esterna, fase 6" loading="lazy">
-        <img class="ex-ph" src="img/esterni/fase-7.jpg" alt="Render area esterna, fase 7" loading="lazy">
+        <div id="ex-base">
+          <img id="ex-img" src="img/esterni/scena.jpg" alt="Render fotorealistico area esterna">
+          <div id="ex-warm"></div>
+          <div id="ex-nite"></div>
+          <div id="ex-stars2"><i class="sv-bl" style="left:12%;top:14%"></i><i class="sv-bl" style="left:28%;top:8%;animation-delay:.6s"></i><i class="sv-bl" style="left:44%;top:18%;animation-delay:1.2s"></i><i class="sv-bl" style="left:57%;top:6%;animation-delay:.3s"></i><i class="sv-bl" style="left:69%;top:15%;animation-delay:1.7s"></i><i class="sv-bl" style="left:84%;top:9%;animation-delay:.9s"></i><i class="sv-bl" style="left:93%;top:20%;animation-delay:1.4s"></i></div>
+          <span class="ex-gl" id="gl-win"></span>
+          <span class="ex-gl" id="gl-pool"></span>
+          <span class="ex-gl" id="gl-tree"></span>
+          <span class="ex-gl gl-dot" id="gl-path1" style="left:24%;top:59%"></span>
+          <span class="ex-gl gl-dot" id="gl-path2" style="left:47%;top:57%"></span>
+          <span class="ex-gl gl-dot" id="gl-path3" style="left:88%;top:64%"></span>
+        </div>
+        <div id="ex-blue">
+          <img src="img/esterni/scena.jpg" alt="">
+          <div id="ex-grid"></div>
+          <p id="ex-blab">Tavola 04 &middot; area esterna &mdash; scala 1:100</p>
+        </div>
+        <div id="ex-wipe"></div>
       </div>
       <div id="ex-caps">
-        <p class="ex-cap">Si parte dal terreno &mdash; rilievo e planimetria quotata</p>
-        <p class="ex-cap">Pavimentazioni, terrazza e vialetti</p>
-        <p class="ex-cap">La piscina prende forma</p>
-        <p class="ex-cap">Verde e piantumazione</p>
-        <p class="ex-cap">Pergola e zona relax</p>
+        <p class="ex-cap">Dalla tavola tecnica al render fotorealistico</p>
+        <p class="ex-cap">Il giardino completo &mdash; piscina, verde, zona relax</p>
         <p class="ex-cap">Il tramonto sul progetto</p>
-        <p class="ex-cap">Studio dell&rsquo;illuminazione notturna</p>
+        <p class="ex-cap">Studio dell&rsquo;illuminazione notturna &mdash; le luci si accendono</p>
       </div>
     </div>
   </div>
@@ -2538,22 +2561,29 @@ document.querySelectorAll('.sv-card').forEach(c=>{
   });},{threshold:.05}).observe(sc);
 })();
 
-// ── ESTERNI: timelapse con render reali in dissolvenza allo scroll
+// ── ESTERNI: una scena, quattro momenti (tavola→render, giorno, tramonto, notte)
 (function(){
   const wrap=document.getElementById('ex-wrap');if(!wrap)return;
   const caps=[...wrap.querySelectorAll('.ex-cap')];
-  const phs=[...wrap.querySelectorAll('.ex-ph')];
-  const N=phs.length;
+  const $=id=>document.getElementById(id);
+  const img=$('ex-img'),blue=$('ex-blue'),bimg=blue.querySelector('img'),wipe=$('ex-wipe');
+  const ramp=(p,a,b)=>Math.max(0,Math.min(1,(p-a)/(b-a)));
   function upd(){
     const total=wrap.offsetHeight-window.innerHeight;
     const p=Math.max(0,Math.min(1,-wrap.getBoundingClientRect().top/total));
-    const x=p*(N-1);
     const pan='scale(1.06) translateX('+((p*2-1)*1.2)+'%)';
-    phs.forEach((im,i)=>{
-      im.style.opacity=1-Math.min(1,Math.abs(x-i));
-      im.style.transform=pan;
-    });
-    const ci=Math.max(0,Math.min(caps.length-1,Math.round(x)));
+    img.style.transform=pan;bimg.style.transform=pan;
+    const w=ramp(p,.02,.30)*100;
+    blue.style.clipPath='inset(0 0 0 '+w+'%)';
+    wipe.style.left='calc('+w+'% - 1px)';
+    wipe.style.opacity=(w>.5&&w<99.5)?1:0;
+    $('ex-warm').style.opacity=Math.sin(Math.PI*ramp(p,.42,.88))*.75;
+    const n=ramp(p,.62,.86);
+    $('ex-nite').style.opacity=n*.88;
+    img.style.filter='brightness('+(1-n*.52)+') saturate('+(1-n*.32)+')';
+    $('ex-stars2').style.opacity=ramp(p,.78,.92);
+    [['gl-win',.84],['gl-pool',.89],['gl-path1',.92],['gl-path2',.94],['gl-path3',.96],['gl-tree',.98]].forEach(a=>$(a[0]).classList.toggle('on',p>=a[1]));
+    const ci=p<.30?0:p<.55?1:p<.75?2:3;
     caps.forEach((c,i)=>c.classList.toggle('on',i===ci));
   }
   window.addEventListener('scroll',upd,{passive:true});
