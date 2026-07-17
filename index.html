@@ -405,12 +405,7 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 #ex-caps { position:relative;height:20px;margin-top:20px;width:100%;text-align:center; }
 .ex-cap { position:absolute;left:0;right:0;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#9a7b45;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s; }
 .ex-cap.on { opacity:1;transform:none; }
-.ex-i { opacity:0;transition:opacity .7s ease; }
-.ex-i.on { opacity:1; }
-.ex-g { transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);opacity:0;transition:transform .9s cubic-bezier(.25,1.35,.45,1),opacity .4s ease; }
-.ex-g.on { transform:scaleY(1);opacity:1; }
-.ex-l { opacity:0;transition:opacity 1s ease; }
-.ex-l.on { opacity:1; }
+.ex-ph { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;will-change:opacity,transform; }
 #ex-servizi { max-width:1000px;margin:0 auto;padding:64px 48px 90px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px 40px; }
 .prog-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-top:48px; }
 .prog-col h3 { font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;line-height:1.2;margin-bottom:14px; }
@@ -2144,136 +2139,23 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <h2 class="serif rev">Studio <em>area esterna</em>.</h2>
       </div>
       <div id="ex-scene" class="rev">
-        <svg viewBox="0 0 1000 562" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="exDay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fc0e0"/><stop offset="1" stop-color="#cfe2ef"/></linearGradient>
-            <linearGradient id="exSun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8a05c"/><stop offset="1" stop-color="#c98ba0"/></linearGradient>
-            <linearGradient id="exNight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1626"/><stop offset="1" stop-color="#24405e"/></linearGradient>
-          </defs>
-          <!-- cielo -->
-          <rect width="1000" height="400" fill="url(#exDay)"/>
-          <rect id="ex-sunset" width="1000" height="400" fill="url(#exSun)" style="opacity:0"/>
-          <rect id="ex-night" width="1000" height="400" fill="url(#exNight)" style="opacity:0"/>
-          <circle id="ex-sun" cx="820" cy="120" r="34" fill="#fff3cf"/>
-          <g id="ex-stars" style="opacity:0">
-            <circle cx="150" cy="90" r="26" fill="#f4eeda"/><circle cx="164" cy="80" r="24" fill="#0b1626"/>
-            <g fill="#fff"><circle class="sv-bl" cx="90" cy="60" r="1.4"/><circle class="sv-bl" cx="240" cy="140" r="1.2" style="animation-delay:.5s"/><circle class="sv-bl" cx="340" cy="70" r="1.5" style="animation-delay:1s"/><circle class="sv-bl" cx="470" cy="120" r="1.1" style="animation-delay:1.4s"/><circle class="sv-bl" cx="560" cy="55" r="1.4" style="animation-delay:.8s"/><circle class="sv-bl" cx="660" cy="150" r="1.2" style="animation-delay:.2s"/><circle class="sv-bl" cx="760" cy="80" r="1.5" style="animation-delay:1.8s"/><circle class="sv-bl" cx="870" cy="140" r="1.2" style="animation-delay:.6s"/><circle class="sv-bl" cx="940" cy="60" r="1.4" style="animation-delay:1.2s"/><circle class="sv-bl" cx="420" cy="40" r="1.2" style="animation-delay:2s"/></g>
-          </g>
-          <!-- prato e terreno -->
-          <rect y="380" width="1000" height="182" fill="#8aa66e"/>
-          <rect y="380" width="1000" height="8" fill="#7a9660"/>
-          <ellipse cx="300" cy="470" rx="70" ry="14" fill="#9b8a64" opacity=".5"/>
-          <ellipse cx="700" cy="435" rx="50" ry="10" fill="#9b8a64" opacity=".4"/>
-          <ellipse cx="520" cy="530" rx="60" ry="12" fill="#9b8a64" opacity=".35"/>
-          <!-- villa -->
-          <rect x="70" y="180" width="330" height="160" fill="#EDEAE4"/>
-          <rect x="70" y="160" width="330" height="24" fill="#F4F1EB"/>
-          <rect x="95" y="205" width="70" height="105" fill="#a9c6dd"/>
-          <rect x="190" y="205" width="70" height="105" fill="#a9c6dd"/>
-          <rect x="285" y="205" width="70" height="135" fill="#9db9d0"/>
-          <!-- pergola -->
-          <g class="ex-i" data-p=".62" fill="#8a7657">
-            <rect x="85" y="255" width="190" height="7"/>
-            <rect x="92" y="262" width="7" height="83"/>
-            <rect x="255" y="262" width="7" height="83"/>
-            <rect x="85" y="243" width="190" height="4" opacity=".8"/>
-            <rect x="103" y="243" width="4" height="12"/><rect x="133" y="243" width="4" height="12"/><rect x="163" y="243" width="4" height="12"/><rect x="193" y="243" width="4" height="12"/><rect x="223" y="243" width="4" height="12"/><rect x="253" y="243" width="4" height="12"/>
-          </g>
-          <!-- pavimentazione terrazza -->
-          <g fill="#d9d2c4" stroke="#c4bcab" stroke-width="1">
-            <rect class="ex-i" data-p=".13" x="70" y="345" width="110" height="26"/>
-            <rect class="ex-i" data-p=".15" x="185" y="345" width="110" height="26"/>
-            <rect class="ex-i" data-p=".17" x="300" y="345" width="110" height="26"/>
-            <rect class="ex-i" data-p=".19" x="120" y="376" width="110" height="26"/>
-            <rect class="ex-i" data-p=".21" x="235" y="376" width="110" height="26"/>
-          </g>
-          <!-- vialetto -->
-          <g fill="#d5cebf">
-            <ellipse class="ex-i" data-p=".20" cx="430" cy="430" rx="26" ry="9"/>
-            <ellipse class="ex-i" data-p=".22" cx="490" cy="455" rx="26" ry="9"/>
-            <ellipse class="ex-i" data-p=".24" cx="550" cy="480" rx="26" ry="9"/>
-          </g>
-          <!-- piscina -->
-          <g class="ex-i" data-p=".28">
-            <rect x="600" y="392" width="310" height="132" rx="10" fill="#cfc7b6"/>
-            <rect x="612" y="402" width="286" height="112" rx="7" fill="#274b63"/>
-          </g>
-          <rect id="ex-water" x="612" y="514" width="286" height="0" fill="#3f8fc4" opacity=".9"/>
-          <g id="ex-shimmer" style="opacity:0" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round">
-            <line x1="640" y1="440" x2="700" y2="440"/><line x1="760" y1="470" x2="830" y2="470"/><line x1="680" y1="492" x2="730" y2="492"/>
-          </g>
-          <!-- verde -->
-          <g class="ex-g" data-p=".44">
-            <rect x="466" y="300" width="8" height="88" fill="#6b543a"/>
-            <circle cx="470" cy="278" r="36" fill="#4e7a3d"/><circle cx="446" cy="298" r="24" fill="#436b34"/><circle cx="494" cy="296" r="26" fill="#5d8a49"/>
-          </g>
-          <g class="ex-g" data-p=".48">
-            <rect x="942" y="318" width="8" height="82" fill="#6b543a"/>
-            <circle cx="946" cy="298" r="34" fill="#4e7a3d"/><circle cx="924" cy="314" r="22" fill="#436b34"/><circle cx="966" cy="312" r="20" fill="#5d8a49"/>
-          </g>
-          <g class="ex-g" data-p=".52">
-            <rect x="58" y="482" width="9" height="62" fill="#5c4630"/>
-            <circle cx="63" cy="462" r="40" fill="#3f6631"/><circle cx="36" cy="482" r="26" fill="#365928"/><circle cx="92" cy="479" r="28" fill="#4a7239"/>
-          </g>
-          <g class="ex-g" data-p=".50"><circle cx="425" cy="380" r="16" fill="#4a7239"/><circle cx="445" cy="384" r="12" fill="#3f6631"/></g>
-          <g class="ex-g" data-p=".54"><circle cx="596" cy="528" r="16" fill="#4a7239"/><circle cx="578" cy="534" r="11" fill="#365928"/></g>
-          <g class="ex-g" data-p=".56"><rect x="108" y="330" width="26" height="15" fill="#b9a98c"/><circle cx="121" cy="323" r="14" fill="#4a7239"/></g>
-          <g class="ex-g" data-p=".58"><rect x="222" y="330" width="26" height="15" fill="#b9a98c"/><circle cx="235" cy="323" r="14" fill="#4a7239"/></g>
-          <!-- zona relax -->
-          <g class="ex-i" data-p=".66">
-            <rect x="505" y="516" width="56" height="9" rx="3" fill="#d8c9a8"/>
-            <polygon points="505,517 519,495 525,498 513,518" fill="#cbbc9a"/>
-            <rect x="509" y="525" width="5" height="8" fill="#8a7657"/><rect x="551" y="525" width="5" height="8" fill="#8a7657"/>
-          </g>
-          <g class="ex-i" data-p=".69">
-            <rect x="580" y="540" width="56" height="9" rx="3" fill="#d8c9a8"/>
-            <polygon points="580,541 594,519 600,522 588,542" fill="#cbbc9a"/>
-            <rect x="584" y="549" width="5" height="8" fill="#8a7657"/><rect x="626" y="549" width="5" height="8" fill="#8a7657"/>
-          </g>
-          <g class="ex-i" data-p=".72">
-            <line x1="475" y1="520" x2="475" y2="430" stroke="#8a7657" stroke-width="4"/>
-            <polygon points="425,452 525,452 475,415" fill="#b99a66"/>
-          </g>
-          <!-- pali luce (spenti) -->
-          <g class="ex-i" data-p=".80" fill="#3a3a3a">
-            <rect x="443" y="432" width="3" height="14"/><rect x="503" y="456" width="3" height="14"/><rect x="563" y="480" width="3" height="14"/>
-          </g>
-          <!-- notte -->
-          <rect id="ex-dark" width="1000" height="562" fill="#0c1523" style="opacity:0"/>
-          <!-- luci -->
-          <g id="ex-l4" class="ex-l">
-            <rect x="95" y="205" width="70" height="105" fill="rgba(255,205,120,.8)"/>
-            <rect x="190" y="205" width="70" height="105" fill="rgba(255,198,110,.7)"/>
-            <rect x="285" y="205" width="70" height="135" fill="rgba(255,205,120,.55)"/>
-          </g>
-          <g id="ex-l1" class="ex-l">
-            <circle cx="444" cy="430" r="20" fill="rgba(255,210,130,.25)"/><circle cx="444" cy="431" r="2.5" fill="#ffdf9e"/>
-            <circle cx="504" cy="454" r="20" fill="rgba(255,210,130,.25)"/><circle cx="504" cy="455" r="2.5" fill="#ffdf9e"/>
-            <circle cx="564" cy="478" r="20" fill="rgba(255,210,130,.25)"/><circle cx="564" cy="479" r="2.5" fill="#ffdf9e"/>
-          </g>
-          <g id="ex-l2" class="ex-l">
-            <ellipse cx="755" cy="466" rx="130" ry="42" fill="rgba(120,200,255,.22)"/>
-            <circle cx="640" cy="482" r="5" fill="#ffe9b0"/><circle cx="870" cy="482" r="5" fill="#ffe9b0"/>
-            <ellipse cx="755" cy="452" rx="140" ry="10" fill="rgba(255,220,150,.16)"/>
-          </g>
-          <g id="ex-l3" class="ex-l">
-            <polygon points="450,388 490,388 484,250 456,250" fill="rgba(255,215,140,.13)"/>
-            <circle cx="470" cy="278" r="38" fill="rgba(255,220,150,.18)"/>
-            <polygon points="928,400 964,400 960,268 932,268" fill="rgba(255,215,140,.12)"/>
-            <circle cx="946" cy="298" r="36" fill="rgba(255,220,150,.16)"/>
-          </g>
-          <g id="ex-fire" style="opacity:0" fill="#ffe9a8">
-            <circle class="sv-bl" cx="220" cy="440" r="1.8"/><circle class="sv-bl" cx="380" cy="500" r="1.6" style="animation-delay:.7s"/><circle class="sv-bl" cx="660" cy="545" r="1.8" style="animation-delay:1.3s"/><circle class="sv-bl" cx="850" cy="545" r="1.5" style="animation-delay:.3s"/><circle class="sv-bl" cx="120" cy="410" r="1.5" style="animation-delay:1.8s"/>
-          </g>
-        </svg>
+        
+        <img class="ex-ph" src="img/esterni/fase-1.jpg" alt="Render area esterna, fase 1">
+        <img class="ex-ph" src="img/esterni/fase-2.jpg" alt="Render area esterna, fase 2" loading="lazy">
+        <img class="ex-ph" src="img/esterni/fase-3.jpg" alt="Render area esterna, fase 3" loading="lazy">
+        <img class="ex-ph" src="img/esterni/fase-4.jpg" alt="Render area esterna, fase 4" loading="lazy">
+        <img class="ex-ph" src="img/esterni/fase-5.jpg" alt="Render area esterna, fase 5" loading="lazy">
+        <img class="ex-ph" src="img/esterni/fase-6.jpg" alt="Render area esterna, fase 6" loading="lazy">
+        <img class="ex-ph" src="img/esterni/fase-7.jpg" alt="Render area esterna, fase 7" loading="lazy">
       </div>
       <div id="ex-caps">
         <p class="ex-cap">Si parte dal terreno &mdash; rilievo e planimetria quotata</p>
         <p class="ex-cap">Pavimentazioni, terrazza e vialetti</p>
         <p class="ex-cap">La piscina prende forma</p>
-        <p class="ex-cap">Verde e piantumazione, stagione per stagione</p>
+        <p class="ex-cap">Verde e piantumazione</p>
         <p class="ex-cap">Pergola e zona relax</p>
-        <p class="ex-cap">Cala la sera &mdash; studio dell&rsquo;illuminazione notturna</p>
+        <p class="ex-cap">Il tramonto sul progetto</p>
+        <p class="ex-cap">Studio dell&rsquo;illuminazione notturna</p>
       </div>
     </div>
   </div>
@@ -2656,29 +2538,22 @@ document.querySelectorAll('.sv-card').forEach(c=>{
   });},{threshold:.05}).observe(sc);
 })();
 
-// ── ESTERNI: timelapse del giardino allo scroll (costruzione + giorno→notte)
+// ── ESTERNI: timelapse con render reali in dissolvenza allo scroll
 (function(){
   const wrap=document.getElementById('ex-wrap');if(!wrap)return;
   const caps=[...wrap.querySelectorAll('.ex-cap')];
-  const items=[...wrap.querySelectorAll('.ex-i,.ex-g')];
-  const $=id=>document.getElementById(id);
-  const ramp=(p,a,b)=>Math.max(0,Math.min(1,(p-a)/(b-a)));
+  const phs=[...wrap.querySelectorAll('.ex-ph')];
+  const N=phs.length;
   function upd(){
     const total=wrap.offsetHeight-window.innerHeight;
     const p=Math.max(0,Math.min(1,-wrap.getBoundingClientRect().top/total));
-    items.forEach(el=>el.classList.toggle('on',p>=+el.dataset.p));
-    const f=ramp(p,.30,.42);
-    $('ex-water').setAttribute('y',514-112*f);$('ex-water').setAttribute('height',112*f);
-    $('ex-shimmer').style.opacity=ramp(p,.38,.44);
-    const t=ramp(p,.76,1);
-    $('ex-sunset').style.opacity=Math.sin(Math.PI*Math.min(t/.75,1));
-    $('ex-night').style.opacity=ramp(t,.45,1);
-    $('ex-dark').style.opacity=ramp(t,.35,1)*.5;
-    $('ex-stars').style.opacity=ramp(t,.55,1);
-    $('ex-fire').style.opacity=ramp(t,.7,1);
-    const sun=$('ex-sun');sun.setAttribute('cy',120+t*300);sun.style.opacity=1-ramp(t,.55,.8);
-    [['ex-l4',.84],['ex-l1',.88],['ex-l2',.92],['ex-l3',.96]].forEach(a=>$(a[0]).classList.toggle('on',p>=a[1]));
-    const ci=p<.12?0:p<.26?1:p<.42?2:p<.60?3:p<.78?4:5;
+    const x=p*(N-1);
+    const pan='scale(1.06) translateX('+((p*2-1)*1.2)+'%)';
+    phs.forEach((im,i)=>{
+      im.style.opacity=1-Math.min(1,Math.abs(x-i));
+      im.style.transform=pan;
+    });
+    const ci=Math.max(0,Math.min(caps.length-1,Math.round(x)));
     caps.forEach((c,i)=>c.classList.toggle('on',i===ci));
   }
   window.addEventListener('scroll',upd,{passive:true});
