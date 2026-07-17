@@ -190,12 +190,12 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 #sd-head p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.9;max-width:520px; }
 #sd-stage { position:relative;flex:1; }
 .sd-dev { position:absolute;opacity:0;will-change:transform,opacity; }
-.sd-laptop { left:2%;bottom:9vh;width:min(46vw,600px);z-index:1; }
+.sd-laptop { left:max(2%,calc(50% - 680px));bottom:8vh;width:min(54vw,720px);z-index:1; }
 .sd-lt-body { background:#0d0d0d;border:1px solid #262626;border-bottom:none;border-radius:12px 12px 0 0;padding:10px 10px 12px; }
 .sd-lt-base { height:12px;background:linear-gradient(#2a2a2a,#151515);border-radius:0 0 14px 14px;position:relative; }
 .sd-lt-base::after { content:'';position:absolute;left:50%;top:0;transform:translateX(-50%);width:90px;height:5px;background:#0c0c0c;border-radius:0 0 6px 6px; }
-.sd-tablet { right:13%;bottom:12vh;width:min(17vw,225px);z-index:2;background:#0d0d0d;border:1px solid #2a2a2a;border-radius:16px;padding:8px; }
-.sd-phone { right:1.5%;bottom:6vh;width:min(9.5vw,122px);z-index:3;background:#0d0d0d;border:1px solid #2e2e2e;border-radius:18px;padding:5px; }
+.sd-tablet { left:calc(50% + 60px);bottom:13vh;width:min(20vw,270px);z-index:2;background:#0d0d0d;border:1px solid #2a2a2a;border-radius:16px;padding:8px; }
+.sd-phone { left:calc(50% + 370px);bottom:5vh;width:min(11.5vw,150px);z-index:3;background:#0d0d0d;border:1px solid #2e2e2e;border-radius:18px;padding:5px; }
 .sd-screen { position:relative;overflow:hidden;background:#0a0a0a;width:100%; }
 .sd-laptop .sd-screen { aspect-ratio:16/10;border-radius:4px; }
 .sd-tablet .sd-screen { aspect-ratio:3/4.1;border-radius:9px; }
@@ -514,8 +514,8 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .intro-grid,.lidar-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
   #sd-sticky { padding:74px 20px 0; }
   .sd-laptop { width:88vw;left:0;bottom:17vh; }
-  .sd-tablet { width:30vw;right:2vw;bottom:9vh; }
-  .sd-phone { width:19vw;right:auto;left:6vw;bottom:9vh; }
+  .sd-tablet { width:30vw;left:auto;right:2vw;bottom:9vh; }
+  .sd-phone { width:19vw;left:6vw;bottom:9vh; }
   .sd-cap { font-size:8px;letter-spacing:1.8px;padding:0 24px; }
   #sv-wrap { grid-template-columns:repeat(2,1fr);gap:12px;margin-top:36px; }
   .sv-in { padding:20px 12px 18px; }
