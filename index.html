@@ -165,7 +165,7 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 
 /* ── LIDAR ── */
 /* LIDAR — scansione 3D interattiva */
-#lidar-section { background:var(--dark2);border-top:.5px solid rgba(255,255,255,.06);position:relative;height:380vh; }
+#lidar-section { background:var(--dark2);border-top:.5px solid rgba(255,255,255,.06);position:relative;height:320vh; }
 #lidar-sticky { position:sticky;top:0;height:100vh;overflow:hidden; }
 .ld-panel { position:absolute;top:0;bottom:0;left:33%;right:0;background:#020810;border-left:.5px solid rgba(0,212,255,.12); }
 .ld-copy { position:absolute;left:4%;top:50%;transform:translateY(-50%);width:25%;max-width:470px;min-height:360px;z-index:3;pointer-events:none; }
@@ -541,7 +541,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   #ex-scene { width:min(94vw,calc((100vh - 280px)*1.78)); }
   .ex-cap { font-size:8px;letter-spacing:1.8px;padding:0 20px; }
   #ex-servizi { grid-template-columns:1fr;padding:44px 20px 60px;gap:10px; }
-  #lidar-section { height:320vh; }
+  #lidar-section { height:270vh; }
   .ld-panel { left:0;top:40%; }
   #lidar-cv { -webkit-mask-image:none;mask-image:none; }
   .ld-copy { left:20px;right:20px;width:auto;top:82px;transform:none;min-height:230px; }
@@ -2924,7 +2924,7 @@ setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.co
 
   // ── loop
   let sweep=0, tick=0, lastState=-1;
-  const SWEEP_END=.66;
+  const SWEEP_END=.80;
   function draw(){
     requestAnimationFrame(draw);
     const r=wrap.getBoundingClientRect();
