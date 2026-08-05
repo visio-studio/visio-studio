@@ -166,21 +166,22 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 /* ── LIDAR ── */
 /* LIDAR — scansione 3D interattiva */
 #lidar-section { background:var(--dark2);border-top:.5px solid rgba(255,255,255,.06);position:relative;height:380vh; }
-#lidar-sticky { position:sticky;top:0;height:100vh;display:grid;grid-template-columns:380px 1fr;gap:40px;align-items:center;padding:0 48px;overflow:hidden; }
-.ld-copy { position:relative;min-height:360px;z-index:2; }
+#lidar-sticky { position:sticky;top:0;height:100vh;overflow:hidden; }
+.ld-panel { position:absolute;top:0;bottom:0;left:31%;right:0;background:#020810;border-left:.5px solid rgba(0,212,255,.12); }
+.ld-copy { position:absolute;left:4%;top:50%;transform:translateY(-50%);width:25%;min-width:300px;max-width:470px;min-height:360px;z-index:3;pointer-events:none; }
 .ld-txt { position:absolute;inset:0;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;pointer-events:none; }
 .ld-txt.v { opacity:1;transform:translateY(0);pointer-events:auto; }
 .ld-tag { font-size:9px;letter-spacing:3px;color:#00D4FF;text-transform:uppercase;margin-bottom:14px; }
 .ld-txt h2 { font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;line-height:1.1;margin-bottom:16px;color:#fff; }
 .ld-txt p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95;max-width:330px; }
-.ld-stage { position:relative;height:100vh; }
-#lidar-cv { position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y; }
-.ld-hud { position:absolute;top:14vh;right:4px;text-align:right;pointer-events:none; }
+#lidar-cv { position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;z-index:2;-webkit-mask-image:linear-gradient(90deg,transparent 2%,rgba(0,0,0,.28) 15%,#000 33%);mask-image:linear-gradient(90deg,transparent 2%,rgba(0,0,0,.28) 15%,#000 33%); }
+.ld-hud { position:absolute;top:13vh;right:48px;text-align:right;pointer-events:none;z-index:3; }
 .ld-state { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#00D4FF;margin-bottom:6px; }
 .ld-count { font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#fff;line-height:1; }
 .ld-unit { font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-top:5px; }
-.ld-hint { position:absolute;bottom:12vh;right:4px;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.42);text-transform:uppercase;opacity:0;transition:opacity .6s;pointer-events:none; }
+.ld-hint { position:absolute;bottom:10vh;right:48px;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.42);text-transform:uppercase;opacity:0;transition:opacity .6s;pointer-events:none;z-index:3; }
 .ld-hint.v { opacity:1; }
+.ld-mb { display:none; }
 /* LIDAR — blocco risultato */
 #lidar-after { background:var(--dark2);padding:0 48px 96px; }
 .lda-grid { display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center; }
@@ -541,13 +542,15 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .ex-cap { font-size:8px;letter-spacing:1.8px;padding:0 20px; }
   #ex-servizi { grid-template-columns:1fr;padding:44px 20px 60px;gap:10px; }
   #lidar-section { height:320vh; }
-  #lidar-sticky { grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:0;align-items:stretch;padding:74px 20px 22px; }
-  .ld-copy { min-height:232px; }
+  .ld-panel { left:0;top:40%; }
+  #lidar-cv { -webkit-mask-image:none;mask-image:none; }
+  .ld-copy { left:20px;right:20px;width:auto;top:82px;transform:none;min-height:230px; }
   .ld-txt h2 { font-size:29px; }
-  .ld-stage { height:100%;min-height:44vh; }
-  .ld-hud { top:2px; }
+  .ld-hud { top:calc(40% + 16px);bottom:auto;right:20px; }
   .ld-count { font-size:27px; }
-  .ld-hint { bottom:2px;left:0;right:auto;text-align:left; }
+  .ld-hint { bottom:18px;left:20px;right:auto;text-align:left; }
+  .ld-dk { display:none; }
+  .ld-mb { display:inline; }
   #lidar-after { padding:0 20px 60px; }
   .lda-grid { grid-template-columns:1fr;gap:28px; }
   .lda-boxes { grid-template-columns:1fr; }
@@ -1109,6 +1112,8 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 <!-- ══ LIDAR — scansione 3D interattiva ══ -->
 <section id="lidar-section">
   <div id="lidar-sticky">
+    <div class="ld-panel"></div>
+    <canvas id="lidar-cv"></canvas>
     <div class="ld-copy">
       <div class="ld-txt" id="ld-t1">
         <p class="ld-tag">01 · Il sopralluogo</p>
@@ -1126,15 +1131,12 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
         <p>Su questa geometria esatta costruiamo il render: nessun errore di rilievo, nessuna sorpresa in cantiere. Quello che disegniamo entra al millimetro nello spazio vero.</p>
       </div>
     </div>
-    <div class="ld-stage">
-      <canvas id="lidar-cv"></canvas>
-      <div class="ld-hud">
-        <p class="ld-state" id="ld-state">Scansione in corso</p>
-        <p class="ld-count" id="ld-count">0</p>
-        <p class="ld-unit">punti rilevati · ±1 mm</p>
-      </div>
-      <p class="ld-hint" id="ld-hint">Trascina per ruotare · clicca ⊕ per le misure</p>
+    <div class="ld-hud">
+      <p class="ld-state" id="ld-state">Scansione in corso</p>
+      <p class="ld-count" id="ld-count">0</p>
+      <p class="ld-unit">punti rilevati · ±1 mm</p>
     </div>
+    <p class="ld-hint" id="ld-hint"><span class="ld-dk">Trascina per ruotare · clicca</span><span class="ld-mb">Tocca</span> ⊕ per le misure</p>
   </div>
 </section>
 
@@ -2856,24 +2858,26 @@ setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.co
   MEAS.forEach(m=>{ m.on=false; m.mid=[(m.a[0]+m.b[0])/2,(m.a[1]+m.b[1])/2,(m.a[2]+m.b[2])/2]; });
 
   // ── camera
-  let yaw=-0.62, pitch=0.32, DPR=1, CX=0, CY=0, FOC=600;
+  let yaw=-0.62, pitch=0.46, DPR=1, CX=0, CY=0, FOC=600;
   const DIST=13;
   function size(){
     DPR=Math.min(window.devicePixelRatio||1,2);
     const w=Math.max(stage.clientWidth,1), h=Math.max(stage.clientHeight,1);
     cv.width=w*DPR; cv.height=h*DPR;
-    CX=cv.width/2; CY=cv.height/2;
-    FOC=Math.min(cv.width*.95,cv.height*1.6);
+    const wide=window.innerWidth>900;
+    CX=cv.width*(wide?.57:.50); CY=cv.height*(wide?.52:.66);
+    FOC=Math.min(cv.width*(wide?1.02:.95),cv.height*(wide?1.8:1.5));
   }
   size();
   window.addEventListener('resize',size);
+  // pitch positivo = camera dall'alto (si vede il pavimento)
   function proj(x,y,z){
     const dy=y-RH/2;
     const cy=Math.cos(yaw), sy=Math.sin(yaw);
     let X=x*cy-z*sy, Z=x*sy+z*cy;
     const cp=Math.cos(pitch), sp=Math.sin(pitch);
-    const Y=dy*cp-Z*sp;
-    Z=dy*sp+Z*cp+DIST;
+    const Y=dy*cp+Z*sp;
+    Z=Z*cp-dy*sp+DIST;
     if(Z<.4) return null;
     return {x:CX+X*FOC/Z, y:CY-Y*FOC/Z, z:Z};
   }
@@ -2895,7 +2899,7 @@ setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.co
     if(!down) return;
     const dx=e.clientX-lx, dy=e.clientY-ly;
     moved+=Math.abs(dx)+Math.abs(dy);
-    if(drag){ yaw+=dx*.006; pitch=clamp(pitch+dy*.003,-.08,.52); }
+    if(drag){ yaw+=dx*.006; pitch=clamp(pitch-dy*.003,.06,.85); }
     lx=e.clientX; ly=e.clientY;
   });
   function release(e){
@@ -2932,8 +2936,7 @@ setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.co
     tick+=.016;
     if(!hover&&!drag) yaw+=.0013;
 
-    ctx.fillStyle='#020810';
-    ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.clearRect(0,0,cv.width,cv.height);
 
     // punti già rilevati dal laser
     for(let i=0;i<P.length;i++){
