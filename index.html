@@ -164,21 +164,39 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 #light-canvas { display:block;width:100%; }
 
 /* ── LIDAR ── */
-#lidar-section { background:var(--dark2);padding:96px 48px;border-top:.5px solid rgba(255,255,255,.06); }
-.lidar-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center; }
-.lidar-text h2 { font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;line-height:1.1;margin-bottom:18px; }
-.lidar-text p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95;margin-bottom:14px; }
-.lidar-steps { margin-top:28px;display:flex;flex-direction:column;gap:16px; }
-.lidar-step { display:flex;align-items:flex-start;gap:16px; }
-.lstep-num { font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold);line-height:1;min-width:36px; }
-.lstep-body h4 { font-size:12px;letter-spacing:1px;color:#fff;margin-bottom:4px; }
-.lstep-body p { font-size:11px;color:rgba(255,255,255,.4);line-height:1.7; }
-.lidar-visual { position:relative; }
+/* LIDAR — scansione 3D interattiva */
+#lidar-section { background:var(--dark2);border-top:.5px solid rgba(255,255,255,.06);position:relative;height:380vh; }
+#lidar-sticky { position:sticky;top:0;height:100vh;display:grid;grid-template-columns:380px 1fr;gap:40px;align-items:center;padding:0 48px;overflow:hidden; }
+.ld-copy { position:relative;min-height:360px;z-index:2; }
+.ld-txt { position:absolute;inset:0;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;pointer-events:none; }
+.ld-txt.v { opacity:1;transform:translateY(0);pointer-events:auto; }
+.ld-tag { font-size:9px;letter-spacing:3px;color:#00D4FF;text-transform:uppercase;margin-bottom:14px; }
+.ld-txt h2 { font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;line-height:1.1;margin-bottom:16px;color:#fff; }
+.ld-txt p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95;max-width:330px; }
+.ld-stage { position:relative;height:100vh; }
+#lidar-cv { position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y; }
+.ld-hud { position:absolute;top:14vh;right:4px;text-align:right;pointer-events:none; }
+.ld-state { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#00D4FF;margin-bottom:6px; }
+.ld-count { font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#fff;line-height:1; }
+.ld-unit { font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-top:5px; }
+.ld-hint { position:absolute;bottom:12vh;right:4px;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.42);text-transform:uppercase;opacity:0;transition:opacity .6s;pointer-events:none; }
+.ld-hint.v { opacity:1; }
+/* LIDAR — blocco risultato */
+#lidar-after { background:var(--dark2);padding:0 48px 96px; }
+.lda-grid { display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center; }
+.lda-shot { position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--dark3); }
+.lda-shot img { width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .6s; }
+.lda-cap { position:absolute;left:0;right:0;bottom:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.85)); }
+.lda-tag { font-size:8px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:3px; }
+.lda-cap .lda-t { font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#fff; }
+.lda-info h3 { font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;line-height:1.15;color:#fff;margin-bottom:14px; }
+.lda-info p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95;margin-bottom:24px; }
+.lda-boxes { display:grid;grid-template-columns:repeat(3,1fr);gap:3px; }
 #lidar-cv { display:block;border:.5px solid rgba(0,212,255,.15); }
 .lidar-compare { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3px; }
 .lc-box { background:var(--dark3);padding:12px 16px; }
 .lc-box span { font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase; }
-.lc-box p { font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#fff;margin-top:4px; }
+.lc-box p { font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:#fff;margin-top:4px;line-height:1.3; }
 
 /* ── SITO DEDICATO (pin + dispositivi + mini-sito) ── */
 #sito-dedicato { background:var(--dark);border-top:.5px solid rgba(255,255,255,.06); }
@@ -494,7 +512,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 @media(max-width:900px) {
   #nav { padding:16px 20px; }
   .nlinks { display:none; }
-  .intro-grid,.lidar-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
+  .intro-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
   #sd-sticky { padding:74px 20px 0; }
   .sd-laptop { width:88vw;left:0;bottom:17vh; }
   .sd-tablet { width:30vw;left:auto;right:2vw;bottom:9vh; }
@@ -517,11 +535,22 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   #chi { grid-template-columns:1fr; }
   .chi-col:first-child { border-right:none;border-bottom:.5px solid var(--border); }
   #contatti { grid-template-columns:1fr;gap:36px; }
-  #intro-servizi,#lidar-section,#vrar,#documenti,#illumino,#stats,#contatti { padding:60px 20px; }
+  #intro-servizi,#vrar,#documenti,#illumino,#stats,#contatti { padding:60px 20px; }
   #ex-sticky { padding:66px 14px 0; }
   #ex-scene { width:min(94vw,calc((100vh - 280px)*1.78)); }
   .ex-cap { font-size:8px;letter-spacing:1.8px;padding:0 20px; }
   #ex-servizi { grid-template-columns:1fr;padding:44px 20px 60px;gap:10px; }
+  #lidar-section { height:320vh; }
+  #lidar-sticky { grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:0;align-items:stretch;padding:74px 20px 22px; }
+  .ld-copy { min-height:232px; }
+  .ld-txt h2 { font-size:29px; }
+  .ld-stage { height:100%;min-height:44vh; }
+  .ld-hud { top:2px; }
+  .ld-count { font-size:27px; }
+  .ld-hint { bottom:2px;left:0;right:auto;text-align:left; }
+  #lidar-after { padding:0 20px 60px; }
+  .lda-grid { grid-template-columns:1fr;gap:28px; }
+  .lda-boxes { grid-template-columns:1fr; }
   .arredo-head { padding:60px 20px 0; }
   .modi-head { padding:0 20px; }
   .modi-grid { grid-template-columns:1fr;padding:36px 20px 20px; }
@@ -1077,81 +1106,55 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   </div><!-- fine render-sticky -->
 </section>
 
-<!-- ══ LIDAR ══ -->
+<!-- ══ LIDAR — scansione 3D interattiva ══ -->
 <section id="lidar-section">
-  <div class="lidar-grid">
-    <div class="lidar-text">
-      <p class="slabel rev">Tecnologia</p>
-      <h2 class="serif rev">Scansione LIDAR:<br>la precisione<br>che non vedi.</h2>
-      <p class="rev">Il LIDAR (Light Detection And Ranging) è una tecnologia laser che misura ogni punto dello spazio con precisione inferiore al millimetro. Durante il sopralluogo, lo scanner emette milioni di impulsi laser che rimbalzano sulle superfici, creando una "nuvola di punti" tridimensionale dell'ambiente reale.</p>
-      <p class="rev">Questa base geometrica perfetta è il fondamento di ogni nostro render — elimina gli errori di misura e garantisce che l'immagine finale corrisponda esattamente alla realtà dell'edificio.</p>
-      <div class="lidar-steps">
-        <div class="lidar-step rev">
-          <span class="lstep-num">01</span>
-          <div class="lstep-body"><h4>Sopralluogo</h4><p>Lo scanner LIDAR viene posizionato in più punti dell'ambiente. Ogni scansione dura 3–8 minuti e cattura milioni di punti.</p></div>
-        </div>
-        <div class="lidar-step rev">
-          <span class="lstep-num">02</span>
-          <div class="lstep-body"><h4>Elaborazione nuvola</h4><p>Le scansioni vengono unite in un unico modello 3D. Precisione garantita: &lt;1mm su distanze fino a 80m.</p></div>
-        </div>
-        <div class="lidar-step rev">
-          <span class="lstep-num">03</span>
-          <div class="lstep-body"><h4>Modellazione e render</h4><p>Dal modello LIDAR costruiamo la geometria perfetta su cui applicare materiali, luci e render fotorealistici.</p></div>
-        </div>
+  <div id="lidar-sticky">
+    <div class="ld-copy">
+      <div class="ld-txt" id="ld-t1">
+        <p class="ld-tag">01 · Il sopralluogo</p>
+        <h2 class="serif">Lo scanner<br>gira su sé stesso.</h2>
+        <p>Posizioniamo il LiDAR nell'ambiente da rilevare. Il laser ruota a 360° e colpisce ogni superficie che incontra: ogni impulso torna indietro portando con sé la distanza esatta.</p>
+      </div>
+      <div class="ld-txt" id="ld-t2">
+        <p class="ld-tag">02 · La nuvola di punti</p>
+        <h2 class="serif">Lo spazio<br>diventa numeri.</h2>
+        <p>Ogni impulso diventa un punto con coordinate reali, preciso a meno di un millimetro. In pochi minuti l'edificio esistente è dentro il computer — senza una sola misura presa a mano.</p>
+      </div>
+      <div class="ld-txt" id="ld-t3">
+        <p class="ld-tag">03 · La base del progetto</p>
+        <h2 class="serif">Ruota.<br>Misura.<br>Progetta.</h2>
+        <p>Su questa geometria esatta costruiamo il render: nessun errore di rilievo, nessuna sorpresa in cantiere. Quello che disegniamo entra al millimetro nello spazio vero.</p>
       </div>
     </div>
-    <div class="lidar-visual rev-r">
-      <!-- Confronto LIDAR: due pannelli affiancati -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
-        <!-- Pannello sx: nuvola di punti (img/lidar-scan.jpg oppure canvas) -->
-        <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#020810;">
-          <canvas id="lidar-cv" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
-          <img id="lidar-scan-img" src="img/lidar-scan.jpg" alt="Scansione LIDAR nuvola di punti"
-               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s;">
-          <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(transparent,rgba(0,0,0,.8));">
-            <p style="font-size:8px;letter-spacing:2px;color:rgba(0,212,255,.7);text-transform:uppercase;margin-bottom:2px;">Prima</p>
-            <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:#fff;">Nuvola di punti LIDAR</p>
-            <p style="font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;">~3 milioni di punti · precisione &lt;1mm</p>
-          </div>
-        </div>
-        <!-- Pannello dx: render finito (img/lidar-render.jpg oppure SVG) -->
-        <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#0a0f18;">
-          <!-- SVG fallback render -->
-          <svg id="lidar-render-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="lrsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="100%" stop-color="#87BBDB"/></linearGradient>
-            </defs>
-            <rect width="400" height="300" fill="url(#lrsky)"/>
-            <rect y="200" width="400" height="100" fill="#8A9A7A"/>
-            <!-- Struttura grezza renderizzata -->
-            <rect x="40" y="110" width="320" height="100" fill="#D8D4CE"/>
-            <rect x="40" y="80" width="200" height="32" fill="#E0DCD5"/>
-            <rect x="40" y="76" width="320" height="6" fill="#B8B4AF"/>
-            <rect x="60" y="120" width="65" height="87" fill="rgba(135,187,219,.5)"/>
-            <rect x="145" y="120" width="65" height="87" fill="rgba(135,187,219,.5)"/>
-            <rect x="230" y="120" width="65" height="87" fill="rgba(135,187,219,.45)"/>
-            <rect x="195" y="150" width="70" height="60" fill="#0a0a0a" opacity=".8"/>
-            <!-- Vegetazione -->
-            <rect x="15" y="150" width="4" height="60" fill="#5C4A32"/>
-            <circle cx="17" cy="140" r="18" fill="#2D6A1B" opacity=".9"/>
-            <rect x="370" y="155" width="4" height="55" fill="#5C4A32"/>
-            <circle cx="372" cy="145" r="16" fill="#2D6A1B" opacity=".9"/>
-            <!-- Erba e vialetto -->
-            <rect x="145" y="210" width="110" height="5" fill="#D8CFC0"/>
-          </svg>
-          <img id="lidar-render-img" src="img/lidar-render.jpg" alt="Stesso spazio renderizzato"
-               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s;">
-          <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(transparent,rgba(0,0,0,.8));">
-            <p style="font-size:8px;letter-spacing:2px;color:rgba(201,169,110,.8);text-transform:uppercase;margin-bottom:2px;">Dopo</p>
-            <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:#fff;">Render fotorealistico</p>
-            <p style="font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;">Dallo stesso modello · materiali reali</p>
-          </div>
-        </div>
+    <div class="ld-stage">
+      <canvas id="lidar-cv"></canvas>
+      <div class="ld-hud">
+        <p class="ld-state" id="ld-state">Scansione in corso</p>
+        <p class="ld-count" id="ld-count">0</p>
+        <p class="ld-unit">punti rilevati · ±1 mm</p>
       </div>
-      <!-- Info barre sotto -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3px;">
-        <div class="lc-box"><span>Strumento</span><p>Scanner LIDAR Leica BLK360</p></div>
-        <div class="lc-box"><span>Software</span><p>3ds Max · V-Ray · Corona</p></div>
+      <p class="ld-hint" id="ld-hint">Trascina per ruotare · clicca ⊕ per le misure</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LIDAR — il risultato ══ -->
+<section id="lidar-after">
+  <div class="lda-grid">
+    <div class="lda-shot rev-l">
+      <img id="lidar-render-img" src="img/lidar-render.jpg" alt="Render prodotto dal modello LiDAR">
+      <div class="lda-cap">
+        <p class="lda-tag">Dallo stesso modello</p>
+        <p class="lda-t">Il render fotorealistico</p>
+      </div>
+    </div>
+    <div class="lda-info rev-r">
+      <h3>Dalla misura<br>all'immagine.</h3>
+      <p>La nuvola di punti non si vede nel risultato finale — ma è la ragione per cui il render corrisponde alla realtà. Su quella geometria modelliamo le superfici, applichiamo materiali e luci, e produciamo le immagini definitive.</p>
+      <div class="lda-boxes">
+        <div class="lc-box"><span>Strumento</span><p>Leica BLK360</p></div>
+        <div class="lc-box"><span>Precisione</span><p>&lt;1 mm · fino a 80 m</p></div>
+        <div class="lc-box"><span>Software</span><p>3ds Max · V-Ray</p></div>
       </div>
     </div>
   </div>
@@ -2783,54 +2786,252 @@ document.querySelectorAll('.rc-photo').forEach(img=>{
 });
 // secondo controllo dopo rendering (file:// carica velocissimo)
 setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.complete && img.naturalWidth) img.classList.add('loaded'); }); },200);
-['lidar-scan-img','lidar-render-img'].forEach(id=>{
+['lidar-render-img'].forEach(id=>{
   const img=document.getElementById(id); if(!img) return;
   const onload=()=>{ img.style.opacity='1'; };
   if(img.complete && img.naturalWidth) onload();
   else img.addEventListener('load',onload);
 });
 
-// ── LIDAR CANVAS (nuvola di punti)
+// ── LIDAR: scansione 3D — il laser costruisce la nuvola allo scroll, poi si ruota e si misura
 (function(){
-  const c=document.getElementById('lidar-cv');
-  if(!c) return;
-  // size canvas to container
-  const resize=()=>{ c.width=c.offsetWidth||440; c.height=c.offsetHeight||330; };
-  resize();
-  const ctx=c.getContext('2d');
-  const pts=[];
-  const W=()=>c.width, H=()=>c.height;
-  function gen(){
-    pts.length=0;
-    const w=W(),h=H();
-    for(let i=0;i<280;i++) pts.push({x:20+Math.random()*(w-40),y:h*.72+Math.random()*(h*.2),type:'floor'});
-    for(let i=0;i<180;i++) pts.push({x:18+Math.random()*5,y:30+Math.random()*(h*.75),type:'wall'});
-    for(let i=0;i<180;i++) pts.push({x:w-22+Math.random()*5,y:30+Math.random()*(h*.75),type:'wall'});
-    for(let i=0;i<130;i++) pts.push({x:20+Math.random()*(w-40),y:28+Math.random()*5,type:'ceil'});
-    for(let i=0;i<70;i++) pts.push({x:w*.22+Math.random()*(w*.25),y:h*.15+Math.random()*(h*.4),type:'win'});
-    for(let i=0;i<70;i++) pts.push({x:w*.58+Math.random()*(w*.25),y:h*.15+Math.random()*(h*.4),type:'win'});
-    for(let i=0;i<55;i++) pts.push({x:w*.12+Math.random()*(w*.3),y:h*.62+Math.random()*(h*.1),type:'furn'});
-    for(let i=0;i<40;i++) pts.push({x:w*.56+Math.random()*(w*.25),y:h*.6+Math.random()*(h*.12),type:'furn'});
+  const cv=document.getElementById('lidar-cv');
+  const wrap=document.getElementById('lidar-section');
+  if(!cv||!wrap) return;
+  const stage=cv.parentElement, ctx=cv.getContext('2d');
+  const elState=document.getElementById('ld-state'), elCount=document.getElementById('ld-count'), elHint=document.getElementById('ld-hint');
+  const t1=document.getElementById('ld-t1'), t2=document.getElementById('ld-t2'), t3=document.getElementById('ld-t3');
+  const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+
+  // ── geometria della stanza rilevata (metri)
+  const RW=7.2, RD=5.4, RH=2.9, HW=RW/2, HD=RD/2;
+  const win={x0:-1.25,x1:1.25,y0:.92,y1:2.32};   // finestra su parete z=-HD
+  const door={x0:1.5,x1:2.45,y1:2.1};            // porta su parete z=+HD
+  const P=[];
+  const add=(x,y,z,t)=>P.push({x:x,y:y,z:z,t:t});
+  function box(x0,x1,y0,y1,z0,z1,n,t){
+    for(let i=0;i<n;i++){
+      const r=Math.random();
+      if(r<.44) add(rnd(x0,x1),y1,rnd(z0,z1),t);
+      else if(r<.66) add(rnd(x0,x1),rnd(y0,y1),z0,t);
+      else if(r<.82) add(rnd(x0,x1),rnd(y0,y1),z1,t);
+      else if(r<.91) add(x0,rnd(y0,y1),rnd(z0,z1),t);
+      else add(x1,rnd(y0,y1),rnd(z0,z1),t);
+    }
   }
-  gen();
-  const colors={floor:'rgba(0,180,255,{a})',wall:'rgba(0,212,255,{a})',ceil:'rgba(0,212,255,{a})',win:'rgba(100,200,255,{a})',furn:'rgba(0,150,220,{a})'};
-  let t=0;
-  function draw(){
-    const w=W(),h=H();
-    ctx.clearRect(0,0,w,h);
-    ctx.fillStyle='#020810'; ctx.fillRect(0,0,w,h);
-    t+=0.012;
-    pts.forEach(p=>{
-      const flicker=(Math.sin(t*2+p.x*.05+p.y*.03)+1)/2;
-      const alpha=(0.2+flicker*0.6).toFixed(2);
-      ctx.fillStyle=colors[p.type].replace('{a}',alpha);
-      const r=p.type==='wall'?1.5:p.type==='furn'?1.2:0.9;
-      ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill();
+  for(let i=0;i<2100;i++) add(rnd(-HW,HW),rnd(-.006,.006),rnd(-HD,HD),'s');       // pavimento
+  for(let i=0;i<900;i++)  add(rnd(-HW,HW),RH+rnd(-.006,.006),rnd(-HD,HD),'s');    // soffitto
+  for(let i=0;i<820;i++)  add(-HW+rnd(-.005,.005),rnd(0,RH),rnd(-HD,HD),'s');     // parete sx
+  for(let i=0;i<820;i++)  add(HW+rnd(-.005,.005),rnd(0,RH),rnd(-HD,HD),'s');      // parete dx
+  for(let i=0;i<1000;i++){                                                         // parete finestra
+    const x=rnd(-HW,HW), y=rnd(0,RH);
+    if(x>win.x0&&x<win.x1&&y>win.y0&&y<win.y1) continue;
+    add(x,y,-HD+rnd(-.005,.005),'s');
+  }
+  for(let i=0;i<1000;i++){                                                         // parete porta
+    const x=rnd(-HW,HW), y=rnd(0,RH);
+    if(x>door.x0&&x<door.x1&&y<door.y1) continue;
+    add(x,y,HD+rnd(-.005,.005),'s');
+  }
+  for(let i=0;i<300;i++) add(rnd(win.x0,win.x1),rnd(win.y0,win.y1),-HD+rnd(-.01,.01),'g');  // vetro
+  box(-2.9,-0.5,0,.44,1.05,1.95,420,'o');       // divano seduta
+  box(-2.9,-0.5,.44,.86,1.62,1.95,220,'o');     // schienale
+  box(0.35,1.75,.40,.44,-.55,.45,200,'o');      // tavolino piano
+  box(0.95,1.15,0,.40,-.12,.08,60,'o');         // gambo
+  box(2.55,3.45,0,.80,-1.70,.55,340,'o');       // credenza
+  box(-3.5,-2.4,0,1.85,-2.6,-2.25,140,'o');     // libreria bassa
+  for(let i=0;i<120;i++){ const a=rnd(0,6.28),r=rnd(0,.42); add(2.9+Math.cos(a)*r,rnd(.75,1.65),-2.1+Math.sin(a)*r,'o'); } // pianta
+
+  // azimut di ogni punto rispetto allo scanner (al centro): guida la scansione
+  for(let i=0;i<P.length;i++) P[i].az=(Math.atan2(P[i].z,P[i].x)+Math.PI)/(Math.PI*2);
+  const TOT=2847332;
+
+  // ── misure cliccabili
+  const MEAS=[
+    {a:[-HW,1.05,-1.35],b:[HW,1.05,-1.35],v:'7,20 m',n:'Larghezza interna'},
+    {a:[2.15,0,1.75],b:[2.15,RH,1.75],v:'2,90 m',n:'Altezza utile'},
+    {a:[win.x0,win.y1+.03,-HD],b:[win.x1,win.y1+.03,-HD],v:'2,50 m',n:'Luce finestra'},
+  ];
+  MEAS.forEach(m=>{ m.on=false; m.mid=[(m.a[0]+m.b[0])/2,(m.a[1]+m.b[1])/2,(m.a[2]+m.b[2])/2]; });
+
+  // ── camera
+  let yaw=-0.62, pitch=0.32, DPR=1, CX=0, CY=0, FOC=600;
+  const DIST=13;
+  function size(){
+    DPR=Math.min(window.devicePixelRatio||1,2);
+    const w=Math.max(stage.clientWidth,1), h=Math.max(stage.clientHeight,1);
+    cv.width=w*DPR; cv.height=h*DPR;
+    CX=cv.width/2; CY=cv.height/2;
+    FOC=Math.min(cv.width*.95,cv.height*1.6);
+  }
+  size();
+  window.addEventListener('resize',size);
+  function proj(x,y,z){
+    const dy=y-RH/2;
+    const cy=Math.cos(yaw), sy=Math.sin(yaw);
+    let X=x*cy-z*sy, Z=x*sy+z*cy;
+    const cp=Math.cos(pitch), sp=Math.sin(pitch);
+    const Y=dy*cp-Z*sp;
+    Z=dy*sp+Z*cp+DIST;
+    if(Z<.4) return null;
+    return {x:CX+X*FOC/Z, y:CY-Y*FOC/Z, z:Z};
+  }
+
+  // cache dei colori: evita di ricostruire migliaia di stringhe per frame
+  const RGB={s:'0,196,255',g:'120,215,255',o:'0,150,220'};
+  const CC={};
+  function col(t,a){ const k=t+a; return CC[k]||(CC[k]='rgba('+RGB[t]+','+(a/20)+')'); }
+
+  // ── interazione: trascinamento solo col mouse (su touch resta lo scroll della pagina)
+  let hover=false, drag=false, down=false, lx=0, ly=0, moved=0;
+  cv.addEventListener('mouseenter',()=>hover=true);
+  cv.addEventListener('mouseleave',()=>{hover=false;});
+  cv.addEventListener('pointerdown',e=>{
+    down=true; moved=0; lx=e.clientX; ly=e.clientY;
+    if(e.pointerType==='mouse'){ drag=true; try{cv.setPointerCapture(e.pointerId);}catch(_){} }
+  });
+  cv.addEventListener('pointermove',e=>{
+    if(!down) return;
+    const dx=e.clientX-lx, dy=e.clientY-ly;
+    moved+=Math.abs(dx)+Math.abs(dy);
+    if(drag){ yaw+=dx*.006; pitch=clamp(pitch+dy*.003,-.08,.52); }
+    lx=e.clientX; ly=e.clientY;
+  });
+  function release(e){
+    if(down&&moved<9) pick(e);
+    down=false; drag=false;
+  }
+  cv.addEventListener('pointerup',release);
+  cv.addEventListener('pointercancel',()=>{down=false;drag=false;});
+  function pick(e){
+    if(sweep<1) return;
+    const r=cv.getBoundingClientRect();
+    const mx=(e.clientX-r.left)*(cv.width/r.width), my=(e.clientY-r.top)*(cv.height/r.height);
+    let best=null, bd=30*DPR;
+    MEAS.forEach(m=>{
+      const q=proj(m.mid[0],m.mid[1],m.mid[2]);
+      if(!q) return;
+      const d=Math.hypot(q.x-mx,q.y-my);
+      if(d<bd){ bd=d; best=m; }
     });
-    ctx.fillStyle='rgba(0,212,255,.22)';
-    ctx.font='8px Inter';
-    ctx.fillText('NUVOLA DI PUNTI LIDAR · 2.847.332 pt',14,h-10);
+    if(best){ const was=best.on; MEAS.forEach(m=>m.on=false); best.on=!was; }
+  }
+
+  // ── loop
+  let sweep=0, tick=0, lastState=-1;
+  const SWEEP_END=.66;
+  function draw(){
     requestAnimationFrame(draw);
+    const r=wrap.getBoundingClientRect();
+    if(r.bottom<-100||r.top>window.innerHeight+100) return;   // fuori vista: niente lavoro
+    if(cv.width!==Math.round(stage.clientWidth*DPR)) size();
+
+    const prog=clamp(-r.top/(wrap.offsetHeight-window.innerHeight),0,1);
+    sweep=clamp(prog/SWEEP_END,0,1);
+    tick+=.016;
+    if(!hover&&!drag) yaw+=.0013;
+
+    ctx.fillStyle='#020810';
+    ctx.fillRect(0,0,cv.width,cv.height);
+
+    // punti già rilevati dal laser
+    for(let i=0;i<P.length;i++){
+      const p=P[i];
+      if(p.az>sweep) continue;
+      const q=proj(p.x,p.y,p.z);
+      if(!q) continue;
+      const fresh=sweep-p.az;
+      let s;
+      if(fresh<.010&&sweep<1){ ctx.fillStyle='rgba(215,250,255,.95)'; s=2.4*DPR; }
+      else {
+        const depth=1-clamp((q.z-8.5)/11,0,1)*.72;
+        ctx.fillStyle=col(p.t,Math.round((.26+.62*depth)*20));
+        s=q.z<12?1.9*DPR:1.15*DPR;
+      }
+      ctx.fillRect(q.x,q.y,s,s);
+    }
+
+    // scanner al centro + raggio laser in rotazione
+    const s0=proj(0,1.52,0);
+    if(s0){
+      ctx.strokeStyle='rgba(0,212,255,.55)'; ctx.lineWidth=1.2*DPR;
+      const base=proj(0,0,0);
+      if(base){ ctx.beginPath(); ctx.moveTo(base.x,base.y); ctx.lineTo(s0.x,s0.y); ctx.stroke(); }
+      ctx.fillStyle='rgba(0,212,255,.9)';
+      ctx.beginPath(); ctx.arc(s0.x,s0.y,3.2*DPR,0,6.283); ctx.fill();
+      if(sweep<1){
+        const ang=-Math.PI+sweep*Math.PI*2, ca=Math.cos(ang), sa=Math.sin(ang);
+        const RR=Math.min(Math.abs(ca)>1e-4?HW/Math.abs(ca):1e9, Math.abs(sa)>1e-4?HD/Math.abs(sa):1e9);
+        const hx=ca*RR, hz=sa*RR;
+        const lo=proj(hx,0,hz), hi=proj(hx,RH,hz);
+        if(lo&&hi){
+          ctx.strokeStyle='rgba(0,212,255,.16)'; ctx.lineWidth=7*DPR;
+          ctx.beginPath(); ctx.moveTo(lo.x,lo.y); ctx.lineTo(hi.x,hi.y); ctx.stroke();
+          ctx.strokeStyle='rgba(190,245,255,.85)'; ctx.lineWidth=1.4*DPR;
+          ctx.beginPath(); ctx.moveTo(lo.x,lo.y); ctx.lineTo(hi.x,hi.y); ctx.stroke();
+          ctx.strokeStyle='rgba(0,212,255,.4)'; ctx.lineWidth=1*DPR;
+          ctx.beginPath();
+          ctx.moveTo(s0.x,s0.y); ctx.lineTo(lo.x,lo.y);
+          ctx.moveTo(s0.x,s0.y); ctx.lineTo(hi.x,hi.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // misure: marker cliccabili e quote attive
+    if(sweep>=1){
+      const pulse=.55+.45*Math.sin(tick*2.2);
+      ctx.font=(10*DPR)+'px Inter, sans-serif';
+      ctx.textAlign='center';
+      MEAS.forEach(m=>{
+        const qa=proj(m.a[0],m.a[1],m.a[2]), qb=proj(m.b[0],m.b[1],m.b[2]), qm=proj(m.mid[0],m.mid[1],m.mid[2]);
+        if(!qa||!qb||!qm) return;
+        if(m.on){
+          ctx.strokeStyle='rgba(201,169,110,.95)'; ctx.lineWidth=1.1*DPR;
+          ctx.beginPath(); ctx.moveTo(qa.x,qa.y); ctx.lineTo(qb.x,qb.y); ctx.stroke();
+          const nx=(qb.y-qa.y), ny=-(qb.x-qa.x), nl=Math.hypot(nx,ny)||1, tx=nx/nl*6*DPR, ty=ny/nl*6*DPR;
+          ctx.beginPath();
+          ctx.moveTo(qa.x-tx,qa.y-ty); ctx.lineTo(qa.x+tx,qa.y+ty);
+          ctx.moveTo(qb.x-tx,qb.y-ty); ctx.lineTo(qb.x+tx,qb.y+ty);
+          ctx.stroke();
+          const w=112*DPR, h=36*DPR;
+          ctx.fillStyle='rgba(2,8,16,.88)';
+          ctx.fillRect(qm.x-w/2,qm.y-h-9*DPR,w,h);
+          ctx.strokeStyle='rgba(201,169,110,.5)'; ctx.lineWidth=DPR;
+          ctx.strokeRect(qm.x-w/2,qm.y-h-9*DPR,w,h);
+          ctx.fillStyle='#C9A96E';
+          ctx.fillText(m.v,qm.x,qm.y-h+6*DPR);
+          ctx.font=(7*DPR)+'px Inter, sans-serif';
+          ctx.fillStyle='rgba(255,255,255,.45)';
+          ctx.fillText(m.n.toUpperCase()+' · ±1 MM',qm.x,qm.y-h+20*DPR);
+          ctx.font=(10*DPR)+'px Inter, sans-serif';
+        } else {
+          const rr=11*DPR;
+          ctx.fillStyle='rgba(2,8,16,.72)';
+          ctx.beginPath(); ctx.arc(qm.x,qm.y,rr+2*DPR,0,6.283); ctx.fill();
+          ctx.strokeStyle='rgba(201,169,110,'+(.55+.45*pulse).toFixed(2)+')'; ctx.lineWidth=1.4*DPR;
+          ctx.beginPath(); ctx.arc(qm.x,qm.y,rr,0,6.283); ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(qm.x-rr*.45,qm.y); ctx.lineTo(qm.x+rr*.45,qm.y);
+          ctx.moveTo(qm.x,qm.y-rr*.45); ctx.lineTo(qm.x,qm.y+rr*.45);
+          ctx.stroke();
+        }
+      });
+      ctx.textAlign='left';
+    }
+
+    // HUD
+    elCount.textContent=Math.round(sweep*TOT).toLocaleString('it-IT');
+    const st=sweep<1?0:1;
+    if(st!==lastState){
+      lastState=st;
+      elState.textContent=st?'Scansione completata':'Scansione in corso';
+      elHint.classList.toggle('v',!!st);
+    }
+    t1.classList.toggle('v',prog<.26);
+    t2.classList.toggle('v',prog>=.26&&prog<SWEEP_END);
+    t3.classList.toggle('v',prog>=SWEEP_END);
   }
   draw();
 })();
