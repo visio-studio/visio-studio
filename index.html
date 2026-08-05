@@ -543,10 +543,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   #ex-servizi { grid-template-columns:1fr;padding:44px 20px 60px;gap:10px; }
   #lidar-section { height:270vh; }
   .ld-panel { left:0;top:40%; }
-  #lidar-cv { -webkit-mask-image:none;mask-image:none; }
+  #lidar-cv { -webkit-mask-image:linear-gradient(180deg,transparent 11%,rgba(0,0,0,.28) 26%,#000 46%);mask-image:linear-gradient(180deg,transparent 11%,rgba(0,0,0,.28) 26%,#000 46%); }
   .ld-copy { left:20px;right:20px;width:auto;top:82px;transform:none;min-height:230px; }
   .ld-txt h2 { font-size:29px; }
-  .ld-hud { top:calc(40% + 16px);bottom:auto;right:20px; }
+  .ld-hud { top:auto;bottom:54px;left:20px;right:auto;text-align:left; }
   .ld-count { font-size:27px; }
   .ld-hint { bottom:18px;left:20px;right:auto;text-align:left; }
   .ld-dk { display:none; }
@@ -2865,8 +2865,8 @@ setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.co
     const w=Math.max(stage.clientWidth,1), h=Math.max(stage.clientHeight,1);
     cv.width=w*DPR; cv.height=h*DPR;
     const wide=window.innerWidth>900;
-    CX=cv.width*(wide?.57:.50); CY=cv.height*(wide?.52:.66);
-    FOC=Math.min(cv.width*(wide?1.02:.95),cv.height*(wide?1.8:1.5));
+    CX=cv.width*(wide?.57:.50); CY=cv.height*(wide?.52:.48);
+    FOC=Math.min(cv.width*(wide?1.02:1.45),cv.height*(wide?1.8:1.5));
   }
   size();
   window.addEventListener('resize',size);
