@@ -19,7 +19,7 @@ Sito vetrina one-page di **VISIO Studio**, studio di rendering architettonico a 
 
 ## SEO / ottimizzazione per motori AI (GEO)
 
-- Il `<head>` contiene meta description, Open Graph, Twitter Card, canonical e uno schema JSON-LD `ProfessionalService` con nome, email, area servita e lista servizi (`makesOffer`). **Non contiene telefono né profili social**, perché quelli in pagina sono ancora segnaposto (`+39 06 0000000`, link Instagram/LinkedIn a `#`) — vanno aggiunti sia lì che nello schema JSON-LD non appena l'utente fornisce i dati reali.
+- Il `<head>` contiene meta description, Open Graph, Twitter Card, canonical e uno schema JSON-LD `ProfessionalService` con nome, email, telefono, area servita e lista servizi (`makesOffer`). I contatti reali (email `rotondimatteo@gmail.com`, telefono/WhatsApp `+39 342 668 4232`) sono allineati fra pagina, JSON-LD e `llms.txt`: se cambiano, aggiornali in tutti e tre. Non ci sono profili social (i segnaposto Instagram/LinkedIn sono stati rimossi): quando ci saranno account reali, aggiungerli in pagina e come array `sameAs` nel JSON-LD.
 - C'è un `<h1>` e un blocco di riepilogo dei servizi, entrambi nascosti visivamente con la classe `.sr-only` (stessa tecnica standard di accessibilità: il contenuto esiste nel DOM per crawler/screen reader, ma non altera il design).
 - I testi della sezione journey (`#stag`, `#stxt`) partono ora precompilati con il testo della prima fase (invece che vuoti), perché molti crawler AI non eseguono JavaScript e altrimenti non vedrebbero mai quel testo. La funzione di scrub in JS è stata adattata (controlla anche l'assenza della classe `.v`, non solo il testo) per gestire correttamente il caso in cui il testo sia già quello atteso.
 

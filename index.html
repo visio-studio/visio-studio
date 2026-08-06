@@ -48,7 +48,7 @@
   --light: #FAFAF8; --light2: #F5F3EF; --light3: #EEEAE4;
   --text: #1A1A1A; --muted: #888; --border: #E0DDD8;
 }
-html { scroll-behavior: smooth; overscroll-behavior-x: none; }
+html { scroll-behavior: smooth; overscroll-behavior-x: none; overflow-x: clip; max-width: 100%; }
 body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; cursor: none; overflow-x: clip; }
 .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
 .serif { font-family: 'Cormorant Garamond', serif; }
@@ -130,7 +130,8 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .intro-text h2 { font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;line-height:1.1;margin-bottom:20px; }
 .intro-text h2 em { font-style:italic;color:var(--gold); }
 .intro-text p { font-size:13px;color:rgba(255,255,255,.5);line-height:1.95;max-width:440px; }
-.intro-svg-wrap { display:flex;justify-content:center;align-items:center; }
+.intro-svg-wrap { display:flex;justify-content:center;align-items:center;min-width:0; }
+.intro-svg-wrap svg { max-width:100%;height:auto; }
 /* — griglia servizi icone — */
 #sv-lead { text-align:center;margin:96px auto 0;max-width:560px; }
 #sv-lead h3 { font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;line-height:1.2; }
@@ -547,6 +548,9 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 
 /* RESPONSIVE */
 @media(max-width:900px) {
+  /* niente comparse laterali su mobile: sporgerebbero oltre lo schermo creando scroll orizzontale */
+  .rev-l,.rev-r { transform:translateY(28px); }
+  .rev-l.in,.rev-r.in { transform:translateY(0); }
   #nav { padding:16px 20px; }
   .nlinks { display:none; }
   .intro-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
