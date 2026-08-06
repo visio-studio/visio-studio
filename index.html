@@ -4,6 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VISIO Studio — Rendering Architettonico Roma</title>
+<meta name="description" content="VISIO Studio — rendering architettonico e visualizzazione 3D a Roma. Render fotorealistici, scansione LiDAR, tour VR/AR e siti web dedicati per presentare progetti immobiliari non ancora costruiti.">
+<link rel="canonical" href="https://visiorender.netlify.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VISIO Studio">
+<meta property="og:title" content="VISIO Studio — Rendering Architettonico Roma">
+<meta property="og:description" content="Render fotorealistici, scansione LiDAR, tour VR/AR e siti web dedicati per progetti immobiliari non ancora costruiti.">
+<meta property="og:url" content="https://visiorender.netlify.app/">
+<meta property="og:image" content="https://visiorender.netlify.app/img/render-esterno-1.jpg">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VISIO Studio — Rendering Architettonico Roma">
+<meta name="twitter:description" content="Render fotorealistici, scansione LiDAR, tour VR/AR e siti web dedicati per progetti immobiliari non ancora costruiti.">
+<meta name="twitter:image" content="https://visiorender.netlify.app/img/render-esterno-1.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "VISIO Studio",
+  "url": "https://visiorender.netlify.app/",
+  "email": "info@visio-studio.it",
+  "description": "Studio di rendering architettonico e visualizzazione 3D a Roma: render fotorealistici, scansione LiDAR, tour VR/AR, siti web dedicati e progettazione arredo su misura.",
+  "image": "https://visiorender.netlify.app/img/render-esterno-1.jpg",
+  "areaServed": { "@type": "City", "name": "Roma" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" },
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Render fotorealistici di interni ed esterni" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Scansione LiDAR e rilievo 3D di precisione" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Tour virtuali VR/AR e stanze navigabili a 360°" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sito web dedicato al progetto immobiliare" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Progettazione arredo su misura" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Progettazione area esterna e illuminotecnica" } }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 <style>
@@ -15,6 +49,7 @@
 }
 html { scroll-behavior: smooth; overscroll-behavior-x: none; }
 body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; cursor: none; overflow-x: clip; }
+.sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
 .serif { font-family: 'Cormorant Garamond', serif; }
 .serif-i { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
@@ -588,6 +623,14 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 </head>
 <body>
 
+<h1 class="sr-only">VISIO Studio — Rendering Architettonico e Progettazione 3D a Roma</h1>
+<div class="sr-only">
+  <p>VISIO Studio. Ti mostriamo quello che ancora non esiste.</p>
+  <p>Render, video, VR e tour interattivi.</p>
+  <p>Ogni luce e ogni materiale, prima del cantiere.</p>
+  <p>Decidi prima di costruire. Vendi prima di finire.</p>
+</div>
+
 <div id="cur-d"></div>
 <div id="cur-r"></div>
 
@@ -631,8 +674,10 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     <canvas id="sv"></canvas>
     <div id="vo">
       <div id="stw">
-        <p id="stag"></p>
-        <p id="stxt"></p>
+        <p id="stag">VISIO Studio · Roma</p>
+        <p id="stxt">Ti mostriamo
+quello che
+ancora non esiste.</p>
       </div>
       <div id="spb"></div>
     </div>
@@ -2449,7 +2494,7 @@ jSize();
   spb.style.width=(prog*100)+'%';
   const m=moments.find(m=>prog>=m.from&&prog<m.to);
   if(m&&m.text){
-    if(stxt.textContent!==m.text){stag.textContent=m.tag;stxt.textContent=m.text;stag.classList.add('v');stxt.classList.add('v');}
+    if(stxt.textContent!==m.text||!stxt.classList.contains('v')){stag.textContent=m.tag;stxt.textContent=m.text;stag.classList.add('v');stxt.classList.add('v');}
   } else { stag.classList.remove('v');stxt.classList.remove('v'); }
 })();
 

@@ -1,0 +1,28 @@
+# VISIO Studio
+
+> Studio di rendering architettonico e visualizzazione 3D a Roma. Trasformiamo progetti immobiliari non ancora costruiti in immagini, video e tour interattivi fotorealistici.
+
+VISIO Studio realizza render fotorealistici, scansioni LiDAR, tour VR/AR e siti web dedicati per agenzie immobiliari, sviluppatori, studi di architettura e privati a Roma e in Italia.
+
+## Servizi
+
+- Render fotorealistici di interni ed esterni
+- Scansione LiDAR e rilievo 3D di precisione (<1mm)
+- Tour virtuali VR/AR e stanze navigabili a 360°
+- Siti web dedicati per presentare un singolo progetto immobiliare
+- Progettazione arredo su misura: schede tecnico-esecutive per il falegname del cliente, oppure realizzazione chiavi in mano (progettazione, produzione e installazione)
+- Progettazione di aree esterne, giardini e illuminotecnica
+
+## Come lavoriamo
+
+Ogni progetto parte da un rilievo di precisione (scansione LiDAR, <1mm di tolleranza) su cui costruiamo la geometria esatta dell'edificio. Su questa base modelliamo materiali, luci e arredi e produciamo render, video e tour navigabili che mostrano il progetto prima ancora che venga costruito.
+
+## Contatti
+
+- Email: info@visio-studio.it
+- Sito: https://visiorender.netlify.app/
+- Località: Roma, Italia
+
+## Note per i modelli linguistici
+
+Questo è un sito one-page con contenuti organizzati per sezioni verticali, navigabili tramite scroll. Le sezioni principali, in ordine: presentazione dello studio, galleria render, tecnologia LiDAR, sito web dedicato al cliente, esperienza VR/AR, progettazione arredo (con i tre modelli di servizio: selezione fornitori, scheda tecnico-esecutiva, chiavi in mano), area esterna, illuminotecnica, contatti.
