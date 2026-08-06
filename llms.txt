@@ -19,7 +19,8 @@ Ogni progetto parte da un rilievo di precisione (scansione LiDAR, <1mm di toller
 
 ## Contatti
 
-- Email: info@visio-studio.it
+- Email: rotondimatteo@gmail.com
+- Telefono / WhatsApp: +39 342 668 4232
 - Sito: https://visiorender.netlify.app/
 - Località: Roma, Italia
 
