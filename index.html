@@ -1320,7 +1320,7 @@ ancora non esiste.</p>
 
 <!-- ══ VR/AR ══ -->
 <!-- ══ VR — SCROLL ZOOM INTO GOGGLES ══ -->
-<section id="vr-scroll" style="position:relative;height:480vh;background:#000;">
+<section id="vr-scroll" style="position:relative;height:450vh;background:#000;">
   <div id="vr-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden;background:#000;">
 
     <!-- Sfondo stellato -->
@@ -3312,10 +3312,10 @@ function _lightLabel(ctx,W,H,active){
 
     if(glReady){
       // ── Proiezione prospettica corretta del 360° (WebGL) ─────────────────
-      // Rotazione da -153° a +115°: parte dall'inizio come prima e chiude sulla
-      // vetrata verso piscina e mare (il panorama è ora raccordato, niente sfumature)
-      const sweep=Math.PI*1.489;
-      const yaw=(lookT-0.5)*sweep-0.332;
+      // Rotazione da -93° a +115°: parte dalla vetrata su piscina e mare (dopo la
+      // parete di armadi) e chiude sul camino, senza mai inquadrare il raccordo
+      const sweep=Math.PI*1.1556;
+      const yaw=(lookT-0.5)*sweep+0.192;
       const pitch=Math.sin(lookT*Math.PI)*0.10;      // leggero sguardo in alto a metà
       gl.uniform1f(uYaw,yaw);
       gl.uniform1f(uPitch,pitch);
