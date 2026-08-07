@@ -315,13 +315,13 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .vrar-intro p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95; }
 /* demo AR: stanza + telefono-mirino */
 #ar-scene { position:relative;max-width:1000px;margin:0 auto;aspect-ratio:16/9;overflow:hidden;border-radius:10px;border:.5px solid rgba(255,255,255,.07);cursor:none; }
-#ar-scene>svg.ar-bg { position:absolute;inset:0;width:100%;height:100%; }
+#ar-scene>img.ar-bg { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
 #ar-phone { position:absolute;top:0;left:0;width:37%;aspect-ratio:21/10;will-change:transform;pointer-events:none;filter:drop-shadow(0 18px 30px rgba(0,0,0,.55)); }
 .ar-body { position:absolute;inset:0;background:#0b0b0b;border:1px solid #3a3a3a;border-radius:22px;padding:7px; }
 .ar-cam { position:absolute;left:13px;top:50%;transform:translateY(-50%);width:5px;height:32px;border-radius:3px;background:#000;border:.5px solid #2c2c2c;z-index:4; }
 #ar-screen { position:relative;width:100%;height:100%;overflow:hidden;border-radius:15px;background:#0a0a0a; }
 .ar-inner { position:absolute;top:0;left:0;will-change:transform; }
-.ar-inner>svg { position:absolute;inset:0;width:100%;height:100%; }
+.ar-inner>img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
 .ar-tag { position:absolute;z-index:2; }
 .ar-tag i { display:block;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(201,169,110,.5);animation:arPing 2.2s ease-out infinite; }
 .ar-tag span { position:absolute;left:14px;top:-7px;white-space:nowrap;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,10,.55);border:.5px solid rgba(201,169,110,.4);padding:3px 8px;border-radius:2px; }
@@ -1405,24 +1405,8 @@ ancora non esiste.</p>
   </div>
 
   <div id="ar-scene" class="rev">
-    <!-- stanza vuota (sfondo) -->
-    <svg class="ar-bg" viewBox="0 0 1000 562" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="arSkyA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d6ea8"/><stop offset="1" stop-color="#7fa8c9"/></linearGradient></defs>
-      <rect width="1000" height="400" fill="#191919"/>
-      <rect y="400" width="1000" height="162" fill="#211d17"/>
-      <g stroke="#2a2419" stroke-width="1">
-        <line x1="100" y1="400" x2="-40" y2="562"/><line x1="233" y1="400" x2="140" y2="562"/><line x1="366" y1="400" x2="320" y2="562"/><line x1="500" y1="400" x2="500" y2="562"/><line x1="633" y1="400" x2="680" y2="562"/><line x1="766" y1="400" x2="860" y2="562"/><line x1="900" y1="400" x2="1040" y2="562"/>
-        <line x1="0" y1="460" x2="1000" y2="460"/><line x1="0" y1="520" x2="1000" y2="520"/>
-      </g>
-      <rect y="394" width="1000" height="7" fill="#232323"/>
-      <rect x="560" y="70" width="330" height="270" fill="url(#arSkyA)"/>
-      <g fill="#5f88a8" opacity=".55"><rect x="585" y="245" width="34" height="95"/><rect x="630" y="215" width="26" height="125"/><rect x="668" y="260" width="40" height="80"/><rect x="720" y="230" width="30" height="110"/><rect x="762" y="270" width="44" height="70"/><rect x="818" y="240" width="28" height="100"/></g>
-      <rect x="560" y="70" width="330" height="270" fill="none" stroke="#2e2e2e" stroke-width="10"/>
-      <line x1="725" y1="75" x2="725" y2="335" stroke="#2e2e2e" stroke-width="6"/>
-      <rect x="898" y="58" width="48" height="292" rx="8" fill="#242019"/>
-      <rect x="180" y="468" width="36" height="30" rx="2" fill="#2c2c2c"/><ellipse cx="198" cy="468" rx="18" ry="4" fill="#3a3a3a"/>
-      <line x1="240" y1="492" x2="300" y2="480" stroke="#333" stroke-width="5" stroke-linecap="round"/>
-    </svg>
+    <!-- stanza vuota reale (la realtà) -->
+    <img class="ar-bg" src="img/ar-vuoto.jpg" alt="Ambiente reale allo stato grezzo, senza arredi">
 
     <!-- telefono-mirino -->
     <div id="ar-phone">
@@ -1430,58 +1414,12 @@ ancora non esiste.</p>
         <span class="ar-cam"></span>
         <div id="ar-screen">
           <div class="ar-inner">
-            <!-- stanza arredata (dentro lo schermo) -->
-            <svg viewBox="0 0 1000 562" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-              <defs><linearGradient id="arSkyB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d6ea8"/><stop offset="1" stop-color="#7fa8c9"/></linearGradient></defs>
-              <rect width="1000" height="400" fill="#1d1c1a"/>
-              <rect y="400" width="1000" height="162" fill="#2a241c"/>
-              <g stroke="#352d21" stroke-width="1">
-                <line x1="100" y1="400" x2="-40" y2="562"/><line x1="233" y1="400" x2="140" y2="562"/><line x1="366" y1="400" x2="320" y2="562"/><line x1="500" y1="400" x2="500" y2="562"/><line x1="633" y1="400" x2="680" y2="562"/><line x1="766" y1="400" x2="860" y2="562"/><line x1="900" y1="400" x2="1040" y2="562"/>
-                <line x1="0" y1="460" x2="1000" y2="460"/><line x1="0" y1="520" x2="1000" y2="520"/>
-              </g>
-              <rect y="394" width="1000" height="7" fill="#2b2b2b"/>
-              <rect x="560" y="70" width="330" height="270" fill="url(#arSkyB)"/>
-              <g fill="#5f88a8" opacity=".55"><rect x="585" y="245" width="34" height="95"/><rect x="630" y="215" width="26" height="125"/><rect x="668" y="260" width="40" height="80"/><rect x="720" y="230" width="30" height="110"/><rect x="762" y="270" width="44" height="70"/><rect x="818" y="240" width="28" height="100"/></g>
-              <rect x="560" y="70" width="330" height="270" fill="none" stroke="#2e2e2e" stroke-width="10"/>
-              <line x1="725" y1="75" x2="725" y2="335" stroke="#2e2e2e" stroke-width="6"/>
-              <rect x="898" y="58" width="48" height="292" rx="8" fill="#242019"/>
-              <!-- quadri -->
-              <rect x="120" y="128" width="122" height="90" fill="#221f1b" stroke="#3a332a" stroke-width="3"/>
-              <path d="M132 200 L165 158 L188 184 L206 150 L230 200 Z" fill="#3d3730"/>
-              <circle cx="212" cy="150" r="9" fill="#C9A96E" opacity=".7"/>
-              <rect x="268" y="108" width="88" height="122" fill="#221f1b" stroke="#3a332a" stroke-width="3"/>
-              <line x1="284" y1="210" x2="340" y2="126" stroke="#4a4136" stroke-width="6"/>
-              <!-- lampada da terra -->
-              <polygon points="800,212 840,212 900,398 745,398" fill="rgba(201,169,110,.06)"/>
-              <line x1="820" y1="430" x2="820" y2="212" stroke="#3a332a" stroke-width="4"/>
-              <ellipse cx="820" cy="432" rx="26" ry="7" fill="#2c2721"/>
-              <path d="M792 212 L848 212 L838 168 L802 168 Z" fill="#C9A96E" opacity=".85"/>
-              <ellipse cx="820" cy="216" rx="54" ry="22" fill="rgba(201,169,110,.12)"/>
-              <!-- tappeto -->
-              <rect x="190" y="428" width="470" height="112" rx="10" fill="#2b2620" stroke="#3f382e" stroke-width="1.5"/>
-              <!-- divano -->
-              <rect x="240" y="296" width="330" height="60" rx="12" fill="#5b544c"/>
-              <rect x="222" y="310" width="36" height="102" rx="10" fill="#635b53"/>
-              <rect x="552" y="310" width="36" height="102" rx="10" fill="#635b53"/>
-              <rect x="240" y="342" width="330" height="66" rx="8" fill="#514a43"/>
-              <rect x="262" y="308" width="92" height="42" rx="8" fill="#6e665d"/>
-              <rect x="362" y="308" width="92" height="42" rx="8" fill="#6e665d"/>
-              <rect x="462" y="308" width="92" height="42" rx="8" fill="#69615a"/>
-              <rect x="250" y="408" width="8" height="14" fill="#171310"/>
-              <rect x="552" y="408" width="8" height="14" fill="#171310"/>
-              <!-- tavolino -->
-              <ellipse cx="700" cy="472" rx="80" ry="26" fill="#39322a"/>
-              <ellipse cx="700" cy="464" rx="80" ry="26" fill="#4a4136"/>
-              <rect x="690" y="432" width="16" height="22" rx="4" fill="#23201c"/>
-              <path d="M698 434 Q690 414 700 402 M700 434 Q712 418 706 404" stroke="#5c4f3a" stroke-width="2" fill="none"/>
-              <!-- pianta -->
-              <path d="M118 470 h48 l-7 36 h-34 Z" fill="#2c2721"/>
-              <circle cx="132" cy="446" r="16" fill="#24422c"/><circle cx="152" cy="436" r="19" fill="#1d3624"/><circle cx="164" cy="452" r="13" fill="#2a4a32"/>
-            </svg>
-            <!-- tag AR (coordinate in % della scena) -->
-            <div class="ar-tag" style="left:40%;top:60%;"><i></i><span>Divano su misura</span></div>
-            <div class="ar-tag" style="left:26%;top:87%;"><i style="animation-delay:.7s"></i><span>Rovere naturale</span></div>
-            <div class="ar-tag" style="left:81%;top:36%;"><i style="animation-delay:1.4s"></i><span>Luce calda 2700K</span></div>
+            <!-- stessa stanza arredata: ciò che si vede attraverso il telefono -->
+            <img src="img/render-openspace.jpg" alt="La stessa stanza arredata, vista in realtà aumentata">
+            <!-- tag AR posizionati sugli elementi reali della foto -->
+            <div class="ar-tag" style="left:76%;top:66%;"><i></i><span>Divano su misura</span></div>
+            <div class="ar-tag" style="left:17%;top:64%;"><i style="animation-delay:.7s"></i><span>Isola in marmo</span></div>
+            <div class="ar-tag" style="left:37%;top:19%;"><i style="animation-delay:1.4s"></i><span>Luce calda 2700K</span></div>
           </div>
           <div class="ar-hud">
             <span class="ar-cor c1"></span><span class="ar-cor c2"></span><span class="ar-cor c3"></span><span class="ar-cor c4"></span>
@@ -3268,7 +3206,9 @@ function _lightLabel(ctx,W,H,active){
       'float cy=cos(yaw),sy=sin(yaw);'+                          // rotazione yaw (Y)
       'd=vec3(d.x*cy+d.z*sy,d.y,-d.x*sy+d.z*cy);'+
       'float lon=atan(d.x,-d.z);float lat=asin(clamp(d.y,-1.0,1.0));'+
-      'gl_FragColor=texture2D(tex,vec2(lon/(2.0*PI)+0.5,0.5-lat/PI));}';
+      // il panorama copre ~115° in verticale (non 180°): mappandolo così si evita
+      // di amplificare la curvatura, e le linee di pavimento e soffitto restano dritte
+      'gl_FragColor=texture2D(tex,vec2(lon/(2.0*PI)+0.5,0.5-lat/4.014));}';
     const sh=(ty,src)=>{const s=gl.createShader(ty);gl.shaderSource(s,src);gl.compileShader(s);
       if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.warn(gl.getShaderInfoLog(s));return null;}return s;};
     const vsh=sh(gl.VERTEX_SHADER,vs),fsh=sh(gl.FRAGMENT_SHADER,fs);
@@ -3378,7 +3318,7 @@ function _lightLabel(ctx,W,H,active){
       const pitch=Math.sin(lookT*Math.PI)*0.10;      // leggero sguardo in alto a metà
       gl.uniform1f(uYaw,yaw);
       gl.uniform1f(uPitch,pitch);
-      gl.uniform1f(uFov,75*Math.PI/180);
+      gl.uniform1f(uFov,60*Math.PI/180);
       gl.uniform1f(uAspect,vw/vh);
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,glTex);
       gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
