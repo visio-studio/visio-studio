@@ -1320,7 +1320,7 @@ ancora non esiste.</p>
 
 <!-- ══ VR/AR ══ -->
 <!-- ══ VR — SCROLL ZOOM INTO GOGGLES ══ -->
-<section id="vr-scroll" style="position:relative;height:430vh;background:#000;">
+<section id="vr-scroll" style="position:relative;height:480vh;background:#000;">
   <div id="vr-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden;background:#000;">
 
     <!-- Sfondo stellato -->
@@ -3306,16 +3306,16 @@ function _lightLabel(ctx,W,H,active){
     rctx.setTransform(DPR,0,0,DPR,0,0);
     rctx.clearRect(0,0,vw,vh);
 
-    // Orientamento della testa (look around): finisce a prog 0.88, così l'effetto
+    // Orientamento della testa (look around): finisce a prog 0.90, così l'effetto
     // si chiude prima e si prosegue col resto del sito
-    const lookT=smooth(clamp((prog-0.50)/0.38,0,1));
+    const lookT=smooth(clamp((prog-0.48)/0.42,0,1));
 
     if(glReady){
       // ── Proiezione prospettica corretta del 360° (WebGL) ─────────────────
-      // Rotazione limitata a ~190° e spostata verso destra: resta sempre dentro la
-      // porzione "pulita" del panorama, senza arrivare sulla zona di raccordo
-      const sweep=Math.PI*1.05;
-      const yaw=(lookT-0.5)*sweep+0.35;
+      // Rotazione da -153° a +115°: parte dall'inizio come prima e chiude sulla
+      // vetrata verso piscina e mare (il panorama è ora raccordato, niente sfumature)
+      const sweep=Math.PI*1.489;
+      const yaw=(lookT-0.5)*sweep-0.332;
       const pitch=Math.sin(lookT*Math.PI)*0.10;      // leggero sguardo in alto a metà
       gl.uniform1f(uYaw,yaw);
       gl.uniform1f(uPitch,pitch);
@@ -3328,7 +3328,7 @@ function _lightLabel(ctx,W,H,active){
       const iw=pano.naturalWidth, ih=pano.naturalHeight;
       let sw=iw*0.30, sh=sw*(vh/vw);
       if(sh>ih){ sh=ih; sw=sh*(vw/vh); }
-      const cx=(0.20+lookT*0.74)*iw;   // parte dopo la zona di raccordo del panorama
+      const cx=(0.05+lookT*0.90)*iw;
       const tiltN=Math.sin(lookT*Math.PI);
       const cy=ih/2 - tiltN*(ih*0.06);
       let sx=((cx-sw/2)%iw+iw)%iw;
