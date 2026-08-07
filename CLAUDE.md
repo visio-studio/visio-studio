@@ -25,16 +25,24 @@ Sito vetrina one-page di **VISIO Studio**, studio di rendering architettonico a 
 
 ## Contenuto della pagina (sezioni in ordine)
 
+L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → prova (render) → metodo (LiDAR) → esperienza (VR/AR) → garanzia di completezza (documenti) → servizi di dettaglio (arredo, esterni, luce) → bonus finale (sito dedicato) → fiducia (stats, chi siamo) → chiusura (statement, contatti). Se si aggiungono nuove sezioni, inserirle nel punto della sequenza che rispetta questa logica, non in fondo per comodità.
+
 1. **Loader** con logo SVG VISIO animato "a disegno" (`.logo-draw`, stroke-dashoffset) + cursore custom dorato (`#cur-d`, `#cur-r`)
 2. **Navbar** (`#nav`) con logo SVG (`.nl-logo`), cambia tema chiaro/scuro allo scroll
 3. **Journey** (`#journey`) — canvas sticky (`#sv`) che disegna la sequenza di frame `img/journey/` legata allo scroll, testi che cambiano (`#stag`, `#stxt`), barra progresso (`#spb`)
-4. **Intro servizi** (`#intro-servizi`)
+4. **Intro servizi** (`#intro-servizi`) — griglia di 8 card cliccabili (`.sv-card`, attributo `data-go="#id-sezione"`) che scrollano alla sezione corrispondente. **L'ordine delle card deve rispecchiare l'ordine reale delle sezioni in pagina** (e i valori `--i:0..7` lo stile del loro effetto di comparsa in cascata) — se si sposta una sezione, riordinare anche la card qui.
 5. **Render gallery** (`#render-gallery`) — strip orizzontale sticky con contatore e aggancio morbido allo scroll
-6. **Sezione LiDAR** (`#lidar-section`, canvas `#lidar-cv`)
-7. **Sito dedicato** (`#sito-dedicato`)
-8. **Sezione VR** — zoom nel visore + stanza 360° navigabile: rendering WebGL con proiezione prospettica (`#vr-room-canvas`, panorama `img/room-360-tour.jpg`)
-9. **Illuminazione** (`#illumino`) — confronto luci
-10. **Statement** (`#statement`) + footer/contatti
+6. **Sezione LiDAR** (`#lidar-section` + `#lidar-after`) — nuvola di punti 3D animata (canvas `#lidar-cv`) e il render finale
+7. **VR scroll** (`#vr-scroll`) — zoom nel visore fino a entrare nella stanza 360° navigabile: rendering WebGL con proiezione prospettica, panorama `img/room-360-tour.jpg`
+8. **VR/AR** (`#vrar`) — demo interattiva telefono-mirino sulla stanza (vuota/arredata)
+9. **Documenti** (`#documenti`) — documentazione tecnica completa: planimetrie quotate, modello 3D, schemi impianti, computo metrico, render alta risoluzione, video
+10. **Arredo** (`#arredo`) — esploso animato del mobile allo scroll + i tre modi di servizio (fornitori, scheda tecnico-esecutiva, chiavi in mano)
+11. **Esterni** (`#esterni`) — progettazione area esterna, timelapse allo scroll
+12. **Illuminazione** (`#illumino`) — confronto luci interattivo
+13. **Sito dedicato** (`#sito-dedicato`) — presentato come servizio "bonus" verso fine pagina, non tra i servizi tecnici
+14. **Stats + processo** (`#stats`)
+15. **Chi siamo** (`#chi`)
+16. **Statement** (`#statement`) + **Contatti** (`#contatti`)
 
 ## Stile e convenzioni
 
