@@ -1320,7 +1320,7 @@ ancora non esiste.</p>
 
 <!-- ══ VR/AR ══ -->
 <!-- ══ VR — SCROLL ZOOM INTO GOGGLES ══ -->
-<section id="vr-scroll" style="position:relative;height:520vh;background:#000;">
+<section id="vr-scroll" style="position:relative;height:430vh;background:#000;">
   <div id="vr-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden;background:#000;">
 
     <!-- Sfondo stellato -->
@@ -3206,9 +3206,7 @@ function _lightLabel(ctx,W,H,active){
       'float cy=cos(yaw),sy=sin(yaw);'+                          // rotazione yaw (Y)
       'd=vec3(d.x*cy+d.z*sy,d.y,-d.x*sy+d.z*cy);'+
       'float lon=atan(d.x,-d.z);float lat=asin(clamp(d.y,-1.0,1.0));'+
-      // il panorama copre ~115° in verticale (non 180°): mappandolo così si evita
-      // di amplificare la curvatura, e le linee di pavimento e soffitto restano dritte
-      'gl_FragColor=texture2D(tex,vec2(lon/(2.0*PI)+0.5,0.5-lat/4.014));}';
+      'gl_FragColor=texture2D(tex,vec2(lon/(2.0*PI)+0.5,0.5-lat/PI));}';
     const sh=(ty,src)=>{const s=gl.createShader(ty);gl.shaderSource(s,src);gl.compileShader(s);
       if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.warn(gl.getShaderInfoLog(s));return null;}return s;};
     const vsh=sh(gl.VERTEX_SHADER,vs),fsh=sh(gl.FRAGMENT_SHADER,fs);
@@ -3308,17 +3306,20 @@ function _lightLabel(ctx,W,H,active){
     rctx.setTransform(DPR,0,0,DPR,0,0);
     rctx.clearRect(0,0,vw,vh);
 
-    // Orientamento della testa (look around) nella fase finale dello scroll
-    const lookT=smooth(clamp((prog-0.50)/0.50,0,1));
+    // Orientamento della testa (look around): finisce a prog 0.88, così l'effetto
+    // si chiude prima e si prosegue col resto del sito
+    const lookT=smooth(clamp((prog-0.50)/0.38,0,1));
 
     if(glReady){
       // ── Proiezione prospettica corretta del 360° (WebGL) ─────────────────
-      const sweep=Math.PI*1.7;                       // ~306° di rotazione totale
-      const yaw=(lookT-0.5)*sweep;
+      // Rotazione limitata a ~190° e spostata verso destra: resta sempre dentro la
+      // porzione "pulita" del panorama, senza arrivare sulla zona di raccordo
+      const sweep=Math.PI*1.05;
+      const yaw=(lookT-0.5)*sweep+0.35;
       const pitch=Math.sin(lookT*Math.PI)*0.10;      // leggero sguardo in alto a metà
       gl.uniform1f(uYaw,yaw);
       gl.uniform1f(uPitch,pitch);
-      gl.uniform1f(uFov,60*Math.PI/180);
+      gl.uniform1f(uFov,75*Math.PI/180);
       gl.uniform1f(uAspect,vw/vh);
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,glTex);
       gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
@@ -3327,7 +3328,7 @@ function _lightLabel(ctx,W,H,active){
       const iw=pano.naturalWidth, ih=pano.naturalHeight;
       let sw=iw*0.30, sh=sw*(vh/vw);
       if(sh>ih){ sh=ih; sw=sh*(vw/vh); }
-      const cx=(0.05+lookT*0.90)*iw;
+      const cx=(0.20+lookT*0.74)*iw;   // parte dopo la zona di raccordo del panorama
       const tiltN=Math.sin(lookT*Math.PI);
       const cy=ih/2 - tiltN*(ih*0.06);
       let sx=((cx-sw/2)%iw+iw)%iw;
