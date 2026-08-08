@@ -88,14 +88,14 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 #nav.light .nlink { color:var(--muted); }
 #nav.light .ncta { border-color:var(--text);color:var(--text); }
 .nl { font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:7px;color:#fff;transition:color .4s; }
-.nlinks { display:flex;gap:30px; }
+.nlinks { display:none;gap:30px; }
 .nlink { font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.5);text-transform:uppercase;text-decoration:none;cursor:none;transition:color .3s; }
 .nlink:hover { color:var(--gold); }
-.ncta { border:.5px solid var(--gold);color:var(--gold);padding:8px 18px;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:none;background:transparent;transition:all .3s; }
+.ncta { display:none;border:.5px solid var(--gold);color:var(--gold);padding:8px 18px;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:none;background:transparent;transition:all .3s; }
 .ncta:hover { background:var(--gold);color:var(--dark); }
 
 /* MENU MOBILE — hamburger che si disegna in righe numerate */
-.mburger { display:none;width:30px;height:30px;background:none;border:none;cursor:none;position:relative;padding:0;z-index:110; }
+.mburger { display:flex;align-items:center;justify-content:center;width:30px;height:30px;background:none;border:none;cursor:none;position:relative;padding:0;z-index:110; }
 .mburger span { position:absolute;left:6px;width:18px;height:.5px;background:var(--gold);transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s ease,background .4s; }
 .mburger span:nth-child(1) { top:11px; }
 .mburger span:nth-child(2) { top:15px; }
@@ -104,7 +104,7 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 body.mnav-open .mburger span:nth-child(1) { transform:translateY(4px) rotate(45deg);background:var(--gold); }
 body.mnav-open .mburger span:nth-child(2) { opacity:0; }
 body.mnav-open .mburger span:nth-child(3) { transform:translateY(-4px) rotate(-45deg);background:var(--gold); }
-#mmenu { display:none;position:fixed;inset:0;background:var(--dark);z-index:105;opacity:0;pointer-events:none;transition:opacity .2s ease;flex-direction:column;justify-content:center;padding:0 32px; }
+#mmenu { display:flex;position:fixed;inset:0;background:var(--dark);z-index:105;opacity:0;pointer-events:none;transition:opacity .2s ease;flex-direction:column;justify-content:center;padding:0 32px; }
 body.mnav-open #mmenu { opacity:1;pointer-events:auto; }
 .mm-item { position:relative;display:flex;align-items:baseline;gap:14px;padding:15px 0;border:none;background:none;text-align:left;width:100%;text-decoration:none;cursor:none; }
 .mm-item .mm-ln { position:absolute;top:0;left:0;height:.5px;width:100%;background:rgba(201,169,110,.5);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.4,0,.2,1); }
@@ -270,10 +270,10 @@ body.mnav-open .mm-foot { opacity:1;transition-delay:1.15s; }
 .lc-box p { font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:#fff;margin-top:4px;line-height:1.3; }
 
 /* ── ACCESSO AREA CLIENTE ── */
-#acc-tog { background:none;border:none;font-family:inherit;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.65);cursor:pointer;transition:color .3s;padding:0; }
+#acc-tog { display:none;background:none;border:none;font-family:inherit;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.65);cursor:pointer;transition:color .3s;padding:0; }
 #nav.light #acc-tog { color:rgba(26,26,26,.6); }
 #acc-tog:hover { color:var(--gold); }
-#acc-pan { position:absolute;top:100%;right:48px;width:300px;background:rgba(12,12,12,.97);border:.5px solid rgba(201,169,110,.3);backdrop-filter:blur(16px);padding:22px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .3s,transform .3s,visibility .3s;z-index:120; }
+#acc-pan { display:none;position:absolute;top:100%;right:48px;width:300px;background:rgba(12,12,12,.97);border:.5px solid rgba(201,169,110,.3);backdrop-filter:blur(16px);padding:22px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .3s,transform .3s,visibility .3s;z-index:120; }
 #acc-pan.on { opacity:1;visibility:visible;transform:none; }
 #acc-pan p.acc-t { font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px; }
 #acc-pan p.acc-s { font-size:11px;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:14px; }
@@ -287,6 +287,11 @@ body.mnav-open .mm-foot { opacity:1;transition-delay:1.15s; }
 #acc-msg.ok { color:#8fc79a; }
 .mm-acc { padding:0 0 0 0;margin-top:6px; }
 .mm-acc .acc-row { max-width:340px; }
+.acc-hint { font-size:11px;color:rgba(255,255,255,.4);margin-top:10px;letter-spacing:.3px; }
+.acc-hint b { color:var(--gold);font-weight:400;letter-spacing:1.5px; }
+#acc-msg-m { font-size:11px;line-height:1.6;margin-top:6px;min-height:15px; }
+#acc-msg-m.err { color:#e0857c; }
+#acc-msg-m.ok { color:#8fc79a; }
 
 /* ── SITO DEDICATO (pin + dispositivi + mini-sito) ── */
 #sito-dedicato { background:var(--dark);border-top:.5px solid rgba(255,255,255,.06); }
@@ -604,11 +609,6 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .rev-l,.rev-r { transform:translateY(28px); }
   .rev-l.in,.rev-r.in { transform:translateY(0); }
   #nav { padding:16px 20px; }
-  .nlinks { display:none; }
-  #acc-tog,#acc-pan { display:none; }
-  .ncta { display:none; }
-  .mburger { display:flex;align-items:center;justify-content:center; }
-  #mmenu { display:flex; }
   .intro-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
   #sd-sticky { padding:74px 20px 0; }
   .sd-laptop { width:88vw;left:0;bottom:17vh; }
@@ -747,12 +747,13 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   <a class="mm-item" href="#documenti"><span class="mm-ln"></span><span class="mm-num">03</span><span class="mm-lbl">Servizi</span></a>
   <a class="mm-item" href="/faq"><span class="mm-ln"></span><span class="mm-num">04</span><span class="mm-lbl">FAQ</span></a>
   <div class="mm-item mm-acc"><span class="mm-ln"></span><span class="mm-num">05</span><span class="mm-lbl">Accedi al tuo sito</span></div>
-  <div class="mm-acc" style="padding:0 0 18px 0;">
+  <div class="mm-acc" style="padding:0 0 22px 0;">
     <div class="acc-row">
       <input id="acc-code-m" type="text" placeholder="Codice progetto" autocomplete="off" spellcheck="false" aria-label="Codice progetto">
       <button type="button" id="acc-go-m">Vai</button>
     </div>
-    <p id="acc-msg-m" role="status" style="font-size:10px;margin-top:8px;min-height:14px;"></p>
+    <p class="acc-hint">Scrivi <b>visio</b> per vedere il sito di esempio</p>
+    <p id="acc-msg-m" role="status"></p>
   </div>
   <button type="button" class="mm-item" id="mmenu-cta"><span class="mm-ln"></span><span class="mm-num">06</span><span class="mm-lbl">Richiedi info</span></button>
   <p class="mm-foot">Visio Studio · Rendering architettonico</p>
@@ -2443,7 +2444,8 @@ revEls.forEach(el=>revObs.observe(el));
 // I codici non sono in chiaro: si confronta l'impronta SHA-256 e la destinazione
 // e' cifrata col codice stesso, cosi chi legge il sorgente non vede i clienti.
 const ACCESSI=[
-  // {h:"impronta del codice", u:"destinazione cifrata"}  -- generati con strumenti/genera-accesso.py
+  {h:"db729480ba4a55cb068aca8f706f3239c55ae7bb2e85543131b0ab445188f666", u:"WQwADAIGABw="}, // esempio pubblico, codice: visio
+  // i codici dei clienti si generano con: python3 strumenti/genera-accesso.py CODICE /cartella
 ];
 (function(){
   const enc=new TextEncoder();

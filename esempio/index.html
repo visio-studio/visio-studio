@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Villa Ferrara — Il tuo progetto · VISIO Studio</title>
+<meta name="description" content="Esempio di sito dedicato a un progetto: dati, planimetrie quotate, render, tour 360° e dettagli d'arredo raccolti in un unico link.">
+<meta name="robots" content="noindex, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root { --gold:#C9A96E; --dark:#0A0A0A; --dark2:#0F0F0F; --dark3:#141414; --light:#FAFAF8; --text:#1A1A1A; --border:#E0DDD8; }
+* { margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased; }
+html { scroll-behavior:smooth;overflow-x:clip;max-width:100%; }
+body { background:var(--dark);color:#fff;font-family:'Inter',sans-serif;font-weight:300;overflow-x:clip; }
+a { color:inherit;text-decoration:none; }
+.serif { font-family:'Cormorant Garamond',serif; }
+img { display:block;max-width:100%; }
+
+/* fascia demo */
+#demo { position:fixed;top:0;left:0;right:0;z-index:200;background:var(--gold);color:var(--dark);text-align:center;padding:7px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase; }
+#demo a { text-decoration:underline;font-weight:500; }
+
+/* navbar */
+#pnav { position:fixed;top:29px;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(10,10,10,.8);backdrop-filter:blur(14px);border-bottom:.5px solid rgba(255,255,255,.07); }
+#pnav .pn-name { font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:4px; }
+#pnav .pn-by { font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.4); }
+
+/* copertina */
+#hero { position:relative;height:100vh;min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center; }
+#hero img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+#hero::after { content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55),rgba(10,10,10,.25) 45%,rgba(10,10,10,.85)); }
+.hero-in { position:relative;z-index:2;padding:0 24px; }
+.hero-in p.k { font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px; }
+.hero-in h1 { font-family:'Cormorant Garamond',serif;font-size:clamp(42px,8vw,86px);font-weight:300;line-height:1.02;letter-spacing:2px; }
+.hero-in p.s { font-size:12px;color:rgba(255,255,255,.6);margin-top:16px;letter-spacing:1px; }
+.hero-scroll { position:absolute;bottom:34px;left:0;right:0;z-index:2;text-align:center;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.45); }
+
+/* sezioni */
+section { padding:96px 40px; }
+.wrap { max-width:1060px;margin:0 auto; }
+.slab { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px; }
+h2.st { font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4.4vw,46px);font-weight:300;line-height:1.1;margin-bottom:18px; }
+h2.st em { font-style:italic;color:var(--gold); }
+p.sd { font-size:13px;color:rgba(255,255,255,.5);line-height:1.95;max-width:560px; }
+
+/* dati */
+#dati { background:var(--light);color:var(--text); }
+#dati .slab { color:#9a7b45; }
+.dgrid { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:40px; }
+.dcell { background:var(--light);padding:30px 24px; }
+.dcell b { display:block;font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:400;line-height:1;margin-bottom:8px; }
+.dcell span { font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8a8a8a; }
+
+/* tavole */
+#tavole { background:var(--dark2); }
+.tgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:44px; }
+.tcard { background:#fff;position:relative;overflow:hidden;aspect-ratio:4/3; }
+.tcard img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
+.tcard:hover img { transform:scale(1.04); }
+.tcard figcaption { position:absolute;left:0;right:0;bottom:0;background:rgba(10,10,10,.82);color:#fff;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 14px; }
+
+/* render */
+#render { background:var(--dark); }
+.rstrip { display:flex;gap:3px;overflow-x:auto;margin-top:44px;padding-bottom:10px;scroll-snap-type:x mandatory; }
+.rstrip figure { flex:0 0 auto;width:min(74vw,620px);scroll-snap-align:center;position:relative; }
+.rstrip img { width:100%;aspect-ratio:16/9;object-fit:cover; }
+.rstrip figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);padding-top:12px; }
+.rhint { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.65);margin-top:16px; }
+
+/* 360 */
+#tour { background:var(--dark3);text-align:center; }
+#tour .wrap { max-width:900px; }
+#pano { position:relative;margin-top:40px;aspect-ratio:2/1;overflow:hidden;border:.5px solid rgba(255,255,255,.1); }
+#pano img { width:100%;height:100%;object-fit:cover; }
+#pano span { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,.35); }
+#pano b { border:.5px solid var(--gold);color:var(--gold);background:rgba(10,10,10,.6);font-size:10px;font-weight:400;letter-spacing:3px;text-transform:uppercase;padding:15px 30px; }
+
+/* arredo */
+#arredo { background:var(--light);color:var(--text); }
+#arredo .slab { color:#9a7b45; }
+#arredo p.sd { color:#6a6a6a; }
+.agrid { display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:44px; }
+.aitem h3 { font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:8px; }
+.aitem p { font-size:12px;color:#7a7a7a;line-height:1.85; }
+.asw { display:flex;gap:8px;margin-top:14px; }
+.asw i { width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,0,0,.12); }
+
+/* chiusura */
+#fine { background:var(--dark);text-align:center;border-top:.5px solid rgba(255,255,255,.08); }
+#fine h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:300;margin-bottom:14px; }
+#fine h2 em { font-style:italic;color:var(--gold); }
+#fine p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.9;max-width:440px;margin:0 auto 28px; }
+.btn { display:inline-block;border:.5px solid var(--gold);color:var(--gold);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:15px 34px;transition:background .3s,color .3s; }
+.btn:hover { background:var(--gold);color:var(--dark); }
+footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.3); }
+
+@media(max-width:900px){
+  section { padding:64px 20px; }
+  #pnav { padding:14px 20px; }
+  .dgrid { grid-template-columns:1fr 1fr; }
+  .tgrid { grid-template-columns:1fr;gap:2px; }
+  .agrid { grid-template-columns:1fr;gap:28px; }
+  .rstrip figure { width:86vw; }
+  footer { padding:20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="demo">Sito di esempio — così vedrà il proprio progetto ogni cliente · <a href="/">torna a VISIO</a></div>
+
+<nav id="pnav">
+  <span class="pn-name serif">VILLA FERRARA</span>
+  <span class="pn-by">a cura di VISIO Studio</span>
+</nav>
+
+<header id="hero">
+  <img src="../img/render-esterno-1.jpg" alt="Vista esterna della villa al tramonto">
+  <div class="hero-in">
+    <p class="k">Il progetto della tua casa</p>
+    <h1 class="serif">Villa Ferrara</h1>
+    <p class="s">Roma · 480 m² · consegna prevista 2027</p>
+  </div>
+  <p class="hero-scroll">Scorri per visitare il progetto ↓</p>
+</header>
+
+<section id="dati">
+  <div class="wrap">
+    <p class="slab">Il progetto in numeri</p>
+    <h2 class="st">Tutto quello che serve, <em>in un link</em>.</h2>
+    <p class="sd" style="color:#6a6a6a;">Questa pagina raccoglie l'intero progetto: dati, tavole tecniche, render, tour navigabili e scelte d'arredo. È sempre aggiornata e la puoi condividere con chi vuoi — familiari, soci, acquirenti — semplicemente inviando l'indirizzo.</p>
+    <div class="dgrid">
+      <div class="dcell"><b>480</b><span>Metri quadri</span></div>
+      <div class="dcell"><b>7</b><span>Locali</span></div>
+      <div class="dcell"><b>3</b><span>Camere</span></div>
+      <div class="dcell"><b>2027</b><span>Consegna</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="tavole">
+  <div class="wrap">
+    <p class="slab">Tavole tecniche</p>
+    <h2 class="st">Le carte del <em>progetto</em>.</h2>
+    <p class="sd">Planimetrie quotate, modello tridimensionale e schemi degli impianti. Gli stessi elaborati che consegniamo a imprese e professionisti.</p>
+    <div class="tgrid">
+      <figure class="tcard"><img src="../img/planimetria-quotata.jpg" alt="Planimetria quotata del piano terra" loading="lazy"><figcaption>Pianta quotata · 1:100</figcaption></figure>
+      <figure class="tcard"><img src="../img/modello-3d-assonometria.jpg" alt="Assonometria del modello 3D arredato" loading="lazy"><figcaption>Modello 3D · assonometria</figcaption></figure>
+      <figure class="tcard"><img src="../img/schema-impianti.jpg" alt="Schema degli impianti sovrapposto alla pianta" loading="lazy"><figcaption>Schemi impianti</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="render">
+  <div class="wrap">
+    <p class="slab">I render</p>
+    <h2 class="st">La tua casa, <em>prima</em> di costruirla.</h2>
+    <p class="sd">Ogni ambiente restituito con materiali, luci e arredi definitivi. Immagini in alta risoluzione, pronte anche per la pubblicità immobiliare.</p>
+    <div class="rstrip">
+      <figure><img src="../img/render-interno-1.jpg" alt="Soggiorno con vista sulla terrazza" loading="lazy"><figcaption>01 · Soggiorno</figcaption></figure>
+      <figure><img src="../img/render-openspace.jpg" alt="Open space con cucina e zona pranzo" loading="lazy"><figcaption>02 · Open space</figcaption></figure>
+      <figure><img src="../img/render-living.jpg" alt="Zona giorno con luce d'atmosfera" loading="lazy"><figcaption>03 · Zona giorno</figcaption></figure>
+      <figure><img src="../img/render-esterno-1.jpg" alt="Esterno con piscina" loading="lazy"><figcaption>04 · Esterno e piscina</figcaption></figure>
+      <figure><img src="../img/render-notturna.jpg" alt="Vista notturna" loading="lazy"><figcaption>05 · Vista notturna</figcaption></figure>
+    </div>
+    <p class="rhint">← Scorri per vedere tutti gli ambienti →</p>
+  </div>
+</section>
+
+<section id="tour">
+  <div class="wrap">
+    <p class="slab">Tour a 360°</p>
+    <h2 class="st">Entra e <em>guardati intorno</em>.</h2>
+    <p class="sd" style="margin:0 auto;">Ruota la vista dentro gli ambienti, dal computer o dal telefono. Nessuna app da installare.</p>
+    <div id="pano">
+      <img src="../img/room-360-tour.jpg" alt="Panorama a 360 gradi del soggiorno" loading="lazy">
+      <span><b>Apri il tour</b></span>
+    </div>
+  </div>
+</section>
+
+<section id="arredo">
+  <div class="wrap">
+    <p class="slab">Scelte d'arredo</p>
+    <h2 class="st">Ogni pezzo, <em>deciso</em>.</h2>
+    <p class="sd">Materiali, finiture e fornitori di ogni elemento, con le schede tecniche per realizzarli su misura.</p>
+    <div class="agrid">
+      <div class="aitem">
+        <h3>Cucina</h3>
+        <p>Isola in marmo Calacatta con bordo a cascata, ante in rovere naturale a poro aperto, piano cottura a filo.</p>
+        <div class="asw"><i style="background:#EDE7DD"></i><i style="background:#C9A96E"></i><i style="background:#3A3129"></i></div>
+      </div>
+      <div class="aitem">
+        <h3>Zona giorno</h3>
+        <p>Divano componibile in lino naturale, tavolino in rovere massello, tappeto in lana annodata a mano.</p>
+        <div class="asw"><i style="background:#D8CFC0"></i><i style="background:#8A7E6E"></i><i style="background:#6E3040"></i></div>
+      </div>
+      <div class="aitem">
+        <h3>Illuminazione</h3>
+        <p>Tagli LED a soffitto 2700K, sospensioni sull'isola, faretti orientabili sulle pareti attrezzate.</p>
+        <div class="asw"><i style="background:#F2E2C0"></i><i style="background:#B99A66"></i><i style="background:#2C2721"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fine">
+  <div class="wrap">
+    <h2 class="serif">Questo può essere <em>il tuo progetto</em>.</h2>
+    <p>Ogni cliente VISIO riceve un indirizzo come questo, con il proprio lavoro sempre aggiornato e condivisibile con un link.</p>
+    <a href="/#contatti" class="btn">Richiedi info</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 VISIO Studio · Roma</span>
+  <span>rotondimatteo@gmail.com · +39 342 668 4232</span>
+</footer>
+
+</body>
+</html>
