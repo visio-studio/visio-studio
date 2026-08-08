@@ -2541,13 +2541,14 @@ document.querySelectorAll('[data-target]').forEach(el=>{
     cv.width=Math.round(r.width*d); cv.height=Math.round(r.height*d);
   }
   const clamp=v=>Math.max(0,Math.min(1,v));
+  let ultimo=-1;
   function disegna(){
     const prog=clamp(-wrap.getBoundingClientRect().top/(wrap.offsetHeight-window.innerHeight));
     let k=Math.round(prog*(N-1));
     while(k>0&&!(imgs[k]&&imgs[k].complete&&imgs[k].naturalWidth))k--;
     const im=imgs[k];
-    if(im&&im.complete&&im.naturalWidth){
-      pronto=true;
+    if(im&&im.complete&&im.naturalWidth&&k!==ultimo){
+      ultimo=k; pronto=true;
       const cw=cv.width,ch=cv.height,ir=im.naturalWidth/im.naturalHeight,cr=cw/ch;
       let w,h;
       if(ir>cr){w=cw;h=w/ir;}else{h=ch;w=h*ir;}   // contiene: il mobile non si taglia mai
@@ -2560,9 +2561,13 @@ document.querySelectorAll('[data-target]').forEach(el=>{
     t2.classList.toggle('v',prog>=.3&&prog<.72);
     t3.classList.toggle('v',prog>=.72);
   }
-  window.addEventListener('scroll',disegna,{passive:true});
-  window.addEventListener('resize',()=>{dimensiona();disegna();});
-  dimensiona(); disegna();
+  window.addEventListener('resize',()=>{dimensiona();ultimo=-1;disegna();});
+  dimensiona();
+  // stesso schema della journey: ciclo continuo, ridisegna solo quando cambia il fotogramma
+  (function ciclo(){
+    requestAnimationFrame(ciclo);
+    disegna();
+  })();
 
 })();
 
