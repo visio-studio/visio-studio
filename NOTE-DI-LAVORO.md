@@ -223,7 +223,10 @@ Qualità 85-88, `optimize`, `progressive`.
   logo e hamburger; le voci e la CTA vivono nel menu a schermo intero.
 - **Niente voce "Contatti"** nel menu: era ridondante con "Richiedi info".
 - **Il modello 3D sorgente non è compreso** nella consegna: il servizio è di
-  visualizzazione. Dichiarato nelle FAQ.
+  visualizzazione. Dichiarato nelle FAQ, e coerente con la scheda "Modello 3D
+  completo" nella sezione documenti — che prima prometteva erroneamente i file
+  OBJ/FBX/nativo ed è stata corretta l'8 agosto. **Se si tocca quella scheda,
+  non reintrodurre la promessa dei file sorgente.**
 - **Il 360 mantiene FOV 75° e mappatura piena.** Una correzione della curvatura
   a 115° era stata provata e scartata: raddrizzava le linee ma zoomava,
   restringendo il campo visivo.
