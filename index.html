@@ -269,6 +269,25 @@ body.mnav-open .mm-foot { opacity:1;transition-delay:1.15s; }
 .lc-box span { font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase; }
 .lc-box p { font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:#fff;margin-top:4px;line-height:1.3; }
 
+/* ── ACCESSO AREA CLIENTE ── */
+#acc-tog { background:none;border:none;font-family:inherit;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.65);cursor:pointer;transition:color .3s;padding:0; }
+#nav.light #acc-tog { color:rgba(26,26,26,.6); }
+#acc-tog:hover { color:var(--gold); }
+#acc-pan { position:absolute;top:100%;right:48px;width:300px;background:rgba(12,12,12,.97);border:.5px solid rgba(201,169,110,.3);backdrop-filter:blur(16px);padding:22px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .3s,transform .3s,visibility .3s;z-index:120; }
+#acc-pan.on { opacity:1;visibility:visible;transform:none; }
+#acc-pan p.acc-t { font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px; }
+#acc-pan p.acc-s { font-size:11px;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:14px; }
+.acc-row { display:flex;gap:8px; }
+#acc-code { flex:1;min-width:0;background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.15);color:#fff;font-family:inherit;font-size:12px;letter-spacing:2px;padding:11px 12px;outline:none;transition:border-color .3s; }
+#acc-code:focus { border-color:var(--gold); }
+#acc-go { background:var(--gold);color:var(--dark);border:none;font-family:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 18px;cursor:pointer;transition:opacity .3s; }
+#acc-go:hover { opacity:.85; }
+#acc-msg { font-size:10px;line-height:1.6;margin-top:10px;min-height:14px; }
+#acc-msg.err { color:#e0857c; }
+#acc-msg.ok { color:#8fc79a; }
+.mm-acc { padding:0 0 0 0;margin-top:6px; }
+.mm-acc .acc-row { max-width:340px; }
+
 /* ── SITO DEDICATO (pin + dispositivi + mini-sito) ── */
 #sito-dedicato { background:var(--dark);border-top:.5px solid rgba(255,255,255,.06); }
 #sd-wrap { position:relative;height:380vh; }
@@ -586,6 +605,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .rev-l.in,.rev-r.in { transform:translateY(0); }
   #nav { padding:16px 20px; }
   .nlinks { display:none; }
+  #acc-tog,#acc-pan { display:none; }
   .ncta { display:none; }
   .mburger { display:flex;align-items:center;justify-content:center; }
   #mmenu { display:flex; }
@@ -704,16 +724,37 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     <a href="#render-gallery" class="nlink">Lavori</a>
     <a href="#lidar-section" class="nlink">Tecnologia</a>
     <a href="#documenti" class="nlink">Servizi</a>
+    <a href="/faq" class="nlink">FAQ</a>
+    <button type="button" id="acc-tog">Accedi al tuo sito</button>
   </div>
   <button class="ncta" onclick="document.getElementById('ct-form').scrollIntoView({behavior:'smooth',block:'center'})">Richiedi info</button>
   <button class="mburger" id="mburger" aria-label="Apri il menu" aria-expanded="false" aria-controls="mmenu"><span></span><span></span><span></span></button>
 </nav>
 
+<div id="acc-pan">
+  <p class="acc-t">Accedi al tuo sito</p>
+  <p class="acc-s">Inserisci il codice che ti abbiamo fornito per aprire il sito dedicato al tuo progetto.</p>
+  <div class="acc-row">
+    <input id="acc-code" type="text" placeholder="Codice progetto" autocomplete="off" spellcheck="false" aria-label="Codice progetto">
+    <button type="button" id="acc-go">Vai</button>
+  </div>
+  <p id="acc-msg" role="status"></p>
+</div>
+
 <div id="mmenu" aria-hidden="true">
   <a class="mm-item" href="#render-gallery"><span class="mm-ln"></span><span class="mm-num">01</span><span class="mm-lbl">Lavori</span></a>
   <a class="mm-item" href="#lidar-section"><span class="mm-ln"></span><span class="mm-num">02</span><span class="mm-lbl">Tecnologia</span></a>
   <a class="mm-item" href="#documenti"><span class="mm-ln"></span><span class="mm-num">03</span><span class="mm-lbl">Servizi</span></a>
-  <button type="button" class="mm-item" id="mmenu-cta"><span class="mm-ln"></span><span class="mm-num">04</span><span class="mm-lbl">Richiedi info</span></button>
+  <a class="mm-item" href="/faq"><span class="mm-ln"></span><span class="mm-num">04</span><span class="mm-lbl">FAQ</span></a>
+  <div class="mm-item mm-acc"><span class="mm-ln"></span><span class="mm-num">05</span><span class="mm-lbl">Accedi al tuo sito</span></div>
+  <div class="mm-acc" style="padding:0 0 18px 0;">
+    <div class="acc-row">
+      <input id="acc-code-m" type="text" placeholder="Codice progetto" autocomplete="off" spellcheck="false" aria-label="Codice progetto">
+      <button type="button" id="acc-go-m">Vai</button>
+    </div>
+    <p id="acc-msg-m" role="status" style="font-size:10px;margin-top:8px;min-height:14px;"></p>
+  </div>
+  <button type="button" class="mm-item" id="mmenu-cta"><span class="mm-ln"></span><span class="mm-num">06</span><span class="mm-lbl">Richiedi info</span></button>
   <p class="mm-foot">Visio Studio · Rendering architettonico</p>
 </div>
 
@@ -2397,6 +2438,58 @@ const revObs=new IntersectionObserver((entries,obs)=>{
   entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*60);obs.unobserve(e.target);}});
 },{threshold:.08});
 revEls.forEach(el=>revObs.observe(el));
+
+// ── ACCESSO AREA CLIENTE
+// I codici non sono in chiaro: si confronta l'impronta SHA-256 e la destinazione
+// e' cifrata col codice stesso, cosi chi legge il sorgente non vede i clienti.
+const ACCESSI=[
+  // {h:"impronta del codice", u:"destinazione cifrata"}  -- generati con strumenti/genera-accesso.py
+];
+(function(){
+  const enc=new TextEncoder();
+  async function impronta(c){
+    const b=await crypto.subtle.digest('SHA-256',enc.encode(c.trim().toLowerCase()));
+    return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  }
+  function decifra(b64,code){
+    const raw=atob(b64), k=code.trim().toLowerCase();
+    let out='';
+    for(let i=0;i<raw.length;i++) out+=String.fromCharCode(raw.charCodeAt(i)^k.charCodeAt(i%k.length));
+    return decodeURIComponent(escape(out));
+  }
+  async function vai(input,msg){
+    const code=(input.value||'').trim();
+    msg.className=''; msg.textContent='';
+    if(!code){ msg.className='err'; msg.textContent='Inserisci il codice che ti abbiamo fornito.'; return; }
+    let h;
+    try{ h=await impronta(code); }
+    catch(_){ msg.className='err'; msg.textContent='Il tuo browser non supporta questa funzione.'; return; }
+    const rec=ACCESSI.find(a=>a.h===h);
+    if(!rec){ msg.className='err'; msg.textContent='Codice non riconosciuto. Controlla di averlo digitato correttamente.'; return; }
+    msg.className='ok'; msg.textContent='Codice riconosciuto, apertura in corso…';
+    location.href=decifra(rec.u,code);
+  }
+  function collega(idIn,idBtn,idMsg){
+    const i=document.getElementById(idIn),b=document.getElementById(idBtn),m=document.getElementById(idMsg);
+    if(!i||!b||!m) return;
+    b.addEventListener('click',()=>vai(i,m));
+    i.addEventListener('keydown',e=>{ if(e.key==='Enter') vai(i,m); });
+  }
+  collega('acc-code','acc-go','acc-msg');
+  collega('acc-code-m','acc-go-m','acc-msg-m');
+  // pannello desktop
+  const tog=document.getElementById('acc-tog'), pan=document.getElementById('acc-pan');
+  if(tog&&pan){
+    tog.addEventListener('click',e=>{
+      e.stopPropagation();
+      pan.classList.toggle('on');
+      if(pan.classList.contains('on')) document.getElementById('acc-code').focus();
+    });
+    pan.addEventListener('click',e=>e.stopPropagation());
+    document.addEventListener('click',()=>pan.classList.remove('on'));
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') pan.classList.remove('on'); });
+  }
+})();
 
 // ── SERVIZI: tilt interattivo + salto alla sezione
 document.querySelectorAll('.sv-card').forEach(c=>{

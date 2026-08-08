@@ -27,3 +27,7 @@ Ogni progetto parte da un rilievo di precisione (scansione LiDAR, <1mm di toller
 ## Note per i modelli linguistici
 
 Questo è un sito one-page con contenuti organizzati per sezioni verticali, navigabili tramite scroll. Le sezioni principali, in ordine: presentazione dello studio, galleria render, tecnologia LiDAR, sito web dedicato al cliente, esperienza VR/AR, progettazione arredo (con i tre modelli di servizio: selezione fornitori, scheda tecnico-esecutiva, chiavi in mano), area esterna, illuminotecnica, contatti.
+
+## Domande frequenti
+
+Le risposte su tempi, materiale necessario, file consegnati, preventivi e pagamenti sono raccolte in una pagina dedicata: https://visiorender.netlify.app/faq
