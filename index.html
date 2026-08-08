@@ -87,7 +87,7 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 #nav.light .nl { color:var(--text); }
 #nav.light .nlink { color:var(--muted); }
 #nav.light .ncta { border-color:var(--text);color:var(--text); }
-.nl { font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:7px;color:#fff;transition:color .4s; }
+.nl { display:block;text-decoration:none;cursor:none;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:7px;color:#fff;transition:color .4s; }
 .nlinks { display:none;gap:30px; }
 .nlink { font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.5);text-transform:uppercase;text-decoration:none;cursor:none;transition:color .3s; }
 .nlink:hover { color:var(--gold); }
@@ -707,7 +707,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 
 <!-- NAVBAR -->
 <nav id="nav">
-  <div class="nl"><svg class="nl-logo" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
+  <a href="/" class="nl" id="nlogo" aria-label="VISIO Studio — torna all'inizio"><svg class="nl-logo" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
     <polygon points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
     <polygon points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
     <polygon points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
@@ -717,7 +717,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     <polygon points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
     <polyline points="562.86 215.83 562.86 215.83 562.86 302.72 533.49 330.39 533.49 187.16 615.31 187.16 586.57 215.83 562.86 215.83"/>
     <polyline points="585.94 323.99 585.94 323.99 585.94 237.33 615.31 209.54 615.31 352.66 533.49 352.66 562.29 323.99 585.94 323.99"/>
-  </svg></div>
+  </svg></a>
   <div class="nlinks">
     <a href="#render-gallery" class="nlink">Lavori</a>
     <a href="#lidar-section" class="nlink">Tecnologia</a>
@@ -2439,6 +2439,19 @@ const revObs=new IntersectionObserver((entries,obs)=>{
   entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*60);obs.unobserve(e.target);}});
 },{threshold:.08});
 revEls.forEach(el=>revObs.observe(el));
+
+// ── LOGO: torna sempre all'inizio
+(function(){
+  const l=document.getElementById('nlogo'); if(!l) return;
+  l.addEventListener('click',e=>{
+    const p=location.pathname;
+    if(p==='/'||p==='/index.html'){
+      e.preventDefault();
+      document.body.classList.remove('mnav-open');       // chiude il menu se aperto
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+  });
+})();
 
 // ── ACCESSO AREA CLIENTE
 // I codici non sono in chiaro: si confronta l'impronta SHA-256 e la destinazione

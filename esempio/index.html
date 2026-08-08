@@ -25,7 +25,11 @@ img { display:block;max-width:100%; }
 /* navbar */
 #pnav { position:fixed;top:29px;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(10,10,10,.8);backdrop-filter:blur(14px);border-bottom:.5px solid rgba(255,255,255,.07); }
 #pnav .pn-name { font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:4px; }
-#pnav .pn-by { font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.4); }
+#pnav .pn-by { display:flex;align-items:center;gap:11px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.4);transition:color .3s; }
+#pnav .pn-by:hover { color:rgba(255,255,255,.75); }
+#pnav .nl-logo { height:20px;width:auto;display:block; }
+#pnav .nl-logo > * { fill:none;stroke:rgba(255,255,255,.55);stroke-width:8;stroke-linejoin:round;transition:stroke .3s; }
+#pnav .pn-by:hover .nl-logo > * { stroke:var(--gold); }
 
 /* copertina */
 #hero { position:relative;height:100vh;min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center; }
@@ -113,7 +117,17 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 
 <nav id="pnav">
   <span class="pn-name serif">VILLA FERRARA</span>
-  <span class="pn-by">a cura di VISIO Studio</span>
+  <a href="/" class="pn-by" aria-label="a cura di VISIO Studio — vai al sito">a cura di <svg class="nl-logo" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
+    <polygon points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
+    <polygon points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
+    <polygon points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
+    <polyline points="415.49 215.83 415.49 215.83 415.49 269.8 386.12 298.03 386.12 187.16 467.94 187.16 467.94 215.83 415.49 215.83"/>
+    <polyline points="438.57 322.36 438.57 268.19 467.94 240.04 467.94 351.03 386.12 351.03 386.12 322.36 438.57 322.36"/>
+    <polygon points="502.59 187.16 484.77 187.16 484.77 204.16 502.59 187.16"/>
+    <polygon points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
+    <polyline points="562.86 215.83 562.86 215.83 562.86 302.72 533.49 330.39 533.49 187.16 615.31 187.16 586.57 215.83 562.86 215.83"/>
+    <polyline points="585.94 323.99 585.94 323.99 585.94 237.33 615.31 209.54 615.31 352.66 533.49 352.66 562.29 323.99 585.94 323.99"/>
+  </svg></a>
 </nav>
 
 <header id="hero">
