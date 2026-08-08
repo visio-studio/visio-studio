@@ -94,6 +94,38 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .ncta { border:.5px solid var(--gold);color:var(--gold);padding:8px 18px;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:none;background:transparent;transition:all .3s; }
 .ncta:hover { background:var(--gold);color:var(--dark); }
 
+/* MENU MOBILE — hamburger che si disegna in righe numerate */
+.mburger { display:none;width:30px;height:30px;background:none;border:none;cursor:none;position:relative;padding:0;z-index:110; }
+.mburger span { position:absolute;left:6px;width:18px;height:.5px;background:var(--gold);transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s ease,background .4s; }
+.mburger span:nth-child(1) { top:11px; }
+.mburger span:nth-child(2) { top:15px; }
+.mburger span:nth-child(3) { top:19px; }
+#nav.light .mburger span { background:var(--text); }
+body.mnav-open .mburger span:nth-child(1) { transform:translateY(4px) rotate(45deg);background:var(--gold); }
+body.mnav-open .mburger span:nth-child(2) { opacity:0; }
+body.mnav-open .mburger span:nth-child(3) { transform:translateY(-4px) rotate(-45deg);background:var(--gold); }
+#mmenu { display:none;position:fixed;inset:0;background:var(--dark);z-index:105;opacity:0;pointer-events:none;transition:opacity .2s ease;flex-direction:column;justify-content:center;padding:0 32px; }
+body.mnav-open #mmenu { opacity:1;pointer-events:auto; }
+.mm-item { position:relative;display:flex;align-items:baseline;gap:14px;padding:15px 0;border:none;background:none;text-align:left;width:100%;text-decoration:none;cursor:none; }
+.mm-item .mm-ln { position:absolute;top:0;left:0;height:.5px;width:100%;background:rgba(201,169,110,.5);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.4,0,.2,1); }
+body.mnav-open .mm-item:nth-child(1) .mm-ln { transition-delay:.05s; }
+body.mnav-open .mm-item:nth-child(2) .mm-ln { transition-delay:.2s; }
+body.mnav-open .mm-item:nth-child(3) .mm-ln { transition-delay:.35s; }
+body.mnav-open .mm-item:nth-child(4) .mm-ln { transition-delay:.5s; }
+body.mnav-open .mm-item:nth-child(5) .mm-ln { transition-delay:.65s; }
+body.mnav-open .mm-ln { transform:scaleX(1); }
+.mm-num,.mm-lbl { opacity:0;transition:opacity .4s ease; }
+body.mnav-open .mm-item:nth-child(1) .mm-num,body.mnav-open .mm-item:nth-child(1) .mm-lbl { transition-delay:.3s; }
+body.mnav-open .mm-item:nth-child(2) .mm-num,body.mnav-open .mm-item:nth-child(2) .mm-lbl { transition-delay:.45s; }
+body.mnav-open .mm-item:nth-child(3) .mm-num,body.mnav-open .mm-item:nth-child(3) .mm-lbl { transition-delay:.6s; }
+body.mnav-open .mm-item:nth-child(4) .mm-num,body.mnav-open .mm-item:nth-child(4) .mm-lbl { transition-delay:.75s; }
+body.mnav-open .mm-item:nth-child(5) .mm-num,body.mnav-open .mm-item:nth-child(5) .mm-lbl { transition-delay:.9s; }
+body.mnav-open .mm-num,body.mnav-open .mm-lbl { opacity:1; }
+.mm-num { font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold); }
+.mm-lbl { font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:#fff; }
+.mm-foot { margin-top:26px;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;opacity:0;transition:opacity .4s ease; }
+body.mnav-open .mm-foot { opacity:1;transition-delay:1.15s; }
+
 /* Nascondi controlli video Safari iOS */
 #sv::-webkit-media-controls { display:none !important; }
 #sv::-webkit-media-controls-panel { display:none !important; }
@@ -554,6 +586,9 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .rev-l.in,.rev-r.in { transform:translateY(0); }
   #nav { padding:16px 20px; }
   .nlinks { display:none; }
+  .ncta { display:none; }
+  .mburger { display:flex;align-items:center;justify-content:center; }
+  #mmenu { display:flex; }
   .intro-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
   #sd-sticky { padding:74px 20px 0; }
   .sd-laptop { width:88vw;left:0;bottom:17vh; }
@@ -672,7 +707,17 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     <a href="#contatti" class="nlink">Contatti</a>
   </div>
   <button class="ncta" onclick="document.getElementById('ct-form').scrollIntoView({behavior:'smooth',block:'center'})">Richiedi info</button>
+  <button class="mburger" id="mburger" aria-label="Apri il menu" aria-expanded="false" aria-controls="mmenu"><span></span><span></span><span></span></button>
 </nav>
+
+<div id="mmenu" aria-hidden="true">
+  <a class="mm-item" href="#render-gallery"><span class="mm-ln"></span><span class="mm-num">01</span><span class="mm-lbl">Lavori</span></a>
+  <a class="mm-item" href="#lidar-section"><span class="mm-ln"></span><span class="mm-num">02</span><span class="mm-lbl">Tecnologia</span></a>
+  <a class="mm-item" href="#documenti"><span class="mm-ln"></span><span class="mm-num">03</span><span class="mm-lbl">Servizi</span></a>
+  <a class="mm-item" href="#contatti"><span class="mm-ln"></span><span class="mm-num">04</span><span class="mm-lbl">Contatti</span></a>
+  <button type="button" class="mm-item" id="mmenu-cta"><span class="mm-ln"></span><span class="mm-num">05</span><span class="mm-lbl">Richiedi info</span></button>
+  <p class="mm-foot">Visio Studio · Rendering architettonico</p>
+</div>
 
 <!-- ══ VIDEO SCRUB ══ -->
 <section id="journey">
@@ -2257,6 +2302,22 @@ lights.forEach(s=>new IntersectionObserver(entries=>{
   const anyLight=[...lights].some(sec=>{ const r=sec.getBoundingClientRect(); return r.top<80&&r.bottom>0; });
   anyLight?nav.classList.add('light'):nav.classList.remove('light');
 },{threshold:0,rootMargin:'-60px 0px 0px 0px'}).observe(s));
+
+// ── MENU MOBILE
+(function(){
+  const burger=document.getElementById('mburger'), mmenu=document.getElementById('mmenu');
+  if(!burger||!mmenu) return;
+  function setOpen(open){
+    document.body.classList.toggle('mnav-open',open);
+    burger.setAttribute('aria-expanded',open?'true':'false');
+    mmenu.setAttribute('aria-hidden',open?'false':'true');
+  }
+  burger.addEventListener('click',()=>setOpen(!document.body.classList.contains('mnav-open')));
+  mmenu.querySelectorAll('.mm-item').forEach(el=>el.addEventListener('click',()=>setOpen(false)));
+  document.getElementById('mmenu-cta').addEventListener('click',()=>{
+    document.getElementById('ct-form').scrollIntoView({behavior:'smooth',block:'center'});
+  });
+})();
 
 // ── VIDEO SCRUB
 // ── JOURNEY SCRUB — sequenza di immagini (ogni frame nitido, niente sfocatura video) ──
