@@ -96,7 +96,6 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 
 /* MENU MOBILE — hamburger che si disegna in righe numerate */
 .mburger { display:flex;align-items:center;justify-content:center;width:30px;height:30px;background:none;border:.5px solid rgba(201,169,110,.5);border-radius:50%;cursor:none;position:relative;padding:0;z-index:110;transition:border-color .4s; }
-.mburger::before { content:'';position:absolute;inset:-10px;background:radial-gradient(circle,rgba(0,0,0,.4),transparent 70%);z-index:-1; }
 .mburger span { position:absolute;left:6px;width:18px;height:1px;background:var(--gold);transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s ease,background .4s; }
 .mburger span:nth-child(1) { top:11px; }
 .mburger span:nth-child(2) { top:15px; }
@@ -617,7 +616,8 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .sd-phone { width:19vw;left:6vw;bottom:9vh; }
   .sd-cap { font-size:8px;letter-spacing:1.8px;padding:0 24px; }
   #sv-wrap { grid-template-columns:repeat(2,1fr);gap:12px;margin-top:36px; }
-  .sv-in { padding:20px 12px 18px; }
+  .sv-card { perspective:none; }
+  .sv-in { padding:20px 12px 18px;transform-style:flat; }
   #sv-lead { margin-top:64px; }
   #sv-lead h3 { font-size:25px; }
   #sv-hint { margin-top:48px; }
