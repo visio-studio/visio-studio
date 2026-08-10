@@ -95,14 +95,15 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .ncta:hover { background:var(--gold);color:var(--dark); }
 
 /* MENU MOBILE — hamburger che si disegna in righe numerate */
-.mburger { display:flex;align-items:center;justify-content:center;width:30px;height:30px;background:none;border:.5px solid rgba(201,169,110,.5);border-radius:50%;cursor:none;position:relative;padding:0;z-index:110;transition:border-color .4s; }
+.mburger { display:flex;align-items:center;justify-content:center;width:30px;height:30px;background:none;border:none;cursor:none;position:relative;padding:0;z-index:110; }
+.mburger::after { content:'';position:absolute;inset:0;border:.5px solid rgba(201,169,110,.5);border-radius:50%;transition:border-color .4s; }
 .mburger span { position:absolute;left:6px;width:18px;height:1px;background:var(--gold);transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s ease,background .4s; }
-.mburger span:nth-child(1) { top:11px; }
-.mburger span:nth-child(2) { top:15px; }
-.mburger span:nth-child(3) { top:19px; }
-#nav.light .mburger { border-color:rgba(26,26,26,.35); }
+.mburger span:nth-child(1) { top:10.5px; }
+.mburger span:nth-child(2) { top:14.5px; }
+.mburger span:nth-child(3) { top:18.5px; }
+#nav.light .mburger::after { border-color:rgba(26,26,26,.35); }
 #nav.light .mburger span { background:var(--text); }
-body.mnav-open .mburger { border-color:rgba(201,169,110,.5); }
+body.mnav-open .mburger::after { border-color:rgba(201,169,110,.5); }
 body.mnav-open .mburger span:nth-child(1) { transform:translateY(4px) rotate(45deg);background:var(--gold); }
 body.mnav-open .mburger span:nth-child(2) { opacity:0; }
 body.mnav-open .mburger span:nth-child(3) { transform:translateY(-4px) rotate(-45deg);background:var(--gold); }
@@ -227,13 +228,22 @@ body.mnav-open .mm-foot { opacity:1;transition-delay:1.25s; }
 .doc-preview svg { width:100%;height:100%;max-height:240px; }
 .doc-preview img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
 
-/* ── LIGHTING INTERACTIVE ── */
-.light-btn { background:transparent;border:.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.4);padding:10px 16px;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:none;transition:all .25s;width:100%; }
-.light-btn.active { border-color:var(--gold);color:var(--gold);background:rgba(201,169,110,.07); }
-.light-btn:hover { border-color:rgba(201,169,110,.5);color:rgba(201,169,110,.7); }
-.light-controls { display:flex;flex-direction:column;gap:8px;margin-top:28px; }
-.light-room-wrap { position:relative; }
-#light-canvas { display:block;width:100%; }
+/* ── LIGHTING INTERACTIVE — palco immagine + comandi in vetro ── */
+.ill-head { max-width:820px;margin:0 auto;padding:0 48px;text-align:center; }
+.ill-sub { font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.95;max-width:640px;margin:0 auto; }
+.ill-stage { max-width:1500px;margin:56px auto 0;padding:0 48px; }
+.ill-frame { position:relative;overflow:hidden;border-radius:18px;line-height:0;box-shadow:0 40px 90px -30px rgba(0,0,0,.9); }
+.ill-frame img { width:100%;display:block; }
+.ill-frame .lr { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:0;transition:opacity .6s ease; }
+.ill-dock { position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;gap:10px;padding:10px;border-radius:999px;background:rgba(255,255,255,.1);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border:.5px solid rgba(255,255,255,.22);box-shadow:0 8px 32px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.35);z-index:5; }
+.lgb { position:relative;display:flex;align-items:center;gap:9px;padding:11px 18px;border-radius:999px;border:.5px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.62);font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;cursor:none;overflow:hidden;transition:background .35s,color .35s,border-color .35s,box-shadow .35s; }
+.lgb::before { content:'';position:absolute;left:0;right:0;top:0;height:50%;background:linear-gradient(rgba(255,255,255,.22),transparent);pointer-events:none; }
+.lgb:hover { background:rgba(255,255,255,.13);color:rgba(255,255,255,.88); }
+.lgb-led { width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.28);transition:background .35s,box-shadow .35s; }
+.lgb.active { background:rgba(201,169,110,.26);border-color:rgba(201,169,110,.6);color:#fff;box-shadow:0 0 22px rgba(201,169,110,.28),inset 0 1px 0 rgba(255,255,255,.4); }
+.lgb.active .lgb-led { background:var(--gold);box-shadow:0 0 10px var(--gold),0 0 20px rgba(201,169,110,.7); }
+.ill-spec { text-align:center;margin-top:22px;font-size:11px;color:rgba(255,255,255,.42); }
+.ill-spec b { color:rgba(201,169,110,.8);font-weight:400;letter-spacing:2px;font-size:8.5px;text-transform:uppercase;margin-right:8px; }
 
 /* ── LIDAR ── */
 /* LIDAR — scansione 3D interattiva */
@@ -527,10 +537,8 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 .prog-li::before { content:'—';color:var(--gold);flex-shrink:0; }
 
 /* ── ILLUMINOTECNICA (dark) ── */
-#illumino { background:var(--dark);padding:96px 48px;border-top:.5px solid rgba(255,255,255,.06); }
-.illumino-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center; }
-.illumino-text h2 { font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;line-height:1.1;margin-bottom:18px; }
-.illumino-text p { font-size:12px;color:rgba(255,255,255,.5);line-height:1.95;margin-bottom:14px; }
+#illumino { background:var(--dark);padding:96px 0 110px;border-top:.5px solid rgba(255,255,255,.06); }
+.ill-head h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4.4vw,56px);font-weight:300;line-height:1.08;margin-bottom:18px; }
 .light-types { display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);margin-top:28px; }
 .lt-item { background:var(--dark);padding:20px;transition:background .3s; }
 .lt-item:hover { background:var(--dark3); }
@@ -609,7 +617,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .rev-l,.rev-r { transform:translateY(28px); }
   .rev-l.in,.rev-r.in { transform:translateY(0); }
   #nav { padding:16px 20px; }
-  .intro-grid,.illumino-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
+  .intro-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
   #sd-sticky { padding:74px 20px 0; }
   .sd-laptop { width:88vw;left:0;bottom:17vh; }
   .sd-tablet { width:30vw;left:auto;right:2vw;bottom:9vh; }
@@ -633,7 +641,13 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   #chi { grid-template-columns:1fr; }
   .chi-col:first-child { border-right:none;border-bottom:.5px solid var(--border); }
   #contatti { grid-template-columns:1fr;gap:36px; }
-  #intro-servizi,#vrar,#documenti,#illumino,#stats,#contatti { padding:60px 20px; }
+  #intro-servizi,#vrar,#documenti,#stats,#contatti { padding:60px 20px; }
+  #illumino { padding:60px 0 70px; }
+  .ill-head { padding:0 20px; }
+  .ill-stage { padding:0 14px;margin-top:32px; }
+  .ill-frame { border-radius:12px; }
+  .ill-dock { position:static;transform:none;flex-wrap:wrap;justify-content:center;margin:14px 0 0;border-radius:22px;padding:12px; }
+  .lgb { flex:1 1 calc(50% - 10px);justify-content:center;padding:13px 8px;font-size:9px;letter-spacing:1.2px; }
   #ex-sticky { padding:66px 14px 0; }
   #ex-scene { width:min(94vw,calc((100vh - 280px)*1.78)); }
   .ex-cap { font-size:8px;letter-spacing:1.8px;padding:0 20px; }
@@ -1936,46 +1950,26 @@ ancora non esiste.</p>
 
 <!-- ══ ILLUMINOTECNICA ══ -->
 <section id="illumino">
-  <div class="illumino-grid">
-    <div class="illumino-text">
-      <p class="slabel rev">Illuminotecnica</p>
-      <h2 class="serif rev">La luce giusta<br>nel posto giusto.</h2>
-      <p class="rev">Il progetto illuminotecnico non è solo estetica — è funzione, benessere e risparmio energetico. Studiamo la distribuzione luminosa di ogni ambiente, scegliamo le sorgenti e modelliamo come la luce naturale e artificiale interagisce con i materiali nei diversi momenti della giornata.</p>
-      <p class="rev">Il risultato è un render fotorealistico che mostra esattamente l'atmosfera dell'ambiente illuminato, insieme a una scheda tecnica con i prodotti consigliati e i consumi previsti.</p>
-      <p style="font-size:10px;color:rgba(255,255,255,.3);margin-top:20px;letter-spacing:1px;">Clicca per attivare ogni tipo di luce →</p>
-      <div class="light-controls rev">
-        <button class="light-btn active" data-layer="natural" onclick="toggleLight(this,'natural')">
-          <span style="color:var(--gold);margin-right:8px;">☀</span> Luce naturale
-          <span style="float:right;font-size:8px;opacity:.5">Finestra · Sole · Cielo</span>
-        </button>
-        <button class="light-btn" data-layer="direct" onclick="toggleLight(this,'direct')">
-          <span style="color:rgba(255,230,150,.7);margin-right:8px;">◉</span> Luce diretta
-          <span style="float:right;font-size:8px;opacity:.5">Spot LED soffitto</span>
-        </button>
-        <button class="light-btn" data-layer="accent" onclick="toggleLight(this,'accent')">
-          <span style="color:rgba(255,180,80,.7);margin-right:8px;">◈</span> Luce d'accento
-          <span style="float:right;font-size:8px;opacity:.5">Faretti a parete</span>
-        </button>
-        <button class="light-btn" data-layer="ambient" onclick="toggleLight(this,'ambient')">
-          <span style="color:rgba(200,160,255,.7);margin-right:8px;">◌</span> Luce ambientale
-          <span style="float:right;font-size:8px;opacity:.5">Lampade piantana</span>
-        </button>
+  <div class="ill-head">
+    <p class="slabel rev">Illuminotecnica</p>
+    <h2 class="serif rev">La luce giusta<br>nel posto giusto.</h2>
+    <p class="ill-sub rev">Studiamo la distribuzione luminosa di ogni ambiente e modelliamo come la luce naturale e artificiale interagisce con i materiali. Accendi e spegni le sorgenti per vedere come cambia la stanza.</p>
+  </div>
+  <div class="ill-stage rev">
+    <div class="ill-frame">
+      <img src="img/light-off.jpg" alt="Soggiorno con le luci spente">
+      <img class="lr" id="lr-natural" src="img/light-natural.jpg" alt="" style="opacity:1;">
+      <img class="lr" id="lr-direct"  src="img/light-direct.jpg"  alt="">
+      <img class="lr" id="lr-accent"  src="img/light-accent.jpg"  alt="">
+      <img class="lr" id="lr-ambient" src="img/light-ambient.jpg" alt="">
+      <div class="ill-dock">
+        <button class="lgb active" aria-pressed="true" onclick="toggleLight(this,'natural')"><span class="lgb-led"></span>Naturale</button>
+        <button class="lgb" aria-pressed="false" onclick="toggleLight(this,'direct')"><span class="lgb-led"></span>Diretta</button>
+        <button class="lgb" aria-pressed="false" onclick="toggleLight(this,'accent')"><span class="lgb-led"></span>Accento</button>
+        <button class="lgb" aria-pressed="false" onclick="toggleLight(this,'ambient')"><span class="lgb-led"></span>Ambientale</button>
       </div>
     </div>
-    <!-- Stanza interattiva -->
-    <div class="rev-r light-room-wrap">
-      <div id="light-room-container" style="position:relative;display:block;width:100%;line-height:0;">
-        <img src="img/light-off.jpg" alt="Soggiorno" style="width:100%;display:block;">
-        <img id="lr-natural" src="img/light-natural.jpg" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:0;transition:opacity .5s ease;">
-        <img id="lr-direct"  src="img/light-direct.jpg"  alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:0;transition:opacity .5s ease;">
-        <img id="lr-accent"  src="img/light-accent.jpg"  alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:0;transition:opacity .5s ease;">
-        <img id="lr-ambient" src="img/light-ambient.jpg" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:0;transition:opacity .5s ease;">
-      </div>
-      <div id="light-spec" style="background:#0a0a0a;border-top:.5px solid rgba(201,169,110,.2);padding:14px 16px;font-size:10px;color:rgba(255,255,255,.4);line-height:1.8;min-height:60px;">
-        <span style="color:rgba(201,169,110,.7);letter-spacing:2px;font-size:8px;">ATTIVO · </span>
-        <span id="light-spec-text">Luce naturale — Finestra vetrata H=2.4m · orientamento Sud</span>
-      </div>
-    </div>
+    <p class="ill-spec"><b>Attivo</b><span id="light-spec-text">Luce naturale — Finestra vetrata H=2.4m · orientamento Sud</span></p>
   </div>
 </section>
 
@@ -2977,7 +2971,7 @@ setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.co
 })();
 
 // ── LIGHTING INTERACTIVE ROOM
-const lightState={natural:false,direct:false,accent:false,ambient:false};
+const lightState={natural:true,direct:false,accent:false,ambient:false};
 const lightSpecText={
   natural:'Luce naturale — Finestra vetrata H=2.4m · orientamento Sud · 4500K · 8000 lux',
   direct:'Luce diretta — 3× Spot LED 8W 3000K · Artemide · cono 24° · 850 lm cad.',
@@ -2987,6 +2981,7 @@ const lightSpecText={
 function toggleLight(btn,layer){
   lightState[layer]=!lightState[layer];
   btn.classList.toggle('active',lightState[layer]);
+  btn.setAttribute('aria-pressed',lightState[layer]?'true':'false');
   const el=document.getElementById('lr-'+layer);
   if(el) el.style.opacity=lightState[layer]?'1':'0';
   const active=Object.keys(lightState).filter(k=>lightState[k]);
