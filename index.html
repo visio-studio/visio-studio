@@ -535,13 +535,17 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 #ex-caps { position:relative;height:20px;margin-top:20px;width:100%;text-align:center; }
 .ex-cap { position:absolute;left:0;right:0;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#9a7b45;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s; }
 .ex-cap.on { opacity:1;transform:none; }
-#ex-servizi { max-width:1000px;margin:0 auto;padding:64px 48px 90px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px 40px; }
-.prog-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-top:48px; }
-.prog-col h3 { font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;line-height:1.2;margin-bottom:14px; }
-.prog-col p { font-size:12px;color:var(--muted);line-height:1.9;margin-bottom:20px; }
-.prog-list { display:flex;flex-direction:column;gap:10px; }
-.prog-li { display:flex;align-items:flex-start;gap:12px;font-size:11px;color:var(--muted);line-height:1.6; }
-.prog-li::before { content:'—';color:var(--gold);flex-shrink:0; }
+#ex-servizi { max-width:1000px;margin:0 auto;padding:64px 48px 90px; }
+.exp-head h3 { font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--text); }
+.exp-head p { font-size:11.5px;color:var(--muted);line-height:1.9;max-width:520px;margin-top:10px; }
+.exp-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:36px; }
+.exp-item { background:var(--light);padding:34px 28px; }
+.exp-badge { position:relative;width:52px;height:52px;margin-bottom:22px;border-radius:50%;background:var(--light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 22px rgba(20,15,5,.06);transition:border-color .3s,transform .3s,box-shadow .3s; }
+.exp-item:hover .exp-badge { border-color:var(--gold);transform:translateY(-4px);box-shadow:0 14px 26px rgba(201,169,110,.2); }
+.exp-badge svg { width:23px;height:23px; }
+.exp-num { position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--dark);font-family:'Inter',sans-serif;font-size:8px;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px var(--light); }
+.exp-item h4 { font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--text);margin:0 0 8px; }
+.exp-item p { font-size:10.5px;color:var(--muted);line-height:1.75; }
 
 /* ── ILLUMINOTECNICA (dark) ── */
 #illumino { background:var(--dark);padding:96px 0 110px;border-top:.5px solid rgba(255,255,255,.06); }
@@ -624,7 +628,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .rev-l,.rev-r { transform:translateY(28px); }
   .rev-l.in,.rev-r.in { transform:translateY(0); }
   #nav { padding:16px 20px; }
-  .intro-grid,.prog-grid { grid-template-columns:1fr;gap:40px; }
+  .intro-grid { grid-template-columns:1fr;gap:40px; }
   #sd-sticky { padding:74px 20px 0; }
   .sd-laptop { width:88vw;left:0;bottom:17vh; }
   .sd-tablet { width:30vw;left:auto;right:2vw;bottom:9vh; }
@@ -658,7 +662,9 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   #ex-sticky { padding:66px 14px 0; }
   #ex-scene { width:min(94vw,calc((100vh - 280px)*1.78)); }
   .ex-cap { font-size:8px;letter-spacing:1.8px;padding:0 20px; }
-  #ex-servizi { grid-template-columns:1fr;padding:44px 20px 60px;gap:10px; }
+  #ex-servizi { padding:44px 20px 60px; }
+  .exp-grid { grid-template-columns:1fr;gap:1px;margin-top:28px; }
+  .exp-head h3 { font-size:25px; }
   #lidar-section { height:270vh; }
   .ld-panel { left:0;top:50%; }
   #lidar-cv { -webkit-mask-image:linear-gradient(180deg,transparent 37%,rgba(0,0,0,.35) 46%,#000 58%);mask-image:linear-gradient(180deg,transparent 37%,rgba(0,0,0,.35) 46%,#000 58%); }
@@ -1999,12 +2005,99 @@ ancora non esiste.</p>
     </div>
   </div>
   <div id="ex-servizi">
-    <div class="prog-li">Render del giardino in ogni stagione</div>
-    <div class="prog-li">Progetto pavimentazioni e recinzioni</div>
-    <div class="prog-li">Studio vegetazione e piantumazione</div>
-    <div class="prog-li">Visualizzazione piscina e area relax</div>
-    <div class="prog-li">Illuminazione esterna notturna</div>
-    <div class="prog-li">Planimetria aree esterne quotata</div>
+    <div class="exp-head rev">
+      <h3>Il processo, dal terreno al render.</h3>
+      <p>Ogni progetto esterno segue lo stesso percorso: dal rilievo del terreno all'ultimo raggio di luce sul prato, di sera.</p>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-item rev">
+        <div class="exp-badge">
+          <svg viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 10 L26 5 L29 23 L8 29 Z"/>
+            <rect x="10" y="13" width="7" height="6"/>
+            <path d="M19 16 Q24 19 23 26" stroke-dasharray="1.8 2.2"/>
+            <line x1="26" y1="10" x2="26" y2="6"/>
+            <path d="M24.5 7.5 L26 6 L27.5 7.5"/>
+          </svg>
+          <span class="exp-num">01</span>
+        </div>
+        <h4>Planimetria e progetto</h4>
+        <p>Rileviamo confini, orientamento e pendenze del terreno e disegniamo la planimetria quotata su cui prende forma il progetto.</p>
+      </div>
+      <div class="exp-item rev">
+        <div class="exp-badge">
+          <svg viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
+            <line x1="6" y1="7" x2="6" y2="17"/>
+            <line x1="14" y1="7" x2="14" y2="17"/>
+            <line x1="22" y1="7" x2="22" y2="17"/>
+            <line x1="5" y1="10" x2="23" y2="10"/>
+            <line x1="5" y1="14" x2="23" y2="14"/>
+            <rect x="5" y="21" width="7" height="7"/>
+            <rect x="13" y="21" width="7" height="7"/>
+            <rect x="21" y="21" width="7" height="7"/>
+          </svg>
+          <span class="exp-num">02</span>
+        </div>
+        <h4>Pavimentazioni e recinzioni</h4>
+        <p>Percorsi, terrazze e confini: materiali e geometrie pensati per dialogare con la casa e reggere nel tempo.</p>
+      </div>
+      <div class="exp-item rev">
+        <div class="exp-badge">
+          <svg viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="12" width="20" height="13" rx="6.5"/>
+            <path d="M7.5 17 q2.8 2.2 5.5 0 t5.5 0 t5.5 0"/>
+            <path d="M7.5 21 q2.8 2.2 5.5 0 t5.5 0 t5.5 0"/>
+            <path d="M27 11 L32 11 L29.5 6.5 Z"/>
+            <line x1="29.5" y1="11" x2="29.5" y2="22"/>
+          </svg>
+          <span class="exp-num">03</span>
+        </div>
+        <h4>Piscina e area relax</h4>
+        <p>Forma, rivestimenti e bordo vasca: visualizziamo la piscina integrata nel giardino prima di realizzarla.</p>
+      </div>
+      <div class="exp-item rev">
+        <div class="exp-badge">
+          <svg viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
+            <line x1="17" y1="21" x2="17" y2="30"/>
+            <circle cx="17" cy="13" r="7.5"/>
+            <circle cx="10.5" cy="17" r="5"/>
+            <circle cx="23.5" cy="17" r="5"/>
+          </svg>
+          <span class="exp-num">04</span>
+        </div>
+        <h4>Vegetazione e piantumazione</h4>
+        <p>Scegliamo le specie in base a esposizione e stagionalità e componiamo il verde attorno ai percorsi.</p>
+      </div>
+      <div class="exp-item rev">
+        <div class="exp-badge">
+          <svg viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.5 27 L21.5 27 L19 22.5 L15 22.5 Z"/>
+            <line x1="17" y1="22.5" x2="17" y2="5" stroke-dasharray="1.6 2.2"/>
+            <line x1="13.5" y1="21" x2="8.5" y2="8" stroke-dasharray="1.6 2.2"/>
+            <line x1="20.5" y1="21" x2="25.5" y2="8" stroke-dasharray="1.6 2.2"/>
+          </svg>
+          <span class="exp-num">05</span>
+        </div>
+        <h4>Illuminazione notturna</h4>
+        <p>Segnapasso, incassi a terra, faretti sugli alberi: studiamo come lo spazio vive dopo il tramonto.</p>
+      </div>
+      <div class="exp-item rev">
+        <div class="exp-badge">
+          <svg viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="11" r="4.2"/>
+            <line x1="14" y1="3" x2="14" y2="5.3"/>
+            <line x1="22" y1="11" x2="19.7" y2="11"/>
+            <line x1="6" y1="11" x2="8.3" y2="11"/>
+            <line x1="4" y1="27" x2="30" y2="27"/>
+            <line x1="24" y1="27" x2="24" y2="20"/>
+            <circle cx="24" cy="16.5" r="4"/>
+          </svg>
+          <span class="exp-num">06</span>
+        </div>
+        <h4>Render in ogni stagione</h4>
+        <p>Il giardino finito, con luce diurna, al tramonto e di notte, in ogni stagione — prima ancora di piantare un fiore.</p>
+      </div>
+    </div>
   </div>
 </section>
 
