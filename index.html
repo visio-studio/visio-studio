@@ -474,6 +474,8 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 #modo-panel.open { opacity:1; }
 .mp-content { display:none;border:.5px solid var(--gold);background:var(--light);padding:40px 36px;margin-bottom:12px; }
 .mp-content.act { display:block; }
+#modo-backdrop { display:none; }
+.mp-close { display:none; }
 .mp-title { font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--text);margin-bottom:6px; }
 .mp-sub { font-size:11px;color:var(--muted);line-height:1.8;max-width:560px;margin-bottom:28px; }
 /* pannello 1: disegno → ecommerce */
@@ -676,8 +678,12 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .kim-row::before { display:none; }
   .ba-wrap { padding:40px 20px 60px; }
   .ba-grid { grid-template-columns:1fr;gap:28px; }
-  #modo-panel { margin:0 20px; }
-  .mp-content { padding:26px 18px; }
+  #modo-backdrop { display:block;position:fixed;inset:0;background:rgba(10,10,10,.55);opacity:0;pointer-events:none;transition:opacity .35s ease;z-index:200; }
+  #modo-backdrop.show { opacity:1;pointer-events:auto; }
+  #modo-panel { position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;max-height:82vh;overflow-y:auto;-webkit-overflow-scrolling:touch;border-radius:20px 20px 0 0;box-shadow:0 -20px 50px rgba(0,0,0,.4);opacity:1;transform:translateY(100%);transition:transform .4s cubic-bezier(.25,.8,.3,1);z-index:201;pointer-events:none;padding:16px 0 8px; }
+  #modo-panel.sheet-open { transform:translateY(0);pointer-events:auto; }
+  .mp-close { display:block;width:34px;height:34px;margin:0 16px 8px auto;border-radius:50%;background:var(--light2);border:.5px solid var(--border);color:var(--text);font-size:20px;line-height:32px;text-align:center;padding:0;cursor:none; }
+  .mp-content { padding:20px 18px 30px; }
   .shop-row { grid-template-columns:1fr;gap:12px; }
   .shop-arrow { transform:rotate(90deg); }
   .mp-frame { height:420px; }
@@ -1675,7 +1681,9 @@ ancora non esiste.</p>
   </div>
 
   <!-- ── PANNELLO ESPANDIBILE SERVIZI ── -->
+  <div id="modo-backdrop"></div>
   <div id="modo-panel">
+    <button class="mp-close" id="mp-close" aria-label="Chiudi">&times;</button>
 
     <!-- MP1: disegno → e-commerce -->
     <div class="mp-content" id="mp1">
@@ -2589,36 +2597,70 @@ document.querySelectorAll('[data-target]').forEach(el=>{
   s.addEventListener('pointercancel',()=>drag=false);
 })();
 
-// ── PANNELLI SERVIZI: apertura sotto le card
+// ── PANNELLI SERVIZI: apertura sotto le card (desktop) / bottom-sheet dal basso (mobile)
 (function(){
   const panel=document.getElementById('modo-panel');
   if(!panel) return;
+  const backdrop=document.getElementById('modo-backdrop');
+  const closeBtn=document.getElementById('mp-close');
   const btns=document.querySelectorAll('.modo-open');
   btns.forEach(b=>b.dataset.lbl=b.innerHTML);
-  let cur=null;
+  const mq=window.matchMedia('(max-width:900px)');
+  let cur=null, lockY=0;
+
+  function lockScroll(){
+    lockY=window.scrollY;
+    document.body.style.position='fixed';
+    document.body.style.top=(-lockY)+'px';
+    document.body.style.width='100%';
+  }
+  function unlockScroll(){
+    document.body.style.position='';
+    document.body.style.top='';
+    document.body.style.width='';
+    window.scrollTo(0,lockY);
+  }
+  function closeAll(){
+    if(mq.matches){
+      panel.style.maxHeight='';
+      panel.classList.remove('sheet-open');
+      unlockScroll();
+    } else {
+      panel.style.maxHeight='0px';
+      panel.classList.remove('open');
+    }
+    btns.forEach(b=>{b.classList.remove('on');b.innerHTML=b.dataset.lbl;});
+    if(backdrop) backdrop.classList.remove('show');
+    cur=null;
+  }
+
   btns.forEach(btn=>{
     btn.addEventListener('click',()=>{
       const id=btn.dataset.mp;
-      if(cur===id){
-        panel.style.maxHeight='0px';
-        panel.classList.remove('open');
-        btn.classList.remove('on');
-        btn.innerHTML=btn.dataset.lbl;
-        cur=null;
-        return;
-      }
+      if(cur===id){ closeAll(); return; }
       const fr=document.getElementById('mp2-frame');
       if(id==='mp2'&&fr&&!fr.src) fr.src=fr.dataset.src;
       btns.forEach(b=>{b.classList.remove('on');b.innerHTML=b.dataset.lbl;});
       document.querySelectorAll('.mp-content').forEach(c=>c.classList.toggle('act',c.id===id));
       btn.classList.add('on');
       btn.innerHTML='Chiudi −';
-      panel.classList.add('open');
-      panel.style.maxHeight=panel.scrollHeight+'px';
       cur=id;
-      setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),200);
+      if(mq.matches){
+        panel.style.maxHeight='';
+        panel.classList.add('sheet-open');
+        if(backdrop) backdrop.classList.add('show');
+        panel.scrollTop=0;
+        lockScroll();
+      } else {
+        panel.classList.add('open');
+        panel.style.maxHeight=panel.scrollHeight+'px';
+        setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),200);
+      }
     });
   });
+
+  if(backdrop) backdrop.addEventListener('click',closeAll);
+  if(closeBtn) closeBtn.addEventListener('click',closeAll);
 })();
 
 // ── CTA CARD: precompila la tipologia nel form contatti
