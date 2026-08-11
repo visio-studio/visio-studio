@@ -232,6 +232,7 @@ body.mnav-open .mm-foot { opacity:1;transition-delay:1.25s; }
 .ill-head { max-width:820px;margin:0 auto;padding:0 48px;text-align:center; }
 .ill-sub { font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.95;max-width:640px;margin:0 auto; }
 .ill-stage { max-width:1500px;margin:56px auto 0;padding:0 48px; }
+.ill-shot { position:relative; }
 .ill-frame { position:relative;overflow:hidden;border-radius:18px;line-height:0;box-shadow:0 40px 90px -30px rgba(0,0,0,.9); }
 .ill-frame img { width:100%;display:block; }
 .ill-frame .lr { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:0;transition:opacity .6s ease; }
@@ -1956,12 +1957,14 @@ ancora non esiste.</p>
     <p class="ill-sub rev">Studiamo la distribuzione luminosa di ogni ambiente e modelliamo come la luce naturale e artificiale interagisce con i materiali. Accendi e spegni le sorgenti per vedere come cambia la stanza.</p>
   </div>
   <div class="ill-stage rev">
-    <div class="ill-frame">
-      <img src="img/light-off.jpg" alt="Soggiorno con le luci spente">
-      <img class="lr" id="lr-natural" src="img/light-natural.jpg" alt="" style="opacity:1;">
-      <img class="lr" id="lr-direct"  src="img/light-direct.jpg"  alt="">
-      <img class="lr" id="lr-accent"  src="img/light-accent.jpg"  alt="">
-      <img class="lr" id="lr-ambient" src="img/light-ambient.jpg" alt="">
+    <div class="ill-shot">
+      <div class="ill-frame">
+        <img src="img/light-off.jpg" alt="Soggiorno con le luci spente">
+        <img class="lr" id="lr-natural" src="img/light-natural.jpg" alt="" style="opacity:1;">
+        <img class="lr" id="lr-direct"  src="img/light-direct.jpg"  alt="">
+        <img class="lr" id="lr-accent"  src="img/light-accent.jpg"  alt="">
+        <img class="lr" id="lr-ambient" src="img/light-ambient.jpg" alt="">
+      </div>
       <div class="ill-dock">
         <button class="lgb active" aria-pressed="true" onclick="toggleLight(this,'natural')"><span class="lgb-led"></span>Naturale</button>
         <button class="lgb" aria-pressed="false" onclick="toggleLight(this,'direct')"><span class="lgb-led"></span>Diretta</button>
