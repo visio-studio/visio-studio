@@ -1,0 +1,44 @@
+# Configurazione del deploy su Netlify — https://visiorender.netlify.app
+# Sito statico: nessun build step, si pubblica la cartella del repository così com'è.
+# Il comando di build non va dichiarato qui: resta vuoto nel pannello Netlify.
+
+[build]
+  publish = "."
+
+# ── Intestazioni valide per tutto il sito.
+# Niente Cache-Control qui: l'HTML deve restare sulla riconvalida predefinita di Netlify
+# (max-age=0, must-revalidate), altrimenti un nuovo deploy non si vedrebbe subito.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# ── Sequenze di fotogrammi (journey, esterni, madia): 361 immagini, ~27 MB.
+# I file non cambiano mai, quindi cache lunga e nessuna riconvalida: lo scrub allo
+# scroll riparte istantaneo dalla seconda visita e il traffico non consuma crediti.
+# Se un giorno si rigenera una sequenza, cambiare nome alla cartella (es. journey-2).
+[[headers]]
+  for = "/img/journey/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/img/esterni/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/img/madia/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Le altre immagini restano sulla cache predefinita (riconvalida con ETag): vengono
+# ricompresse e sostituite di tanto in tanto, e devono aggiornarsi al primo deploy.
+
+# ── Sito cliente di esempio: già noindex nel suo <head>, ribadito lato server
+[[headers]]
+  for = "/esempio/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

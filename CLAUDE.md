@@ -27,6 +27,7 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - `backup/esploso-madia-svg.html` — versione vettoriale dell'esploso madia, sostituita dai fotogrammi.
 - `img/madia/frame-0001.jpg … 0096.jpg` — montaggio fotorealistico della madia (12fps).
 - `.nojekyll` — necessario per il deploy su GitHub Pages, non rimuoverlo.
+- `netlify.toml` — configurazione del deploy su Netlify: cartella da pubblicare (la radice, nessun build step), cache lunga sulle tre sequenze di fotogrammi (`img/journey`, `img/esterni`, `img/madia`) e intestazioni di sicurezza.
 - `robots.txt`, `sitemap.xml`, `llms.txt` — file per l'indicizzazione da parte di motori di ricerca e crawler AI (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, ecc.). Se cambia l'URL del sito o l'elenco dei servizi, aggiornali insieme a `index.html`.
 
 ## SEO / ottimizzazione per motori AI (GEO)

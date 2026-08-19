@@ -5,27 +5,29 @@ Stato del progetto, decisioni prese e cose ancora da fare.
 disponibile su qualsiasi computer. Aggiornalo quando cambia qualcosa di
 strutturale: è la memoria condivisa del progetto.
 
-Ultimo aggiornamento: 8 agosto 2026.
+Ultimo aggiornamento: 19 agosto 2026.
 
 ---
 
 ## 1. Cose da fare, in ordine di urgenza
 
-### Netlify è fermo — sbloccare dal 13 agosto
-I deploy sono **in pausa per crediti esauriti** del piano gratuito (300/mese,
-ciclo 14 luglio → 13 agosto). Ogni commit dopo `c98017d` risulta *Skipped —
-account credit usage exceeded*. Il tasto *Trigger deploy* è disattivato: non è
-un guasto e non è risolvibile via codice.
+### Netlify — ripubblicare il sito, fermo al 7 agosto
+Online c'è ancora la versione di `c98017d` (7 agosto): i commit successivi sono
+risultati *Skipped — account credit usage exceeded*, perché i crediti del piano
+gratuito (300/mese, ciclo 14 luglio → 13 agosto) erano esauriti.
 
-- **Dal 13 agosto** i crediti si ripristinano, ma i deploy arretrati sono
-  *Skipped*, non in coda: **non ripartono da soli**. Serve un nuovo push o un
-  *Trigger deploy* manuale.
-- Nel frattempo il sito aggiornato è visibile su
-  **https://visio-studio.github.io/visio-studio/** (tutto tranne il form
-  contatti, che dipende da Netlify Forms).
+- **I crediti sono tornati il 13 agosto**, ma i deploy saltati restano *Skipped*,
+  non in coda: **non ripartono da soli**. Per ripubblicare serve un nuovo push su
+  `main` — il deploy parte da sé — oppure *Trigger deploy* dal pannello Netlify.
 - I 18 deploy di sviluppo sono costati 270 dei 308 crediti consumati, circa 15
   l'uno. Il traffico ha inciso solo per 38. A regime, con 2-3 pubblicazioni al
-  mese, il piano gratuito basta ampiamente.
+  mese, il piano gratuito basta ampiamente, ma **ogni push su `main` è un deploy
+  pagato**: meglio raggruppare le modifiche invece di pubblicare a raffica.
+- Dal 19 agosto c'è **`netlify.toml`** nel repository: dichiara la cartella da
+  pubblicare (la radice, nessun build step), mette la cache lunga sulle tre
+  sequenze di fotogrammi (~27 MB, il grosso del traffico) e aggiunge le
+  intestazioni di sicurezza. Le altre immagini restano sulla riconvalida
+  predefinita, così una foto ricompressa si aggiorna al primo deploy.
 
 ### Dominio visiorender.it — completare il collegamento
 Comprato su Aruba l'8 agosto (11:25) insieme alla casella email. Al momento è
