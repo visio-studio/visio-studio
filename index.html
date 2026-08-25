@@ -431,27 +431,30 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 #arredo { background:var(--light2);color:var(--text);border-top:.5px solid var(--border); }
 .arredo-head { padding:96px 48px 0; }
 .arredo-sub { font-size:12px;color:var(--muted);line-height:1.9;max-width:520px;margin-top:16px; }
-#esploso-wrap { height:340vh;position:relative; }
-#esploso-sticky { position:sticky;top:0;height:100vh;display:grid;grid-template-columns:360px 1fr;align-items:center;gap:24px;padding:0 48px;overflow:hidden; }
-.esp-phase { position:relative;min-height:350px;z-index:2; }
-.esp-txt { position:absolute;inset:0;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;pointer-events:none; }
-.esp-txt.v { opacity:1;transform:translateY(0);pointer-events:auto; }
-.esp-txt h3 { font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1.15;margin-bottom:14px;color:var(--text); }
+#esploso-wrap { height:620vh;position:relative; }
+#esploso-sticky { position:sticky;top:0;height:100vh;overflow:hidden;background:var(--light); }
+#madia-cv { position:absolute;inset:0;width:100%;height:100%;display:block;cursor:none;z-index:1; }
+.esp-phase { position:absolute;top:0;left:0;width:360px;height:100%;z-index:3;padding:96px 0 0 48px;pointer-events:none; }
+.esp-phase::before { content:'';position:absolute;top:0;bottom:0;left:0;width:400px;background:linear-gradient(90deg,var(--light) 30%,rgba(250,250,248,.55) 68%,transparent);z-index:-1; }
+.esp-txt { position:absolute;top:96px;left:48px;width:312px;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease; }
+.esp-txt.v { opacity:1;transform:translateY(0); }
+.esp-txt h3 { font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;line-height:1.15;margin-bottom:14px;color:var(--text); }
 .esp-txt p { font-size:12px;color:var(--muted);line-height:1.9;max-width:300px; }
-.esp-stage { position:relative;z-index:1;height:100vh;display:flex;align-items:center;justify-content:center; }
-#madia-cv { width:100%;max-width:760px;height:min(80vh,600px);display:block;-webkit-mask-image:radial-gradient(ellipse 56% 38% at 50% 52%,#000 60%,transparent 100%);mask-image:radial-gradient(ellipse 56% 38% at 50% 52%,#000 60%,transparent 100%); }
-.esp-hint { position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;transition:opacity .5s; }
-#esp-bar { position:absolute;bottom:0;left:0;height:2px;background:var(--gold);width:0%; }
-.esp-swatches { display:flex;gap:12px;margin-top:20px; }
-.esp-sw { width:28px;height:28px;border-radius:50%;border:1px solid var(--border);cursor:none;transition:transform .25s,border-color .25s,box-shadow .25s; }
-.esp-sw:hover { transform:scale(1.15); }
-.esp-sw.on { transform:scale(1.15);border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.25); }
-.esp-fin-name { font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:12px;display:block; }
-.esp-optrow { display:flex;align-items:center;gap:8px;margin-top:14px; }
-.esp-optrow > span { font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;width:64px; }
-.esp-opt { font-family:'Inter',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:transparent;border:.5px solid var(--border);padding:6px 12px;cursor:none;transition:all .25s; }
+#esp-ui { position:absolute;left:0;right:0;bottom:0;z-index:4;padding:0 48px 28px; }
+#esp-fase { text-align:center;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);height:14px;margin-bottom:13px; }
+#esp-bar { position:relative;height:26px;cursor:none;touch-action:none; }
+#esp-bar::before { content:'';position:absolute;top:12.5px;left:0;right:0;height:1px;background:var(--border); }
+#esp-fill { position:absolute;top:12.5px;left:0;height:1px;background:var(--gold);width:0; }
+#esp-dot { position:absolute;top:50%;left:0;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-radius:50%;background:var(--light);border:1px solid var(--gold);box-shadow:0 2px 10px rgba(20,15,5,.2); }
+.esp-hint { text-align:center;font-size:8.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-top:11px;transition:opacity .5s; }
+#esp-cfg { display:flex;gap:34px;justify-content:center;flex-wrap:wrap;margin-top:18px; }
+.esp-grp { text-align:center; }
+.esp-grp > .lab { font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:9px; }
+.esp-opts { display:flex;gap:7px;flex-wrap:wrap;justify-content:center; }
+.esp-opt { display:flex;align-items:center;gap:6px;border:.5px solid var(--border);background:rgba(250,250,248,.72);padding:6px 11px;font-family:'Inter',sans-serif;font-size:10px;color:var(--text);cursor:none;transition:border-color .25s,background .25s; }
 .esp-opt:hover { border-color:var(--gold); }
-.esp-opt.on { color:var(--gold);border-color:var(--gold); }
+.esp-opt.on { border-color:var(--gold);background:rgba(201,169,110,.12); }
+.esp-sw { width:12px;height:12px;border-radius:50%;border:.5px solid rgba(0,0,0,.16); }
 .modi-head { padding:0 48px; }
 .modi-head h3 { font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--text); }
 .modi-head p { font-size:12px;color:var(--muted);line-height:1.9;max-width:560px;margin-top:12px; }
@@ -698,9 +701,14 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .arredo-head { padding:60px 20px 0; }
   .modi-head { padding:0 20px; }
   .modi-grid { grid-template-columns:1fr;padding:36px 20px 20px; }
-  #esploso-wrap { height:300vh; }
-  #esploso-sticky { grid-template-columns:1fr;grid-template-rows:auto 1fr;align-items:start;gap:0;padding:74px 20px 20px; }
-  .esp-phase { min-height:320px; }
+  #esploso-wrap { height:460vh; }
+  .esp-phase { width:100%;padding:76px 20px 0;height:auto; }
+  .esp-phase::before { width:100%;background:linear-gradient(180deg,var(--light) 58%,rgba(250,250,248,.7) 82%,transparent); }
+  .esp-txt { top:76px;left:20px;right:20px;width:auto; }
+  .esp-txt p { max-width:none; }
+  #esp-ui { padding:0 16px 18px; }
+  #esp-cfg { gap:16px;margin-top:14px; }
+  .esp-opt { font-size:9px;padding:5px 9px; }
   .kim-row { grid-template-columns:1fr;gap:26px; }
   .kim-row::before { display:none; }
   .ba-wrap { padding:40px 20px 60px; }
@@ -716,7 +724,7 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .mp-frame { height:420px; }
   .esp-txt h3 { font-size:26px; }
   .esp-stage { height:auto;align-self:stretch; }
-  #madia-cv { height:min(42vh,380px); }
+
   .render-grid { grid-template-columns:1fr;grid-template-rows:auto; }
   .render-cell.tall { grid-row:auto; }
   #stxt { font-size:32px; }
@@ -1643,31 +1651,36 @@ ancora non esiste.</p>
     <p class="rev arredo-sub">Quando la stanza è progettata, ogni mobile può restare un'immagine — oppure diventare reale. Disegniamo l'arredo su misura fin nel dettaglio esecutivo: ecco come nasce un pezzo unico.</p>
   </div>
 
-  <!-- ── ESPLOSO ANIMATO ── -->
+  <!-- ── MONTAGGIO DEL MOBILE IN 3D ── -->
   <div id="esploso-wrap">
     <div id="esploso-sticky">
+      <canvas id="madia-cv"></canvas>
       <div class="esp-phase">
         <div class="esp-txt" id="esp-t1">
           <p class="slabel">Scheda tecnico-esecutiva</p>
           <h3>Ogni componente,<br>quotato al millimetro.</h3>
-          <p>Dal progetto della stanza nasce il disegno esecutivo del mobile: pannelli, spessori, ferramenta, finiture. Una tavola che qualsiasi artigiano può leggere e realizzare.</p>
+          <p>Dal progetto della stanza nasce il disegno esecutivo del mobile: pannelli, spessori, ferramenta, finiture. Una tavola che qualsiasi artigiano puo leggere e realizzare.</p>
         </div>
         <div class="esp-txt" id="esp-t2">
           <p class="slabel">Verifica costruttiva</p>
           <h3>Dal disegno<br>al mobile.</h3>
-          <p>I componenti si assemblano esattamente come accadrà in laboratorio. Ogni giunzione è già stata verificata nel modello 3D: nessuna sorpresa in fase di realizzazione.</p>
+          <p>I pezzi si montano nell'ordine in cui li monterebbe il falegname: prima i piedi, poi il fondo, i fianchi, le mensole, lo schienale, il piano e per ultime le ante. Ogni giunzione e gia verificata nel modello 3D.</p>
         </div>
         <div class="esp-txt" id="esp-t3">
           <p class="slabel">Il risultato</p>
           <h3>Pronto per<br>la tua casa.</h3>
-          <p>Un pezzo unico, disegnato sui tuoi spazi: rovere chiaro a poro aperto, gola continua al posto delle maniglie, basamento in metallo nero e piano in Calacatta. Ogni finitura si sceglie insieme, in fase di progetto.</p>
+          <p>Due metri di madia disegnata sui tuoi spazi, con piano in Calacatta e basamento in metallo nero. Continua a scorrere per vedere le finiture, oppure scegline una qui sotto.</p>
         </div>
       </div>
-      <div class="esp-stage">
-        <canvas id="madia-cv"></canvas>
-        <div class="esp-hint" id="esp-hint">Scorri per assemblare</div>
+      <div id="esp-ui">
+        <p id="esp-fase"></p>
+        <div id="esp-bar"><div id="esp-fill"></div><div id="esp-dot"></div></div>
+        <p class="esp-hint" id="esp-hint">Scorri, oppure trascina il cursore</p>
+        <div id="esp-cfg">
+          <div class="esp-grp"><p class="lab">Finitura</p><div class="esp-opts" id="esp-fin"></div></div>
+          <div class="esp-grp"><p class="lab">Piano</p><div class="esp-opts" id="esp-piano"></div></div>
+        </div>
       </div>
-      <div id="esp-bar"></div>
     </div>
   </div>
 
@@ -2698,50 +2711,238 @@ document.querySelectorAll('[data-target]').forEach(el=>{
   },{threshold:.5}).observe(el);
 });
 
-// ── ESPLOSO ARREDO: assemblaggio allo scroll
+// ── MONTAGGIO MADIA 3D: WebGL scritto a mano, nessuna libreria
 (function(){
-  const wrap=document.getElementById('esploso-wrap');
-  if(!wrap) return;
-  const bar=document.getElementById('esp-bar'), hint=document.getElementById('esp-hint');
-  const t1=document.getElementById('esp-t1'), t2=document.getElementById('esp-t2'), t3=document.getElementById('esp-t3');
-  const cv=document.getElementById('madia-cv'); if(!cv) return;
-  const ctx=cv.getContext('2d');
-  const N=96, imgs=new Array(N);
-  const src=i=>'img/madia/frame-'+String(i+1).padStart(4,'0')+'.jpg';
-  let pronto=false;
-  for(let i=0;i<N;i++){const im=new Image();im.onload=()=>{if(!pronto)disegna();};im.src=src(i);imgs[i]=im;}
-  function dimensiona(){
-    const r=cv.getBoundingClientRect(), d=Math.min(window.devicePixelRatio||1,2);
-    cv.width=Math.round(r.width*d); cv.height=Math.round(r.height*d);
+  // finiture: legno = venatura procedurale, laccato = tinta piena
+  const FIN={
+   'rovere chiaro':{tex:0,sw:[.80,.66,.45],tint:[1.00,1.00,1.00],tintInt:[1.12,1.09,1.04],mt:0.72},
+   'noce':         {tex:1,sw:[.42,.28,.18],tint:[1.00,1.00,1.00],tintInt:[1.16,1.11,1.05],mt:0.66},
+   'salvia':       {tex:-1,sw:[.520,.588,.498],c:[.520,.588,.498],cInt:[.70,.745,.685]},
+   'antracite':    {tex:-1,sw:[.190,.200,.212],c:[.190,.200,.212],cInt:[.32,.33,.34]}};
+  const MARMO=[.925,.915,.892], BASE=[.145,.145,.152];
+  let stato={fin:'rovere chiaro',marmo:true,asm:0};
+
+  const cv=document.getElementById('madia-cv'), wrap=document.getElementById('esploso-wrap');
+    if(!cv||!wrap) return;
+  const gl=cv.getContext('webgl',{antialias:true,alpha:false});
+  function sh(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);
+    if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(x));return x;}
+  function prog(v,f){const p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,v));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,f));gl.linkProgram(p);
+    if(!gl.getProgramParameter(p,gl.LINK_STATUS))console.error(gl.getProgramInfoLog(p));return p;}
+
+  const pMesh=prog(
+  `attribute vec3 aPos;attribute vec3 aNor;uniform mat4 uVP;uniform vec3 uOff;
+   varying vec3 vN;varying vec3 vW;
+   void main(){vN=aNor;vW=aPos;gl_Position=uVP*vec4(aPos+uOff,1.0);}`,
+  `precision highp float;
+   varying vec3 vN;varying vec3 vW;
+   uniform vec3 uColA,uColB;uniform float uLegnoA,uLegnoB;
+   uniform float uScalaA,uScalaB,uMix,uSeed;
+   uniform sampler2D uTexA,uTexB;
+   void main(){
+    vec3 n=normalize(vN);
+    // il modello non ha coordinate UV: le ricavo proiettando la posizione sui tre
+    // assi, scegliendo per ogni faccia il verso in cui deve correre la venatura
+    vec3 an=abs(n);
+    vec2 uvb;
+    if(an.y>max(an.x,an.z))      uvb=vec2(vW.z,vW.x);   // top e ripiani: in lunghezza
+    else if(an.x>an.z)           uvb=vec2(vW.z,vW.y);   // fianchi
+    else                         uvb=vec2(vW.x,vW.y);   // fronti e ante
+    vec2 sp=vec2(uSeed*0.31,uSeed*0.17);
+    vec3 cA=uLegnoA>0.5?texture2D(uTexA,uvb*uScalaA+sp).rgb*uColA:uColA;
+    vec3 cB=uLegnoB>0.5?texture2D(uTexB,uvb*uScalaB+sp).rgb*uColB:uColB;
+    vec3 col=mix(cA,cB,uMix);
+    vec3 L=normalize(vec3(-0.42,0.86,0.48));
+    float d=max(dot(n,L),0.0);
+    float d2=max(dot(n,normalize(vec3(0.72,0.34,0.60))),0.0);
+    float amb=0.44+0.16*max(n.y,0.0);
+    vec3 c=col*(amb+d*0.56+d2*0.15);
+    c+=col*pow(max(n.y,0.0),4.0)*0.09;
+    gl_FragColor=vec4(pow(c,vec3(0.94)),1.0);}`);
+
+  const pGround=prog(
+  `attribute vec2 aXZ;uniform mat4 uVP;varying vec2 vP;
+   void main(){vP=aXZ;gl_Position=uVP*vec4(aXZ.x,0.0,aXZ.y,1.0);}`,
+  `precision mediump float;varying vec2 vP;uniform float uK;
+   void main(){vec2 q=abs(vP)-vec2(1.02,0.27);
+    float d=length(max(q,0.0))+min(max(q.x,q.y),0.0);
+    float sf=0.30+(1.0-uK)*0.55;
+    float s=(1.0-smoothstep(-0.03,sf,d))*(0.09+0.26*uK);
+    gl_FragColor=vec4(0.05,0.045,0.04,s);}`);
+
+  function persp(f,a,n,fa){const t=1/Math.tan(f/2);return[t/a,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,2*fa*n/(n-fa),0];}
+  function look(e,c,u){const z=[e[0]-c[0],e[1]-c[1],e[2]-c[2]];let l=Math.hypot(z[0],z[1],z[2]);z.forEach((v,i)=>z[i]=v/l);
+   const x=[u[1]*z[2]-u[2]*z[1],u[2]*z[0]-u[0]*z[2],u[0]*z[1]-u[1]*z[0]];l=Math.hypot(x[0],x[1],x[2])||1;x.forEach((v,i)=>x[i]=v/l);
+   const y=[z[1]*x[2]-z[2]*x[1],z[2]*x[0]-z[0]*x[2],z[0]*x[1]-z[1]*x[0]];
+   return[x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
+    -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]),-(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]),-(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]),1];}
+  function mm(a,b){const r=new Array(16);for(let i=0;i<4;i++)for(let j=0;j<4;j++)
+   r[i*4+j]=a[0*4+j]*b[i*4+0]+a[1*4+j]*b[i*4+1]+a[2*4+j]*b[i*4+2]+a[3*4+j]*b[i*4+3];return r;}
+
+  let PARTS=[],gBuf,yawUser=0,pitchUser=0;
+  const TEX=[];
+  ['img/essenza-rovere.jpg','img/essenza-noce.jpg'].forEach((src,i)=>{
+    const t=gl.createTexture(), im=new Image();
+    im.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,t);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,im);
+      // ripetizione specchiata: nasconde la giunzione senza dover rendere la texture continua
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.MIRRORED_REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.MIRRORED_REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+      gl.generateMipmap(gl.TEXTURE_2D);};
+    im.src=src; TEX[i]=t;});
+  // i piedi salgono da sotto e si fermano; il fondo scende DALL'ALTO e si posa sopra:
+  // prima si intersecavano perche arrivavano tutti e due da sotto
+  // Ogni pezzo si muove in DUE TEMPI, mai in diagonale dentro gli altri:
+  //  fase A -> si allinea lateralmente restando alto/davanti  (componente 'lat')
+  //  fase B -> entra in posizione lungo un solo asse libero   (componente 'app')
+  // L'asse di ingresso e quello su cui il pezzo e l'ultimo della pila:
+  // tutto scende dall'alto tranne i piedi (dal basso) e le ante (dal davanti,
+  // perche la lastra di marmo sporge sopra di loro e le bloccherebbe).
+  function esploso(n,cx){
+    if(n.indexOf('pied')>=0)   return{lat:[0,0,0],       app:[0,-.40,0]};
+    if(n==='fondo')            return{lat:[0,0,-.34],    app:[0, .20,0]};
+    if(n.indexOf('fianco')>=0) return{lat:[cx*.50,0,0],  app:[0, .32,0]};
+    if(n.indexOf('mensola')>=0)return{lat:[cx*.40,0,0],  app:[0, .69,0]};
+    if(n.indexOf('schiena')>=0)return{lat:[0,0,0],       app:[0,0,-.95]};
+    if(n==='top legno')        return{lat:[0,0,.26],     app:[0, .54,0]};
+    if(n.indexOf('marmo')>=0)  return{lat:[0,0,-.26],    app:[0, .64,0]};
+    if(n.indexOf('anta')>=0)   return{lat:[cx*.30,0,0],  app:[0,0, .95]};
+    return{lat:[0,0,0],app:[0,0,0]};
   }
-  const clamp=v=>Math.max(0,Math.min(1,v));
-  let ultimo=-1;
-  function disegna(){
-    const prog=clamp(-wrap.getBoundingClientRect().top/(wrap.offsetHeight-window.innerHeight));
-    let k=Math.round(prog*(N-1));
-    while(k>0&&!(imgs[k]&&imgs[k].complete&&imgs[k].naturalWidth))k--;
-    const im=imgs[k];
-    if(im&&im.complete&&im.naturalWidth&&k!==ultimo){
-      ultimo=k; pronto=true;
-      const cw=cv.width,ch=cv.height,ir=im.naturalWidth/im.naturalHeight,cr=cw/ch;
-      let w,h;
-      if(ir>cr){w=cw;h=w/ir;}else{h=ch;w=h*ir;}   // contiene: il mobile non si taglia mai
-      ctx.clearRect(0,0,cw,ch);
-      ctx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h);
-    }
-    bar.style.width=(prog*100)+'%';
-    hint.style.opacity=prog<.06?1:0;
-    t1.classList.toggle('v',prog<.3);
-    t2.classList.toggle('v',prog>=.3&&prog<.72);
-    t3.classList.toggle('v',prog>=.72);
+  const RANK=n=>n.indexOf('pied')>=0?0:n==='fondo'?1:n.indexOf('fianco')>=0?2:
+    n.indexOf('mensola')>=0?3:n.indexOf('schiena')>=0?4:n==='top legno'?5:n.indexOf('marmo')>=0?6:7;
+  const FASI=['I piedi a terra','Il fondo si posa','I fianchi in squadra','Le mensole a quota',
+    'Lo schienale chiude','Il top in massello','La lastra in marmo','Le ante in battuta'];
+  const QA=0.60;          // quota di scroll dedicata al montaggio
+  const QF=[0.64,1.00];   // e poi le essenze si succedono
+
+  fetch('madia-3d.json').then(r=>r.json()).then(d=>{
+    d.parts.forEach(p=>{
+      const vb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(p.v),gl.STATIC_DRAW);
+      const nb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,nb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(p.nr),gl.STATIC_DRAW);
+      const ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ib);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(p.i),gl.STATIC_DRAW);
+      PARTS.push({n:p.n,g:p.g,cx:p.cx,vb,nb,ib,cnt:p.i.length,esp:esploso(p.n,p.cx),rank:RANK(p.n),seed:(p.cx*3.7+RANK(p.n))%2.3});
+    });
+    gBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,gBuf);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-3,-3, 3,-3, -3,3, 3,3]),gl.STATIC_DRAW);
+    resize();
+  });
+  const NOMI=Object.keys(FIN);
+  function mat(p,nome){
+    const f=FIN[nome];
+    const interno=(p.n.indexOf('mensola')>=0||p.n.indexOf('schiena')>=0);
+    if(p.g==='marmo')return{c:MARMO,legno:0,tex:0,mt:1};
+    if(p.g==='base') return{c:BASE, legno:0,tex:0,mt:1};
+    if(f.tex<0)      return{c:interno?f.cInt:f.c,legno:0,tex:0,mt:1};
+    return{c:interno?f.tintInt:f.tint,legno:1,tex:f.tex,mt:f.mt};
   }
-  window.addEventListener('resize',()=>{dimensiona();ultimo=-1;disegna();});
-  dimensiona();
-  // stesso schema della journey: ciclo continuo, ridisegna solo quando cambia il fotogramma
-  (function ciclo(){
-    requestAnimationFrame(ciclo);
-    disegna();
-  })();
+  const ease=t=>1-Math.pow(1-t,3);
+  function resize(){const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
+    cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);}
+  const fill=document.getElementById('esp-fill'),dot=document.getElementById('esp-dot'),fase=document.getElementById('esp-fase');
+    const t1=document.getElementById('esp-t1'),t2=document.getElementById('esp-t2'),t3=document.getElementById('esp-t3'),
+          hint=document.getElementById('esp-hint');
+  function cima(){let y=0,e=wrap;while(e){y+=e.offsetTop;e=e.offsetParent;}return y;}
+  function draw(){
+    if(!PARTS.length)return;
+    const tot=wrap.offsetHeight-innerHeight;
+    const k=Math.max(0,Math.min(1,-wrap.getBoundingClientRect().top/tot));
+    stato.asm=k;
+    // primo tratto: il mobile si compone. secondo tratto: si susseguono le essenze.
+    const kA=Math.max(0,Math.min(1,k/QA));
+    const kF=Math.max(0,Math.min(1,(k-QF[0])/(QF[1]-QF[0])));
+    const fpos=kF*(NOMI.length-1), ia=Math.min(NOMI.length-1,Math.floor(fpos));
+    const ib=Math.min(NOMI.length-1,ia+1);
+    // niente mescolanza lunga: ogni essenza si tiene, il passaggio e rapido,
+    // cosi non si attraversano colori intermedi che non esistono in nessun campionario
+    const gr=fpos-ia, fmix=gr<.38?0:gr>.62?1:(gr-.38)/.24;
+    stato.fin=NOMI[Math.round(fpos)];
+    fill.style.width=(k*100)+'%';dot.style.left=(k*100)+'%';
+    fase.textContent=kA<1?FASI[Math.min(FASI.length-1,Math.floor(kA*FASI.length))]
+                         :NOMI[Math.round(fpos)];
+    if(t1){t1.classList.toggle('v',kA<.34);t2.classList.toggle('v',kA>=.34&&kA<.96);t3.classList.toggle('v',kA>=.96);}
+    if(hint)hint.style.opacity=k<.05?1:0;
+    bottoni.forEach((b,i)=>b.classList.toggle('on',i===Math.round(fpos)));
+    gl.viewport(0,0,cv.width,cv.height);
+    gl.clearColor(.98,.98,.972,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);
+    // la camera si avvicina e ruota mentre il mobile si compone, poi gira piano
+    const dist=3.25+(1-kA)*2.00, cy=.40+(1-kA)*.11;
+    const yaw=-1.24+kA*0.78+kF*0.30+yawUser;
+    const pitch=Math.max(-.10,Math.min(.85,.31-kA*.15+pitchUser));
+    const cxT=innerWidth>900?-0.24:0;   // su desktop lascia spazio alla colonna di testo
+    const eye=[cxT+Math.sin(yaw)*Math.cos(pitch)*dist, cy+Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist];
+    const VP=mm(persp(38*Math.PI/180,cv.width/cv.height,.1,40),look(eye,[cxT,cy,0],[0,1,0]));
+    gl.useProgram(pGround);gl.depthMask(false);gl.disable(gl.CULL_FACE);gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+    gl.uniformMatrix4fv(gl.getUniformLocation(pGround,'uVP'),false,new Float32Array(VP));
+    gl.uniform1f(gl.getUniformLocation(pGround,'uK'),kA);
+    const aXZ=gl.getAttribLocation(pGround,'aXZ');
+    gl.bindBuffer(gl.ARRAY_BUFFER,gBuf);gl.enableVertexAttribArray(aXZ);gl.vertexAttribPointer(aXZ,2,gl.FLOAT,false,0,0);
+    gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+    gl.disable(gl.BLEND);gl.depthMask(true);gl.enable(gl.CULL_FACE);
+    gl.useProgram(pMesh);
+    const aP=gl.getAttribLocation(pMesh,'aPos'),aN=gl.getAttribLocation(pMesh,'aNor');
+    const U=n=>gl.getUniformLocation(pMesh,n);
+    gl.uniformMatrix4fv(U('uVP'),false,new Float32Array(VP));
+    gl.uniform1f(U('uMix'),fmix);
+    gl.uniform1i(U('uTexA'),0);gl.uniform1i(U('uTexB'),1);
+    const passo=.105, durata=.26;
+    PARTS.forEach(p=>{
+      if(p.g==='marmo'&&!stato.marmo)return;
+      // due tempi: prima il laterale, poi l'ingresso sull'asse libero.
+      // le finestre dei pezzi finiscono in ordine di montaggio, cosi nessun pezzo
+      // raggiunge il suo posto prima che sia arrivato quello sotto.
+      const t=Math.max(0,Math.min(1,(kA-p.rank*passo)/durata));
+      const tl=ease(Math.max(0,Math.min(1,t/0.55)));
+      const tv=ease(Math.max(0,Math.min(1,(t-0.45)/0.55)));
+      const L=p.esp.lat, A=p.esp.app;
+      gl.uniform3f(U('uOff'),L[0]*(1-tl)+A[0]*(1-tv),L[1]*(1-tl)+A[1]*(1-tv),L[2]*(1-tl)+A[2]*(1-tv));
+      const mA=mat(p,NOMI[ia]), mB=mat(p,NOMI[ib]);
+      gl.uniform3f(U('uColA'),mA.c[0],mA.c[1],mA.c[2]);gl.uniform1f(U('uLegnoA'),mA.legno);gl.uniform1f(U('uScalaA'),1/mA.mt);
+      gl.uniform3f(U('uColB'),mB.c[0],mB.c[1],mB.c[2]);gl.uniform1f(U('uLegnoB'),mB.legno);gl.uniform1f(U('uScalaB'),1/mB.mt);
+      gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,TEX[mA.tex]);
+      gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,TEX[mB.tex]);
+      gl.uniform1f(U('uSeed'),p.seed);
+      gl.bindBuffer(gl.ARRAY_BUFFER,p.vb);gl.enableVertexAttribArray(aP);gl.vertexAttribPointer(aP,3,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ARRAY_BUFFER,p.nb);gl.enableVertexAttribArray(aN);gl.vertexAttribPointer(aN,3,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,p.ib);gl.drawElements(gl.TRIANGLES,p.cnt,gl.UNSIGNED_SHORT,0);
+    });
+  }
+  // la barra non e un secondo comando: trascinandola si scorre la pagina,
+  // cosi cursore e scroll non possono mai dire cose diverse
+  const bar=document.getElementById('esp-bar');
+  let barDrag=false;
+  function daBarra(cx){const r=bar.getBoundingClientRect();
+    const x=Math.max(0,Math.min(1,(cx-r.left)/r.width));
+    scrollTo(0,cima()+x*(wrap.offsetHeight-innerHeight));}
+  bar.addEventListener('pointerdown',e=>{barDrag=true;daBarra(e.clientX);bar.setPointerCapture(e.pointerId);});
+  bar.addEventListener('pointermove',e=>{if(barDrag)daBarra(e.clientX);});
+  addEventListener('pointerup',()=>{barDrag=false;drag=null;});
+  let drag=null;
+  cv.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,yawUser,pitchUser];cv.setPointerCapture(e.pointerId);});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;
+    yawUser=drag[2]-(e.clientX-drag[0])*.006;
+    pitchUser=Math.max(-.42,Math.min(.5,drag[3]+(e.clientY-drag[1])*.004));});
+  const fin=document.getElementById('esp-fin'), bottoni=[];
+  NOMI.forEach((k,i)=>{
+    const c=FIN[k].sw, b=document.createElement('button');
+    b.className='esp-opt';
+    b.innerHTML='<span class="esp-sw" style="background:rgb('+c.map(v=>Math.round(v*255)).join(',')+')"></span>'+k;
+    // anche qui il clic non e un comando parallelo: porta lo scroll dove c'e quell'essenza,
+    // cosi il tasto acceso e il punto della pagina non possono mai discordare
+    b.onclick=()=>{const q=QF[0]+(i/(NOMI.length-1))*(QF[1]-QF[0]);
+      scrollTo({top:cima()+q*(wrap.offsetHeight-innerHeight),behavior:'smooth'});};
+    bottoni.push(b);fin.appendChild(b);});
+  const piano=document.getElementById('esp-piano');
+  [['con lastra in marmo',true],['solo top in legno',false]].forEach(([lab,v])=>{
+    const b=document.createElement('button');b.className='esp-opt'+(v===stato.marmo?' on':'');b.textContent=lab;
+    b.onclick=()=>{stato.marmo=v;[...piano.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');};piano.appendChild(b);});
+  addEventListener('resize',resize);
+  (function ciclo(){requestAnimationFrame(ciclo);draw();})();
 
 })();
 

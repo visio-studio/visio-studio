@@ -203,7 +203,7 @@ dà la **rotazione invertita** e porta a diagnosticare il lato sbagliato.
 
 ---
 
-### La madia in 3D (sostituisce il video a fotogrammi)
+### La madia in 3D (in linea dal 26 agosto 2026, ha sostituito il video)
 
 Il mobile e un modello vero: `modelli/madia.glb` (32 KB, esportato da SimLab,
 2,04 x 0,77 x 0,54 m, 15 pezzi, gia con l'asse verticale giusto).
@@ -214,7 +214,17 @@ Y = 0. Se il modello viene riesportato, rigenerare con:
     python3 strumenti/glb-a-json.py modelli/madia.glb madia-3d.json
 
 Il renderer e **WebGL scritto a mano**, come il tour 360: niente three.js,
-niente dipendenze. Prova completa in `_test-madia.html`. In tutto pesa 45 KB
+niente dipendenze. Vive in `index.html` dentro `#esploso-wrap`; `_test-madia.html`
+resta come banco di prova isolato (in `noindex`).
+
+Il montaggio occupa il primo 60% dello scroll della sezione, poi le quattro
+finiture si succedono da sole. Barra e tasti **non sono comandi paralleli**:
+trascinare la barra o cliccare una finitura sposta lo scroll, cosi posizione
+nella pagina, barra e tasto acceso non possono mai discordare.
+
+I 96 fotogrammi in `img/madia/` (4,4 MB) non sono piu usati da nessuna pagina:
+si possono togliere dal deploy quando si vuole, restano comunque nella storia
+di git. In tutto pesa 45 KB
 contro i 4,4 MB dei 96 fotogrammi che sostituisce.
 
 Tre inciampi gia pagati, da non ripetere:
