@@ -527,14 +527,19 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 /* ESTERNI */
 #esterni { background:var(--light);color:var(--text);border-top:.5px solid var(--border); }
 #ex-wrap { position:relative;height:430vh; }
-#ex-sticky { position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:74px 48px 0; }
-#ex-head { text-align:center;margin-bottom:24px; }
-#ex-head h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.4vw,44px);font-weight:300;line-height:1.1;color:var(--text); }
-#ex-head h2 em { font-style:italic;color:var(--gold); }
-#ex-scene { position:relative;width:min(1000px,92vw,calc((100vh - 320px)*1.78));aspect-ratio:16/9;border-radius:10px;overflow:hidden;border:.5px solid var(--border);box-shadow:0 30px 80px -44px rgba(0,0,0,.4); }
+#ex-sticky { position:sticky;top:0;height:100vh;overflow:hidden;background:#0d100d; }
+#ex-scene { position:absolute;inset:0;overflow:hidden; }
 #ex-cv { position:absolute;inset:0;width:100%;height:100%; }
-#ex-caps { position:relative;height:20px;margin-top:20px;width:100%;text-align:center; }
-.ex-cap { position:absolute;left:0;right:0;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#9a7b45;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s; }
+/* velature: tengono leggibili i testi sopra l'immagine a tutto campo */
+#ex-sticky::before { content:'';position:absolute;top:0;left:0;right:0;height:42vh;background:linear-gradient(180deg,rgba(8,10,8,.74),rgba(8,10,8,.3) 55%,transparent);z-index:2;pointer-events:none; }
+#ex-sticky::after { content:'';position:absolute;bottom:0;left:0;right:0;height:32vh;background:linear-gradient(0deg,rgba(8,10,8,.72),transparent);z-index:2;pointer-events:none; }
+#ex-head { position:absolute;top:0;left:0;right:0;z-index:3;text-align:center;padding:94px 32px 0; }
+#ex-head h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,54px);font-weight:300;line-height:1.1;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.4); }
+#ex-head h2 em { font-style:italic;color:var(--gold); }
+#ex-caps { position:absolute;bottom:56px;left:0;right:0;z-index:3;height:20px;text-align:center; }
+.ex-cap { position:absolute;left:0;right:0;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.88);opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s; }
+#ex-prog { position:absolute;bottom:0;left:0;right:0;height:1.5px;z-index:3;background:rgba(255,255,255,.16); }
+#ex-prog i { display:block;height:100%;width:0;background:var(--gold);transform-origin:left; }
 .ex-cap.on { opacity:1;transform:none; }
 #ex-bgicons { display:none;position:absolute;inset:0;z-index:-1;pointer-events:none; }
 .ex-bgicon { position:absolute;width:46px;height:46px;opacity:0; }
@@ -669,8 +674,9 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .ill-frame { border-radius:12px; }
   .ill-dock { position:static;transform:none;flex-wrap:wrap;justify-content:center;margin:14px 0 0;border-radius:22px;padding:12px; }
   .lgb { flex:1 1 calc(50% - 10px);justify-content:center;padding:13px 8px;font-size:9px;letter-spacing:1.2px; }
-  #ex-sticky { padding:52px 10px 0; }
-  #ex-scene { width:min(98vw,calc((100vh - 230px)*1.33));aspect-ratio:4/3; }
+  #ex-head { padding:78px 20px 0; }
+  #ex-caps { bottom:44px;padding:0 18px; }
+  .ex-cap { font-size:9px;letter-spacing:1.8px; }
   .ex-cap { font-size:8px;letter-spacing:1.8px;padding:0 20px; }
   #ex-bgicons { display:block; }
   #ex-servizi { padding:44px 20px 60px; }
@@ -1992,7 +1998,7 @@ ancora non esiste.</p>
         <p class="slabel rev" style="color:var(--gold);">Outdoor</p>
         <h2 class="serif rev">Studio <em>area esterna</em>.</h2>
       </div>
-      <div id="ex-scene" class="rev">
+      <div id="ex-scene">
         <canvas id="ex-cv"></canvas>
       </div>
       <div id="ex-caps">
@@ -2002,6 +2008,7 @@ ancora non esiste.</p>
         <p class="ex-cap">Il tramonto sul progetto</p>
         <p class="ex-cap">Studio dell&rsquo;illuminazione notturna</p>
       </div>
+      <div id="ex-prog"><i id="ex-prog-i"></i></div>
     </div>
   </div>
   <div id="ex-servizi">
@@ -2644,6 +2651,7 @@ document.querySelectorAll('.sv-card').forEach(c=>{
   const cv=document.getElementById('ex-cv'),ctx=cv.getContext('2d');
   const caps=[...wrap.querySelectorAll('.ex-cap')];
   const bgIcons=[...wrap.querySelectorAll('.ex-bgicon')];
+  const prog=document.getElementById('ex-prog-i');
   const N=120,imgs=new Array(N);
   const fsrc=i=>'img/esterni/frame-'+String(i+1).padStart(4,'0')+'.jpg';
   let drawn=false;
@@ -2673,10 +2681,11 @@ document.querySelectorAll('.sv-card').forEach(c=>{
     ctx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h);
     const ci=p<.22?0:p<.48?1:p<.70?2:p<.88?3:4;
     caps.forEach((c,k)=>c.classList.toggle('on',k===ci));
+    if(prog) prog.style.width=(p*100)+'%';
   }
-  window.addEventListener('scroll',draw,{passive:true});
   window.addEventListener('resize',()=>{size();draw();});
-  size();draw();
+  size();
+  (function ciclo(){requestAnimationFrame(ciclo);draw();})();
 })();
 
 // ── COUNTERS
