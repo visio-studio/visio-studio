@@ -515,14 +515,15 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 /* SLIDER RENDER / REALTÀ */
 .ba-wrap { padding:56px 48px 96px; }
 .ba-grid { display:grid;grid-template-columns:340px 1fr;gap:56px;align-items:center;margin-top:34px; }
-.ba-slider { position:relative;overflow:hidden;aspect-ratio:16/10;user-select:none;touch-action:none;cursor:none; }
+.ba-slider { position:relative;overflow:hidden;aspect-ratio:4/5;max-width:470px;margin:0 auto;user-select:none;touch-action:none;cursor:none;box-shadow:0 24px 60px rgba(20,15,5,.16); }
 .ba-slider img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none; }
-.ba-top { position:absolute;inset:0;clip-path:inset(0 50% 0 0); }
-.ba-handle { position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--gold);transform:translateX(-.5px); }
-.ba-handle::after { content:'◂ ▸';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:var(--light);border:.5px solid var(--gold);color:var(--gold);font-size:10px;display:flex;align-items:center;justify-content:center;letter-spacing:1px; }
-.ba-tag { position:absolute;bottom:14px;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:rgba(10,10,10,.55);padding:5px 10px;pointer-events:none; }
+.ba-top { position:absolute;inset:0;clip-path:inset(0 50% 0 0);will-change:clip-path; }
+.ba-handle { position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--gold);transform:translateX(-.5px);box-shadow:0 0 18px rgba(201,169,110,.6);will-change:left; }
+.ba-handle::after { content:'◂ ▸';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(250,250,248,.94);border:.5px solid var(--gold);color:var(--gold);font-size:10px;display:flex;align-items:center;justify-content:center;letter-spacing:1px;box-shadow:0 6px 20px rgba(20,15,5,.3); }
+.ba-tag { position:absolute;bottom:14px;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:rgba(10,10,10,.5);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);padding:6px 12px;pointer-events:none; }
 .ba-tag.l { left:14px; } .ba-tag.r { right:14px; }
-.ba-note { font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:10px; }
+.ba-hint { font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:16px;display:flex;align-items:center;justify-content:center;gap:10px; }
+.ba-hint::before,.ba-hint::after { content:'';height:.5px;width:26px;background:var(--border); }
 /* ESTERNI */
 #esterni { background:var(--light);color:var(--text);border-top:.5px solid var(--border); }
 #ex-wrap { position:relative;height:430vh; }
@@ -1903,92 +1904,22 @@ ancora non esiste.</p>
   <div class="ba-wrap">
     <div class="ba-grid">
       <div class="rev-l">
-        <p class="slabel">Il progetto completo</p>
-        <h3 class="serif" style="color:var(--text);font-size:38px;font-weight:300;line-height:1.15;">Prima<br>e dopo.</h3>
-        <p style="font-size:12px;color:var(--muted);line-height:1.9;margin-top:14px;">La stessa stanza, vuota e poi arredata in ogni dettaglio: mobili, tende, luci e complementi d'arredo. Trascina il cursore per vedere la trasformazione.</p>
+        <p class="slabel">Render e realtà</p>
+        <h3 class="serif" style="color:var(--text);font-size:38px;font-weight:300;line-height:1.15;">Dal render<br>alla realtà.</h3>
+        <p style="font-size:12px;color:var(--muted);line-height:1.9;margin-top:14px;">Il render di progetto e lo stesso ambiente a lavori conclusi, ripresi dalla stessa inquadratura. Trascina il cursore: la luce è quella di un tramonto invece che di un mezzogiorno, e il pavimento è stato cambiato in corso d'opera. Proporzioni, arredi e atmosfera restano quelli decisi al tavolo da disegno.</p>
+        <p style="font-size:12px;color:var(--muted);line-height:1.9;margin-top:14px;">È questo il senso del nostro lavoro: farti vedere prima ciò che vedrai davvero.</p>
       </div>
       <div class="rev-r">
         <div class="ba-slider" id="ba-slider">
-          <!-- STANZA ARREDATA (sotto, lato destro) -->
-          <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" fill="none">
-            <rect width="800" height="380" fill="#F2EEE7"/>
-            <rect y="380" width="800" height="120" fill="#D9CBB2"/>
-            <line x1="0" y1="380" x2="800" y2="380" stroke="rgba(26,26,26,.25)" stroke-width="1"/>
-            <g stroke="rgba(26,26,26,.08)" stroke-width="1">
-              <line x1="100" y1="380" x2="40" y2="500"/><line x1="250" y1="380" x2="210" y2="500"/><line x1="400" y1="380" x2="385" y2="500"/><line x1="550" y1="380" x2="560" y2="500"/><line x1="700" y1="380" x2="735" y2="500"/>
-            </g>
-            <!-- finestra -->
-            <rect x="570" y="60" width="170" height="240" fill="#DCE4E8" stroke="rgba(26,26,26,.35)" stroke-width="1.5"/>
-            <line x1="655" y1="60" x2="655" y2="300" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
-            <line x1="570" y1="180" x2="740" y2="180" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
-            <!-- tende -->
-            <line x1="540" y1="42" x2="770" y2="42" stroke="#C9A96E" stroke-width="2"/>
-            <path d="M546,44 Q542,180 550,336 L586,336 Q580,180 584,44 Z" fill="#E7DFCE" stroke="rgba(26,26,26,.15)"/>
-            <path d="M556,44 L558,336 M568,44 L570,336" stroke="rgba(26,26,26,.1)"/>
-            <path d="M726,44 Q722,180 728,336 L764,336 Q760,180 758,44 Z" fill="#E7DFCE" stroke="rgba(26,26,26,.15)"/>
-            <path d="M738,44 L740,336 M748,44 L750,336" stroke="rgba(26,26,26,.1)"/>
-            <!-- lampada a sospensione -->
-            <line x1="330" y1="0" x2="330" y2="95" stroke="rgba(26,26,26,.5)" stroke-width="1"/>
-            <path d="M310,95 L350,95 L342,75 L318,75 Z" fill="#1A1A1A"/>
-            <circle cx="330" cy="112" r="26" fill="rgba(255,205,110,.22)"/>
-            <!-- quadri -->
-            <rect x="150" y="110" width="58" height="74" fill="#FAFAF8" stroke="#C9A96E" stroke-width="1.5"/>
-            <path d="M158,160 Q175,128 200,152" stroke="#8B7355" stroke-width="1.5"/>
-            <rect x="222" y="130" width="44" height="54" fill="#FAFAF8" stroke="#C9A96E" stroke-width="1.5"/>
-            <circle cx="244" cy="155" r="12" stroke="#8B7355" stroke-width="1.5"/>
-            <!-- tappeto -->
-            <rect x="120" y="398" width="420" height="76" rx="4" fill="#C6BCA8" opacity=".8"/>
-            <rect x="132" y="406" width="396" height="60" rx="3" stroke="rgba(26,26,26,.15)" stroke-width="1"/>
-            <!-- divano -->
-            <rect x="170" y="240" width="240" height="60" rx="8" fill="#CFC9BE" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
-            <rect x="160" y="290" width="260" height="70" rx="10" fill="#D8D4CE" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
-            <rect x="150" y="255" width="26" height="95" rx="8" fill="#CFC9BE" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
-            <rect x="404" y="255" width="26" height="95" rx="8" fill="#CFC9BE" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
-            <rect x="196" y="262" width="42" height="34" rx="5" fill="#C9A96E" opacity=".75"/>
-            <rect x="342" y="262" width="42" height="34" rx="5" fill="#B0A890"/>
-            <line x1="185" y1="360" x2="182" y2="382" stroke="#2A2A2A" stroke-width="3"/>
-            <line x1="395" y1="360" x2="398" y2="382" stroke="#2A2A2A" stroke-width="3"/>
-            <!-- tavolino -->
-            <ellipse cx="490" cy="352" rx="46" ry="12" fill="#F5F3EF" stroke="rgba(26,26,26,.35)" stroke-width="1"/>
-            <line x1="490" y1="364" x2="490" y2="400" stroke="#2A2A2A" stroke-width="2.5"/>
-            <ellipse cx="490" cy="402" rx="20" ry="5" fill="#2A2A2A"/>
-            <rect x="468" y="332" width="20" height="14" rx="1" fill="#8B7355"/>
-            <ellipse cx="508" cy="340" rx="7" ry="4" fill="#4A7A3A" opacity=".8"/>
-            <!-- lampada da terra -->
-            <line x1="90" y1="200" x2="90" y2="392" stroke="#C9A96E" stroke-width="2"/>
-            <ellipse cx="90" cy="394" rx="18" ry="4" fill="#C9A96E"/>
-            <path d="M72,200 L108,200 L100,172 L80,172 Z" fill="#F5F3EF" stroke="#C9A96E" stroke-width="1.5"/>
-            <circle cx="90" cy="212" r="30" fill="rgba(255,205,110,.2)"/>
-            <!-- pianta -->
-            <path d="M508,296 L524,296 L521,330 L511,330 Z" fill="#B0A890" stroke="rgba(26,26,26,.25)"/>
-            <path d="M516,296 Q498,270 490,252 M516,296 Q516,262 522,244 M516,296 Q534,268 544,254" stroke="#4A7A3A" stroke-width="2.5" stroke-linecap="round"/>
-            <circle cx="489" cy="250" r="7" fill="#4A7A3A" opacity=".85"/><circle cx="523" cy="242" r="8" fill="#5A8A4A" opacity=".85"/><circle cx="545" cy="252" r="7" fill="#4A7A3A" opacity=".85"/>
-          </svg>
-          <!-- STANZA VUOTA (sopra, lato sinistro) -->
+          <img src="img/foto-realizzato-soggiorno-open-space-villa.jpg" alt="Il soggiorno open space della villa a lavori conclusi: parquet a spina di pesce, isola cucina e luce di tramonto" width="760" height="950" loading="lazy" decoding="async">
           <div class="ba-top" id="ba-top">
-            <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" fill="none">
-              <rect width="800" height="380" fill="#F2EEE7"/>
-              <rect y="380" width="800" height="120" fill="#D9CBB2"/>
-              <line x1="0" y1="380" x2="800" y2="380" stroke="rgba(26,26,26,.25)" stroke-width="1"/>
-              <g stroke="rgba(26,26,26,.08)" stroke-width="1">
-                <line x1="100" y1="380" x2="40" y2="500"/><line x1="250" y1="380" x2="210" y2="500"/><line x1="400" y1="380" x2="385" y2="500"/><line x1="550" y1="380" x2="560" y2="500"/><line x1="700" y1="380" x2="735" y2="500"/>
-              </g>
-              <rect x="570" y="60" width="170" height="240" fill="#DCE4E8" stroke="rgba(26,26,26,.35)" stroke-width="1.5"/>
-              <line x1="655" y1="60" x2="655" y2="300" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
-              <line x1="570" y1="180" x2="740" y2="180" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
-              <!-- cavo nudo -->
-              <line x1="330" y1="0" x2="330" y2="88" stroke="rgba(26,26,26,.45)" stroke-width="1"/>
-              <circle cx="330" cy="94" r="6" stroke="rgba(26,26,26,.4)" stroke-width="1"/>
-              <!-- presa e segni -->
-              <rect x="184" y="352" width="14" height="9" stroke="rgba(26,26,26,.3)" stroke-width="1"/>
-              <line x1="150" y1="140" x2="266" y2="140" stroke="rgba(26,26,26,.12)" stroke-width="1" stroke-dasharray="4 4"/>
-            </svg>
+            <img src="img/render-3d-soggiorno-open-space-villa.jpg" alt="Render 3D fotorealistico del soggiorno open space della villa: cucina in legno con isola, divano angolare e zona pranzo" width="760" height="950" loading="lazy" decoding="async">
           </div>
           <div class="ba-handle" id="ba-handle"></div>
-          <span class="ba-tag l">Stanza vuota</span>
-          <span class="ba-tag r">Arredata</span>
+          <span class="ba-tag l">Render di progetto</span>
+          <span class="ba-tag r">A lavori finiti</span>
         </div>
-        <p class="ba-note">INSERISCI · quando disponibili, sostituisci le illustrazioni con i render reali della stanza vuota e arredata</p>
+        <p class="ba-hint">Trascina per confrontare</p>
       </div>
     </div>
   </div>
@@ -2810,17 +2741,30 @@ document.querySelectorAll('[data-target]').forEach(el=>{
   const s=document.getElementById('ba-slider');
   if(!s) return;
   const top=document.getElementById('ba-top'), h=document.getElementById('ba-handle');
-  function setX(cx){
-    const r=s.getBoundingClientRect();
-    const x=Math.max(.02,Math.min(.98,(cx-r.left)/r.width));
-    top.style.clipPath='inset(0 '+((1-x)*100)+'% 0 0)';
-    h.style.left=(x*100)+'%';
-  }
+  let x=.5, auto=true;
+  function paint(){ top.style.clipPath='inset(0 '+((1-x)*100)+'% 0 0)'; h.style.left=(x*100)+'%'; }
+  function setX(cx){ const r=s.getBoundingClientRect(); x=Math.max(.02,Math.min(.98,(cx-r.left)/r.width)); paint(); }
   let drag=false;
-  s.addEventListener('pointerdown',e=>{drag=true;setX(e.clientX);try{s.setPointerCapture(e.pointerId);}catch(_){}});
+  s.addEventListener('pointerdown',e=>{drag=true;auto=false;setX(e.clientX);try{s.setPointerCapture(e.pointerId);}catch(_){}});
   s.addEventListener('pointermove',e=>{if(drag)setX(e.clientX);});
   s.addEventListener('pointerup',()=>drag=false);
   s.addEventListener('pointercancel',()=>drag=false);
+  paint();
+  // presentazione automatica alla prima comparsa: fa capire che si trascina
+  const fermo=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(fermo||!('IntersectionObserver' in window)) return;
+  const io=new IntersectionObserver(en=>{
+    if(!en[0].isIntersecting) return;
+    io.disconnect();
+    const t0=performance.now(), D=2800;
+    (function step(t){
+      if(!auto) return;
+      const p=Math.min((t-t0)/D,1);
+      x=.5+Math.sin(p*Math.PI*2)*Math.sin(p*Math.PI)*.40; paint();
+      if(p<1) requestAnimationFrame(step);
+    })(t0);
+  },{threshold:.45});
+  io.observe(s);
 })();
 
 // ── PANNELLI SERVIZI: apertura sotto le card (desktop) / bottom-sheet dal basso (mobile)
