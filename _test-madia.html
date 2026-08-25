@@ -5,7 +5,7 @@
 :root{--gold:#C9A96E;--light:#FAFAF8;--text:#1A1A18;--muted:#8A8A82;--border:rgba(26,26,24,.14)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--light);color:var(--text);font-family:'Inter',sans-serif}
-#md-wrap{position:relative;height:420vh}
+#md-wrap{position:relative;height:620vh}
 #md-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column}
 #md-head{position:absolute;top:0;left:0;right:0;padding:46px 48px 0;text-align:center;z-index:3;pointer-events:none}
 .slabel{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
@@ -66,23 +66,22 @@ const pMesh=prog(
  void main(){vN=aNor;vW=aPos;gl_Position=uVP*vec4(aPos+uOff,1.0);}`,
 `precision highp float;
  varying vec3 vN;varying vec3 vW;
- uniform vec3 uCol;uniform float uLegno;uniform float uScalaTex;uniform float uSeed;
- uniform sampler2D uTex;
+ uniform vec3 uColA,uColB;uniform float uLegnoA,uLegnoB;
+ uniform float uScalaA,uScalaB,uMix,uSeed;
+ uniform sampler2D uTexA,uTexB;
  void main(){
   vec3 n=normalize(vN);
-  vec3 col=uCol;
-  if(uLegno>0.5){
-   // proiezione sui tre assi: il modello non ha coordinate UV, le ricavo dalla posizione.
-   // la venatura della texture e verticale, quindi la seconda componente segue
-   // la direzione in cui deve correre il legno su ogni faccia
-   vec3 an=abs(n);
-   vec2 uv;
-   if(an.y>max(an.x,an.z))      uv=vec2(vW.z,vW.x);   // top e ripiani: venatura in lunghezza
-   else if(an.x>an.z)           uv=vec2(vW.z,vW.y);   // fianchi
-   else                         uv=vec2(vW.x,vW.y);   // fronti e ante
-   uv=uv*uScalaTex+vec2(uSeed*0.31,uSeed*0.17);
-   col=texture2D(uTex,uv).rgb*uCol;
-  }
+  // il modello non ha coordinate UV: le ricavo proiettando la posizione sui tre
+  // assi, scegliendo per ogni faccia il verso in cui deve correre la venatura
+  vec3 an=abs(n);
+  vec2 uvb;
+  if(an.y>max(an.x,an.z))      uvb=vec2(vW.z,vW.x);   // top e ripiani: in lunghezza
+  else if(an.x>an.z)           uvb=vec2(vW.z,vW.y);   // fianchi
+  else                         uvb=vec2(vW.x,vW.y);   // fronti e ante
+  vec2 sp=vec2(uSeed*0.31,uSeed*0.17);
+  vec3 cA=uLegnoA>0.5?texture2D(uTexA,uvb*uScalaA+sp).rgb*uColA:uColA;
+  vec3 cB=uLegnoB>0.5?texture2D(uTexB,uvb*uScalaB+sp).rgb*uColB:uColB;
+  vec3 col=mix(cA,cB,uMix);
   vec3 L=normalize(vec3(-0.42,0.86,0.48));
   float d=max(dot(n,L),0.0);
   float d2=max(dot(n,normalize(vec3(0.72,0.34,0.60))),0.0);
@@ -126,40 +125,49 @@ const TEX=[];
   im.src=src; TEX[i]=t;});
 // i piedi salgono da sotto e si fermano; il fondo scende DALL'ALTO e si posa sopra:
 // prima si intersecavano perche arrivavano tutti e due da sotto
+// Ogni pezzo si muove in DUE TEMPI, mai in diagonale dentro gli altri:
+//  fase A -> si allinea lateralmente restando alto/davanti  (componente 'lat')
+//  fase B -> entra in posizione lungo un solo asse libero   (componente 'app')
+// L'asse di ingresso e quello su cui il pezzo e l'ultimo della pila:
+// tutto scende dall'alto tranne i piedi (dal basso) e le ante (dal davanti,
+// perche la lastra di marmo sporge sopra di loro e le bloccherebbe).
 function esploso(n,cx){
-  if(n.indexOf('pied')>=0)   return [0,-.34,0];
-  if(n==='fondo')            return [0, .34,0];
-  if(n.indexOf('fianco')>=0) return [cx*.58,0,0];
-  if(n.indexOf('schiena')>=0)return [0,0,-.60];
-  if(n.indexOf('mensola')>=0)return [cx*.50,.30,.18];
-  if(n==='top legno')        return [0,.46,0];
-  if(n.indexOf('marmo')>=0)  return [0,.62,0];
-  if(n.indexOf('anta')>=0)   return [cx*.34,0,.82];
-  return [0,0,0];
+  if(n.indexOf('pied')>=0)   return{lat:[0,0,0],       app:[0,-.40,0]};
+  if(n==='fondo')            return{lat:[0,0,-.34],    app:[0, .20,0]};
+  if(n.indexOf('fianco')>=0) return{lat:[cx*.50,0,0],  app:[0, .32,0]};
+  if(n.indexOf('mensola')>=0)return{lat:[cx*.40,0,0],  app:[0, .69,0]};
+  if(n.indexOf('schiena')>=0)return{lat:[0,0,0],       app:[0,0,-.95]};
+  if(n==='top legno')        return{lat:[0,0,.26],     app:[0, .54,0]};
+  if(n.indexOf('marmo')>=0)  return{lat:[0,0,-.26],    app:[0, .64,0]};
+  if(n.indexOf('anta')>=0)   return{lat:[cx*.30,0,0],  app:[0,0, .95]};
+  return{lat:[0,0,0],app:[0,0,0]};
 }
 const RANK=n=>n.indexOf('pied')>=0?0:n==='fondo'?1:n.indexOf('fianco')>=0?2:
-  n.indexOf('schiena')>=0?3:n.indexOf('mensola')>=0?4:n==='top legno'?5:n.indexOf('marmo')>=0?6:7;
-const FASI=['I piedi a terra','Il fondo si posa','I fianchi in squadra','Lo schienale chiude',
-  'Le mensole a quota','Il top in rovere','La lastra in marmo','Le ante in battuta','Montata'];
+  n.indexOf('mensola')>=0?3:n.indexOf('schiena')>=0?4:n==='top legno'?5:n.indexOf('marmo')>=0?6:7;
+const FASI=['I piedi a terra','Il fondo si posa','I fianchi in squadra','Le mensole a quota',
+  'Lo schienale chiude','Il top in massello','La lastra in marmo','Le ante in battuta'];
+const QA=0.60;          // quota di scroll dedicata al montaggio
+const QF=[0.64,1.00];   // e poi le essenze si succedono
 
 fetch('madia-3d.json').then(r=>r.json()).then(d=>{
   d.parts.forEach(p=>{
     const vb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(p.v),gl.STATIC_DRAW);
     const nb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,nb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(p.nr),gl.STATIC_DRAW);
     const ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ib);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(p.i),gl.STATIC_DRAW);
-    PARTS.push({n:p.n,g:p.g,cx:p.cx,vb,nb,ib,cnt:p.i.length,off:esploso(p.n,p.cx),rank:RANK(p.n),seed:(p.cx*3.7+RANK(p.n))%2.3});
+    PARTS.push({n:p.n,g:p.g,cx:p.cx,vb,nb,ib,cnt:p.i.length,esp:esploso(p.n,p.cx),rank:RANK(p.n),seed:(p.cx*3.7+RANK(p.n))%2.3});
   });
   gBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,gBuf);
   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-3,-3, 3,-3, -3,3, 3,3]),gl.STATIC_DRAW);
   resize();
 });
-function colore(p){
-  const f=FIN[stato.fin];
+const NOMI=Object.keys(FIN);
+function mat(p,nome){
+  const f=FIN[nome];
   const interno=(p.n.indexOf('mensola')>=0||p.n.indexOf('schiena')>=0);
-  if(p.g==='marmo')return{c:MARMO,legno:0};
-  if(p.g==='base') return{c:BASE,legno:0};
-  if(f.tex<0)      return{c:interno?f.cInt:f.c,legno:0};
-  return{c:interno?f.tintInt:f.tint,legno:1};
+  if(p.g==='marmo')return{c:MARMO,legno:0,tex:0,mt:1};
+  if(p.g==='base') return{c:BASE, legno:0,tex:0,mt:1};
+  if(f.tex<0)      return{c:interno?f.cInt:f.c,legno:0,tex:0,mt:1};
+  return{c:interno?f.tintInt:f.tint,legno:1,tex:f.tex,mt:f.mt};
 }
 const ease=t=>1-Math.pow(1-t,3);
 function resize(){const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
@@ -169,43 +177,58 @@ function cima(){let y=0,e=wrap;while(e){y+=e.offsetTop;e=e.offsetParent;}return 
 function draw(){
   if(!PARTS.length)return;
   const tot=wrap.offsetHeight-innerHeight;
-  stato.asm=Math.max(0,Math.min(1,-wrap.getBoundingClientRect().top/tot));
-  const k=stato.asm;
+  const k=Math.max(0,Math.min(1,-wrap.getBoundingClientRect().top/tot));
+  stato.asm=k;
+  // primo tratto: il mobile si compone. secondo tratto: si susseguono le essenze.
+  const kA=Math.max(0,Math.min(1,k/QA));
+  const kF=Math.max(0,Math.min(1,(k-QF[0])/(QF[1]-QF[0])));
+  const fpos=kF*(NOMI.length-1), ia=Math.min(NOMI.length-1,Math.floor(fpos));
+  const ib=Math.min(NOMI.length-1,ia+1), fmix=fpos-ia;
+  stato.fin=NOMI[Math.round(fpos)];
   fill.style.width=(k*100)+'%';dot.style.left=(k*100)+'%';
-  fase.textContent=FASI[Math.min(FASI.length-1,Math.floor(k*8.4))];
+  fase.textContent=kA<1?FASI[Math.min(FASI.length-1,Math.floor(kA*FASI.length))]
+                       :NOMI[Math.round(fpos)];
+  bottoni.forEach((b,i)=>b.classList.toggle('on',i===Math.round(fpos)));
   gl.viewport(0,0,cv.width,cv.height);
   gl.clearColor(.98,.98,.972,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);
-  // la camera si avvicina E ruota mentre il mobile si compone
-  const dist=2.90+(1-k)*1.85, cy=.40+(1-k)*.05;
-  const yaw=-1.24+k*0.78+yawUser, pitch=Math.max(-.10,Math.min(.85,.31-k*.15+pitchUser));
+  // la camera si avvicina e ruota mentre il mobile si compone, poi gira piano
+  const dist=2.90+(1-kA)*1.95, cy=.40+(1-kA)*.11;
+  const yaw=-1.24+kA*0.78+kF*0.30+yawUser;
+  const pitch=Math.max(-.10,Math.min(.85,.31-kA*.15+pitchUser));
   const eye=[Math.sin(yaw)*Math.cos(pitch)*dist, cy+Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist];
   const VP=mm(persp(38*Math.PI/180,cv.width/cv.height,.1,40),look(eye,[0,cy,0],[0,1,0]));
   gl.useProgram(pGround);gl.depthMask(false);gl.disable(gl.CULL_FACE);gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
   gl.uniformMatrix4fv(gl.getUniformLocation(pGround,'uVP'),false,new Float32Array(VP));
-  gl.uniform1f(gl.getUniformLocation(pGround,'uK'),k);
+  gl.uniform1f(gl.getUniformLocation(pGround,'uK'),kA);
   const aXZ=gl.getAttribLocation(pGround,'aXZ');
   gl.bindBuffer(gl.ARRAY_BUFFER,gBuf);gl.enableVertexAttribArray(aXZ);gl.vertexAttribPointer(aXZ,2,gl.FLOAT,false,0,0);
   gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
   gl.disable(gl.BLEND);gl.depthMask(true);gl.enable(gl.CULL_FACE);
   gl.useProgram(pMesh);
   const aP=gl.getAttribLocation(pMesh,'aPos'),aN=gl.getAttribLocation(pMesh,'aNor');
-  gl.uniformMatrix4fv(gl.getUniformLocation(pMesh,'uVP'),false,new Float32Array(VP));
-  const uOff=gl.getUniformLocation(pMesh,'uOff'),uCol=gl.getUniformLocation(pMesh,'uCol'),
-        uLegno=gl.getUniformLocation(pMesh,'uLegno'),uScalaTex=gl.getUniformLocation(pMesh,'uScalaTex'),
-        uSeed=gl.getUniformLocation(pMesh,'uSeed'),uTex=gl.getUniformLocation(pMesh,'uTex');
-  const fi=FIN[stato.fin];
-  if(fi.tex>=0){gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,TEX[fi.tex]);gl.uniform1i(uTex,0);}
-  gl.uniform1f(uScalaTex,1/(fi.mt||1));
-  const passo=.085,durata=1-passo*7;
+  const U=n=>gl.getUniformLocation(pMesh,n);
+  gl.uniformMatrix4fv(U('uVP'),false,new Float32Array(VP));
+  gl.uniform1f(U('uMix'),fmix);
+  gl.uniform1i(U('uTexA'),0);gl.uniform1i(U('uTexB'),1);
+  const passo=.105, durata=.26;
   PARTS.forEach(p=>{
     if(p.g==='marmo'&&!stato.marmo)return;
-    const t=ease(Math.max(0,Math.min(1,(k-p.rank*passo)/durata)));
-    gl.uniform3f(uOff,p.off[0]*(1-t),p.off[1]*(1-t),p.off[2]*(1-t));
-    const m=colore(p);
-    gl.uniform3f(uCol,m.c[0],m.c[1],m.c[2]);
-    gl.uniform1f(uLegno,m.legno);gl.uniform1f(uSeed,p.seed);
+    // due tempi: prima il laterale, poi l'ingresso sull'asse libero.
+    // le finestre dei pezzi finiscono in ordine di montaggio, cosi nessun pezzo
+    // raggiunge il suo posto prima che sia arrivato quello sotto.
+    const t=Math.max(0,Math.min(1,(kA-p.rank*passo)/durata));
+    const tl=ease(Math.max(0,Math.min(1,t/0.55)));
+    const tv=ease(Math.max(0,Math.min(1,(t-0.45)/0.55)));
+    const L=p.esp.lat, A=p.esp.app;
+    gl.uniform3f(U('uOff'),L[0]*(1-tl)+A[0]*(1-tv),L[1]*(1-tl)+A[1]*(1-tv),L[2]*(1-tl)+A[2]*(1-tv));
+    const mA=mat(p,NOMI[ia]), mB=mat(p,NOMI[ib]);
+    gl.uniform3f(U('uColA'),mA.c[0],mA.c[1],mA.c[2]);gl.uniform1f(U('uLegnoA'),mA.legno);gl.uniform1f(U('uScalaA'),1/mA.mt);
+    gl.uniform3f(U('uColB'),mB.c[0],mB.c[1],mB.c[2]);gl.uniform1f(U('uLegnoB'),mB.legno);gl.uniform1f(U('uScalaB'),1/mB.mt);
+    gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,TEX[mA.tex]);
+    gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,TEX[mB.tex]);
+    gl.uniform1f(U('uSeed'),p.seed);
     gl.bindBuffer(gl.ARRAY_BUFFER,p.vb);gl.enableVertexAttribArray(aP);gl.vertexAttribPointer(aP,3,gl.FLOAT,false,0,0);
     gl.bindBuffer(gl.ARRAY_BUFFER,p.nb);gl.enableVertexAttribArray(aN);gl.vertexAttribPointer(aN,3,gl.FLOAT,false,0,0);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,p.ib);gl.drawElements(gl.TRIANGLES,p.cnt,gl.UNSIGNED_SHORT,0);
@@ -226,11 +249,16 @@ cv.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,yawUser,pitchUse
 cv.addEventListener('pointermove',e=>{if(!drag)return;
   yawUser=drag[2]-(e.clientX-drag[0])*.006;
   pitchUser=Math.max(-.42,Math.min(.5,drag[3]+(e.clientY-drag[1])*.004));});
-const fin=document.getElementById('fin');
-Object.keys(FIN).forEach(k=>{const c=FIN[k].sw;const b=document.createElement('button');
-  b.className='opt'+(k===stato.fin?' on':'');
+const fin=document.getElementById('fin'), bottoni=[];
+NOMI.forEach((k,i)=>{
+  const c=FIN[k].sw, b=document.createElement('button');
+  b.className='opt';
   b.innerHTML='<span class="sw" style="background:rgb('+c.map(v=>Math.round(v*255)).join(',')+')"></span>'+k;
-  b.onclick=()=>{stato.fin=k;[...fin.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');};fin.appendChild(b);});
+  // anche qui il clic non e un comando parallelo: porta lo scroll dove c'e quell'essenza,
+  // cosi il tasto acceso e il punto della pagina non possono mai discordare
+  b.onclick=()=>{const q=QF[0]+(i/(NOMI.length-1))*(QF[1]-QF[0]);
+    scrollTo({top:cima()+q*(wrap.offsetHeight-innerHeight),behavior:'smooth'});};
+  bottoni.push(b);fin.appendChild(b);});
 const piano=document.getElementById('piano');
 [['con lastra in marmo',true],['solo top in legno',false]].forEach(([lab,v])=>{
   const b=document.createElement('button');b.className='opt'+(v===stato.marmo?' on':'');b.textContent=lab;
