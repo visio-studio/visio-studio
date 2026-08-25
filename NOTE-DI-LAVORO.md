@@ -55,11 +55,23 @@ il ripiego documentato da Netlify e funziona; **se un domani il sito smettesse
 di rispondere sul dominio senza motivo apparente, la prima cosa da verificare è
 se Netlify ha cambiato quell'IP** — e in quel caso conviene passare ad ALIAS.
 
-**Da verificare quando la propagazione sarà completa:** che `visiorender.it`
-serva il sito e non più la pagina Aruba (server Microsoft-IIS = ancora vecchio),
-e che Netlify abbia emesso il certificato HTTPS. Aruba applica le modifiche alla
-zona con un ritardo proprio: il pannello mostra subito i valori nuovi mentre i
-nameserver possono servire i vecchi ancora per qualche ora.
+**Propagazione completata il 25 agosto 2026.** I nameserver autoritativi Aruba
+(`dns.technorail.com`) e i resolver pubblici (8.8.8.8, 1.1.1.1) rispondono
+`75.2.60.5`, `www` punta a `visiorender.netlify.app`, gli MX sono intatti. Il
+sito risponde in HTTP.
+
+**Resta da fare: il certificato HTTPS.** Netlify non l'ha ancora emesso, quindi
+`https://visiorender.it` non risponde (errore SSL, `curl` esce con codice 60).
+Va sbloccato dal pannello Netlify → Domain management → HTTPS → *Verify DNS
+configuration* e poi *Provision certificate*. Di solito parte da solo entro
+un'ora dalla propagazione; se non parte, il pulsante lo forza.
+
+Attenzione a una trappola nel diagnosticare: **il resolver di macOS tiene in
+cache il vecchio IP Aruba** (`62.149.128.40`, server Microsoft-IIS) molto più a
+lungo dei resolver pubblici. Se `curl` mostra ancora la pagina Aruba mentre
+`dig` dice `75.2.60.5`, non è un problema di DNS: è la cache locale. Confrontare
+sempre `dscacheutil -q host -a name visiorender.it` con `dig @8.8.8.8`, e
+provare il sito con `curl --resolve visiorender.it:443:75.2.60.5`.
 
 **Posta: attiva.** Il servizio è provvisionato e l'account amministratore
 `postmaster@visiorender.it` esiste con password impostata (pannello Aruba →
