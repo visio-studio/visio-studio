@@ -3042,9 +3042,13 @@ setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.co
   const rnd=(a,b)=>a+Math.random()*(b-a);
 
   // ── geometria della stanza rilevata (metri)
-  const RW=7.2, RD=5.4, RH=2.9, HW=RW/2, HD=RD/2;
-  const win={x0:-1.25,x1:1.25,y0:.92,y1:2.32};   // finestra su parete z=-HD
-  const door={x0:1.5,x1:2.45,y1:2.1};            // porta su parete z=+HD
+  // Ricalca il soggiorno del render: parete TV in travertino con nicchia e
+  // consolle sospesa, vetrata a tutta altezza verso terrazza e piscina,
+  // apertura sulla zona pranzo sul fondo, soffitto in doghe di legno.
+  const RW=9.0, RD=6.2, RH=3.0, HW=RW/2, HD=RD/2;
+  const vetrata={y0:.02,y1:RH-.06};                  // parete x=+HW quasi tutta vetro
+  const pranzo={x0:-1.4,x1:2.6,y1:RH-.10};           // apertura sul fondo (z=-HD)
+  const nicchia={x0:-1.9,x1:1.5,y0:1.02,y1:2.36};    // nicchia TV sulla parete x=-HW
   const P=[];
   const add=(x,y,z,t)=>P.push({x:x,y:y,z:z,t:t});
   function box(x0,x1,y0,y1,z0,z1,n,t){
@@ -3057,28 +3061,51 @@ setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.co
       else add(x1,rnd(y0,y1),rnd(z0,z1),t);
     }
   }
-  for(let i=0;i<2100;i++) add(rnd(-HW,HW),rnd(-.006,.006),rnd(-HD,HD),'s');       // pavimento
-  for(let i=0;i<900;i++)  add(rnd(-HW,HW),RH+rnd(-.006,.006),rnd(-HD,HD),'s');    // soffitto
-  for(let i=0;i<820;i++)  add(-HW+rnd(-.005,.005),rnd(0,RH),rnd(-HD,HD),'s');     // parete sx
-  for(let i=0;i<820;i++)  add(HW+rnd(-.005,.005),rnd(0,RH),rnd(-HD,HD),'s');      // parete dx
-  for(let i=0;i<1000;i++){                                                         // parete finestra
+  // involucro
+  for(let i=0;i<2600;i++) add(rnd(-HW,HW),rnd(-.006,.006),rnd(-HD,HD),'s');        // pavimento in pietra
+  for(let i=0;i<1500;i++){                                                          // soffitto a doghe
+    const x=rnd(-HW,HW);
+    add(x,RH+rnd(-.004,.004)-(Math.abs((x%.34))<.02?.02:0),rnd(-HD,HD),'s');
+  }
+  for(let i=0;i<1150;i++){                                                          // parete TV, con nicchia rientrante
+    const z=rnd(-HD,HD), y=rnd(0,RH);
+    const dentro = z>nicchia.x0 && z<nicchia.x1 && y>nicchia.y0 && y<nicchia.y1;
+    add(-HW+(dentro?.16:0)+rnd(-.005,.005),y,z,'s');
+  }
+  for(let i=0;i<420;i++){                                                           // spalle della nicchia
+    const y=rnd(nicchia.y0,nicchia.y1);
+    add(-HW+rnd(0,.16),y,Math.random()<.5?nicchia.x0:nicchia.x1,'s');
+  }
+  for(let i=0;i<900;i++){                                                           // parete di fondo, con apertura sul pranzo
     const x=rnd(-HW,HW), y=rnd(0,RH);
-    if(x>win.x0&&x<win.x1&&y>win.y0&&y<win.y1) continue;
+    if(x>pranzo.x0&&x<pranzo.x1&&y<pranzo.y1) continue;
     add(x,y,-HD+rnd(-.005,.005),'s');
   }
-  for(let i=0;i<1000;i++){                                                         // parete porta
-    const x=rnd(-HW,HW), y=rnd(0,RH);
-    if(x>door.x0&&x<door.x1&&y<door.y1) continue;
-    add(x,y,HD+rnd(-.005,.005),'s');
+  for(let i=0;i<760;i++) add(rnd(-HW,HW),rnd(0,RH),HD+rnd(-.005,.005),'s');         // parete verso ingresso
+  // vetrata: il laser la attraversa in parte, restituisce pochi punti sul vetro
+  for(let i=0;i<560;i++) add(HW+rnd(-.012,.012),rnd(vetrata.y0,vetrata.y1),rnd(-HD,HD),'g');
+  for(let i=0;i<240;i++){                                                           // montanti verticali della vetrata
+    const zm=[-2.05,.35,2.75][(Math.random()*3)|0];
+    add(HW+rnd(-.02,.02),rnd(0,RH),zm+rnd(-.035,.035),'s');
   }
-  for(let i=0;i<300;i++) add(rnd(win.x0,win.x1),rnd(win.y0,win.y1),-HD+rnd(-.01,.01),'g');  // vetro
-  box(-2.9,-0.5,0,.44,1.05,1.95,420,'o');       // divano seduta
-  box(-2.9,-0.5,.44,.86,1.62,1.95,220,'o');     // schienale
-  box(0.35,1.75,.40,.44,-.55,.45,200,'o');      // tavolino piano
-  box(0.95,1.15,0,.40,-.12,.08,60,'o');         // gambo
-  box(2.55,3.45,0,.80,-1.70,.55,340,'o');       // credenza
-  box(-3.5,-2.4,0,1.85,-2.6,-2.25,140,'o');     // libreria bassa
-  for(let i=0;i<120;i++){ const a=rnd(0,6.28),r=rnd(0,.42); add(2.9+Math.cos(a)*r,rnd(.75,1.65),-2.1+Math.sin(a)*r,'o'); } // pianta
+  for(let i=0;i<300;i++) add(rnd(pranzo.x0,pranzo.x1),rnd(.02,pranzo.y1),-HD+rnd(-.012,.012),'g'); // vetro sul fondo
+
+  // arredo del soggiorno
+  box(-1.15,3.05,0,.42,.35,2.15,760,'o');       // divano angolare, seduta
+  box(-1.15,3.05,.42,.80,1.72,2.15,380,'o');    // schienale lungo
+  box(2.55,3.05,.42,.80,.35,2.15,190,'o');      // ritorno del bracciolo
+  box(-1.15,1.35,0,.40,-1.35,-.05,330,'o');     // chaise longue / pouf
+  box(-.35,1.15,.36,.42,.55,1.35,240,'o');      // tavolino basso
+  box(-HW+.16,-HW+.62,.34,.52,-1.9,1.5,420,'o');// consolle sospesa in marmo
+  box(-HW+.17,-HW+.20,1.18,2.20,-1.25,.85,260,'o'); // schermo TV nella nicchia
+  box(-1.1,1.9,0,.012,-.6,1.9,300,'o');         // tappeto
+  // oltre la vetrata: terrazza e lettini, colpiti di striscio dal laser
+  for(let i=0;i<260;i++) add(HW+rnd(.05,2.6),rnd(-.02,.02),rnd(-HD,HD),'o');
+  box(HW+.9,HW+2.3,.18,.52,-1.6,-.55,150,'o');  // lettino
+  for(let i=0;i<150;i++){ const a=rnd(0,6.28),r=rnd(0,.55); add(HW+1.5+Math.cos(a)*r,rnd(1.5,2.6),1.9+Math.sin(a)*r,'o'); } // ulivo
+  // zona pranzo intravista sul fondo
+  box(-.9,1.6,.70,.76,-HD-1.5,-HD-.4,220,'o');  // tavolo da pranzo
+  for(let s=0;s<4;s++) box(-.75+s*.62,-.45+s*.62,0,.85,-HD-1.15,-HD-.85,60,'o');   // sedie
 
   // azimut di ogni punto rispetto allo scanner (al centro): guida la scansione
   for(let i=0;i<P.length;i++) P[i].az=(Math.atan2(P[i].z,P[i].x)+Math.PI)/(Math.PI*2);
@@ -3086,9 +3113,9 @@ setTimeout(()=>{ document.querySelectorAll('.rc-photo').forEach(img=>{ if(img.co
 
   // ── misure cliccabili
   const MEAS=[
-    {a:[-HW,1.05,-1.35],b:[HW,1.05,-1.35],v:'7,20 m',n:'Larghezza interna'},
-    {a:[2.15,0,1.75],b:[2.15,RH,1.75],v:'2,90 m',n:'Altezza utile'},
-    {a:[win.x0,win.y1+.03,-HD],b:[win.x1,win.y1+.03,-HD],v:'2,50 m',n:'Luce finestra'},
+    {a:[-HW,1.05,-2.2],b:[HW,1.05,-2.2],v:'9,00 m',n:'Larghezza interna'},
+    {a:[3.6,0,2.6],b:[3.6,RH,2.6],v:'3,00 m',n:'Altezza utile'},
+    {a:[HW,RH-.02,-HD],b:[HW,RH-.02,HD],v:'6,20 m',n:'Luce vetrata'},
   ];
   MEAS.forEach(m=>{ m.on=false; m.mid=[(m.a[0]+m.b[0])/2,(m.a[1]+m.b[1])/2,(m.a[2]+m.b[2])/2]; });
 
