@@ -61,12 +61,18 @@ e che Netlify abbia emesso il certificato HTTPS. Aruba applica le modifiche alla
 zona con un ritardo proprio: il pannello mostra subito i valori nuovi mentre i
 nameserver possono servire i vecchi ancora per qualche ora.
 
-**Casella email ancora da creare:** nella dashboard Aruba, alla voce Posta,
-compare "Crea caselle email" — segno che nessuna casella è stata creata. I
-parametri per il client sono `imaps.aruba.it` 993 SSL e `smtps.aruba.it` 465
-SSL, nome utente = indirizzo completo. Verificare se IMAP è incluso nel
-pacchetto o va attivato a parte (su Aruba è un servizio aggiuntivo, e senza si
-ha solo POP3, inadatto a chi lavora da più computer).
+**Posta: attiva.** Il servizio è provvisionato e l'account amministratore
+`postmaster@visiorender.it` esiste con password impostata (pannello Aruba →
+Servizi di posta → Caselle di posta). Da lì, con il pulsante *Gestisci caselle*,
+si creano e configurano gli indirizzi del dominio: quel passaggio richiede le
+credenziali del postmaster, quindi lo fa Matteo.
+
+Parametri per il client: `imaps.aruba.it` 993 SSL in arrivo, `smtps.aruba.it`
+465 SSL in uscita, nome utente = **indirizzo email completo** (l'errore più
+comune è metterci solo la parte prima della chiocciola). Se il client dà errore
+di autenticazione con parametri giusti, verificare che **IMAP sia attivo**: su
+Aruba è un servizio aggiuntivo, e senza si ha solo POP3 — inadatto a chi lavora
+da più computer, perché i messaggi scaricati spariscono dagli altri dispositivi.
 
 
 ### Listino interno collegato al form preventivi
