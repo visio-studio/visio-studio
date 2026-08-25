@@ -29,28 +29,45 @@ gratuito (300/mese, ciclo 14 luglio → 13 agosto) erano esauriti.
   intestazioni di sicurezza. Le altre immagini restano sulla riconvalida
   predefinita, così una foto ricompressa si aggiorna al primo deploy.
 
-### Dominio visiorender.it — completare il collegamento
-Comprato su Aruba l'8 agosto (11:25) insieme alla casella email. Al momento è
-in stato `inactive / dnsHold`: registrato ma non ancora attivo, e infatti non
-compare nel pannello Aruba. Di norma si sblocca entro 24 ore.
+### Dominio visiorender.it — collegato il 25 agosto 2026
+Comprato su Aruba l'8 agosto insieme alla casella email. Dominio **attivo**
+(`Status: ok`, scadenza 2027-08-08), posta configurata (`MX: mx.visiorender.it`).
 
-Su Netlify **è già aggiunto** (`visiorender.it` come dominio principale,
-`www.visiorender.it` che reindirizza), in attesa di verifica DNS.
-
-Quando compare nel pannello Aruba, impostare:
+**Record impostati** nel pannello Aruba (Dominio → Gestione DNS e Name Server,
+che apre `dns-panel.aruba.it`):
 
 | Tipo  | Nome | Valore                    |
 |-------|------|---------------------------|
-| A     | `@`  | `75.2.60.5`               |
-| CNAME | `www`| `visiorender.netlify.app` |
+| A     | `@`  | `75.2.60.5` (era 62.149.128.40, parcheggio Aruba) |
+| CNAME | `www`| `visiorender.netlify.app` (era visiorender.it)    |
 
-**Non toccare i record MX**: lì vive la posta. Aruba non supporta i record
-ALIAS, quindi si usa l'A record (è l'opzione di ripiego indicata da Netlify).
+Su Netlify il dominio era già stato aggiunto l'8 agosto (`visiorender.it`
+principale, `www` che reindirizza).
 
-Verificare anche se **IMAP è incluso** nel pacchetto o va attivato a parte: su
-Aruba è un servizio aggiuntivo, e senza si ha solo POP3 — inadatto a chi lavora
-da più computer. Parametri: `imaps.aruba.it` 993 SSL, `smtps.aruba.it` 465 SSL,
-nome utente = indirizzo completo.
+**I record MX non sono stati toccati.** Nel pannello Aruba i record `mail` e
+`mx` sono protetti (*Nessuna operazione*) e gli MX stanno in una scheda
+separata: la posta non rischia nulla modificando A e CNAME.
+
+**Correzione a una nota precedente: Aruba supporta i record ALIAS.** Netlify li
+preferisce all'A record (`ALIAS @ → apex-loadbalancer.netlify.com`) perché
+seguono automaticamente eventuali cambi di IP. Abbiamo usato l'A record, che è
+il ripiego documentato da Netlify e funziona; **se un domani il sito smettesse
+di rispondere sul dominio senza motivo apparente, la prima cosa da verificare è
+se Netlify ha cambiato quell'IP** — e in quel caso conviene passare ad ALIAS.
+
+**Da verificare quando la propagazione sarà completa:** che `visiorender.it`
+serva il sito e non più la pagina Aruba (server Microsoft-IIS = ancora vecchio),
+e che Netlify abbia emesso il certificato HTTPS. Aruba applica le modifiche alla
+zona con un ritardo proprio: il pannello mostra subito i valori nuovi mentre i
+nameserver possono servire i vecchi ancora per qualche ora.
+
+**Casella email ancora da creare:** nella dashboard Aruba, alla voce Posta,
+compare "Crea caselle email" — segno che nessuna casella è stata creata. I
+parametri per il client sono `imaps.aruba.it` 993 SSL e `smtps.aruba.it` 465
+SSL, nome utente = indirizzo completo. Verificare se IMAP è incluso nel
+pacchetto o va attivato a parte (su Aruba è un servizio aggiuntivo, e senza si
+ha solo POP3, inadatto a chi lavora da più computer).
+
 
 ### Listino interno collegato al form preventivi
 Richiesta esplicita di Matteo, da sviluppare insieme: un listino **non
