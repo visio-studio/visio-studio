@@ -1,94 +1,134 @@
 <!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>prova madia 3D</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#C9A96E;--light:#FAFAF8;--text:#1A1A18;--muted:#8A8A82;--border:rgba(26,26,24,.14)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--light);color:var(--text);font-family:'Inter',sans-serif;padding:26px}
-h1{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;margin-bottom:4px}
-.sub{font-size:11px;color:var(--muted);margin-bottom:18px}
-#stage{position:relative;width:100%;max-width:1000px;aspect-ratio:16/10;margin:0 auto}
-#cv{width:100%;height:100%;display:block;cursor:grab}
+body{background:var(--light);color:var(--text);font-family:'Inter',sans-serif}
+#md-wrap{position:relative;height:420vh}
+#md-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+#md-head{position:absolute;top:0;left:0;right:0;padding:46px 48px 0;text-align:center;z-index:3;pointer-events:none}
+.slabel{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+#md-head h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.2vw,42px);font-weight:300;line-height:1.1}
+#md-head h2 em{font-style:italic;color:var(--gold)}
+#cv{position:absolute;inset:0;width:100%;height:100%;cursor:grab}
 #cv:active{cursor:grabbing}
-.panel{max-width:1000px;margin:22px auto 0;display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start}
-.grp{flex:1;min-width:210px}
-.lab{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-.opts{display:flex;gap:8px;flex-wrap:wrap}
-.opt{display:flex;align-items:center;gap:7px;border:.5px solid var(--border);background:none;padding:7px 12px;font:inherit;font-size:10.5px;color:var(--text);cursor:pointer;transition:border-color .25s,background .25s}
+#md-ui{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:0 48px 30px}
+#md-fase{text-align:center;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);height:14px;margin-bottom:14px}
+#md-bar{position:relative;height:26px;cursor:ew-resize;touch-action:none}
+#md-bar::before{content:'';position:absolute;top:12.5px;left:0;right:0;height:1px;background:var(--border)}
+#md-fill{position:absolute;top:12.5px;left:0;height:1px;background:var(--gold);width:0}
+#md-dot{position:absolute;top:50%;left:0;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-radius:50%;background:var(--light);border:1px solid var(--gold);box-shadow:0 2px 10px rgba(20,15,5,.2)}
+#md-hint{text-align:center;font-size:8.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-top:12px}
+#md-cfg{display:flex;gap:34px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.grp{text-align:center}
+.lab{font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:9px}
+.opts{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.opt{display:flex;align-items:center;gap:6px;border:.5px solid var(--border);background:rgba(250,250,248,.7);padding:6px 11px;font:inherit;font-size:10px;color:var(--text);cursor:pointer;transition:border-color .25s,background .25s}
 .opt:hover{border-color:var(--gold)}
-.opt.on{border-color:var(--gold);background:rgba(201,169,110,.1)}
-.sw{width:13px;height:13px;border-radius:50%;border:.5px solid rgba(0,0,0,.18)}
-input[type=range]{width:100%;accent-color:var(--gold)}
-.val{font-size:10px;color:var(--muted);margin-top:6px}
+.opt.on{border-color:var(--gold);background:rgba(201,169,110,.12)}
+.sw{width:12px;height:12px;border-radius:50%;border:.5px solid rgba(0,0,0,.16)}
+@media(max-width:900px){#md-ui{padding:0 18px 22px}#md-head{padding:64px 20px 0}#md-cfg{gap:18px}}
 </style>
-<h1>Madia — prova modello 3D</h1>
-<p class="sub">2,04 × 0,77 × 0,54 m · 15 pezzi · nessuna libreria esterna · trascina per ruotare</p>
-<div id="stage"><canvas id="cv"></canvas></div>
-<div class="panel">
-  <div class="grp" style="flex:2">
-    <p class="lab">Montaggio</p>
-    <input type="range" id="asm" min="0" max="100" value="100">
-    <p class="val" id="asmv">montato</p>
+<div id="md-wrap"><div id="md-sticky">
+  <canvas id="cv"></canvas>
+  <div id="md-head"><p class="slabel">Arredo su misura</p><h2>Dal disegno <em>al mobile</em>.</h2></div>
+  <div id="md-ui">
+    <p id="md-fase"></p>
+    <div id="md-bar"><div id="md-fill"></div><div id="md-dot"></div></div>
+    <p id="md-hint">Scorri, oppure trascina il cursore</p>
+    <div id="md-cfg">
+      <div class="grp"><p class="lab">Finitura</p><div class="opts" id="fin"></div></div>
+      <div class="grp"><p class="lab">Piano</p><div class="opts" id="piano"></div></div>
+    </div>
   </div>
-  <div class="grp">
-    <p class="lab">Finitura</p>
-    <div class="opts" id="fin"></div>
-  </div>
-  <div class="grp">
-    <p class="lab">Piano</p>
-    <div class="opts" id="top"></div>
-  </div>
-</div>
+</div></div>
 <script>
+// finiture: legno = venatura procedurale, laccato = tinta piena
 const FIN={
- 'rovere chiaro':{corpo:[.78,.64,.46],anta:[.80,.66,.48],int:[.86,.78,.66]},
- 'noce':         {corpo:[.40,.27,.18],anta:[.43,.29,.19],int:[.55,.42,.31]},
- 'salvia':       {corpo:[.53,.60,.51],anta:[.55,.62,.53],int:[.72,.76,.70]},
- 'antracite':    {corpo:[.20,.21,.22],anta:[.22,.23,.24],int:[.34,.35,.36]}};
-const MARMO=[.93,.92,.89], BASE=[.16,.16,.17];
-let stato={fin:'rovere chiaro',marmo:true,asm:1};
+ 'rovere chiaro':{tex:0,sw:[.80,.66,.45],tint:[1.00,1.00,1.00],tintInt:[1.12,1.09,1.04],mt:0.72},
+ 'noce':         {tex:1,sw:[.42,.28,.18],tint:[1.00,1.00,1.00],tintInt:[1.16,1.11,1.05],mt:0.66},
+ 'salvia':       {tex:-1,sw:[.520,.588,.498],c:[.520,.588,.498],cInt:[.70,.745,.685]},
+ 'antracite':    {tex:-1,sw:[.190,.200,.212],c:[.190,.200,.212],cInt:[.32,.33,.34]}};
+const MARMO=[.925,.915,.892], BASE=[.145,.145,.152];
+let stato={fin:'rovere chiaro',marmo:true,asm:0};
 
-const cv=document.getElementById('cv');
+const cv=document.getElementById('cv'), wrap=document.getElementById('md-wrap');
 const gl=cv.getContext('webgl',{antialias:true,alpha:false});
-const P=(t,s)=>{const sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);
-  if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(sh));return sh;};
-function prog(v,f){const p=gl.createProgram();gl.attachShader(p,P(gl.VERTEX_SHADER,v));gl.attachShader(p,P(gl.FRAGMENT_SHADER,f));gl.linkProgram(p);return p;}
+function sh(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);
+  if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(x));return x;}
+function prog(v,f){const p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,v));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,f));gl.linkProgram(p);
+  if(!gl.getProgramParameter(p,gl.LINK_STATUS))console.error(gl.getProgramInfoLog(p));return p;}
 
 const pMesh=prog(
 `attribute vec3 aPos;attribute vec3 aNor;uniform mat4 uVP;uniform vec3 uOff;
- varying vec3 vN;void main(){vN=aNor;gl_Position=uVP*vec4(aPos+uOff,1.0);}`,
-`precision mediump float;varying vec3 vN;uniform vec3 uCol;
- void main(){vec3 n=normalize(vN);vec3 L=normalize(vec3(-.42,.86,.48));
- float d=max(dot(n,L),0.0);float d2=max(dot(n,normalize(vec3(.7,.35,.6))),0.0);
- float amb=.40+.16*max(n.y,0.0);
- vec3 c=uCol*(amb+d*.62+d2*.16);
- c+=uCol*pow(max(n.y,0.0),4.0)*.10;
- gl_FragColor=vec4(pow(c,vec3(.92)),1.0);}`);
+ varying vec3 vN;varying vec3 vW;
+ void main(){vN=aNor;vW=aPos;gl_Position=uVP*vec4(aPos+uOff,1.0);}`,
+`precision highp float;
+ varying vec3 vN;varying vec3 vW;
+ uniform vec3 uCol;uniform float uLegno;uniform float uScalaTex;uniform float uSeed;
+ uniform sampler2D uTex;
+ void main(){
+  vec3 n=normalize(vN);
+  vec3 col=uCol;
+  if(uLegno>0.5){
+   // proiezione sui tre assi: il modello non ha coordinate UV, le ricavo dalla posizione.
+   // la venatura della texture e verticale, quindi la seconda componente segue
+   // la direzione in cui deve correre il legno su ogni faccia
+   vec3 an=abs(n);
+   vec2 uv;
+   if(an.y>max(an.x,an.z))      uv=vec2(vW.z,vW.x);   // top e ripiani: venatura in lunghezza
+   else if(an.x>an.z)           uv=vec2(vW.z,vW.y);   // fianchi
+   else                         uv=vec2(vW.x,vW.y);   // fronti e ante
+   uv=uv*uScalaTex+vec2(uSeed*0.31,uSeed*0.17);
+   col=texture2D(uTex,uv).rgb*uCol;
+  }
+  vec3 L=normalize(vec3(-0.42,0.86,0.48));
+  float d=max(dot(n,L),0.0);
+  float d2=max(dot(n,normalize(vec3(0.72,0.34,0.60))),0.0);
+  float amb=0.44+0.16*max(n.y,0.0);
+  vec3 c=col*(amb+d*0.56+d2*0.15);
+  c+=col*pow(max(n.y,0.0),4.0)*0.09;
+  gl_FragColor=vec4(pow(c,vec3(0.94)),1.0);}`);
+
 const pGround=prog(
 `attribute vec2 aXZ;uniform mat4 uVP;varying vec2 vP;
  void main(){vP=aXZ;gl_Position=uVP*vec4(aXZ.x,0.0,aXZ.y,1.0);}`,
 `precision mediump float;varying vec2 vP;uniform float uK;
- void main(){
-  vec2 q=abs(vP)-vec2(1.02,0.27);                  // impronta reale del mobile
+ void main(){vec2 q=abs(vP)-vec2(1.02,0.27);
   float d=length(max(q,0.0))+min(max(q.x,q.y),0.0);
-  float sfuma=0.30+(1.0-uK)*0.55;                  // piu morbida quando e smontato
-  float s=(1.0-smoothstep(-0.03,sfuma,d))*(0.09+0.26*uK);
-  gl_FragColor=vec4(.05,.045,.04,s);}`);
+  float sf=0.30+(1.0-uK)*0.55;
+  float s=(1.0-smoothstep(-0.03,sf,d))*(0.09+0.26*uK);
+  gl_FragColor=vec4(0.05,0.045,0.04,s);}`);
 
-function persp(f,a,n,fa){const t=1/Math.tan(f/2);return [t/a,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,2*fa*n/(n-fa),0];}
-function look(e,c,u){
-  const z=[e[0]-c[0],e[1]-c[1],e[2]-c[2]];let l=Math.hypot(...z);z.forEach((v,i)=>z[i]=v/l);
-  const x=[u[1]*z[2]-u[2]*z[1],u[2]*z[0]-u[0]*z[2],u[0]*z[1]-u[1]*z[0]];l=Math.hypot(...x)||1;x.forEach((v,i)=>x[i]=v/l);
-  const y=[z[1]*x[2]-z[2]*x[1],z[2]*x[0]-z[0]*x[2],z[0]*x[1]-z[1]*x[0]];
-  return [x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
-    -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]), -(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]), -(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]), 1];}
+function persp(f,a,n,fa){const t=1/Math.tan(f/2);return[t/a,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,2*fa*n/(n-fa),0];}
+function look(e,c,u){const z=[e[0]-c[0],e[1]-c[1],e[2]-c[2]];let l=Math.hypot(z[0],z[1],z[2]);z.forEach((v,i)=>z[i]=v/l);
+ const x=[u[1]*z[2]-u[2]*z[1],u[2]*z[0]-u[0]*z[2],u[0]*z[1]-u[1]*z[0]];l=Math.hypot(x[0],x[1],x[2])||1;x.forEach((v,i)=>x[i]=v/l);
+ const y=[z[1]*x[2]-z[2]*x[1],z[2]*x[0]-z[0]*x[2],z[0]*x[1]-z[1]*x[0]];
+ return[x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
+  -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]),-(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]),-(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]),1];}
 function mm(a,b){const r=new Array(16);for(let i=0;i<4;i++)for(let j=0;j<4;j++)
-  r[i*4+j]=a[0*4+j]*b[i*4+0]+a[1*4+j]*b[i*4+1]+a[2*4+j]*b[i*4+2]+a[3*4+j]*b[i*4+3];return r;}
+ r[i*4+j]=a[0*4+j]*b[i*4+0]+a[1*4+j]*b[i*4+1]+a[2*4+j]*b[i*4+2]+a[3*4+j]*b[i*4+3];return r;}
 
-let PARTS=[], gBuf, yaw=-0.60, pitch=0.20;
+let PARTS=[],gBuf,yawUser=0,pitchUser=0;
+const TEX=[];
+['img/essenza-rovere.jpg','img/essenza-noce.jpg'].forEach((src,i)=>{
+  const t=gl.createTexture(), im=new Image();
+  im.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,t);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,im);
+    // ripetizione specchiata: nasconde la giunzione senza dover rendere la texture continua
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.MIRRORED_REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.MIRRORED_REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    gl.generateMipmap(gl.TEXTURE_2D);};
+  im.src=src; TEX[i]=t;});
+// i piedi salgono da sotto e si fermano; il fondo scende DALL'ALTO e si posa sopra:
+// prima si intersecavano perche arrivavano tutti e due da sotto
 function esploso(n,cx){
-  if(n.indexOf('pied')>=0)   return [0,-.52,0];
-  if(n==='fondo')            return [0,-.38,0];
+  if(n.indexOf('pied')>=0)   return [0,-.34,0];
+  if(n==='fondo')            return [0, .34,0];
   if(n.indexOf('fianco')>=0) return [cx*.58,0,0];
   if(n.indexOf('schiena')>=0)return [0,0,-.60];
   if(n.indexOf('mensola')>=0)return [cx*.50,.30,.18];
@@ -99,78 +139,102 @@ function esploso(n,cx){
 }
 const RANK=n=>n.indexOf('pied')>=0?0:n==='fondo'?1:n.indexOf('fianco')>=0?2:
   n.indexOf('schiena')>=0?3:n.indexOf('mensola')>=0?4:n==='top legno'?5:n.indexOf('marmo')>=0?6:7;
+const FASI=['I piedi a terra','Il fondo si posa','I fianchi in squadra','Lo schienale chiude',
+  'Le mensole a quota','Il top in rovere','La lastra in marmo','Le ante in battuta','Montata'];
 
 fetch('madia-3d.json').then(r=>r.json()).then(d=>{
   d.parts.forEach(p=>{
     const vb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(p.v),gl.STATIC_DRAW);
     const nb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,nb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(p.nr),gl.STATIC_DRAW);
     const ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ib);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(p.i),gl.STATIC_DRAW);
-    PARTS.push({n:p.n,g:p.g,cx:p.cx,vb,nb,ib,cnt:p.i.length,off:esploso(p.n,p.cx),rank:RANK(p.n)});
+    PARTS.push({n:p.n,g:p.g,cx:p.cx,vb,nb,ib,cnt:p.i.length,off:esploso(p.n,p.cx),rank:RANK(p.n),seed:(p.cx*3.7+RANK(p.n))%2.3});
   });
   gBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,gBuf);
   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-3,-3, 3,-3, -3,3, 3,3]),gl.STATIC_DRAW);
   resize();
 });
-
 function colore(p){
   const f=FIN[stato.fin];
-  if(p.g==='marmo') return MARMO;
-  if(p.g==='base')  return BASE;
-  if(p.g==='anta')  return f.anta;
-  if(p.n.indexOf('mensola')>=0||p.n.indexOf('schiena')>=0) return f.int;
-  return f.corpo;
+  const interno=(p.n.indexOf('mensola')>=0||p.n.indexOf('schiena')>=0);
+  if(p.g==='marmo')return{c:MARMO,legno:0};
+  if(p.g==='base') return{c:BASE,legno:0};
+  if(f.tex<0)      return{c:interno?f.cInt:f.c,legno:0};
+  return{c:interno?f.tintInt:f.tint,legno:1};
 }
 const ease=t=>1-Math.pow(1-t,3);
 function resize(){const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
   cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);}
+const fill=document.getElementById('md-fill'),dot=document.getElementById('md-dot'),fase=document.getElementById('md-fase');
+function cima(){let y=0,e=wrap;while(e){y+=e.offsetTop;e=e.offsetParent;}return y;}
 function draw(){
   if(!PARTS.length)return;
+  const tot=wrap.offsetHeight-innerHeight;
+  stato.asm=Math.max(0,Math.min(1,-wrap.getBoundingClientRect().top/tot));
+  const k=stato.asm;
+  fill.style.width=(k*100)+'%';dot.style.left=(k*100)+'%';
+  fase.textContent=FASI[Math.min(FASI.length-1,Math.floor(k*8.4))];
   gl.viewport(0,0,cv.width,cv.height);
   gl.clearColor(.98,.98,.972,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);
-  const k=stato.asm, dist=2.95+(1-k)*1.30, cy=.40+(1-k)*.06;
+  // la camera si avvicina E ruota mentre il mobile si compone
+  const dist=2.90+(1-k)*1.85, cy=.40+(1-k)*.05;
+  const yaw=-1.24+k*0.78+yawUser, pitch=Math.max(-.10,Math.min(.85,.31-k*.15+pitchUser));
   const eye=[Math.sin(yaw)*Math.cos(pitch)*dist, cy+Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist];
   const VP=mm(persp(38*Math.PI/180,cv.width/cv.height,.1,40),look(eye,[0,cy,0],[0,1,0]));
-  // ombra a terra
-  gl.useProgram(pGround);gl.depthMask(false);gl.disable(gl.CULL_FACE);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+  gl.useProgram(pGround);gl.depthMask(false);gl.disable(gl.CULL_FACE);gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
   gl.uniformMatrix4fv(gl.getUniformLocation(pGround,'uVP'),false,new Float32Array(VP));
   gl.uniform1f(gl.getUniformLocation(pGround,'uK'),k);
   const aXZ=gl.getAttribLocation(pGround,'aXZ');
   gl.bindBuffer(gl.ARRAY_BUFFER,gBuf);gl.enableVertexAttribArray(aXZ);gl.vertexAttribPointer(aXZ,2,gl.FLOAT,false,0,0);
   gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
   gl.disable(gl.BLEND);gl.depthMask(true);gl.enable(gl.CULL_FACE);
-  // pezzi
   gl.useProgram(pMesh);
   const aP=gl.getAttribLocation(pMesh,'aPos'),aN=gl.getAttribLocation(pMesh,'aNor');
   gl.uniformMatrix4fv(gl.getUniformLocation(pMesh,'uVP'),false,new Float32Array(VP));
-  const uOff=gl.getUniformLocation(pMesh,'uOff'),uCol=gl.getUniformLocation(pMesh,'uCol');
-  const passo=.085, durata=1-passo*7;
+  const uOff=gl.getUniformLocation(pMesh,'uOff'),uCol=gl.getUniformLocation(pMesh,'uCol'),
+        uLegno=gl.getUniformLocation(pMesh,'uLegno'),uScalaTex=gl.getUniformLocation(pMesh,'uScalaTex'),
+        uSeed=gl.getUniformLocation(pMesh,'uSeed'),uTex=gl.getUniformLocation(pMesh,'uTex');
+  const fi=FIN[stato.fin];
+  if(fi.tex>=0){gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,TEX[fi.tex]);gl.uniform1i(uTex,0);}
+  gl.uniform1f(uScalaTex,1/(fi.mt||1));
+  const passo=.085,durata=1-passo*7;
   PARTS.forEach(p=>{
     if(p.g==='marmo'&&!stato.marmo)return;
-    const t=ease(Math.max(0,Math.min(1,(stato.asm-p.rank*passo)/durata)));
+    const t=ease(Math.max(0,Math.min(1,(k-p.rank*passo)/durata)));
     gl.uniform3f(uOff,p.off[0]*(1-t),p.off[1]*(1-t),p.off[2]*(1-t));
-    const c=colore(p);gl.uniform3f(uCol,c[0],c[1],c[2]);
+    const m=colore(p);
+    gl.uniform3f(uCol,m.c[0],m.c[1],m.c[2]);
+    gl.uniform1f(uLegno,m.legno);gl.uniform1f(uSeed,p.seed);
     gl.bindBuffer(gl.ARRAY_BUFFER,p.vb);gl.enableVertexAttribArray(aP);gl.vertexAttribPointer(aP,3,gl.FLOAT,false,0,0);
     gl.bindBuffer(gl.ARRAY_BUFFER,p.nb);gl.enableVertexAttribArray(aN);gl.vertexAttribPointer(aN,3,gl.FLOAT,false,0,0);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,p.ib);gl.drawElements(gl.TRIANGLES,p.cnt,gl.UNSIGNED_SHORT,0);
   });
 }
-// comandi
+// la barra non e un secondo comando: trascinandola si scorre la pagina,
+// cosi cursore e scroll non possono mai dire cose diverse
+const bar=document.getElementById('md-bar');
+let barDrag=false;
+function daBarra(cx){const r=bar.getBoundingClientRect();
+  const x=Math.max(0,Math.min(1,(cx-r.left)/r.width));
+  scrollTo(0,cima()+x*(wrap.offsetHeight-innerHeight));}
+bar.addEventListener('pointerdown',e=>{barDrag=true;daBarra(e.clientX);bar.setPointerCapture(e.pointerId);});
+bar.addEventListener('pointermove',e=>{if(barDrag)daBarra(e.clientX);});
+addEventListener('pointerup',()=>{barDrag=false;drag=null;});
+let drag=null;
+cv.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,yawUser,pitchUser];cv.setPointerCapture(e.pointerId);});
+cv.addEventListener('pointermove',e=>{if(!drag)return;
+  yawUser=drag[2]-(e.clientX-drag[0])*.006;
+  pitchUser=Math.max(-.42,Math.min(.5,drag[3]+(e.clientY-drag[1])*.004));});
 const fin=document.getElementById('fin');
-Object.keys(FIN).forEach(k=>{const c=FIN[k].corpo;const b=document.createElement('button');
-  b.className='opt'+(k===stato.fin?' on':'');b.innerHTML='<span class="sw" style="background:rgb('+c.map(v=>Math.round(v*255)).join(',')+')"></span>'+k;
+Object.keys(FIN).forEach(k=>{const c=FIN[k].sw;const b=document.createElement('button');
+  b.className='opt'+(k===stato.fin?' on':'');
+  b.innerHTML='<span class="sw" style="background:rgb('+c.map(v=>Math.round(v*255)).join(',')+')"></span>'+k;
   b.onclick=()=>{stato.fin=k;[...fin.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');};fin.appendChild(b);});
-const topSel=document.getElementById('top');
+const piano=document.getElementById('piano');
 [['con lastra in marmo',true],['solo top in legno',false]].forEach(([lab,v])=>{
   const b=document.createElement('button');b.className='opt'+(v===stato.marmo?' on':'');b.textContent=lab;
-  b.onclick=()=>{stato.marmo=v;[...topSel.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');};topSel.appendChild(b);});
-const asm=document.getElementById('asm'),asmv=document.getElementById('asmv');
-asm.oninput=()=>{stato.asm=asm.value/100;asmv.textContent=stato.asm<.02?'smontato':stato.asm>.98?'montato':'montaggio '+Math.round(stato.asm*100)+'%';};
-let drag=null;
-cv.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,yaw,pitch];cv.setPointerCapture(e.pointerId);});
-cv.addEventListener('pointermove',e=>{if(!drag)return;yaw=drag[2]-(e.clientX-drag[0])*.006;
-  pitch=Math.max(-.12,Math.min(.85,drag[3]+(e.clientY-drag[1])*.005));});
-addEventListener('pointerup',()=>drag=null);
-addEventListener('resize',()=>{resize();});
+  b.onclick=()=>{stato.marmo=v;[...piano.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');};piano.appendChild(b);});
+addEventListener('resize',resize);
 (function ciclo(){requestAnimationFrame(ciclo);draw();})();
 </script>

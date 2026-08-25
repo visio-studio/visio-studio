@@ -203,6 +203,44 @@ dà la **rotazione invertita** e porta a diagnosticare il lato sbagliato.
 
 ---
 
+### La madia in 3D (sostituisce il video a fotogrammi)
+
+Il mobile e un modello vero: `modelli/madia.glb` (32 KB, esportato da SimLab,
+2,04 x 0,77 x 0,54 m, 15 pezzi, gia con l'asse verticale giusto).
+`strumenti/glb-a-json.py` ne estrae la geometria in `madia-3d.json` (21 KB)
+applicando le trasformazioni dei nodi e ricentrando il mobile con la base a
+Y = 0. Se il modello viene riesportato, rigenerare con:
+
+    python3 strumenti/glb-a-json.py modelli/madia.glb madia-3d.json
+
+Il renderer e **WebGL scritto a mano**, come il tour 360: niente three.js,
+niente dipendenze. Prova completa in `_test-madia.html`. In tutto pesa 45 KB
+contro i 4,4 MB dei 96 fotogrammi che sostituisce.
+
+Tre inciampi gia pagati, da non ripetere:
+
+- **`smoothstep(a,b,x)` con `a > b` e comportamento indefinito in GLSL** e su
+  questa GPU produce NaN, che si vede come nero pieno. Per invertire una
+  rampa scrivere `1.0 - smoothstep(b,a,x)`, mai scambiare i bordi.
+- Un uniform impostato a **NaN** annerisce tutto il pezzo senza alcun errore in
+  console: gli shader compilano, il programma linka, e sembra un bug di
+  rendering. Se una superficie e nera, controllare prima i valori passati con
+  `gl.uniform*`.
+- Il piano dell'ombra a terra va disegnato con il **culling disattivato**,
+  altrimenti sparisce a seconda di come e avvolto il quad.
+
+Il modello **non ha maniglie**: l'opzione gola/pomello del vecchio
+configuratore non e ricreabile finche non vengono aggiunti i gruppi
+`maniglia-gola` e `maniglia-pomello`. Le tre ante si chiamano tutte
+`anta 1` e vengono distinte dalla posizione lungo X.
+
+Le essenze sono texture vere (`img/essenza-rovere.jpg`, `img/essenza-noce.jpg`,
+512x512 perche la ripetizione specchiata in WebGL 1 richiede potenze di due).
+Il modello non ha coordinate UV: si ricavano nello shader proiettando la
+posizione sui tre assi, scegliendo per ogni faccia il verso in cui deve correre
+la venatura. Salvia e antracite restano tinte piene: sono laccati, ed e giusto
+cosi.
+
 ## 4. Area riservata clienti
 
 Nel menu, sotto le voci numerate, c'è un blocco separato "Accedi al tuo sito":
