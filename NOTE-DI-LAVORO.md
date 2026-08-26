@@ -360,11 +360,22 @@ La parte grossa del prezzo la decidono i servizi scelti e il numero di viste.
 
 **I prezzi stanno tutti nel blocco `LISTINO` in cima al file**, insieme a
 `SCONTO`, `MINIMO` e `IVA_ESCLUSA`. I prezzi dei servizi sono quelli dati da
-Matteo il 26 agosto 2026 (`PREZZI_VERIFICATI = true`). Restano invece **decisi da
-noi e non ancora confermati** lo sconto, il minimo di progetto e l'IVA esclusa:
+Matteo il 26 agosto 2026 (`PREZZI_VERIFICATI = true`). L'IVA esclusa e confermata. Restano **decisi da noi e non ancora confermati**
+lo sconto e il minimo di progetto:
 finche `APERTI_CONFERMATI` e `false` la pagina mostra un avviso giallo che li
 elenca. Lo sconto in particolare finisce nero su bianco in pagina: e una promessa
 al cliente, non un dettaglio.
+
+**I pacchetti non sono la somma delle voci.** Ognuno porta in dote degli `extra`
+compresi (alta risoluzione, formati social, PDF impaginato, giri di revisione,
+archivio a fine lavori) che a listino non si comprano: e quello che li rende
+convenienti rispetto al configurare a mano, altrimenti sceglierli non darebbe
+alcun vantaggio al cliente. Gli extra crescono da Smart (3) a Chiavi in mano (7).
+
+Quando si parte da un pacchetto, `stato.pacchetto` se lo ricorda: gli extra
+compaiono nel riepilogo come "compreso" senza prezzo, e finiscono **nella bozza
+che ci arriva per email**, marcati *da onorare nel preventivo*. Se si aggiungono
+extra nuovi, ricordarsi che sono promesse contrattuali, non decorazione.
 
 Attenzione al **minimo di progetto**: deve restare sotto al pacchetto Smart
 (5 viste x 65 = 325), altrimenti la card mostra una cifra e il riepilogo un'altra.

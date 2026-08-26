@@ -80,7 +80,12 @@ a{color:inherit;text-decoration:none}
 .pk .pk-for{font-size:10.5px;color:var(--gold);letter-spacing:.6px;margin-bottom:18px}
 .pk ul{list-style:none;font-size:12px;color:var(--muted);line-height:2;flex:1}
 .pk li::before{content:'—';color:var(--gold);margin-right:8px}
-.pk .pk-pr{margin-top:20px;padding-top:16px;border-top:.5px solid var(--border);font-size:13px}
+.pk-extra{margin-top:16px;padding:14px 15px;border-radius:14px;background:rgba(201,169,110,.11);
+  border:.5px solid rgba(201,169,110,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.pk-extra-t{font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:#8a6d35;margin-bottom:8px}
+.pk-extra ul{font-size:11px;line-height:1.75;color:#6f5a33}
+.pk-extra li::before{content:'+';color:var(--gold);margin-right:8px;font-weight:500}
+.pk .pk-pr{margin-top:18px;padding-top:16px;border-top:.5px solid var(--border);font-size:13px}
 .pk .pk-pr b{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400}
 .pk-go{margin-top:16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
 
@@ -144,6 +149,9 @@ a{color:inherit;text-decoration:none}
 #r-voci{list-style:none;font-size:11.5px;line-height:1.6;max-height:230px;overflow-y:auto;margin-bottom:18px}
 #r-voci li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:.5px dotted var(--border);color:var(--muted)}
 #r-voci li b{font-weight:400;color:var(--text);flex:1}
+.r-extra{border-bottom:none!important;padding-top:12px!important}
+.r-extra b{font-size:8.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold)}
+.r-extra-v span{color:var(--gold);font-size:10px}
 #r-voci .r-vuoto{color:var(--muted);border:none;font-style:italic;padding:14px 0}
 .r-tot{border-top:1px solid var(--border);padding-top:18px}
 .r-tot .r-lab{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
@@ -359,7 +367,7 @@ const SCONTO = 10;            // DA CONFERMARE — percentuale promessa a chi in
 const MINIMO = 300;           // sotto questa cifra non si apre un progetto
                               // (tenerlo sotto al pacchetto Smart: 5 viste x 65 = 325,
                               //  altrimenti la card mostra una cifra e il riepilogo un'altra)
-const IVA_ESCLUSA = true;     // DA CONFERMARE
+const IVA_ESCLUSA = true;     // confermato da Matteo
 const APERTI_CONFERMATI = false;  // sconto, minimo e IVA verificati da Matteo
 
 const SERVIZI = [
@@ -439,25 +447,32 @@ const REVS = [
  {v:'poche',t:'Poche, sono deciso',s:'Le revisioni comprese bastano'},
  {v:'molte',t:'Meglio abbondare',s:'Pi&ugrave; giri di modifiche'}
 ];
+/* I pacchetti non sono la semplice somma delle voci: ognuno porta in dote degli
+   EXTRA compresi, che a listino non si comprano. E' quello che li rende
+   convenienti rispetto al configurare a mano voce per voce. */
 const PACCHETTI = [
  {id:'smart', nome:'Smart', per:'Una stanza sola',
-  voci:{'render-interni':5},
-  desc:['5 viste dello stesso ambiente','Il taglio giusto per un soggiorno o una cucina','Revisioni comprese']},
+  voci:{'render-interni':6},
+  desc:['6 viste dello stesso ambiente','Il taglio giusto per un soggiorno o una cucina'],
+  extra:['File in alta risoluzione, pronti per la stampa','Versioni verticali e quadrate per i social','2 giri di revisione compresi']},
  {id:'essenziale', nome:'Essenziale', per:'Per presentare un&rsquo;idea',
-  voci:{'render-interni':5,'render-esterni':2},
-  desc:['5 render di interni','2 render di esterni','Revisioni comprese']},
+  voci:{'render-interni':8,'render-esterni':3},
+  desc:['8 render di interni','3 render di esterni'],
+  extra:['File in alta risoluzione, pronti per la stampa','Versioni verticali e quadrate per i social','Tavola PDF di presentazione impaginata','3 giri di revisione compresi']},
  {id:'completo', nome:'Completo', per:'Per vendere o convincere',
-  voci:{'render-interni':8,'render-esterni':3,'tour360':1,'documenti':1},
-  desc:['8 render di interni','3 render di esterni','Tour virtuale 360&deg;','Documentazione tecnica']},
+  voci:{'render-interni':12,'render-esterni':5,'tour360':1,'documenti':1},
+  desc:['12 render di interni','5 render di esterni','Tour virtuale 360&deg;','Documentazione tecnica'],
+  extra:['File in alta risoluzione, pronti per la stampa','Versioni verticali e quadrate per i social','Tavola PDF di presentazione impaginata','Link dedicato per condividere il tour con chi vuoi','4 giri di revisione compresi','Consegna in formato aperto per il tuo grafico']},
  {id:'chiavi', nome:'Chiavi in mano', per:'Dal rilievo alla consegna',
-  voci:{'render-interni':10,'render-esterni':4,'lidar':1,'tour360':1,'ar':1,'video':1,'documenti':1,'arredo':2,'luci':1,'esterni':1,'sito':1},
-  desc:['Rilievo LiDAR dello stato di fatto','14 render fra interni ed esterni','Tour 360&deg;, realt&agrave; aumentata e video','Documentazione completa','Arredo su misura e luci','Area esterna e sito dedicato']}
+  voci:{'render-interni':16,'render-esterni':6,'lidar':1,'tour360':1,'ar':1,'video':1,'documenti':1,'arredo':3,'luci':1,'esterni':1,'sito':1},
+  desc:['Rilievo LiDAR dello stato di fatto','22 render fra interni ed esterni','Tour 360&deg;, realt&agrave; aumentata e video','Documentazione tecnica completa','3 mobili su misura e studio luci','Area esterna e sito dedicato'],
+  extra:['Tutti i file in alta risoluzione, pronti per la stampa','Versioni verticali e quadrate per i social','Tavole PDF di presentazione impaginate','Link dedicato per condividere tour e materiali','Revisioni illimitate entro le fasi concordate','Consegna in formato aperto per il tuo grafico','Archivio completo del progetto a fine lavori']}
 ];
 </script>
 
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const stato={tipo:null,mq:null,fase:null,mat:null,urg:null,rev:null,servizi:{}};
+const stato={tipo:null,mq:null,fase:null,mat:null,urg:null,rev:null,servizi:{},pacchetto:null};
 // sotto i 400 la cifra resta esatta: arrotondando alle decine "65" diventava "70",
 // cioe un prezzo diverso da quello del listino. Sopra, l'arrotondamento aiuta a leggere.
 const eurStatico=n=>'€ '+n;
@@ -468,8 +483,8 @@ if(!PREZZI_VERIFICATI){
   $('#provv').innerHTML='<b>Listino ancora da confermare.</b> Le cifre sono una stima, non i prezzi dello studio.';
 } else if(!APERTI_CONFERMATI){
   $('#provv').innerHTML='<b>Da confermare prima di pubblicare:</b> lo <b>sconto del '+SCONTO+'%</b> promesso in pagina, '+
-    'il <b>minimo di progetto ('+eurStatico(MINIMO)+')</b> e il fatto che i prezzi siano <b>IVA esclusa</b>. '+
-    'Sono tre valori scelti da noi, non da te: stanno in cima al file. Quando sono giusti, metti '+
+    'e il <b>minimo di progetto ('+eurStatico(MINIMO)+')</b>. '+
+    'Sono due valori scelti da noi, non da te: stanno in cima al file. Quando sono giusti, metti '+
     '<code>APERTI_CONFERMATI = true</code> e questo avviso sparisce.';
 } else $('#provv').remove();
 $('#promo-p').textContent='sconto del '+SCONTO+'%';
@@ -533,12 +548,15 @@ $('#pk-grid').innerHTML=PACCHETTI.map(p=>`
     <h3 class="serif">${p.nome}</h3>
     <p class="pk-for">${p.per}</p>
     <ul>${p.desc.map(d=>`<li>${d}</li>`).join('')}</ul>
+    <div class="pk-extra"><p class="pk-extra-t">In pi&ugrave;, compreso</p>
+      <ul>${p.extra.map(d=>`<li>${d}</li>`).join('')}</ul></div>
     <p class="pk-pr"><b id="pk-${p.id}">—</b> <span style="color:var(--muted);font-size:11px">stima indicativa</span></p>
     <p class="pk-go">Scegli e personalizza →</p>
   </article>`).join('');
 $$('.pk').forEach(el=>el.onclick=()=>{
   const p=PACCHETTI.find(x=>x.id===el.dataset.id);
   stato.servizi={...p.voci};
+  stato.pacchetto=p.id;
   $$('.pk').forEach(x=>x.classList.toggle('on',x===el));
   aggiorna();
   $('#cfg').scrollIntoView({behavior:'smooth',block:'start'});
@@ -601,7 +619,10 @@ function aggiorna(){
     const n=s.perUnita?q:1;
     return `<li><b>${s.nome}${s.perUnita?` ×${q}`:''}</b><span>${eur(s.da*n)}–${eur(s.a*n)}</span></li>`;
   }).join('');
-  $('#r-voci').innerHTML = voci || '<li class="r-vuoto">Non hai ancora scelto nessun servizio.</li>';
+  const pk = stato.pacchetto ? PACCHETTI.find(x=>x.id===stato.pacchetto) : null;
+  const extra = pk ? `<li class="r-extra"><b>Compreso dal pacchetto ${pk.nome}</b><span></span></li>` +
+    pk.extra.map(e=>`<li class="r-extra-v"><b>${e}</b><span>compreso</span></li>`).join('') : '';
+  $('#r-voci').innerHTML = (voci+extra) || '<li class="r-vuoto">Non hai ancora scelto nessun servizio.</li>';
   mostraCifra(a,b);
   $('#r-iva').textContent = a ? (IVA_ESCLUSA?'IVA esclusa · minimo di progetto '+eur(MINIMO):'IVA inclusa') : '';
   $('#r-prec-v').textContent = Math.round(prec*100)+'%';
@@ -653,6 +674,12 @@ function testoBozza(){
     const s=SERVIZI.find(x=>x.id===id); if(!s) continue;
     const n=s.perUnita?q:1;
     r.push('  - '+s.nome.replace(/&[a-z]+;/g,'')+(s.perUnita?' x'+q:'')+'  ('+eur(s.da*n)+'-'+eur(s.a*n)+')');
+  }
+  const pk = stato.pacchetto ? PACCHETTI.find(x=>x.id===stato.pacchetto) : null;
+  if(pk){
+    r.push('');
+    r.push('PARTITO DAL PACCHETTO: '+pk.nome+'  (extra compresi, da onorare nel preventivo)');
+    pk.extra.forEach(e=>r.push('  + '+e.replace(/&[a-z]+;/g,'')));
   }
   r.push('');
   r.push('DETTAGLI');
