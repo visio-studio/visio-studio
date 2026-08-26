@@ -2816,6 +2816,8 @@ document.querySelectorAll('[data-target]').forEach(el=>{
     n.indexOf('mensola')>=0?3:n.indexOf('schiena')>=0?4:n==='top legno'?5:n.indexOf('marmo')>=0?6:7;
   const FASI=['I piedi a terra','Il fondo si posa','I fianchi in squadra','Le mensole a quota',
     'Lo schienale chiude','Il top in massello','La lastra in marmo','Le ante in battuta'];
+  const MOB_LAT=0.35, MOB_Z=0.62;   // su mobile l'esploso si allarga e si sfila di meno:
+  // in verticale lo spazio e in altezza, e in vista di tre quarti anche la profondita finisce di lato
   const QA=0.60;          // quota di scroll dedicata al montaggio
   const QF=[0.64,1.00];   // e poi le essenze si succedono
 
@@ -2870,12 +2872,20 @@ document.querySelectorAll('[data-target]').forEach(el=>{
     gl.clearColor(.98,.98,.972,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
     gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);
     // la camera si avvicina e ruota mentre il mobile si compone, poi gira piano
-    const dist=3.25+(1-kA)*2.00, cy=.40+(1-kA)*.11;
+    const largo=innerWidth>900;
+    // la distanza non e piu un numero fisso: si ricava da quanto deve entrare
+    // nell'inquadratura. Su schermo stretto e verticale due metri di madia
+    // richiedono di arretrare molto di piu che su desktop.
+    const fov=(largo?38:50)*Math.PI/180, asp=cv.width/cv.height, tv=Math.tan(fov/2);
+    const mezzaL=(1.18+(1-kA)*(largo?0.62:0.78))+(largo?0.26:0.17);
+    const mezzaH=0.50+(1-kA)*0.62;
+    const dist=Math.max(mezzaL/(tv*asp), mezzaH/tv, 2.6);
+    const cxT=largo?-0.24:0;                    // su desktop lascia spazio alla colonna di testo
+    const cy=(largo?0.40:0.78)+(1-kA)*0.11;     // su mobile mira piu in alto, cosi il mobile scende sotto il testo
     const yaw=-1.24+kA*0.78+kF*0.30+yawUser;
     const pitch=Math.max(-.10,Math.min(.85,.31-kA*.15+pitchUser));
-    const cxT=innerWidth>900?-0.24:0;   // su desktop lascia spazio alla colonna di testo
     const eye=[cxT+Math.sin(yaw)*Math.cos(pitch)*dist, cy+Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist];
-    const VP=mm(persp(38*Math.PI/180,cv.width/cv.height,.1,40),look(eye,[cxT,cy,0],[0,1,0]));
+    const VP=mm(persp(fov,asp,.1,40),look(eye,[cxT,cy,0],[0,1,0]));
     gl.useProgram(pGround);gl.depthMask(false);gl.disable(gl.CULL_FACE);gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
     gl.uniformMatrix4fv(gl.getUniformLocation(pGround,'uVP'),false,new Float32Array(VP));
@@ -2890,7 +2900,7 @@ document.querySelectorAll('[data-target]').forEach(el=>{
     gl.uniformMatrix4fv(U('uVP'),false,new Float32Array(VP));
     gl.uniform1f(U('uMix'),fmix);
     gl.uniform1i(U('uTexA'),0);gl.uniform1i(U('uTexB'),1);
-    const passo=.105, durata=.26;
+    const passo=.105, durata=.26, FL=largo?1:MOB_LAT, FZ=largo?1:MOB_Z;
     PARTS.forEach(p=>{
       if(p.g==='marmo'&&!stato.marmo)return;
       // due tempi: prima il laterale, poi l'ingresso sull'asse libero.
@@ -2898,9 +2908,9 @@ document.querySelectorAll('[data-target]').forEach(el=>{
       // raggiunge il suo posto prima che sia arrivato quello sotto.
       const t=Math.max(0,Math.min(1,(kA-p.rank*passo)/durata));
       const tl=ease(Math.max(0,Math.min(1,t/0.55)));
-      const tv=ease(Math.max(0,Math.min(1,(t-0.45)/0.55)));
+      const tv2=ease(Math.max(0,Math.min(1,(t-0.45)/0.55)));
       const L=p.esp.lat, A=p.esp.app;
-      gl.uniform3f(U('uOff'),L[0]*(1-tl)+A[0]*(1-tv),L[1]*(1-tl)+A[1]*(1-tv),L[2]*(1-tl)+A[2]*(1-tv));
+      gl.uniform3f(U('uOff'),L[0]*FL*(1-tl)+A[0]*FZ*(1-tv2),L[1]*FL*(1-tl)+A[1]*(1-tv2),L[2]*FL*(1-tl)+A[2]*FZ*(1-tv2));
       const mA=mat(p,NOMI[ia]), mB=mat(p,NOMI[ib]);
       gl.uniform3f(U('uColA'),mA.c[0],mA.c[1],mA.c[2]);gl.uniform1f(U('uLegnoA'),mA.legno);gl.uniform1f(U('uScalaA'),1/mA.mt);
       gl.uniform3f(U('uColB'),mB.c[0],mB.c[1],mB.c[2]);gl.uniform1f(U('uLegnoB'),mB.legno);gl.uniform1f(U('uScalaB'),1/mB.mt);
