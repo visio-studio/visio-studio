@@ -270,6 +270,46 @@ posizione sui tre assi, scegliendo per ogni faccia il verso in cui deve correre
 la venatura. Salvia e antracite restano tinte piene: sono laccati, ed e giusto
 cosi.
 
+### Apertura del sito: cosa NON rifare
+
+Il primo caricamento chiedeva **250 file per 20,5 MB**, perche journey (145
+fotogrammi) ed esterni (120) partivano tutti insieme al primo istante. Il
+fotogramma iniziale della journey — l'unico che serve subito — finiva in coda
+dietro altri 264, e l'apertura restava nera. Peggio: il velo di caricamento
+spariva dopo **2,2 secondi fissi** senza aspettare nulla, e nel frattempo la
+pagina scorreva sotto, quindi l'utente si ritrovava gia a meta sito.
+
+Ora:
+
+- **Le sequenze lontane si caricano quando servono.** `img/esterni` parte da un
+  IntersectionObserver con `rootMargin:'150% 0px'`, circa una schermata e mezza
+  prima. Da sola vale 14 MB tolti all'apertura. Se si aggiunge una nuova
+  sequenza pesante, differirla allo stesso modo — non lasciarla partire al
+  caricamento.
+- **La journey carica per priorita:** prima il fotogramma 0, poi uno ogni 12
+  (cosi lo scrub e subito scorrevole), poi tutti gli altri, sei alla volta.
+  Lo stato e in `window.VISIO_CARICA` (`primo`, `radi`, `radiTot`).
+- **Il velo si alza quando `VISIO_CARICA.primo` e vero**, con un minimo di 1,5 s
+  (il logo deve finire di disegnarsi) e un tetto di 9 s perche nessuno resti
+  intrappolato. In piu c'e un salvagente in CSS (`@keyframes ldSalvagente`) che
+  lo toglie a 12 s anche se il JavaScript non parte affatto.
+- **Lo scorrimento e bloccato mentre il velo e su** (`overflow:hidden` su html e
+  body) e alla chiusura si fa `scrollTo(0,0)`: si riparte sempre dall'inizio.
+  Il gesto di scroll non muove la pagina, **spinge le due scritte** che scorrono
+  in versi opposti sopra e sotto il logo. Sono solo testo: zero file da
+  scaricare.
+
+Misurato: da **20,5 MB a 10,8 MB** al primo caricamento, primo fotogramma a
+117 ms invece che in coda.
+
+**Come rimisurare** (in console, dopo un caricamento pulito):
+
+    performance.getEntriesByType('resource').length
+    performance.getEntriesByType('resource').reduce((s,e)=>s+(e.transferSize||0),0)/1048576
+
+**Per ispezionare il velo** senza rete lenta: alzare temporaneamente `MIN` *e*
+`MAX` nel blocco LOADER — alzare solo `MIN` non basta, chiude comunque `MAX`.
+
 ## 4. Area riservata clienti
 
 Nel menu, sotto le voci numerate, c'è un blocco separato "Accedi al tuo sito":

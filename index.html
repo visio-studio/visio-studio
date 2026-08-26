@@ -59,7 +59,25 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 #cur-r { position:fixed;width:28px;height:28px;border:.5px solid rgba(201,169,110,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .14s ease-out; }
 
 /* LOADER */
-#loader { position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:1000;transition:opacity .8s; }
+#loader { position:fixed;inset:0;background:var(--dark);display:grid;place-items:center;z-index:1000;transition:opacity .8s;overflow:hidden;
+  animation:ldSalvagente 1s ease 12s forwards; }
+/* se il JavaScript non parte, il velo si toglie comunque: nessuno resta chiuso fuori */
+@keyframes ldSalvagente { to { opacity:0;visibility:hidden;pointer-events:none; } }
+/* Due scritte enormi in semitrasparenza scorrono in versi opposti sopra e sotto
+   il logo: danno la sensazione di muoversi nel sito mentre i fotogrammi arrivano.
+   Non pesano nulla — sono testo, nessun file da scaricare. */
+.ld-mq { position:absolute;left:0;white-space:nowrap;display:flex;pointer-events:none;
+  font-family:'Cormorant Garamond',serif;font-size:clamp(40px,8.5vw,104px);font-weight:300;font-style:italic;
+  color:rgba(255,255,255,.075);will-change:transform;top:22%; }
+.ld-mq.alt { top:auto;bottom:22%;font-style:normal;letter-spacing:.02em;color:rgba(201,169,110,.10); }
+.ld-mq span { padding-right:.35em; }
+#ld-prog { position:absolute;left:0;right:0;bottom:0;height:1.5px;background:rgba(255,255,255,.09); }
+#ld-prog i { display:block;height:100%;width:0;background:var(--gold);transition:width .35s ease; }
+#ld-hint2 { position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:'Inter',sans-serif;
+  font-size:8.5px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.34);
+  opacity:0;transition:opacity .6s; }
+#ld-hint2.v { opacity:1; }
+@media (prefers-reduced-motion: reduce){ .ld-mq { display:none; } }
 .loader-logo { font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;letter-spacing:14px;color:#fff;animation:fadeUp .9s ease forwards; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
 /* Logo VISIO che si disegna (loader) */
@@ -752,7 +770,9 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
 <div id="cur-d"></div>
 <div id="cur-r"></div>
 
-<div id="loader"><svg class="logo-draw" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
+<div id="loader">
+<div class="ld-mq" id="ld-mq1"><span>Rendering architettonico · Visualizzazione 3D · Tour virtuali · </span><span aria-hidden="true">Rendering architettonico · Visualizzazione 3D · Tour virtuali · </span></div>
+<svg class="logo-draw" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
   <polygon pathLength="1" points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
   <polygon pathLength="1" points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
   <polygon pathLength="1" points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
@@ -762,7 +782,11 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   <polygon pathLength="1" points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
   <polyline pathLength="1" points="562.86 215.83 562.86 215.83 562.86 302.72 533.49 330.39 533.49 187.16 615.31 187.16 586.57 215.83 562.86 215.83"/>
   <polyline pathLength="1" points="585.94 323.99 585.94 323.99 585.94 237.33 615.31 209.54 615.31 352.66 533.49 352.66 562.29 323.99 585.94 323.99"/>
-</svg></div>
+</svg>
+<div class="ld-mq alt" id="ld-mq2"><span>Progettazione d&rsquo;interni · Realt&agrave; aumentata · Roma · </span><span aria-hidden="true">Progettazione d&rsquo;interni · Realt&agrave; aumentata · Roma · </span></div>
+<div id="ld-prog"><i id="ld-prog-i"></i></div>
+<p id="ld-hint2">Scorri</p>
+</div>
 
 <!-- NAVBAR -->
 <nav id="nav">
@@ -2399,9 +2423,71 @@ ancora non esiste.</p>
 
 <script>
 // ── LOADER
-window.addEventListener('load',()=>{
-  setTimeout(()=>{ const l=document.getElementById('loader'); l.style.opacity='0'; setTimeout(()=>l.style.display='none',800); },2200);
-});
+// Prima spariva dopo 2,2 secondi fissi, che con la rete lenta non bastavano: la
+// pagina restava nera e — peggio — continuava a scorrere sotto al velo, cosi
+// quando il loader si alzava l'utente si ritrovava gia a meta sito.
+// Ora: lo scorrimento e bloccato, il gesto anima le scritte invece di muovere la
+// pagina, e il velo si alza quando il primo fotogramma e davvero disegnabile.
+(function(){
+  const l=document.getElementById('loader');
+  if(!l) return;
+  const mq1=document.getElementById('ld-mq1'), mq2=document.getElementById('ld-mq2'),
+        prog=document.getElementById('ld-prog-i'), hint=document.getElementById('ld-hint2');
+  const html=document.documentElement, body=document.body;
+  const scorrevaGia=html.style.overflow;
+  html.style.overflow='hidden'; body.style.overflow='hidden';
+  let attivo=true, spinta=0, o1=0, o2=0;
+  const t0=performance.now();
+  const MIN=1500;    // il logo deve almeno finire di disegnarsi
+  const MAX=9000;    // rete disastrata: non intrappolare mai l'utente
+
+  // il gesto non scorre la pagina, spinge le scritte
+  function gesto(d){ if(!attivo) return; spinta+=d*0.020; if(spinta>34)spinta=34; if(spinta<-34)spinta=-34; }
+  const suRotella=e=>{ if(attivo){ e.preventDefault(); gesto(e.deltaY); } };
+  let yTocco=null;
+  const suTocco=e=>{ if(!attivo) return; e.preventDefault();
+    const y=e.touches[0].clientY; if(yTocco!==null) gesto((yTocco-y)*2.2); yTocco=y; };
+  addEventListener('wheel',suRotella,{passive:false});
+  addEventListener('touchmove',suTocco,{passive:false});
+  addEventListener('touchend',()=>{yTocco=null;});
+  addEventListener('keydown',e=>{ if(attivo&&[' ','PageDown','ArrowDown','PageUp','ArrowUp'].includes(e.key)){e.preventDefault();gesto(e.key==='ArrowUp'||e.key==='PageUp'?-260:260);} });
+
+  let l1=0,l2=0;
+  function misura(){ if(mq1&&mq1.firstElementChild)l1=mq1.firstElementChild.offsetWidth;
+                     if(mq2&&mq2.firstElementChild)l2=mq2.firstElementChild.offsetWidth; }
+  misura(); addEventListener('resize',misura);
+
+  (function ciclo(){
+    if(!attivo) return;
+    requestAnimationFrame(ciclo);
+    spinta*=0.94;                                  // l'impulso si spegne piano
+    const v=0.5+Math.abs(spinta)*0.85;             // deriva lenta di base, piu la spinta
+    if(l1){ o1=(o1-v)%l1; mq1.style.transform='translateX('+o1+'px)'; }
+    if(l2){ o2=(o2+v)%l2; mq2.style.transform='translateX('+(o2-l2)+'px)'; }
+    const c=window.VISIO_CARICA;
+    if(prog&&c){
+      const q=c.radiTot?Math.min(1,c.radi/c.radiTot):0;
+      prog.style.width=Math.max(6,(c.primo?30:0)+q*70)+'%';
+    }
+    const t=performance.now()-t0;
+    if(hint&&t>1500&&!hint.classList.contains('v')) hint.classList.add('v');
+    const pronto=window.VISIO_CARICA&&window.VISIO_CARICA.primo;
+    if((pronto&&t>=MIN)||t>=MAX) chiudi();
+  })();
+
+  function chiudi(){
+    if(!attivo) return; attivo=false;
+    removeEventListener('wheel',suRotella,{passive:false});
+    removeEventListener('touchmove',suTocco,{passive:false});
+    html.style.overflow=scorrevaGia; body.style.overflow='';
+    scrollTo(0,0);                                 // si riparte sempre dall'inizio
+    if(prog) prog.style.width='100%';
+    l.style.opacity='0';
+    setTimeout(()=>{ l.style.display='none'; },800);
+  }
+  // rete assente o journey mancante: non restare appesi
+  addEventListener('load',()=>{ setTimeout(()=>{ if(attivo&&!(window.VISIO_CARICA&&window.VISIO_CARICA.primo)) chiudi(); },4000); });
+})();
 
 // ── CURSOR
 const cd=document.getElementById('cur-d'), cr=document.getElementById('cur-r');
@@ -2490,13 +2576,37 @@ function jDrawIndex(i){
   if(j>=0) jDrawCover(jImgs[j]);
 }
 
-// preload di tutti i frame
-for(let i=0;i<J_FRAMES;i++){
-  const im=new Image();
-  im.onload=()=>{ jLoaded[i]=true; if(!jFirstDrawn){ jFirstDrawn=true; jDrawIndex(jCurIndex); } else if(i===jCurIndex){ jDrawIndex(i); } };
-  im.src=jFramePath(i);
-  jImgs[i]=im;
-}
+// Caricamento per priorita. Prima si chiedevano tutti e 145 i fotogrammi insieme:
+// il browser li metteva in coda e il primo — l'unico che serve subito — arrivava
+// fra gli ultimi, lasciando il canvas nero. Ora: prima il fotogramma iniziale,
+// poi una selezione rada (uno ogni 12) che rende lo scrub gia scorrevole,
+// poi tutti gli altri a riempire, sei alla volta.
+window.VISIO_CARICA = { primo:false, radi:0, radiTot:0 };
+(function(){
+  const ordine=[0], visti=new Set([0]);
+  for(let i=12;i<J_FRAMES;i+=12){ ordine.push(i); visti.add(i); }
+  window.VISIO_CARICA.radiTot=ordine.length;
+  for(let i=1;i<J_FRAMES;i++) if(!visti.has(i)) ordine.push(i);
+  let inCorso=0, prossimo=0;
+  function successivo(){
+    while(inCorso<6 && prossimo<ordine.length){
+      const i=ordine[prossimo++], rado=visti.has(i);
+      inCorso++;
+      const im=new Image();
+      im.onload=()=>{
+        jLoaded[i]=true; inCorso--;
+        if(rado) window.VISIO_CARICA.radi++;
+        if(!jFirstDrawn){ jFirstDrawn=true; window.VISIO_CARICA.primo=true; jDrawIndex(jCurIndex); }
+        else if(i===jCurIndex){ jDrawIndex(i); }
+        successivo();
+      };
+      im.onerror=()=>{ inCorso--; successivo(); };
+      im.src=jFramePath(i);
+      jImgs[i]=im;
+    }
+  }
+  successivo();
+})();
 jSize();
 
 (function scrub(){
@@ -2668,7 +2778,19 @@ document.querySelectorAll('.sv-card').forEach(c=>{
   const N=120,imgs=new Array(N);
   const fsrc=i=>'img/esterni/frame-'+String(i+1).padStart(4,'0')+'.jpg';
   let drawn=false;
-  for(let i=0;i<N;i++){const im=new Image();im.onload=()=>{if(!drawn)draw();};im.src=fsrc(i);imgs[i]=im;}
+  // I 120 fotogrammi pesano 14 MB e servono solo a meta pagina: prima partivano
+  // subito e rubavano la banda al primo fotogramma della journey, lasciando
+  // l'apertura nera. Ora si chiedono quando l'utente si avvicina.
+  let avviato=false;
+  function caricaFotogrammi(){
+    if(avviato) return; avviato=true;
+    for(let i=0;i<N;i++){const im=new Image();im.onload=()=>{if(!drawn)draw();};im.src=fsrc(i);imgs[i]=im;}
+  }
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(e=>{ if(e[0].isIntersecting){ io.disconnect(); caricaFotogrammi(); } },
+      {rootMargin:'150% 0px'});   // parte circa una schermata e mezza prima
+    io.observe(wrap);
+  } else caricaFotogrammi();
   function size(){const r=cv.parentElement.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2);cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);}
   function draw(){
     const total=wrap.offsetHeight-window.innerHeight;
