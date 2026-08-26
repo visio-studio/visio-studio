@@ -138,6 +138,14 @@ terrazza "Cabina Armadio". Da sistemare quando si decidono i titoli giusti.
 
 ## 2. Come si lavora su questo progetto
 
+### Non pubblicare a ogni modifica
+
+**Ogni push su `main` fa partire una ricostruzione su Netlify, e le build del
+piano gratuito sono contate.** Accumulare tutte le modifiche di una sessione,
+verificarle in locale, e fare **un solo push alla fine**. Committare in locale
+quanto si vuole: e il push che costa, non il commit.
+
+
 - **`git pull` all'inizio di ogni sessione.** Matteo lavora da due computer.
 - Si lavora su `index.html` (tutto inline: HTML, CSS, JS). Le pagine separate
   sono `faq.html` e `esempio/index.html`.
@@ -269,6 +277,30 @@ Il modello non ha coordinate UV: si ricavano nello shader proiettando la
 posizione sui tre assi, scegliendo per ogni faccia il verso in cui deve correre
 la venatura. Salvia e antracite restano tinte piene: sono laccati, ed e giusto
 cosi.
+
+### La sequenza esterni e stata rifatta (26 agosto 2026)
+
+I fotogrammi dei video generati con Gemini portano il **rombo del filigrana in
+basso a destra**, a circa il 90% della larghezza e l'83% dell'altezza, sempre
+nella stessa posizione. Nella vecchia `img/esterni` c'era in tutti e 120.
+Controllate anche `img/journey` e le vecchie `img/madia`: quelle erano pulite.
+
+`img/esterni-2` sostituisce `img/esterni`: **60 fotogrammi invece di 120**,
+ritagliati a `1125x720` (il taglio del bordo destro porta via il rombo senza
+inventare pixel) e ricompressi a qualita 72. Da **13,8 MB a 5,1 MB, -63%**,
+senza perdere nulla di visibile: la sezione e a tutto schermo con ritaglio
+"cover", quindi i bordi vengono comunque tagliati dal browser.
+
+**La cartella e nuova apposta.** `netlify.toml` mette cache `immutable` su
+queste sequenze: riscrivendo file con lo stesso nome, chi era gia stato sul
+sito avrebbe continuato a vedere i vecchi. Se un giorno si rigenera di nuovo,
+usare `esterni-3` e aggiornare la regola in `netlify.toml`.
+
+`img/madia` (4,4 MB) e stata rimossa: non serviva piu dal passaggio al 3D.
+Entrambe restano nella storia di git se dovessero servire.
+
+**Se arriva un nuovo video generato con l'AI:** controllare sempre l'angolo in
+basso a destra prima di spezzarlo in fotogrammi.
 
 ### Apertura del sito: cosa NON rifare
 

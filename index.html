@@ -67,13 +67,13 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
    il logo: danno la sensazione di muoversi nel sito mentre i fotogrammi arrivano.
    Non pesano nulla — sono testo, nessun file da scaricare. */
 .ld-mq { position:absolute;left:0;white-space:nowrap;display:flex;pointer-events:none;
-  font-family:'Cormorant Garamond',serif;font-size:clamp(40px,8.5vw,104px);font-weight:300;font-style:italic;
-  color:rgba(255,255,255,.075);will-change:transform;top:22%; }
-.ld-mq.alt { top:auto;bottom:22%;font-style:normal;letter-spacing:.02em;color:rgba(201,169,110,.10); }
+  font-family:'Cormorant Garamond',serif;font-size:clamp(72px,21vw,300px);line-height:.95;
+  font-weight:300;font-style:italic;color:rgba(255,255,255,.045);will-change:transform;top:4%; }
+.ld-mq.alt { top:auto;bottom:4%;font-style:normal;letter-spacing:.01em;color:rgba(201,169,110,.055); }
 .ld-mq span { padding-right:.35em; }
 #ld-prog { position:absolute;left:0;right:0;bottom:0;height:1.5px;background:rgba(255,255,255,.09); }
 #ld-prog i { display:block;height:100%;width:0;background:var(--gold);transition:width .35s ease; }
-#ld-hint2 { position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:'Inter',sans-serif;
+#ld-hint2 { position:absolute;top:66%;left:0;right:0;text-align:center;font-family:'Inter',sans-serif;
   font-size:8.5px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.34);
   opacity:0;transition:opacity .6s; }
 #ld-hint2.v { opacity:1; }
@@ -2775,8 +2775,8 @@ document.querySelectorAll('.sv-card').forEach(c=>{
   const caps=[...wrap.querySelectorAll('.ex-cap')];
   const bgIcons=[...wrap.querySelectorAll('.ex-bgicon')];
   const prog=document.getElementById('ex-prog-i');
-  const N=120,imgs=new Array(N);
-  const fsrc=i=>'img/esterni/frame-'+String(i+1).padStart(4,'0')+'.jpg';
+  const N=60,imgs=new Array(N);
+  const fsrc=i=>'img/esterni-2/frame-'+String(i+1).padStart(4,'0')+'.jpg';
   let drawn=false;
   // I 120 fotogrammi pesano 14 MB e servono solo a meta pagina: prima partivano
   // subito e rubavano la banda al primo fotogramma della journey, lasciando
