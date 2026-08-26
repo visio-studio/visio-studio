@@ -60,11 +60,30 @@ se Netlify ha cambiato quell'IP** — e in quel caso conviene passare ad ALIAS.
 `75.2.60.5`, `www` punta a `visiorender.netlify.app`, gli MX sono intatti. Il
 sito risponde in HTTP.
 
-**Resta da fare: il certificato HTTPS.** Netlify non l'ha ancora emesso, quindi
-`https://visiorender.it` non risponde (errore SSL, `curl` esce con codice 60).
-Va sbloccato dal pannello Netlify → Domain management → HTTPS → *Verify DNS
-configuration* e poi *Provision certificate*. Di solito parte da solo entro
-un'ora dalla propagazione; se non parte, il pulsante lo forza.
+**Il certificato HTTPS: stato bloccato, sbloccato il 26 agosto 2026.**
+Per settimane Netlify ha risposto *"We could not provision a Let's Encrypt
+certificate"* e il pulsante *Verify DNS configuration* non produceva alcun
+effetto, nemmeno con il DNS ormai corretto. Non era un problema di DNS:
+verificati e tutti a posto apex, www, assenza di CAA, assenza di DNSSEC,
+nameserver, e nessun redirect nostro che intercettasse
+`/.well-known/acme-challenge/` (`netlify.toml` non ha regole di redirect).
+
+Era lo **stato interno di Netlify rimasto incastrato** dai tentativi falliti di
+quando il dominio puntava ancora ad Aruba. La cura: *Options → Remove domain*
+sul dominio primario e poi ri-aggiungerlo con *Add a domain → Add a domain you
+already own*. Subito dopo *Verify DNS configuration* ha finalmente risposto
+**"DNS verification was successful"**. Il sito non ha mai smesso di rispondere
+durante l'operazione, e `www` si ricrea da solo come redirect.
+
+L'emissione vera e propria puo restare indietro ancora un po': Let's Encrypt
+limita i tentativi falliti (5 per host all'ora) e ne erano stati accumulati
+molti. Se serve rifarlo: premere *Provision certificate* una volta sola e
+aspettare, senza insistere, perche ogni tentativo fallito allunga l'attesa.
+
+**Attenzione all'interfaccia di Netlify:** i dialoghi di conferma hanno una
+dissolvenza in entrata, e un clic dato troppo presto viene assorbito senza fare
+nulla — sembra che il pulsante non funzioni. Aspettare un paio di secondi e
+cliccare il pulsante per riferimento, non a coordinate.
 
 Attenzione a una trappola nel diagnosticare: **il resolver di macOS tiene in
 cache il vecchio IP Aruba** (`62.149.128.40`, server Microsoft-IIS) molto più a
