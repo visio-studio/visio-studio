@@ -345,7 +345,20 @@ Misurato: da **20,5 MB a 10,8 MB** al primo caricamento, primo fotogramma a
 ### La pagina preventivo (`preventivo.html`)
 
 Configuratore: il cliente sceglie i servizi e ottiene una **forbice di prezzo**,
-mai una cifra secca. Raggiungibile da `/preventivo` (voce 04 del menu).
+mai una cifra secca. Si arriva a `/preventivo` da tre punti:
+
+1. **voce 04 del menu** a panino;
+2. il **richiamo in vetro nella sezione contatti** della home, accanto al modulo,
+   cosi chi e gia deciso sceglie fra scrivere e configurare;
+3. **due link nella FAQ**, dentro le risposte "Quanto costa un render?" e
+   "Come faccio ad avere un preventivo?" — che sono i momenti di massimo
+   interesse su tutto il sito.
+
+**Le risposte della FAQ sono state riscritte** perche contraddicevano il
+listino: dicevano *"non lavoriamo a singola vista ma a progetto"* mentre il
+configuratore prezza proprio a vista. Se un domani cambiano i prezzi, ricordarsi
+che le cifre compaiono **anche nella FAQ**, sia nel testo visibile sia nello
+schema JSON-LD per i motori — sono due copie, vanno cambiate tutte e due.
 
 **Il meccanismo da capire prima di toccarla.** La forbice parte larga e **si
 stringe a ogni risposta**: le fasce "non risposto" in `IGNOTO` contengono tutte

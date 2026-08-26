@@ -546,6 +546,15 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 .ba-hint { font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:16px;display:flex;align-items:center;justify-content:center;gap:10px; }
 .ba-hint::before,.ba-hint::after { content:'';height:.5px;width:26px;background:var(--border); }
 /* ESTERNI */
+.ct-prev { display:block;margin:26px 0 30px;padding:20px 22px;border-radius:18px;text-decoration:none;
+  border:.5px solid rgba(201,169,110,.42);background:rgba(201,169,110,.1);
+  -webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6);transition:border-color .3s,transform .3s,box-shadow .3s;max-width:440px; }
+.ct-prev:hover { border-color:var(--gold);transform:translateY(-3px);box-shadow:0 16px 34px -20px rgba(201,169,110,.75),inset 0 1px 0 rgba(255,255,255,.7); }
+.ct-prev-t { display:block;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--text);margin-bottom:7px; }
+.ct-prev-s { display:block;font-size:11.5px;color:var(--muted);line-height:1.8; }
+.ct-prev-s b { color:#8a6d35;font-weight:500; }
+.ct-prev-go { display:block;margin-top:13px;font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold); }
 #esterni { background:var(--light);color:var(--text);border-top:.5px solid var(--border); }
 #ex-wrap { position:relative;height:430vh; }
 #ex-sticky { position:sticky;top:0;height:100vh;overflow:hidden;background:#0d100d; }
@@ -2365,6 +2374,11 @@ ancora non esiste.</p>
     <p class="ct-label">Iniziamo a lavorare insieme</p>
     <h2 class="ct-title serif">Iniziamo.</h2>
     <p class="ct-desc">Raccontaci il tuo progetto. Risponderemo entro 24 ore con una proposta personalizzata e un preventivo senza impegno.</p>
+    <a href="/preventivo" class="ct-prev">
+      <span class="ct-prev-t">Vuoi già farti un&rsquo;idea del costo?</span>
+      <span class="ct-prev-s">Componi la tua bozza di preventivo in due minuti &mdash; chi la invia riceve il <b>10% di sconto</b></span>
+      <span class="ct-prev-go">Apri il configuratore &#8594;</span>
+    </a>
     <div class="ct-addr">Studio VISIO · Roma, Italia<br>rotondimatteo@gmail.com<br>+39 342 668 4232</div>
   </div>
   <form class="rev" id="ct-form" name="contatti" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
