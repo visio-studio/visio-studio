@@ -359,13 +359,22 @@ allargandoli si ottengono massimi che nessun cliente riconosce come credibili.
 La parte grossa del prezzo la decidono i servizi scelti e il numero di viste.
 
 **I prezzi stanno tutti nel blocco `LISTINO` in cima al file**, insieme a
-`SCONTO`, `MINIMO` e `IVA_ESCLUSA`. I valori attuali sono una **stima di mercato,
-non i prezzi reali dello studio**: finche `PREZZI_VERIFICATI` resta `false` la
-pagina mostra un avviso giallo ben visibile. Mettere `true` solo dopo averli
-riletti tutti.
+`SCONTO`, `MINIMO` e `IVA_ESCLUSA`. I prezzi dei servizi sono quelli dati da
+Matteo il 26 agosto 2026 (`PREZZI_VERIFICATI = true`). Restano invece **decisi da
+noi e non ancora confermati** lo sconto, il minimo di progetto e l'IVA esclusa:
+finche `APERTI_CONFERMATI` e `false` la pagina mostra un avviso giallo che li
+elenca. Lo sconto in particolare finisce nero su bianco in pagina: e una promessa
+al cliente, non un dettaglio.
 
-Altro che c'e dentro: tre **pacchetti pronti** che riempiono il configuratore in
-un clic; l'elenco **"cosa ci serve da te"** che cambia in base alle scelte; i
+Attenzione al **minimo di progetto**: deve restare sotto al pacchetto Smart
+(5 viste x 65 = 325), altrimenti la card mostra una cifra e il riepilogo un'altra.
+Il minimo viene applicato sia al totale sia alle card dei pacchetti.
+
+Il render di interni ha un **minimo di 5 viste** (`min:5`): scendere sotto quella
+soglia con il "meno" toglie del tutto il servizio, invece di bloccarsi.
+
+Altro che c'e dentro: quattro **pacchetti pronti** (Smart per una stanza sola,
+Essenziale, Completo, Chiavi in mano) che riempiono il configuratore in un clic; l'elenco **"cosa ci serve da te"** che cambia in base alle scelte; i
 **tempi indicativi**; la bozza **salvata in `localStorage`** (si ritrova
 tornando); invio via **Netlify Forms** (`name="preventivo"`) con la bozza
 completa in un campo nascosto.

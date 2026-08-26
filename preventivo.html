@@ -23,6 +23,31 @@ a{color:inherit;text-decoration:none}
 .slabel{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
 .wrap{max-width:1180px;margin:0 auto;padding:0 40px}
 
+
+/* ══ VETRO ══════════════════════════════════════════════════════════
+   Stesso linguaggio della barra luci del sito: sfondo semitrasparente,
+   sfocatura con saturazione, bordo chiarissimo e un filo di luce in alto.
+   Su un fondo piatto la sfocatura non avrebbe nulla da rifrangere, quindi
+   dietro tutto scorre un campo di aloni morbidi (body::before).
+   ═══════════════════════════════════════════════════════════════════ */
+/* Un elemento vero invece di uno pseudo-elemento sul body: lo pseudo entra in
+   conflitto con lo sfondo della pagina e in alcuni browser viene composto solo
+   sulla parte inizialmente visibile, lasciando uno stacco netto a meta schermo. */
+#sfondo{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(46% 38% at 16% 18%, rgba(201,169,110,.30), transparent 72%),
+    radial-gradient(42% 34% at 86% 8%,  rgba(150,170,190,.22), transparent 72%),
+    radial-gradient(50% 42% at 76% 70%, rgba(201,169,110,.26), transparent 72%),
+    radial-gradient(40% 34% at 8% 88%,  rgba(176,166,146,.24), transparent 72%)}
+.vetro{position:relative;border-radius:20px;
+  background:rgba(255,255,255,.58);
+  -webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);
+  border:.5px solid rgba(255,255,255,.72);
+  box-shadow:0 12px 38px -22px rgba(20,15,5,.34), inset 0 1px 0 rgba(255,255,255,.9)}
+.vetro::before{content:'';position:absolute;left:0;right:0;top:0;height:42%;border-radius:20px 20px 0 0;
+  background:linear-gradient(rgba(255,255,255,.5),transparent);pointer-events:none;z-index:0}
+.vetro>*{position:relative;z-index:1}
+
 /* ── navigazione ── */
 #nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;
   padding:18px 40px;background:rgba(250,250,248,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:.5px solid var(--border)}
@@ -32,25 +57,25 @@ a{color:inherit;text-decoration:none}
 .nback:hover{color:var(--gold)}
 
 /* ── apertura ── */
-#hero{padding:150px 0 60px;text-align:center}
+#hero{padding-top:150px;padding-bottom:60px;text-align:center}
 #hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6vw,72px);font-weight:300;line-height:1.05;margin-bottom:20px}
 #hero h1 em{font-style:italic;color:var(--gold)}
 #hero .sub{font-size:14px;color:var(--muted);line-height:1.9;max-width:600px;margin:0 auto}
-#promo{display:inline-flex;align-items:center;gap:10px;margin-top:28px;border:.5px solid var(--gold);
-  background:rgba(201,169,110,.08);padding:11px 20px;font-size:11px;letter-spacing:.4px}
+ #promo{display:inline-flex;align-items:center;gap:10px;margin-top:28px;border-radius:999px;border:.5px solid rgba(201,169,110,.55);
+  background:rgba(201,169,110,.14);-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);
+  box-shadow:0 8px 24px -14px rgba(201,169,110,.7),inset 0 1px 0 rgba(255,255,255,.85);padding:12px 24px;font-size:11px;letter-spacing:.4px}
 #promo b{font-weight:500;color:#8a6d35}
 
 /* ── avviso listino provvisorio ── */
-#provv{max-width:1180px;margin:26px auto 0;border:.5px solid #d9a441;background:#fdf6e8;padding:14px 20px;font-size:11.5px;line-height:1.7;color:#6b5220}
+#provv{max-width:min(1100px,calc(100% - 40px));margin:26px auto 0;border-radius:18px;border:.5px solid rgba(217,164,65,.55);background:rgba(253,246,232,.72);-webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.8);padding:14px 22px;font-size:11.5px;line-height:1.7;color:#6b5220}
 #provv b{font-weight:500}
 
 /* ── pacchetti ── */
-#pack{padding:70px 0 20px}
-.pk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:34px}
-.pk{border:.5px solid var(--border);background:#fff;padding:32px 26px;display:flex;flex-direction:column;
-  transition:border-color .3s,transform .3s,box-shadow .3s;cursor:pointer}
-.pk:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 20px 44px -28px rgba(20,15,5,.4)}
-.pk.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+#pack{padding-top:70px;padding-bottom:20px}
+.pk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px}
+.pk{padding:30px 24px;display:flex;flex-direction:column;transition:border-color .3s,transform .3s,box-shadow .3s;cursor:pointer}
+.pk:hover{border-color:rgba(201,169,110,.65);transform:translateY(-5px);box-shadow:0 22px 48px -26px rgba(20,15,5,.4),inset 0 1px 0 rgba(255,255,255,.95)}
+.pk.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset,0 18px 40px -24px rgba(201,169,110,.7)}
 .pk h3{font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:400;margin-bottom:8px}
 .pk .pk-for{font-size:10.5px;color:var(--gold);letter-spacing:.6px;margin-bottom:18px}
 .pk ul{list-style:none;font-size:12px;color:var(--muted);line-height:2;flex:1}
@@ -60,7 +85,7 @@ a{color:inherit;text-decoration:none}
 .pk-go{margin-top:16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
 
 /* ── configuratore ── */
-#cfg{padding:80px 0 40px}
+#cfg{padding-top:80px;padding-bottom:40px}
 .step{margin-bottom:56px}
 .step-h{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
 .step-n{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold)}
@@ -68,22 +93,29 @@ a{color:inherit;text-decoration:none}
 .step-d{font-size:12px;color:var(--muted);line-height:1.9;max-width:620px;margin-bottom:26px}
 
 .opts{display:flex;flex-wrap:wrap;gap:10px}
-.opt{border:.5px solid var(--border);background:#fff;padding:13px 20px;font:inherit;font-size:12px;color:var(--text);
-  cursor:pointer;transition:border-color .25s,background .25s,color .25s;text-align:left}
-.opt:hover{border-color:var(--gold)}
-.opt.on{border-color:var(--gold);background:rgba(201,169,110,.1)}
+.opt{position:relative;border-radius:16px;border:.5px solid rgba(255,255,255,.7);background:rgba(255,255,255,.5);
+  -webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85);padding:13px 20px;font:inherit;font-size:12px;color:var(--text);
+  cursor:pointer;transition:border-color .25s,background .25s,color .25s,box-shadow .25s;text-align:left}
+.opt:hover{border-color:rgba(201,169,110,.6);box-shadow:0 6px 18px -10px rgba(201,169,110,.5),inset 0 1px 0 rgba(255,255,255,.9)}
+.opt.on{border-color:var(--gold);background:rgba(201,169,110,.16);box-shadow:0 8px 22px -12px rgba(201,169,110,.6),inset 0 1px 0 rgba(255,255,255,.85)}
 .opt small{display:block;font-size:10px;color:var(--muted);margin-top:3px}
 .opt.on small{color:#8a6d35}
 
 /* schede servizi */
 .sv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.sv{border:.5px solid var(--border);background:#fff;overflow:hidden;display:flex;flex-direction:column;
-  transition:border-color .3s,transform .3s,box-shadow .3s}
-.sv:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 18px 40px -26px rgba(20,15,5,.38)}
+.sv{overflow:hidden;display:flex;flex-direction:column;transition:border-color .3s,transform .3s,box-shadow .3s}
+.sv:hover{border-color:rgba(201,169,110,.65);transform:translateY(-4px);box-shadow:0 20px 44px -24px rgba(20,15,5,.38),inset 0 1px 0 rgba(255,255,255,.95)}
 .sv.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
-.sv-img{position:relative;aspect-ratio:3/2;overflow:hidden;background:#eee}
+.sv-img{position:relative;aspect-ratio:3/2;overflow:hidden;background:#eee;border-radius:20px 20px 0 0}
 .sv-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
 .sv:hover .sv-img img{transform:scale(1.05)}
+.sv-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,.22);-webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);
+  border:.5px solid rgba(255,255,255,.6);box-shadow:0 6px 22px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.7);
+  display:flex;align-items:center;justify-content:center;pointer-events:none;transition:transform .4s ease}
+.sv-play::after{content:'';border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent #fff;margin-left:4px}
+.sv:hover .sv-play{transform:translate(-50%,-50%) scale(1.1)}
 .sv-tick{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.7);
   background:rgba(10,10,10,.4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;
   opacity:0;transform:scale(.7);transition:opacity .25s,transform .25s}
@@ -97,16 +129,16 @@ a{color:inherit;text-decoration:none}
 .sv-pr{font-size:12.5px}
 .sv-pr b{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400}
 .sv-pr span{font-size:10px;color:var(--muted);display:block}
-.sv-add{border:.5px solid var(--border);background:none;font:inherit;font-size:10px;letter-spacing:1.6px;
+.sv-add{border-radius:999px;border:.5px solid var(--border);background:rgba(255,255,255,.6);font:inherit;font-size:10px;letter-spacing:1.6px;
   text-transform:uppercase;padding:8px 14px;cursor:pointer;color:var(--text);transition:all .25s;white-space:nowrap}
 .sv-add:hover{border-color:var(--gold);color:var(--gold)}
 .sv.on .sv-add{border-color:var(--gold);background:var(--gold);color:var(--dark)}
-.qta{display:flex;align-items:center;gap:0;border:.5px solid var(--gold)}
+.qta{display:flex;align-items:center;gap:0;border-radius:999px;border:.5px solid var(--gold);background:rgba(255,255,255,.6);overflow:hidden}
 .qta button{width:28px;height:30px;border:none;background:none;font:inherit;font-size:14px;color:var(--gold);cursor:pointer;line-height:1}
 .qta span{min-width:30px;text-align:center;font-size:12px}
 
 /* ── riepilogo laterale ── */
-#riep{position:sticky;top:96px;border:.5px solid var(--border);background:#fff;padding:26px 24px;align-self:start}
+#riep{position:sticky;top:96px;padding:26px 24px;align-self:start}
 #riep h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:4px}
 #riep .r-sub{font-size:10.5px;color:var(--muted);margin-bottom:20px}
 #r-voci{list-style:none;font-size:11.5px;line-height:1.6;max-height:230px;overflow-y:auto;margin-bottom:18px}
@@ -122,14 +154,14 @@ a{color:inherit;text-decoration:none}
 .r-bar{height:2px;background:var(--border);position:relative;overflow:hidden}
 .r-bar i{position:absolute;inset:0 auto 0 0;background:var(--gold);width:0;transition:width .5s ease}
 .r-nota{font-size:10.5px;color:var(--muted);line-height:1.75;margin-top:16px;border-top:.5px solid var(--border);padding-top:14px}
-#r-cta{display:block;width:100%;margin-top:18px;border:.5px solid var(--gold);background:var(--gold);color:var(--dark);
+#r-cta{display:block;width:100%;margin-top:18px;border-radius:999px;border:.5px solid var(--gold);background:var(--gold);color:var(--dark);box-shadow:0 10px 26px -14px rgba(201,169,110,.9),inset 0 1px 0 rgba(255,255,255,.5);
   font:inherit;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;padding:14px;cursor:pointer;transition:opacity .25s}
 #r-cta:hover{opacity:.86}
 #r-cta:disabled{background:none;color:var(--muted);border-color:var(--border);cursor:not-allowed}
 .cfg-grid{display:grid;grid-template-columns:1fr 330px;gap:48px;align-items:start}
 
 /* ── invio ── */
-#invio{padding:70px 0 100px;border-top:.5px solid var(--border)}
+#invio{padding-top:70px;padding-bottom:100px;border-top:.5px solid var(--border)}
 .inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
 .f-row{margin-bottom:16px}
 .f-row label{display:block;font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
@@ -138,13 +170,13 @@ a{color:inherit;text-decoration:none}
 .f-row input:focus,.f-row textarea:focus{outline:none;border-color:var(--gold)}
 .f-row textarea{resize:vertical;min-height:74px}
 .f-hp{position:absolute;left:-9999px}
-#inv-send{margin-top:22px;border:.5px solid var(--gold);background:var(--gold);color:var(--dark);font:inherit;
+#inv-send{margin-top:22px;border-radius:999px;border:.5px solid var(--gold);background:var(--gold);color:var(--dark);box-shadow:0 10px 26px -14px rgba(201,169,110,.9),inset 0 1px 0 rgba(255,255,255,.5);font:inherit;
   font-size:10.5px;letter-spacing:2px;text-transform:uppercase;padding:15px 34px;cursor:pointer;transition:opacity .25s}
 #inv-send:hover{opacity:.86}
 #inv-msg{margin-top:16px;font-size:12px;line-height:1.8;display:none}
 #inv-msg.ok{display:block;color:#3d6b45}
 #inv-msg.ko{display:block;color:#8c3b3b}
-.serve{border:.5px solid var(--border);background:#fff;padding:26px 24px}
+.serve{padding:26px 24px}
 .serve h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:6px}
 .serve p{font-size:11.5px;color:var(--muted);line-height:1.85;margin-bottom:16px}
 .serve ul{list-style:none;font-size:11.5px;line-height:2;color:var(--muted)}
@@ -163,7 +195,7 @@ footer a{color:var(--gold)}
   .wrap{padding:0 20px}
   #nav{padding:14px 20px}
   .cfg-grid{grid-template-columns:1fr;gap:0}
-  .pk-grid{grid-template-columns:1fr}
+  .pk-grid{grid-template-columns:1fr 1fr}
   .sv-grid{grid-template-columns:1fr 1fr}
   .inv-grid{grid-template-columns:1fr;gap:32px}
   /* il riepilogo diventa una barra in basso, sempre sott'occhio */
@@ -178,12 +210,13 @@ footer a{color:var(--gold)}
   body.scelto #riep{display:block}
   body.scelto #cfg{padding-bottom:150px}
 }
-@media(max-width:620px){ .sv-grid{grid-template-columns:1fr} }
+@media(max-width:620px){ .sv-grid{grid-template-columns:1fr} .pk-grid{grid-template-columns:1fr} }
 #r-toggle{display:none;width:100%;border:none;background:none;font:inherit;font-size:9.5px;letter-spacing:1.8px;
   text-transform:uppercase;color:var(--gold);padding:8px 0 0;cursor:pointer}
 </style>
 </head>
 <body>
+<div id="sfondo" aria-hidden="true"></div>
 
 <nav id="nav">
   <a href="/" aria-label="VISIO — torna al sito">
@@ -254,7 +287,7 @@ footer a{color:var(--gold)}
 
     </div>
 
-    <aside id="riep">
+    <aside id="riep" class="vetro">
       <h3 class="serif">La tua bozza</h3>
       <p class="r-sub">Aggiornata mentre scegli</p>
       <ul id="r-voci"><li class="r-vuoto">Non hai ancora scelto nessun servizio.</li></ul>
@@ -297,7 +330,7 @@ footer a{color:var(--gold)}
     </div>
 
     <div>
-      <div class="serve">
+      <div class="serve vetro">
         <h4 class="serif">Cosa ci serve da te</h4>
         <p>Niente di complicato. Pi&ugrave; materiale ci dai all&rsquo;inizio, pi&ugrave; il preventivo &egrave; preciso e meno tempo perdiamo entrambi.</p>
         <ul id="serve-lista"></ul>
@@ -320,43 +353,47 @@ footer a{color:var(--gold)}
    pubblicare. Finche PREZZI_VERIFICATI resta false, la pagina
    mostra un avviso ben visibile.
    ══════════════════════════════════════════════════════════════════ */
-const PREZZI_VERIFICATI = false;
-const SCONTO = 10;            // percentuale promessa a chi invia la bozza
-const MINIMO = 500;           // sotto questa cifra non si apre un progetto
-const IVA_ESCLUSA = true;
+const PREZZI_VERIFICATI = true;   // i prezzi dei servizi sono quelli dati da Matteo
+const SCONTO = 10;            // DA CONFERMARE — percentuale promessa a chi invia la bozza.
+                              // Finisce nero su bianco in pagina: e una promessa al cliente.
+const MINIMO = 300;           // sotto questa cifra non si apre un progetto
+                              // (tenerlo sotto al pacchetto Smart: 5 viste x 65 = 325,
+                              //  altrimenti la card mostra una cifra e il riepilogo un'altra)
+const IVA_ESCLUSA = true;     // DA CONFERMARE
+const APERTI_CONFERMATI = false;  // sconto, minimo e IVA verificati da Matteo
 
 const SERVIZI = [
- {id:'render-interni', nome:'Render fotorealistici di interni', da:180, a:450, unita:'a vista', perUnita:true, qta:3,
+ {id:'render-interni', nome:'Render fotorealistici di interni', da:65, a:150, unita:'a vista', perUnita:true, qta:5, min:5,
   che:"Le immagini degli ambienti interni, una per ogni vista che vuoi mostrare. Sono quelle che fanno decidere le persone.",
   var:"numero di viste, livello di dettaglio degli arredi, quanto materiale ci fornisci"},
- {id:'render-esterni', nome:'Render fotorealistici di esterni', da:250, a:600, unita:'a vista', perUnita:true, qta:1,
+ {id:'render-esterni', nome:'Render fotorealistici di esterni', da:80, a:200, unita:'a vista', perUnita:true, qta:2,
   che:"L&rsquo;immobile visto da fuori: facciata, giardino, vista d&rsquo;insieme, con luce e contesto reali.",
   var:"contesto da ricostruire, vegetazione, ora del giorno"},
  {id:'lidar', nome:'Scansione LiDAR e rilievo 3D', da:350, a:1200, unita:'a progetto', perUnita:false,
   che:"Scansione millimetrica di quello che esiste gi&agrave;. Serve quando non ci sono disegni aggiornati, o quando tutto deve coincidere al centimetro.",
-  var:"metratura, numero di ambienti, complessit&agrave; dello stato di fatto"},
- {id:'tour360', nome:'Tour virtuale 360&deg;', da:450, a:1500, unita:'a progetto', perUnita:false,
+  var:"metratura, numero di ambienti, complessit&agrave; dello stato di fatto e strumento di rilievo impiegato"},
+ {id:'tour360', nome:'Tour virtuale 360&deg;', da:450, a:900, unita:'a progetto', perUnita:false,
   che:"Una stanza navigabile che si esplora dal browser girandosi intorno. Si manda per link, senza installare niente.",
   var:"numero di ambienti collegati, punti di interesse"},
- {id:'ar', nome:'Realt&agrave; aumentata', da:500, a:1800, unita:'a progetto', perUnita:false,
+ {id:'ar', nome:'Realt&agrave; aumentata', da:300, a:800, unita:'a progetto', perUnita:false,
   che:"Il cliente inquadra la stanza vuota col telefono e la vede arredata a grandezza naturale, in casa sua.",
   var:"numero di ambienti, quantit&agrave; di oggetti da modellare"},
- {id:'video', nome:'Video / animazione', da:900, a:3500, unita:'a progetto', perUnita:false,
+ {id:'video', nome:'Video / animazione', da:400, a:1500, unita:'a progetto', perUnita:false, play:true,
   che:"Un filmato che attraversa il progetto. &Egrave; quello che colpisce di pi&ugrave; nelle presentazioni e sui social.",
   var:"durata, complessit&agrave; dei movimenti di camera, musica e montaggio"},
  {id:'documenti', nome:'Documentazione tecnica', da:450, a:1600, unita:'a progetto', perUnita:false,
   che:"Planimetrie quotate, sezioni, assonometrie e schemi impianti: la cartella che serve alle imprese per fare i loro preventivi.",
-  var:"numero di tavole, livello di dettaglio richiesto"},
+  var:"numero di piante, se servono gli schemi impianti, i cartongessi e i dettagli costruttivi"},
  {id:'arredo', nome:'Arredo su misura', da:280, a:900, unita:'a mobile', perUnita:true, qta:1,
   che:"Il disegno esecutivo di un mobile su misura, quotato al millimetro e pronto per il falegname.",
-  var:"numero di pezzi, complessit&agrave; costruttiva, ferramenta"},
- {id:'luci', nome:'Studio illuminotecnico', da:300, a:1000, unita:'a progetto', perUnita:false,
+  var:"numero di oggetti da progettare e complessit&agrave; costruttiva di ciascuno"},
+ {id:'luci', nome:'Studio illuminotecnico', da:300, a:600, unita:'a progetto', perUnita:false,
   che:"Dove mettere la luce, di che temperatura, che effetto fa di giorno e di sera. Cambia la percezione di tutta la casa.",
   var:"numero di ambienti, scenari da simulare"},
- {id:'esterni', nome:'Studio area esterna', da:450, a:1600, unita:'a progetto', perUnita:false,
+ {id:'esterni', nome:'Studio area esterna', da:450, a:900, unita:'a progetto', perUnita:false,
   che:"Giardino, pavimentazioni, piscina, verde e illuminazione: il progetto di tutto quello che sta fuori.",
   var:"superficie, opere previste, sistemazione del verde"},
- {id:'sito', nome:'Sito dedicato al progetto', da:550, a:1500, unita:'a progetto', perUnita:false,
+ {id:'sito', nome:'Sito dedicato al progetto', da:300, a:700, unita:'a progetto', perUnita:false,
   che:"Una pagina web solo per il tuo progetto, con render, tour e documenti. Da mandare a clienti o acquirenti.",
   var:"numero di sezioni, dominio dedicato, aggiornamenti nel tempo"}
 ];
@@ -403,28 +440,37 @@ const REVS = [
  {v:'molte',t:'Meglio abbondare',s:'Pi&ugrave; giri di modifiche'}
 ];
 const PACCHETTI = [
+ {id:'smart', nome:'Smart', per:'Una stanza sola',
+  voci:{'render-interni':5},
+  desc:['5 viste dello stesso ambiente','Il taglio giusto per un soggiorno o una cucina','Revisioni comprese']},
  {id:'essenziale', nome:'Essenziale', per:'Per presentare un&rsquo;idea',
-  voci:{'render-interni':3,'render-esterni':1},
-  desc:['3 render di interni','1 render di esterni','Revisioni comprese']},
+  voci:{'render-interni':5,'render-esterni':2},
+  desc:['5 render di interni','2 render di esterni','Revisioni comprese']},
  {id:'completo', nome:'Completo', per:'Per vendere o convincere',
-  voci:{'render-interni':5,'render-esterni':2,'tour360':1,'documenti':1},
-  desc:['5 render di interni','2 render di esterni','Tour virtuale 360&deg;','Documentazione tecnica']},
+  voci:{'render-interni':8,'render-esterni':3,'tour360':1,'documenti':1},
+  desc:['8 render di interni','3 render di esterni','Tour virtuale 360&deg;','Documentazione tecnica']},
  {id:'chiavi', nome:'Chiavi in mano', per:'Dal rilievo alla consegna',
-  voci:{'render-interni':6,'render-esterni':3,'lidar':1,'tour360':1,'ar':1,'documenti':1,'arredo':2,'luci':1,'esterni':1,'sito':1},
-  desc:['Rilievo LiDAR dello stato di fatto','9 render fra interni ed esterni','Tour 360&deg; e realt&agrave; aumentata','Documentazione completa','Arredo su misura e luci','Area esterna e sito dedicato']}
+  voci:{'render-interni':10,'render-esterni':4,'lidar':1,'tour360':1,'ar':1,'video':1,'documenti':1,'arredo':2,'luci':1,'esterni':1,'sito':1},
+  desc:['Rilievo LiDAR dello stato di fatto','14 render fra interni ed esterni','Tour 360&deg;, realt&agrave; aumentata e video','Documentazione completa','Arredo su misura e luci','Area esterna e sito dedicato']}
 ];
 </script>
 
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const stato={tipo:null,mq:null,fase:null,mat:null,urg:null,rev:null,servizi:{}};
-const eur=n=>'€ '+Math.round(n/10)*10;
+// sotto i 400 la cifra resta esatta: arrotondando alle decine "65" diventava "70",
+// cioe un prezzo diverso da quello del listino. Sopra, l'arrotondamento aiuta a leggere.
+const eurStatico=n=>'€ '+n;
+const eur=n=>'€ '+(n<400?Math.round(n):Math.round(n/10)*10);
 
 /* ── avviso listino provvisorio ────────────────────────────────── */
 if(!PREZZI_VERIFICATI){
-  $('#provv').innerHTML='<b>Listino ancora da confermare.</b> Le cifre qui sotto sono una stima di mercato, '+
-    'non i prezzi definitivi dello studio. Vanno riviste prima di pubblicare la pagina: si modificano tutte '+
-    'nel blocco <code>LISTINO</code> in cima al file, e poi si mette <code>PREZZI_VERIFICATI = true</code> per far sparire questo avviso.';
+  $('#provv').innerHTML='<b>Listino ancora da confermare.</b> Le cifre sono una stima, non i prezzi dello studio.';
+} else if(!APERTI_CONFERMATI){
+  $('#provv').innerHTML='<b>Da confermare prima di pubblicare:</b> lo <b>sconto del '+SCONTO+'%</b> promesso in pagina, '+
+    'il <b>minimo di progetto ('+eurStatico(MINIMO)+')</b> e il fatto che i prezzi siano <b>IVA esclusa</b>. '+
+    'Sono tre valori scelti da noi, non da te: stanno in cima al file. Quando sono giusti, metti '+
+    '<code>APERTI_CONFERMATI = true</code> e questo avviso sparisce.';
 } else $('#provv').remove();
 $('#promo-p').textContent='sconto del '+SCONTO+'%';
 $('#promo-p2').textContent='con lo sconto del '+SCONTO+'%';
@@ -445,15 +491,15 @@ opzioni('#o-tipo',TIPI,'tipo'); opzioni('#o-mq',MQS,'mq'); opzioni('#o-fase',FAS
 opzioni('#o-mat',MATS,'mat');   opzioni('#o-urg',URGS,'urg'); opzioni('#o-rev',REVS,'rev');
 
 $('#sv-grid').innerHTML=SERVIZI.map(s=>`
-  <article class="sv" data-id="${s.id}">
+  <article class="sv vetro" data-id="${s.id}">
     <div class="sv-img"><img src="img/prev/${s.id}.jpg" alt="${s.nome.replace(/&[a-z]+;/g,'')}" width="480" height="320" loading="lazy" decoding="async">
-      <span class="sv-tick">✓</span></div>
+      <span class="sv-tick">✓</span>${s.play?'<span class="sv-play" aria-hidden="true"></span>':''}</div>
     <div class="sv-body">
       <h4 class="serif">${s.nome}</h4>
       <p>${s.che}</p>
       <p class="sv-var"><b>Cosa fa variare il prezzo:</b> ${s.var}.</p>
       <div class="sv-foot">
-        <span class="sv-pr"><b>${eur(s.da)} – ${eur(s.a)}</b><span>${s.unita}</span></span>
+        <span class="sv-pr"><b>${eur(s.da)} – ${eur(s.a)}</b><span>${s.unita}${s.min?` · minimo ${s.min}`:''}</span></span>
         <span class="sv-az"></span>
       </div>
     </div>
@@ -467,15 +513,15 @@ function disegnaAzione(s){
     box.innerHTML=`<span class="qta"><button data-m="-1">−</button><span>${q}</span><button data-m="1">+</button></span>`;
     box.querySelectorAll('button').forEach(b=>b.onclick=e=>{
       e.stopPropagation();
-      const n=Math.max(0,q+(+b.dataset.m));
-      if(n) stato.servizi[s.id]=n; else delete stato.servizi[s.id];
+      const n=q+(+b.dataset.m), soglia=s.min||1;
+      if(n>=soglia) stato.servizi[s.id]=n; else delete stato.servizi[s.id];   // sotto il minimo si toglie del tutto
       aggiorna();
     });
   } else {
     box.innerHTML=`<button class="sv-add">${q>0?'Tolto? clicca':'Aggiungi'}</button>`;
     box.querySelector('button').onclick=e=>{
       e.stopPropagation();
-      if(q>0) delete stato.servizi[s.id]; else stato.servizi[s.id]=s.perUnita?(s.qta||1):1;
+      if(q>0) delete stato.servizi[s.id]; else stato.servizi[s.id]=s.perUnita?(s.qta||s.min||1):1;
       aggiorna();
     };
   }
@@ -483,7 +529,7 @@ function disegnaAzione(s){
 }
 
 $('#pk-grid').innerHTML=PACCHETTI.map(p=>`
-  <article class="pk" data-id="${p.id}">
+  <article class="pk vetro" data-id="${p.id}">
     <h3 class="serif">${p.nome}</h3>
     <p class="pk-for">${p.per}</p>
     <ul>${p.desc.map(d=>`<li>${d}</li>`).join('')}</ul>
@@ -571,7 +617,7 @@ function aggiorna(){
     for(const [id,q] of Object.entries(p.voci)){
       const s=SERVIZI.find(x=>x.id===id); const n=s.perUnita?q:1; mn+=s.da*n; mx+=s.a*n;
     }
-    const el=document.getElementById('pk-'+p.id); if(el) el.textContent=`${eur(mn)} – ${eur(mx)}`;
+    const el=document.getElementById('pk-'+p.id); if(el) el.textContent=`${eur(Math.max(mn,MINIMO))} – ${eur(mx)}`;
   });
   salva();
 }
