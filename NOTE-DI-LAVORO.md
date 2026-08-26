@@ -342,6 +342,41 @@ Misurato: da **20,5 MB a 10,8 MB** al primo caricamento, primo fotogramma a
 **Per ispezionare il velo** senza rete lenta: alzare temporaneamente `MIN` *e*
 `MAX` nel blocco LOADER — alzare solo `MIN` non basta, chiude comunque `MAX`.
 
+### La pagina preventivo (`preventivo.html`)
+
+Configuratore: il cliente sceglie i servizi e ottiene una **forbice di prezzo**,
+mai una cifra secca. Raggiungibile da `/preventivo` (voce 04 del menu).
+
+**Il meccanismo da capire prima di toccarla.** La forbice parte larga e **si
+stringe a ogni risposta**: le fasce "non risposto" in `IGNOTO` contengono tutte
+le risposte possibili, quindi rispondere puo solo restringere, mai allargare.
+Se si aggiunge una nuova domanda, la sua fascia in `IGNOTO` deve contenere tutte
+le opzioni, altrimenti il cliente vede il prezzo salire mentre risponde — che e
+esattamente l'effetto opposto a quello voluto.
+
+I moltiplicatori sono volutamente contenuti (±10-20%). Si moltiplicano fra loro:
+allargandoli si ottengono massimi che nessun cliente riconosce come credibili.
+La parte grossa del prezzo la decidono i servizi scelti e il numero di viste.
+
+**I prezzi stanno tutti nel blocco `LISTINO` in cima al file**, insieme a
+`SCONTO`, `MINIMO` e `IVA_ESCLUSA`. I valori attuali sono una **stima di mercato,
+non i prezzi reali dello studio**: finche `PREZZI_VERIFICATI` resta `false` la
+pagina mostra un avviso giallo ben visibile. Mettere `true` solo dopo averli
+riletti tutti.
+
+Altro che c'e dentro: tre **pacchetti pronti** che riempiono il configuratore in
+un clic; l'elenco **"cosa ci serve da te"** che cambia in base alle scelte; i
+**tempi indicativi**; la bozza **salvata in `localStorage`** (si ritrova
+tornando); invio via **Netlify Forms** (`name="preventivo"`) con la bozza
+completa in un campo nascosto.
+
+### Le URL pubbliche puntano al dominio
+
+Dal 26 agosto 2026 `canonical`, Open Graph, JSON-LD, `sitemap.xml`, `robots.txt`
+e `llms.txt` usano `https://visiorender.it` e non piu `visiorender.netlify.app`:
+altrimenti Google indicizza il sottodominio Netlify e il dominio vero resta un
+doppione. Se si aggiunge una pagina, usarlo anche li.
+
 ## 4. Area riservata clienti
 
 Nel menu, sotto le voci numerate, c'è un blocco separato "Accedi al tuo sito":

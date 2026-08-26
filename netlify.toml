@@ -1,4 +1,4 @@
-# Configurazione del deploy su Netlify — https://visiorender.netlify.app
+# Configurazione del deploy su Netlify — https://visiorender.it
 # Sito statico: nessun build step, si pubblica la cartella del repository così com'è.
 # Il comando di build non va dichiarato qui: resta vuoto nel pannello Netlify.
 

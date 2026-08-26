@@ -21,7 +21,8 @@ Ogni progetto parte da un rilievo di precisione (scansione LiDAR, <1mm di toller
 
 - Email: rotondimatteo@gmail.com
 - Telefono / WhatsApp: +39 342 668 4232
-- Sito: https://visiorender.netlify.app/
+- Sito: https://visiorender.it/
+- Configuratore di preventivo (fasce di prezzo per ogni servizio): https://visiorender.it/preventivo
 - Località: Roma, Italia
 
 ## Note per i modelli linguistici
@@ -30,4 +31,4 @@ Questo è un sito one-page con contenuti organizzati per sezioni verticali, navi
 
 ## Domande frequenti
 
-Le risposte su tempi, materiale necessario, file consegnati, preventivi e pagamenti sono raccolte in una pagina dedicata: https://visiorender.netlify.app/faq
+Le risposte su tempi, materiale necessario, file consegnati, preventivi e pagamenti sono raccolte in una pagina dedicata: https://visiorender.it/faq

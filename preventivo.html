@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Configura il tuo preventivo — VISIO Studio | Rendering architettonico Roma</title>
+<meta name="description" content="Componi la bozza del tuo preventivo per render fotorealistici, tour virtuali, rilievo LiDAR e progettazione. Fasce di prezzo trasparenti che si affinano con le tue risposte. Inviala e ricevi il preventivo definitivo con lo sconto riservato.">
+<link rel="canonical" href="https://visiorender.it/preventivo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Configura il tuo preventivo — VISIO Studio">
+<meta property="og:description" content="Scegli i servizi che ti servono e ottieni subito una stima trasparente. Invia la bozza e blocca lo sconto sul preventivo definitivo.">
+<meta property="og:url" content="https://visiorender.it/preventivo">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A96E;--dark:#0A0A0A;--light:#FAFAF8;--text:#1A1A18;--muted:#8A8A82;--border:rgba(26,26,24,.14)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{background:var(--light);color:var(--text);font-family:'Inter',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Cormorant Garamond',serif}
+a{color:inherit;text-decoration:none}
+.slabel{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 40px}
+
+/* ── navigazione ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 40px;background:rgba(250,250,248,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:.5px solid var(--border)}
+#nav svg{width:58px;height:auto;display:block}
+#nav svg>*{fill:none;stroke:var(--text);stroke-width:9;stroke-linejoin:round}
+.nback{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .25s}
+.nback:hover{color:var(--gold)}
+
+/* ── apertura ── */
+#hero{padding:150px 0 60px;text-align:center}
+#hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6vw,72px);font-weight:300;line-height:1.05;margin-bottom:20px}
+#hero h1 em{font-style:italic;color:var(--gold)}
+#hero .sub{font-size:14px;color:var(--muted);line-height:1.9;max-width:600px;margin:0 auto}
+#promo{display:inline-flex;align-items:center;gap:10px;margin-top:28px;border:.5px solid var(--gold);
+  background:rgba(201,169,110,.08);padding:11px 20px;font-size:11px;letter-spacing:.4px}
+#promo b{font-weight:500;color:#8a6d35}
+
+/* ── avviso listino provvisorio ── */
+#provv{max-width:1180px;margin:26px auto 0;border:.5px solid #d9a441;background:#fdf6e8;padding:14px 20px;font-size:11.5px;line-height:1.7;color:#6b5220}
+#provv b{font-weight:500}
+
+/* ── pacchetti ── */
+#pack{padding:70px 0 20px}
+.pk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:34px}
+.pk{border:.5px solid var(--border);background:#fff;padding:32px 26px;display:flex;flex-direction:column;
+  transition:border-color .3s,transform .3s,box-shadow .3s;cursor:pointer}
+.pk:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 20px 44px -28px rgba(20,15,5,.4)}
+.pk.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.pk h3{font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:400;margin-bottom:8px}
+.pk .pk-for{font-size:10.5px;color:var(--gold);letter-spacing:.6px;margin-bottom:18px}
+.pk ul{list-style:none;font-size:12px;color:var(--muted);line-height:2;flex:1}
+.pk li::before{content:'—';color:var(--gold);margin-right:8px}
+.pk .pk-pr{margin-top:20px;padding-top:16px;border-top:.5px solid var(--border);font-size:13px}
+.pk .pk-pr b{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400}
+.pk-go{margin-top:16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+
+/* ── configuratore ── */
+#cfg{padding:80px 0 40px}
+.step{margin-bottom:56px}
+.step-h{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.step-n{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold)}
+.step-h h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.4vw,38px);font-weight:300}
+.step-d{font-size:12px;color:var(--muted);line-height:1.9;max-width:620px;margin-bottom:26px}
+
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{border:.5px solid var(--border);background:#fff;padding:13px 20px;font:inherit;font-size:12px;color:var(--text);
+  cursor:pointer;transition:border-color .25s,background .25s,color .25s;text-align:left}
+.opt:hover{border-color:var(--gold)}
+.opt.on{border-color:var(--gold);background:rgba(201,169,110,.1)}
+.opt small{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+.opt.on small{color:#8a6d35}
+
+/* schede servizi */
+.sv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sv{border:.5px solid var(--border);background:#fff;overflow:hidden;display:flex;flex-direction:column;
+  transition:border-color .3s,transform .3s,box-shadow .3s}
+.sv:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 18px 40px -26px rgba(20,15,5,.38)}
+.sv.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.sv-img{position:relative;aspect-ratio:3/2;overflow:hidden;background:#eee}
+.sv-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.sv:hover .sv-img img{transform:scale(1.05)}
+.sv-tick{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.7);
+  background:rgba(10,10,10,.4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;
+  opacity:0;transform:scale(.7);transition:opacity .25s,transform .25s}
+.sv.on .sv-tick{opacity:1;transform:scale(1);background:var(--gold);border-color:var(--gold);color:var(--dark)}
+.sv-body{padding:20px 20px 22px;display:flex;flex-direction:column;flex:1}
+.sv-body h4{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;margin-bottom:7px}
+.sv-body p{font-size:11.5px;color:var(--muted);line-height:1.85;flex:1}
+.sv-var{margin-top:12px;font-size:10.5px;color:var(--muted);line-height:1.7;border-left:1px solid var(--border);padding-left:11px}
+.sv-var b{color:var(--text);font-weight:400}
+.sv-foot{margin-top:16px;padding-top:14px;border-top:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sv-pr{font-size:12.5px}
+.sv-pr b{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400}
+.sv-pr span{font-size:10px;color:var(--muted);display:block}
+.sv-add{border:.5px solid var(--border);background:none;font:inherit;font-size:10px;letter-spacing:1.6px;
+  text-transform:uppercase;padding:8px 14px;cursor:pointer;color:var(--text);transition:all .25s;white-space:nowrap}
+.sv-add:hover{border-color:var(--gold);color:var(--gold)}
+.sv.on .sv-add{border-color:var(--gold);background:var(--gold);color:var(--dark)}
+.qta{display:flex;align-items:center;gap:0;border:.5px solid var(--gold)}
+.qta button{width:28px;height:30px;border:none;background:none;font:inherit;font-size:14px;color:var(--gold);cursor:pointer;line-height:1}
+.qta span{min-width:30px;text-align:center;font-size:12px}
+
+/* ── riepilogo laterale ── */
+#riep{position:sticky;top:96px;border:.5px solid var(--border);background:#fff;padding:26px 24px;align-self:start}
+#riep h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:4px}
+#riep .r-sub{font-size:10.5px;color:var(--muted);margin-bottom:20px}
+#r-voci{list-style:none;font-size:11.5px;line-height:1.6;max-height:230px;overflow-y:auto;margin-bottom:18px}
+#r-voci li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:.5px dotted var(--border);color:var(--muted)}
+#r-voci li b{font-weight:400;color:var(--text);flex:1}
+#r-voci .r-vuoto{color:var(--muted);border:none;font-style:italic;padding:14px 0}
+.r-tot{border-top:1px solid var(--border);padding-top:18px}
+.r-tot .r-lab{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.r-cifra{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,34px);font-weight:300;line-height:1.15}
+.r-iva{font-size:10px;color:var(--muted);margin-top:6px}
+.r-prec{margin-top:18px}
+.r-prec .r-lab2{font-size:9.5px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:7px}
+.r-bar{height:2px;background:var(--border);position:relative;overflow:hidden}
+.r-bar i{position:absolute;inset:0 auto 0 0;background:var(--gold);width:0;transition:width .5s ease}
+.r-nota{font-size:10.5px;color:var(--muted);line-height:1.75;margin-top:16px;border-top:.5px solid var(--border);padding-top:14px}
+#r-cta{display:block;width:100%;margin-top:18px;border:.5px solid var(--gold);background:var(--gold);color:var(--dark);
+  font:inherit;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;padding:14px;cursor:pointer;transition:opacity .25s}
+#r-cta:hover{opacity:.86}
+#r-cta:disabled{background:none;color:var(--muted);border-color:var(--border);cursor:not-allowed}
+.cfg-grid{display:grid;grid-template-columns:1fr 330px;gap:48px;align-items:start}
+
+/* ── invio ── */
+#invio{padding:70px 0 100px;border-top:.5px solid var(--border)}
+.inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.f-row{margin-bottom:16px}
+.f-row label{display:block;font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.f-row input,.f-row textarea{width:100%;border:none;border-bottom:.5px solid var(--border);background:none;
+  font:inherit;font-size:13px;color:var(--text);padding:9px 0;transition:border-color .3s}
+.f-row input:focus,.f-row textarea:focus{outline:none;border-color:var(--gold)}
+.f-row textarea{resize:vertical;min-height:74px}
+.f-hp{position:absolute;left:-9999px}
+#inv-send{margin-top:22px;border:.5px solid var(--gold);background:var(--gold);color:var(--dark);font:inherit;
+  font-size:10.5px;letter-spacing:2px;text-transform:uppercase;padding:15px 34px;cursor:pointer;transition:opacity .25s}
+#inv-send:hover{opacity:.86}
+#inv-msg{margin-top:16px;font-size:12px;line-height:1.8;display:none}
+#inv-msg.ok{display:block;color:#3d6b45}
+#inv-msg.ko{display:block;color:#8c3b3b}
+.serve{border:.5px solid var(--border);background:#fff;padding:26px 24px}
+.serve h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:6px}
+.serve p{font-size:11.5px;color:var(--muted);line-height:1.85;margin-bottom:16px}
+.serve ul{list-style:none;font-size:11.5px;line-height:2;color:var(--muted)}
+.serve li::before{content:'·';color:var(--gold);margin-right:9px;font-weight:700}
+.tempi{margin-top:20px;padding-top:16px;border-top:.5px solid var(--border);font-size:11.5px;color:var(--muted);line-height:1.8}
+.tempi b{color:var(--text);font-weight:400}
+
+footer{border-top:.5px solid var(--border);padding:36px 0;text-align:center;font-size:10.5px;color:var(--muted)}
+footer a{color:var(--gold)}
+
+/* ── comparsa allo scroll ── */
+.rev{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease}
+.rev.v{opacity:1;transform:none}
+
+@media(max-width:980px){
+  .wrap{padding:0 20px}
+  #nav{padding:14px 20px}
+  .cfg-grid{grid-template-columns:1fr;gap:0}
+  .pk-grid{grid-template-columns:1fr}
+  .sv-grid{grid-template-columns:1fr 1fr}
+  .inv-grid{grid-template-columns:1fr;gap:32px}
+  /* il riepilogo diventa una barra in basso, sempre sott'occhio */
+  #riep{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:70;border:none;border-top:.5px solid var(--border);
+    padding:14px 20px 16px;box-shadow:0 -12px 34px -22px rgba(20,15,5,.5);max-height:64vh;overflow-y:auto}
+  #riep h3,#riep .r-sub,#r-voci,.r-prec,.r-nota{display:none}
+  #riep.aperto h3,#riep.aperto .r-sub,#riep.aperto #r-voci,#riep.aperto .r-prec,#riep.aperto .r-nota{display:block}
+  .r-tot{border-top:none;padding-top:0}
+  #r-toggle{display:block}
+  #cfg{padding-bottom:40px}
+  #riep{display:none}
+  body.scelto #riep{display:block}
+  body.scelto #cfg{padding-bottom:150px}
+}
+@media(max-width:620px){ .sv-grid{grid-template-columns:1fr} }
+#r-toggle{display:none;width:100%;border:none;background:none;font:inherit;font-size:9.5px;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--gold);padding:8px 0 0;cursor:pointer}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="/" aria-label="VISIO — torna al sito">
+    <svg viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
+      <polygon points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
+      <polygon points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
+      <polyline points="415.49 215.83 415.49 215.83 415.49 269.8 386.12 298.03 386.12 187.16 467.94 187.16 467.94 215.83 415.49 215.83"/>
+      <polyline points="438.57 322.36 438.57 268.19 467.94 240.04 467.94 351.03 386.12 351.03 386.12 322.36 438.57 322.36"/>
+      <polygon points="502.59 187.16 484.77 187.16 484.77 204.16 502.59 187.16"/>
+      <polygon points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
+      <polyline points="541.28 187.16 541.28 351.03 623.1 351.03 623.1 322.36 569.95 322.36 569.95 215.83 623.1 215.83 623.1 187.16 541.28 187.16"/>
+      <polygon points="594.43 240.04 594.43 298.03 623.1 269.8 623.1 240.04 594.43 240.04"/>
+    </svg>
+  </a>
+  <a class="nback" href="/">&larr; Torna al sito</a>
+</nav>
+
+<header id="hero" class="wrap">
+  <p class="slabel">Preventivo</p>
+  <h1 class="serif">Costruisci la tua<br><em>bozza di preventivo</em>.</h1>
+  <p class="sub">Scegli i servizi che ti servono e vedi subito una stima. Non un prezzo finto preciso: una forbice onesta, che <b>si stringe man mano che rispondi</b>. Poi inviacela e ti prepariamo l&rsquo;offerta definitiva.</p>
+  <div id="promo">Invia la tua bozza e blocchi lo <b id="promo-p">sconto riservato</b> sul preventivo definitivo</div>
+</header>
+
+<div id="provv"></div>
+
+<!-- ══ TRE PACCHETTI: per chi non vuole configurare niente ══ -->
+<section id="pack" class="wrap">
+  <p class="slabel rev">Partenze rapide</p>
+  <h2 class="serif rev" style="font-size:clamp(26px,3.4vw,38px);font-weight:300;">Non hai voglia di configurare?</h2>
+  <p class="step-d rev" style="margin-top:12px;">Tre combinazioni che coprono la maggior parte dei casi. Scegline una: riempie il configuratore qui sotto, e da l&igrave; puoi togliere o aggiungere quello che vuoi.</p>
+  <div class="pk-grid" id="pk-grid"></div>
+</section>
+
+<!-- ══ CONFIGURATORE ══ -->
+<section id="cfg" class="wrap">
+  <div class="cfg-grid">
+    <div>
+
+      <div class="step rev">
+        <div class="step-h"><span class="step-n serif">01</span><h2 class="serif">Il progetto</h2></div>
+        <p class="step-d">Ci serve per capire la scala del lavoro. Un bilocale e una villa su tre livelli non costano uguale, e non ha senso far finta di s&igrave;.</p>
+        <p class="slabel" style="margin-bottom:10px;">Di che si tratta</p>
+        <div class="opts" id="o-tipo"></div>
+        <p class="slabel" style="margin:24px 0 10px;">Quanto &egrave; grande</p>
+        <div class="opts" id="o-mq"></div>
+        <p class="slabel" style="margin:24px 0 10px;">A che punto siamo</p>
+        <div class="opts" id="o-fase"></div>
+      </div>
+
+      <div class="step rev">
+        <div class="step-h"><span class="step-n serif">02</span><h2 class="serif">Cosa ti serve</h2></div>
+        <p class="step-d">Ogni scheda dice a cosa serve davvero quel servizio e cosa ne fa variare il prezzo. Se non sei sicuro, aggiungilo comunque: nel preventivo definitivo ne parliamo e si toglie senza problemi.</p>
+        <div class="sv-grid" id="sv-grid"></div>
+      </div>
+
+      <div class="step rev">
+        <div class="step-h"><span class="step-n serif">03</span><h2 class="serif">I dettagli che spostano il prezzo</h2></div>
+        <p class="step-d">Sono le tre cose che fanno pi&ugrave; differenza sul conto finale. Ogni risposta <b>restringe la forbice</b>: pi&ugrave; ci dici, pi&ugrave; la stima si avvicina al preventivo vero.</p>
+        <p class="slabel" style="margin-bottom:10px;">Cosa puoi darci gi&agrave; adesso</p>
+        <div class="opts" id="o-mat"></div>
+        <p class="slabel" style="margin:24px 0 10px;">Quanto va di fretta</p>
+        <div class="opts" id="o-urg"></div>
+        <p class="slabel" style="margin:24px 0 10px;">Quante revisioni prevedi</p>
+        <div class="opts" id="o-rev"></div>
+      </div>
+
+    </div>
+
+    <aside id="riep">
+      <h3 class="serif">La tua bozza</h3>
+      <p class="r-sub">Aggiornata mentre scegli</p>
+      <ul id="r-voci"><li class="r-vuoto">Non hai ancora scelto nessun servizio.</li></ul>
+      <div class="r-tot">
+        <p class="r-lab">Stima indicativa</p>
+        <p class="r-cifra serif" id="r-cifra">&mdash;</p>
+        <p class="r-iva" id="r-iva"></p>
+      </div>
+      <div class="r-prec">
+        <p class="r-lab2"><span>Precisione della stima</span><span id="r-prec-v">0%</span></p>
+        <div class="r-bar"><i id="r-prec-b"></i></div>
+      </div>
+      <p class="r-nota">Questa non &egrave; un&rsquo;offerta: &egrave; una stima costruita sulle tue risposte. Il preventivo definitivo arriva dopo che abbiamo visto il materiale, ed &egrave; quello che fa fede.</p>
+      <button id="r-cta" disabled>Scegli almeno un servizio</button>
+      <button id="r-toggle">Vedi il dettaglio</button>
+    </aside>
+  </div>
+</section>
+
+<!-- ══ INVIO ══ -->
+<section id="invio" class="wrap">
+  <div class="inv-grid">
+    <div>
+      <p class="slabel">Ultimo passo</p>
+      <h2 class="serif" style="font-size:clamp(26px,3.4vw,38px);font-weight:300;line-height:1.1;">Mandacela, e ti<br>rispondiamo con i numeri veri.</h2>
+      <p class="step-d" style="margin-top:14px;">Riceviamo la tua bozza con tutte le scelte che hai fatto. Ti rispondiamo con il preventivo definitivo, i tempi reali e le fasi di consegna &mdash; <b id="promo-p2">con lo sconto riservato</b> a chi arriva fin qui.</p>
+
+      <form id="pv-form" name="preventivo" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="preventivo">
+        <input type="hidden" name="bozza" id="f-bozza">
+        <input type="hidden" name="stima" id="f-stima">
+        <p class="f-hp"><label>Non compilare <input name="bot-field"></label></p>
+        <div class="f-row"><label for="f-nome">Nome e cognome</label><input id="f-nome" name="nome" required></div>
+        <div class="f-row"><label for="f-mail">Email</label><input id="f-mail" name="email" type="email" required></div>
+        <div class="f-row"><label for="f-tel">Telefono <span style="text-transform:none;letter-spacing:0">(facoltativo)</span></label><input id="f-tel" name="telefono"></div>
+        <div class="f-row"><label for="f-note">Qualcosa che dovremmo sapere</label><textarea id="f-note" name="note" placeholder="Il contesto, le scadenze, un riferimento che ti piace&hellip;"></textarea></div>
+        <button id="inv-send" type="submit">Invia la bozza</button>
+        <p id="inv-msg"></p>
+      </form>
+    </div>
+
+    <div>
+      <div class="serve">
+        <h4 class="serif">Cosa ci serve da te</h4>
+        <p>Niente di complicato. Pi&ugrave; materiale ci dai all&rsquo;inizio, pi&ugrave; il preventivo &egrave; preciso e meno tempo perdiamo entrambi.</p>
+        <ul id="serve-lista"></ul>
+        <div class="tempi" id="tempi-box"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>VISIO Studio &middot; Rendering architettonico, Roma &middot; <a href="mailto:rotondimatteo@gmail.com">rotondimatteo@gmail.com</a> &middot; <a href="/faq.html">Domande frequenti</a></p>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   LISTINO — le uniche cifre da toccare stanno qui dentro.
+   Sono FORBICI [minimo, massimo] in euro, IVA esclusa.
+   I valori attuali sono una STIMA DI MERCATO fatta da noi, non i
+   prezzi reali dello studio: vanno riletti e corretti prima di
+   pubblicare. Finche PREZZI_VERIFICATI resta false, la pagina
+   mostra un avviso ben visibile.
+   ══════════════════════════════════════════════════════════════════ */
+const PREZZI_VERIFICATI = false;
+const SCONTO = 10;            // percentuale promessa a chi invia la bozza
+const MINIMO = 500;           // sotto questa cifra non si apre un progetto
+const IVA_ESCLUSA = true;
+
+const SERVIZI = [
+ {id:'render-interni', nome:'Render fotorealistici di interni', da:180, a:450, unita:'a vista', perUnita:true, qta:3,
+  che:"Le immagini degli ambienti interni, una per ogni vista che vuoi mostrare. Sono quelle che fanno decidere le persone.",
+  var:"numero di viste, livello di dettaglio degli arredi, quanto materiale ci fornisci"},
+ {id:'render-esterni', nome:'Render fotorealistici di esterni', da:250, a:600, unita:'a vista', perUnita:true, qta:1,
+  che:"L&rsquo;immobile visto da fuori: facciata, giardino, vista d&rsquo;insieme, con luce e contesto reali.",
+  var:"contesto da ricostruire, vegetazione, ora del giorno"},
+ {id:'lidar', nome:'Scansione LiDAR e rilievo 3D', da:350, a:1200, unita:'a progetto', perUnita:false,
+  che:"Scansione millimetrica di quello che esiste gi&agrave;. Serve quando non ci sono disegni aggiornati, o quando tutto deve coincidere al centimetro.",
+  var:"metratura, numero di ambienti, complessit&agrave; dello stato di fatto"},
+ {id:'tour360', nome:'Tour virtuale 360&deg;', da:450, a:1500, unita:'a progetto', perUnita:false,
+  che:"Una stanza navigabile che si esplora dal browser girandosi intorno. Si manda per link, senza installare niente.",
+  var:"numero di ambienti collegati, punti di interesse"},
+ {id:'ar', nome:'Realt&agrave; aumentata', da:500, a:1800, unita:'a progetto', perUnita:false,
+  che:"Il cliente inquadra la stanza vuota col telefono e la vede arredata a grandezza naturale, in casa sua.",
+  var:"numero di ambienti, quantit&agrave; di oggetti da modellare"},
+ {id:'video', nome:'Video / animazione', da:900, a:3500, unita:'a progetto', perUnita:false,
+  che:"Un filmato che attraversa il progetto. &Egrave; quello che colpisce di pi&ugrave; nelle presentazioni e sui social.",
+  var:"durata, complessit&agrave; dei movimenti di camera, musica e montaggio"},
+ {id:'documenti', nome:'Documentazione tecnica', da:450, a:1600, unita:'a progetto', perUnita:false,
+  che:"Planimetrie quotate, sezioni, assonometrie e schemi impianti: la cartella che serve alle imprese per fare i loro preventivi.",
+  var:"numero di tavole, livello di dettaglio richiesto"},
+ {id:'arredo', nome:'Arredo su misura', da:280, a:900, unita:'a mobile', perUnita:true, qta:1,
+  che:"Il disegno esecutivo di un mobile su misura, quotato al millimetro e pronto per il falegname.",
+  var:"numero di pezzi, complessit&agrave; costruttiva, ferramenta"},
+ {id:'luci', nome:'Studio illuminotecnico', da:300, a:1000, unita:'a progetto', perUnita:false,
+  che:"Dove mettere la luce, di che temperatura, che effetto fa di giorno e di sera. Cambia la percezione di tutta la casa.",
+  var:"numero di ambienti, scenari da simulare"},
+ {id:'esterni', nome:'Studio area esterna', da:450, a:1600, unita:'a progetto', perUnita:false,
+  che:"Giardino, pavimentazioni, piscina, verde e illuminazione: il progetto di tutto quello che sta fuori.",
+  var:"superficie, opere previste, sistemazione del verde"},
+ {id:'sito', nome:'Sito dedicato al progetto', da:550, a:1500, unita:'a progetto', perUnita:false,
+  che:"Una pagina web solo per il tuo progetto, con render, tour e documenti. Da mandare a clienti o acquirenti.",
+  var:"numero di sezioni, dominio dedicato, aggiornamenti nel tempo"}
+];
+
+/* I moltiplicatori: quando una risposta manca la forbice resta larga.
+   E' questo che la fa stringere man mano che il cliente risponde. */
+/* Restano volutamente contenuti: la parte grossa del prezzo la decidono gia
+   i servizi scelti e il numero di viste. Se si allargano troppo, moltiplicandosi
+   fra loro producono massimi che nessun cliente riconoscerebbe come credibili. */
+const MQ  = {'fino80':[0.92,0.97],'m80_150':[0.98,1.04],'m150_300':[1.05,1.12],'oltre300':[1.12,1.22]};
+const MAT = {'dwg':[0.97,1.00],'pdf':[1.00,1.05],'niente':[1.08,1.14]};
+const URG = {'standard':[1.00,1.00],'veloce':[1.08,1.15]};
+const REV = {'poche':[1.00,1.00],'molte':[1.04,1.08]};
+/* Le fasce "non risposto" contengono tutte le risposte possibili: cosi ogni
+   risposta puo solo stringere la forbice, mai allargarla. */
+const IGNOTO = {mq:[0.92,1.22], mat:[0.97,1.14], urg:[1.00,1.15], rev:[1.00,1.08]};
+
+const TIPI = [
+ {v:'appartamento',t:'Appartamento',s:'Casa singola, in condominio o indipendente'},
+ {v:'villa',t:'Villa o casa indipendente',s:'Pi&ugrave; livelli, con area esterna'},
+ {v:'commerciale',t:'Locale commerciale',s:'Negozio, ufficio, ristorante, hotel'},
+ {v:'soloesterni',t:'Solo area esterna',s:'Giardino, terrazza, piscina'}
+];
+const MQS = [
+ {v:'fino80',t:'Fino a 80 m&sup2;'},{v:'m80_150',t:'80 &ndash; 150 m&sup2;'},
+ {v:'m150_300',t:'150 &ndash; 300 m&sup2;'},{v:'oltre300',t:'Oltre 300 m&sup2;'}
+];
+const FASI = [
+ {v:'esiste',t:'Esiste gi&agrave;',s:'Da rilevare o ristrutturare'},
+ {v:'costruire',t:'Da costruire',s:'C&rsquo;&egrave; il progetto, non ancora l&rsquo;edificio'},
+ {v:'idea',t:'Solo un&rsquo;idea',s:'Partiamo da zero insieme'}
+];
+const MATS = [
+ {v:'dwg',t:'Disegni in DWG',s:'Piante e sezioni aggiornate'},
+ {v:'pdf',t:'Solo PDF o foto',s:'Materiale da ricostruire'},
+ {v:'niente',t:'Non ho niente',s:'Serve un rilievo sul posto'}
+];
+const URGS = [
+ {v:'standard',t:'Tempi normali',s:'Si lavora con calma, e si vede'},
+ {v:'veloce',t:'Ho una scadenza',s:'Priorit&agrave; in coda di lavorazione'}
+];
+const REVS = [
+ {v:'poche',t:'Poche, sono deciso',s:'Le revisioni comprese bastano'},
+ {v:'molte',t:'Meglio abbondare',s:'Pi&ugrave; giri di modifiche'}
+];
+const PACCHETTI = [
+ {id:'essenziale', nome:'Essenziale', per:'Per presentare un&rsquo;idea',
+  voci:{'render-interni':3,'render-esterni':1},
+  desc:['3 render di interni','1 render di esterni','Revisioni comprese']},
+ {id:'completo', nome:'Completo', per:'Per vendere o convincere',
+  voci:{'render-interni':5,'render-esterni':2,'tour360':1,'documenti':1},
+  desc:['5 render di interni','2 render di esterni','Tour virtuale 360&deg;','Documentazione tecnica']},
+ {id:'chiavi', nome:'Chiavi in mano', per:'Dal rilievo alla consegna',
+  voci:{'render-interni':6,'render-esterni':3,'lidar':1,'tour360':1,'ar':1,'documenti':1,'arredo':2,'luci':1,'esterni':1,'sito':1},
+  desc:['Rilievo LiDAR dello stato di fatto','9 render fra interni ed esterni','Tour 360&deg; e realt&agrave; aumentata','Documentazione completa','Arredo su misura e luci','Area esterna e sito dedicato']}
+];
+</script>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const stato={tipo:null,mq:null,fase:null,mat:null,urg:null,rev:null,servizi:{}};
+const eur=n=>'€ '+Math.round(n/10)*10;
+
+/* ── avviso listino provvisorio ────────────────────────────────── */
+if(!PREZZI_VERIFICATI){
+  $('#provv').innerHTML='<b>Listino ancora da confermare.</b> Le cifre qui sotto sono una stima di mercato, '+
+    'non i prezzi definitivi dello studio. Vanno riviste prima di pubblicare la pagina: si modificano tutte '+
+    'nel blocco <code>LISTINO</code> in cima al file, e poi si mette <code>PREZZI_VERIFICATI = true</code> per far sparire questo avviso.';
+} else $('#provv').remove();
+$('#promo-p').textContent='sconto del '+SCONTO+'%';
+$('#promo-p2').textContent='con lo sconto del '+SCONTO+'%';
+
+/* ── costruzione dei comandi ───────────────────────────────────── */
+function opzioni(box,dati,chiave){
+  $(box).innerHTML=dati.map(o=>
+    `<button class="opt" data-v="${o.v}">${o.t}${o.s?`<small>${o.s}</small>`:''}</button>`).join('');
+  $$(box+' .opt').forEach(b=>b.onclick=()=>{
+    const era=stato[chiave]===b.dataset.v;
+    stato[chiave]=era?null:b.dataset.v;                    // ricliccare deseleziona
+    $$(box+' .opt').forEach(x=>x.classList.remove('on'));
+    if(!era) b.classList.add('on');
+    aggiorna();
+  });
+}
+opzioni('#o-tipo',TIPI,'tipo'); opzioni('#o-mq',MQS,'mq'); opzioni('#o-fase',FASI,'fase');
+opzioni('#o-mat',MATS,'mat');   opzioni('#o-urg',URGS,'urg'); opzioni('#o-rev',REVS,'rev');
+
+$('#sv-grid').innerHTML=SERVIZI.map(s=>`
+  <article class="sv" data-id="${s.id}">
+    <div class="sv-img"><img src="img/prev/${s.id}.jpg" alt="${s.nome.replace(/&[a-z]+;/g,'')}" width="480" height="320" loading="lazy" decoding="async">
+      <span class="sv-tick">✓</span></div>
+    <div class="sv-body">
+      <h4 class="serif">${s.nome}</h4>
+      <p>${s.che}</p>
+      <p class="sv-var"><b>Cosa fa variare il prezzo:</b> ${s.var}.</p>
+      <div class="sv-foot">
+        <span class="sv-pr"><b>${eur(s.da)} – ${eur(s.a)}</b><span>${s.unita}</span></span>
+        <span class="sv-az"></span>
+      </div>
+    </div>
+  </article>`).join('');
+
+function disegnaAzione(s){
+  const el=$(`.sv[data-id="${s.id}"]`), box=el.querySelector('.sv-az');
+  const q=stato.servizi[s.id]||0;
+  el.classList.toggle('on',q>0);
+  if(q>0&&s.perUnita){
+    box.innerHTML=`<span class="qta"><button data-m="-1">−</button><span>${q}</span><button data-m="1">+</button></span>`;
+    box.querySelectorAll('button').forEach(b=>b.onclick=e=>{
+      e.stopPropagation();
+      const n=Math.max(0,q+(+b.dataset.m));
+      if(n) stato.servizi[s.id]=n; else delete stato.servizi[s.id];
+      aggiorna();
+    });
+  } else {
+    box.innerHTML=`<button class="sv-add">${q>0?'Tolto? clicca':'Aggiungi'}</button>`;
+    box.querySelector('button').onclick=e=>{
+      e.stopPropagation();
+      if(q>0) delete stato.servizi[s.id]; else stato.servizi[s.id]=s.perUnita?(s.qta||1):1;
+      aggiorna();
+    };
+  }
+  if(q>0&&!s.perUnita) box.querySelector('.sv-add').textContent='Togli';
+}
+
+$('#pk-grid').innerHTML=PACCHETTI.map(p=>`
+  <article class="pk" data-id="${p.id}">
+    <h3 class="serif">${p.nome}</h3>
+    <p class="pk-for">${p.per}</p>
+    <ul>${p.desc.map(d=>`<li>${d}</li>`).join('')}</ul>
+    <p class="pk-pr"><b id="pk-${p.id}">—</b> <span style="color:var(--muted);font-size:11px">stima indicativa</span></p>
+    <p class="pk-go">Scegli e personalizza →</p>
+  </article>`).join('');
+$$('.pk').forEach(el=>el.onclick=()=>{
+  const p=PACCHETTI.find(x=>x.id===el.dataset.id);
+  stato.servizi={...p.voci};
+  $$('.pk').forEach(x=>x.classList.toggle('on',x===el));
+  aggiorna();
+  $('#cfg').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+/* ── la forbice ────────────────────────────────────────────────── */
+function forbice(){
+  let min=0,max=0;
+  for(const [id,q] of Object.entries(stato.servizi)){
+    const s=SERVIZI.find(x=>x.id===id); if(!s||!q) continue;
+    const n=s.perUnita?q:1;
+    min+=s.da*n; max+=s.a*n;
+  }
+  if(!min) return [0,0,0];
+  const m=[ stato.mq?MQ[stato.mq]:IGNOTO.mq, stato.mat?MAT[stato.mat]:IGNOTO.mat,
+            stato.urg?URG[stato.urg]:IGNOTO.urg, stato.rev?REV[stato.rev]:IGNOTO.rev ];
+  for(const [a,b] of m){ min*=a; max*=b; }
+  min=Math.max(min,MINIMO);
+  const risposte=['mq','mat','urg','rev'].filter(k=>stato[k]).length;
+  return [min,max,risposte/4];
+}
+
+/* i numeri si animano invece di saltare: si vede la forbice stringersi */
+let animA=0,animB=0,animT=null;
+function mostraCifra(a,b){
+  cancelAnimationFrame(animT);
+  const a0=animA,b0=animB,t0=performance.now(),D=520;
+  (function step(t){
+    const p=Math.min((t-t0)/D,1), e=1-Math.pow(1-p,3);
+    animA=a0+(a-a0)*e; animB=b0+(b-b0)*e;
+    $('#r-cifra').innerHTML = a? `${eur(animA)} <span style="color:var(--muted);font-size:.6em">–</span> ${eur(animB)}` : '—';
+    if(p<1) animT=requestAnimationFrame(step);
+  })(t0);
+}
+
+function servePerTe(){
+  const s=stato.servizi, l=[];
+  if(stato.mat==='niente'||s['lidar']) l.push('Un sopralluogo per il rilievo, oppure le chiavi per accedere');
+  else l.push('Planimetrie, piante o sezioni &mdash; anche in PDF o fotografate');
+  if(s['arredo']) l.push('Le misure degli spazi dove andranno i mobili su misura');
+  if(s['render-interni']||s['render-esterni']) l.push('Qualche riferimento visivo: immagini di stili che ti piacciono');
+  if(s['documenti']) l.push('Eventuali vincoli o indicazioni delle imprese');
+  if(s['sito']) l.push('Testi e dati del progetto da pubblicare');
+  l.push('Un&rsquo;idea di quando ti serve il materiale consegnato');
+  return l;
+}
+function tempi(){
+  const n=Object.values(stato.servizi).reduce((a,b)=>a+b,0);
+  if(!n) return '';
+  const base = n<=3?'1 &ndash; 2 settimane' : n<=8?'2 &ndash; 4 settimane' : '4 &ndash; 8 settimane';
+  const nota = stato.urg==='veloce' ? ' Con la priorit&agrave; si accorciano, e lo scriviamo nel preventivo.' : '';
+  return `<b>Tempi indicativi:</b> ${base}, da quando riceviamo il materiale.${nota} I tempi veri dipendono dal progetto e vengono fissati nel preventivo definitivo.`;
+}
+
+function aggiorna(){
+  SERVIZI.forEach(disegnaAzione);
+  const [a,b,prec]=forbice();
+  const voci=Object.entries(stato.servizi).map(([id,q])=>{
+    const s=SERVIZI.find(x=>x.id===id); if(!s) return '';
+    const n=s.perUnita?q:1;
+    return `<li><b>${s.nome}${s.perUnita?` ×${q}`:''}</b><span>${eur(s.da*n)}–${eur(s.a*n)}</span></li>`;
+  }).join('');
+  $('#r-voci').innerHTML = voci || '<li class="r-vuoto">Non hai ancora scelto nessun servizio.</li>';
+  mostraCifra(a,b);
+  $('#r-iva').textContent = a ? (IVA_ESCLUSA?'IVA esclusa · minimo di progetto '+eur(MINIMO):'IVA inclusa') : '';
+  $('#r-prec-v').textContent = Math.round(prec*100)+'%';
+  $('#r-prec-b').style.width = (prec*100)+'%';
+  const cta=$('#r-cta');
+  cta.disabled = !a;
+  cta.textContent = a ? 'Invia e blocca il '+SCONTO+'%' : 'Scegli almeno un servizio';
+  $('#serve-lista').innerHTML = a ? servePerTe().map(x=>`<li>${x}</li>`).join('') : '<li>Scegli i servizi qui sopra e ti diciamo cosa preparare.</li>';
+  $('#tempi-box').innerHTML = tempi();
+  document.body.classList.toggle('scelto', !!a);
+  PACCHETTI.forEach(p=>{
+    let mn=0,mx=0;
+    for(const [id,q] of Object.entries(p.voci)){
+      const s=SERVIZI.find(x=>x.id===id); const n=s.perUnita?q:1; mn+=s.da*n; mx+=s.a*n;
+    }
+    const el=document.getElementById('pk-'+p.id); if(el) el.textContent=`${eur(mn)} – ${eur(mx)}`;
+  });
+  salva();
+}
+
+$('#r-cta').onclick=()=>$('#invio').scrollIntoView({behavior:'smooth',block:'start'});
+$('#r-toggle').onclick=()=>{
+  const r=$('#riep'); r.classList.toggle('aperto');
+  $('#r-toggle').textContent = r.classList.contains('aperto')?'Chiudi il dettaglio':'Vedi il dettaglio';
+};
+
+/* ── la bozza resta nel browser: se torna, la ritrova ──────────── */
+function salva(){ try{ localStorage.setItem('visio-preventivo',JSON.stringify(stato)); }catch(_){} }
+(function recupera(){
+  let v=null; try{ v=JSON.parse(localStorage.getItem('visio-preventivo')||'null'); }catch(_){}
+  if(!v||!v.servizi||!Object.keys(v.servizi).length) return;
+  Object.assign(stato,v);
+  [['#o-tipo','tipo'],['#o-mq','mq'],['#o-fase','fase'],['#o-mat','mat'],['#o-urg','urg'],['#o-rev','rev']]
+    .forEach(([box,k])=>{ if(stato[k]){ const b=$(`${box} .opt[data-v="${stato[k]}"]`); if(b) b.classList.add('on'); } });
+})();
+aggiorna();
+
+/* ── invio ─────────────────────────────────────────────────────── */
+function testoBozza(){
+  const r=[];
+  const eti=(arr,v)=>{const o=arr.find(x=>x.v===v);return o?o.t.replace(/&[a-z]+;/g,''):'non indicato';};
+  r.push('PROGETTO');
+  r.push('  Tipo: '+eti(TIPI,stato.tipo));
+  r.push('  Dimensione: '+eti(MQS,stato.mq));
+  r.push('  Fase: '+eti(FASI,stato.fase));
+  r.push('');
+  r.push('SERVIZI RICHIESTI');
+  for(const [id,q] of Object.entries(stato.servizi)){
+    const s=SERVIZI.find(x=>x.id===id); if(!s) continue;
+    const n=s.perUnita?q:1;
+    r.push('  - '+s.nome.replace(/&[a-z]+;/g,'')+(s.perUnita?' x'+q:'')+'  ('+eur(s.da*n)+'-'+eur(s.a*n)+')');
+  }
+  r.push('');
+  r.push('DETTAGLI');
+  r.push('  Materiale disponibile: '+eti(MATS,stato.mat));
+  r.push('  Urgenza: '+eti(URGS,stato.urg));
+  r.push('  Revisioni: '+eti(REVS,stato.rev));
+  return r.join('\n');
+}
+$('#pv-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const [a,b,prec]=forbice();
+  if(!a){ mostra('ko','Prima scegli almeno un servizio qui sopra.'); return; }
+  $('#f-bozza').value=testoBozza();
+  $('#f-stima').value=`${eur(a)} - ${eur(b)} (IVA esclusa) · precisione ${Math.round(prec*100)}% · sconto promesso ${SCONTO}%`;
+  const btn=$('#inv-send'); btn.disabled=true; btn.textContent='Invio in corso…';
+  try{
+    const res=await fetch('/',{method:'POST',body:new FormData(e.target)});
+    if(!res.ok) throw 0;
+    mostra('ok','Ricevuta. Ti rispondiamo con il preventivo definitivo e lo sconto del '+SCONTO+'% applicato. Di solito entro un paio di giorni lavorativi.');
+    e.target.reset(); try{ localStorage.removeItem('visio-preventivo'); }catch(_){}
+  }catch(_){
+    mostra('ko','Invio non riuscito. Scrivici direttamente a rotondimatteo@gmail.com oppure su WhatsApp al +39 342 668 4232: la bozza la ricostruiamo insieme in due minuti.');
+  }
+  btn.disabled=false; btn.textContent='Invia la bozza';
+});
+function mostra(c,t){ const m=$('#inv-msg'); m.className=c; m.textContent=t; }
+
+/* ── comparsa allo scroll ──────────────────────────────────────── */
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(en=>en.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add('v'); io.unobserve(x.target); }}),{threshold:.12});
+  $$('.rev').forEach(el=>io.observe(el));
+} else $$('.rev').forEach(el=>el.classList.add('v'));
+</script>
+</body>
+</html>

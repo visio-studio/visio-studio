@@ -22,6 +22,7 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - `img/` — altre immagini (render, lidar, luci).
 - I file `visio-journey*.mp4` eventualmente presenti in locale sono residui non più usati dal sito.
 - `faq.html` — pagina Domande frequenti, con schema JSON-LD `FAQPage`.
+- `preventivo.html` — configuratore di preventivo con fasce di prezzo (vedi `NOTE-DI-LAVORO.md`). I prezzi stanno tutti nel blocco `LISTINO` in cima al file.
 - `esempio/index.html` — sito cliente di esempio (Villa Ferrara), in `noindex`.
 - `strumenti/genera-accesso.py` — genera i codici cifrati dell'area riservata.
 - `backup/esploso-madia-svg.html` — versione vettoriale dell'esploso madia, sostituita dai fotogrammi.
