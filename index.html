@@ -2962,6 +2962,10 @@ document.querySelectorAll('[data-target]').forEach(el=>{
    r[i*4+j]=a[0*4+j]*b[i*4+0]+a[1*4+j]*b[i*4+1]+a[2*4+j]*b[i*4+2]+a[3*4+j]*b[i*4+3];return r;}
 
   let PARTS=[],gBuf,yawUser=0,pitchUser=0;
+  // il mobile finito non resta immobile: oscilla piano da solo, e appena il montaggio
+  // finisce fa un cenno piu ampio per dire che lo si puo girare con le dita
+  let ampAuto=0, cenno=0, montato=false, tTocco=0, toccato=false, hintOn=null;
+  const fermoMadia=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const TEX=[];
   ['img/essenza-rovere.jpg','img/essenza-noce.jpg'].forEach((src,i)=>{
     const t=gl.createTexture(), im=new Image();
@@ -3038,6 +3042,7 @@ document.querySelectorAll('[data-target]').forEach(el=>{
     // primo tratto: il mobile si compone. secondo tratto: si susseguono le essenze.
     const kA=Math.max(0,Math.min(1,k/QA));
     const kF=Math.max(0,Math.min(1,(k-QF[0])/(QF[1]-QF[0])));
+    const ora=performance.now(), finito=kA>=.999;
     const fpos=kF*(NOMI.length-1), ia=Math.min(NOMI.length-1,Math.floor(fpos));
     const ib=Math.min(NOMI.length-1,ia+1);
     // niente mescolanza lunga: ogni essenza si tiene, il passaggio e rapido,
@@ -3048,7 +3053,15 @@ document.querySelectorAll('[data-target]').forEach(el=>{
     fase.textContent=kA<1?FASI[Math.min(FASI.length-1,Math.floor(kA*FASI.length))]
                          :NOMI[Math.round(fpos)];
     if(t1){t1.classList.toggle('v',kA<.34);t2.classList.toggle('v',kA>=.34&&kA<.96);t3.classList.toggle('v',kA>=.96);}
-    if(hint)hint.style.opacity=k<.05?1:0;
+    if(hint){
+      const testo=k<.05?'Scorri, oppure trascina il cursore':'↻ Trascina il mobile per girarlo';
+      const mostra=k<.05||(finito&&!toccato);
+      if(mostra!==hintOn||(mostra&&hint.textContent!==testo)){
+        hintOn=mostra;
+        if(mostra) hint.textContent=testo;
+        hint.style.opacity=mostra?1:0;
+      }
+    }
     bottoni.forEach((b,i)=>b.classList.toggle('on',i===Math.round(fpos)));
     gl.viewport(0,0,cv.width,cv.height);
     gl.clearColor(.98,.98,.972,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
@@ -3064,7 +3077,13 @@ document.querySelectorAll('[data-target]').forEach(el=>{
     const dist=Math.max(mezzaL/(tv*asp), mezzaH/tv, 2.6);
     const cxT=largo?-0.24:0;                    // su desktop lascia spazio alla colonna di testo
     const cy=(largo?0.40:0.78)+(1-kA)*0.11;     // su mobile mira piu in alto, cosi il mobile scende sotto il testo
-    const yaw=-1.24+kA*0.78+kF*0.30+yawUser;
+    if(finito&&!montato){ montato=true; cenno=1; }
+    if(kA<.9) montato=false;                       // tornando indietro il cenno si riarma
+    const vuoleAuto=finito&&!drag&&!fermoMadia&&(ora-tTocco>1800);
+    ampAuto+=((vuoleAuto?1:0)-ampAuto)*.045;
+    cenno=Math.max(0,cenno-.0035);
+    const yawAuto=Math.sin(ora*.00042)*(0.11+0.20*cenno)*ampAuto;
+    const yaw=-1.24+kA*0.78+kF*0.30+yawUser+yawAuto;
     const pitch=Math.max(-.10,Math.min(.85,.31-kA*.15+pitchUser));
     const eye=[cxT+Math.sin(yaw)*Math.cos(pitch)*dist, cy+Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist];
     const VP=mm(persp(fov,asp,.1,40),look(eye,[cxT,cy,0],[0,1,0]));
@@ -3115,8 +3134,9 @@ document.querySelectorAll('[data-target]').forEach(el=>{
   bar.addEventListener('pointermove',e=>{if(barDrag)daBarra(e.clientX);});
   addEventListener('pointerup',()=>{barDrag=false;drag=null;});
   let drag=null;
-  cv.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,yawUser,pitchUser];cv.setPointerCapture(e.pointerId);});
+  cv.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,yawUser,pitchUser];tTocco=performance.now();toccato=true;cv.setPointerCapture(e.pointerId);});
   cv.addEventListener('pointermove',e=>{if(!drag)return;
+    tTocco=performance.now();
     yawUser=drag[2]-(e.clientX-drag[0])*.006;
     pitchUser=Math.max(-.42,Math.min(.5,drag[3]+(e.clientY-drag[1])*.004));});
   const fin=document.getElementById('esp-fin'), bottoni=[];
