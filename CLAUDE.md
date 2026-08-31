@@ -58,7 +58,7 @@ L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → 
 12. **Illuminazione** (`#illumino`) — confronto luci interattivo
 13. **Sito dedicato** (`#sito-dedicato`) — presentato come servizio "bonus" verso fine pagina, non tra i servizi tecnici. L'accesso all'area riservata sta nel menu (vedi `NOTE-DI-LAVORO.md` §4)
 14. **Stats + processo** (`#stats`) — otto numeri in tessere di vetro, con conteggio animato e comparsa a cascata (`.stat-i`, variabile `--i`)
-15. **Recensioni** (`#recensioni`) — fascia che scorre da sola. **I testi sono segnaposto**: vanno sostituiti con recensioni di clienti veri, mai inventate (vedi `NOTE-DI-LAVORO.md` §1)
+15. **Recensioni** (`#recensioni`) — fascia di sei recensioni di clienti veri, che scorre da sola su desktop (in pausa al passaggio del mouse) e si scorre col dito su mobile. **Qui dentro non si scrivono testi inventati**: sarebbero recensioni false, vietate dal Codice del consumo
 16. **Chi siamo** (`#chi`)
 17. **Statement** (`#statement`) + **Contatti** (`#contatti`)
 

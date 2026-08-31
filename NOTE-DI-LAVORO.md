@@ -11,14 +11,26 @@ Ultimo aggiornamento: 31 agosto 2026.
 
 ## 1. Cose da fare, in ordine di urgenza
 
-### Recensioni vere da raccogliere — la fascia è pubblicata con i segnaposto
-La sezione `#recensioni` (fra i numeri e "chi siamo") è pronta come impaginazione
-ma i testi dentro sono **SEGNAPOSTO**, non recensioni. Servono frasi di clienti
-veri, con nome e ruolo che il cliente autorizza a pubblicare — bastano tre.
-Recensioni inventate con nomi credibili non si scrivono: chi legge le prende per
-vere, ed è una pratica commerciale ingannevole vietata dal Codice del consumo
-(art. 21-23, recensioni false). Finché non arrivano quelle vere, la fascia va
-lasciata così (si vede che è da compilare) oppure tolta dalla pagina.
+### Recensioni — fatte, ma se ne aggiungono altre si fa così
+La fascia `#recensioni` (fra i numeri e "chi siamo") contiene **sei recensioni di
+clienti veri**, date da Matteo il 31 agosto 2026. Nome puntato (`Marco R.`) per
+non esporre il cognome; la seconda riga è il servizio di cui parla la recensione
+stessa, ricavato dal testo — non inventarlo.
+
+Le carte sono scritte **due volte** nell'HTML: la copia con `aria-hidden` serve a
+far richiudere lo scorrimento senza salti. Se se ne aggiunge una, va aggiunta in
+entrambi i gruppi. Su desktop la fascia scorre da sola e si ferma al passaggio
+del mouse; dove non c'è il mouse l'animazione è spenta e si scorre col dito
+(`@media (hover:none)`), altrimenti il testo scapperebbe mentre lo si legge.
+
+**Non si scrivono recensioni inventate**, nemmeno "di esempio" e nemmeno con nomi
+di fantasia credibili: chi legge le prende per vere ed è una pratica commerciale
+ingannevole (Codice del consumo, art. 21-23). Servono clienti veri.
+
+Non è stato messo il markup `AggregateRating` nel JSON-LD: Google non ammette i
+"self-serving reviews" (recensioni sul proprio conto raccolte da sé) per i rich
+snippet delle attività locali, e marcarle porterebbe una penalizzazione invece
+che una stellina.
 
 ### Rifare la sequenza della journey — serve un video sorgente più grande
 I fotogrammi in `img/journey` sono **1152x864** e il canvas li disegna a tutto
