@@ -616,13 +616,28 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 
 /* ── STATS + PROCESS ── */
 #stats { background:var(--light);padding:80px 48px;color:var(--text); }
-.stats-row { display:grid;grid-template-columns:repeat(4,1fr); }
-.stat-i { padding:0 32px 0 0;border-right:.5px solid var(--border); }
-.stat-i:first-child { padding-left:0; }
-.stat-i:last-child { border-right:none;padding-left:32px;padding-right:0; }
-.stat-i:not(:first-child) { padding-left:32px; }
-.stat-n { font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--text);line-height:1; }
-.stat-l { font-size:10px;letter-spacing:2px;color:#999;text-transform:uppercase;margin-top:8px; }
+.stats-row { display:grid;grid-template-columns:repeat(4,1fr);gap:14px; }
+.stat-i { padding:26px 24px 24px;border-radius:18px;border:.5px solid rgba(201,169,110,.28);background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);box-shadow:0 18px 40px -30px rgba(26,26,24,.5),inset 0 1px 0 rgba(255,255,255,.85);opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1),border-color .35s; }
+.stats-row.in .stat-i { opacity:1;transform:none;transition-delay:calc(var(--i,0)*.07s); }
+.stat-i:hover { border-color:rgba(201,169,110,.6); }
+.stat-n { font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--text);line-height:1;font-variant-numeric:tabular-nums; }
+.stat-r { display:block;width:26px;height:.5px;background:var(--gold);margin-top:14px;transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.4,0,.2,1); }
+.stats-row.in .stat-i .stat-r { transform:scaleX(1);transition-delay:calc(var(--i,0)*.07s + .3s); }
+.stat-l { font-size:10px;letter-spacing:2px;color:#999;text-transform:uppercase;margin-top:10px; }
+/* ── FASCIA RECENSIONI ── */
+#recensioni { background:var(--light2);padding:78px 0 84px;color:var(--text);border-top:.5px solid var(--border);overflow:hidden; }
+#recensioni .slabel,#recensioni .rec-t { padding:0 48px; }
+.rec-t { font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;line-height:1.1;margin-bottom:38px; }
+.rec-fascia { position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent); }
+.rec-pista { display:flex;gap:16px;width:max-content;padding:6px 48px;animation:recScorre 56s linear infinite; }
+.rec-fascia:hover .rec-pista { animation-play-state:paused; }
+@keyframes recScorre { to { transform:translateX(calc(-50% - 8px)); } }
+.rec-card { flex:0 0 340px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;margin:0;padding:28px 26px;border-radius:20px;border:.5px solid rgba(201,169,110,.3);background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);box-shadow:0 22px 46px -32px rgba(26,26,24,.55),inset 0 1px 0 rgba(255,255,255,.85); }
+.rec-card blockquote { margin:0;font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;line-height:1.5;color:var(--text); }
+.rec-stelle { color:var(--gold);font-size:11px;letter-spacing:3px; }
+.rec-nome { display:block;font-size:11px;color:var(--text); }
+.rec-ruolo { display:block;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-top:4px; }
+@media (prefers-reduced-motion: reduce){ .rec-pista { animation:none; } .rec-fascia { overflow-x:auto; } }
 .process-row { display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:64px;position:relative; }
 .process-row::before { content:'';position:absolute;top:24px;left:10%;right:10%;height:.5px;background:var(--gold);opacity:.3; }
 .proc-step { text-align:center;padding:0 12px; }
@@ -715,6 +730,15 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .ar-feats { grid-template-columns:1fr;gap:2px; }
   #ar-hint { font-size:8px; }
   .doc-grid { grid-template-columns:1fr; }
+  .stats-row { grid-template-columns:repeat(2,1fr);gap:10px; }
+  .stat-i { padding:20px 16px 18px; }
+  .stat-n { font-size:38px; }
+  .stat-l { font-size:9px;letter-spacing:1.4px; }
+  #recensioni { padding:60px 0 64px; }
+  #recensioni .slabel,#recensioni .rec-t { padding:0 20px; }
+  .rec-t { font-size:30px; }
+  .rec-pista { padding:6px 20px;gap:12px; }
+  .rec-card { flex:0 0 78vw;padding:24px 20px; }
   .doc-item { min-height:300px; }
   .doc-item:hover { transform:none; }
   .dh-desk { display:none; }
@@ -2319,21 +2343,45 @@ ancora non esiste.</p>
 <!-- ══ STATS + PROCESSO ══ -->
 <section id="stats" data-theme="light">
   <div class="stats-row rev">
-    <div class="stat-i">
-      <div class="stat-n serif" data-target="200">0</div>
+    <div class="stat-i" style="--i:0">
+      <div class="stat-n serif" data-target="200" data-pre="+">0</div>
+      <span class="stat-r"></span>
       <div class="stat-l">Render consegnati</div>
     </div>
-    <div class="stat-i">
-      <div class="stat-n serif" data-target="50">0</div>
+    <div class="stat-i" style="--i:1">
+      <div class="stat-n serif" data-target="50" data-pre="+">0</div>
+      <span class="stat-r"></span>
       <div class="stat-l">Clienti soddisfatti</div>
     </div>
-    <div class="stat-i">
+    <div class="stat-i" style="--i:2">
       <div class="stat-n serif">&lt;1mm</div>
-      <div class="stat-l">Tolleranza LIDAR</div>
+      <span class="stat-r"></span>
+      <div class="stat-l">Tolleranza LiDAR</div>
     </div>
-    <div class="stat-i">
-      <div class="stat-n serif">48h</div>
-      <div class="stat-l">Consegna media</div>
+    <div class="stat-i" style="--i:3">
+      <div class="stat-n serif" data-target="48" data-suf="h">0</div>
+      <span class="stat-r"></span>
+      <div class="stat-l">Prima bozza</div>
+    </div>
+    <div class="stat-i" style="--i:4">
+      <div class="stat-n serif" data-target="11">0</div>
+      <span class="stat-r"></span>
+      <div class="stat-l">Servizi a listino</div>
+    </div>
+    <div class="stat-i" style="--i:5">
+      <div class="stat-n serif" data-target="4" data-suf="K+">0</div>
+      <span class="stat-r"></span>
+      <div class="stat-l">Risoluzione di consegna</div>
+    </div>
+    <div class="stat-i" style="--i:6">
+      <div class="stat-n serif" data-target="360" data-suf="°">0</div>
+      <span class="stat-r"></span>
+      <div class="stat-l">Tour navigabili</div>
+    </div>
+    <div class="stat-i" style="--i:7">
+      <div class="stat-n serif" data-target="3">0</div>
+      <span class="stat-r"></span>
+      <div class="stat-l">Revisioni incluse</div>
     </div>
   </div>
   <div class="gold-line rev" style="margin-top:52px;"></div>
@@ -2368,6 +2416,70 @@ ancora non esiste.</p>
       <div class="proc-num">05</div>
       <div class="proc-title serif" style="color:var(--text);">Consegna</div>
       <div class="proc-desc">Consegna completa di tutti i file: render, modello 3D, planimetrie, schemi e documentazione.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RECENSIONI ══ -->
+<!-- ATTENZIONE: i testi e i nomi qui sotto sono SEGNAPOSTO, non recensioni vere.
+     Vanno sostituiti con frasi di clienti reali, con nome e ruolo che il cliente
+     ha autorizzato a pubblicare. Pubblicare recensioni inventate come se fossero
+     vere inganna chi legge ed e vietato dal Codice del consumo (art. 21-23). -->
+<section id="recensioni" data-theme="light">
+  <p class="slabel rev" style="color:var(--gold);">Dicono di noi</p>
+  <h2 class="rec-t serif rev">Le parole di chi<br>ha visto il progetto prima.</h2>
+  <div class="rec-fascia">
+    <div class="rec-pista">
+      <figure class="rec-card">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Qui va la frase del cliente, con parole sue — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Ruolo · Città</span></figcaption>
+      </figure>
+      <figure class="rec-card">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Seconda recensione vera, da raccogliere — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Studio di architettura · Città</span></figcaption>
+      </figure>
+      <figure class="rec-card">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Terza recensione vera, da raccogliere — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Agenzia immobiliare · Città</span></figcaption>
+      </figure>
+      <figure class="rec-card">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Quarta recensione vera, da raccogliere — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Impresa di costruzioni · Città</span></figcaption>
+      </figure>
+      <figure class="rec-card">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Quinta recensione vera, da raccogliere — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Privato · Città</span></figcaption>
+      </figure>
+      <figure class="rec-card" aria-hidden="true">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Qui va la frase del cliente, con parole sue — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Ruolo · Città</span></figcaption>
+      </figure>
+      <figure class="rec-card" aria-hidden="true">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Seconda recensione vera, da raccogliere — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Studio di architettura · Città</span></figcaption>
+      </figure>
+      <figure class="rec-card" aria-hidden="true">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Terza recensione vera, da raccogliere — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Agenzia immobiliare · Città</span></figcaption>
+      </figure>
+      <figure class="rec-card" aria-hidden="true">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Quarta recensione vera, da raccogliere — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Impresa di costruzioni · Città</span></figcaption>
+      </figure>
+      <figure class="rec-card" aria-hidden="true">
+        <p class="rec-stelle" aria-hidden="true">★★★★★</p>
+        <blockquote>«Quinta recensione vera, da raccogliere — SEGNAPOSTO DA SOSTITUIRE»</blockquote>
+        <figcaption><span class="rec-nome">Nome Cognome</span><span class="rec-ruolo">Privato · Città</span></figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -2890,8 +3002,9 @@ document.querySelectorAll('.sv-card').forEach(c=>{
 document.querySelectorAll('[data-target]').forEach(el=>{
   new IntersectionObserver((entries,obs)=>{
     if(!entries[0].isIntersecting) return;
-    const tgt=+el.dataset.target; let cur=0; const step=tgt/55;
-    const t=setInterval(()=>{ cur=Math.min(cur+step,tgt); el.textContent='+'+Math.floor(cur); if(cur>=tgt)clearInterval(t); },18);
+    const tgt=+el.dataset.target, pre=el.dataset.pre||'', suf=el.dataset.suf||'';
+    let cur=0; const step=tgt/55;
+    const t=setInterval(()=>{ cur=Math.min(cur+step,tgt); el.textContent=pre+Math.floor(cur)+suf; if(cur>=tgt)clearInterval(t); },18);
     obs.unobserve(el);
   },{threshold:.5}).observe(el);
 });
