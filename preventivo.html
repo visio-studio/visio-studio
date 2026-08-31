@@ -53,8 +53,52 @@ a{color:inherit;text-decoration:none}
   padding:18px 40px;background:rgba(250,250,248,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:.5px solid var(--border)}
 #nav svg{width:58px;height:auto;display:block}
 #nav svg>*{fill:none;stroke:var(--text);stroke-width:9;stroke-linejoin:round}
-.nback{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .25s}
-.nback:hover{color:var(--gold)}
+/* MENU — lo stesso del sito: nel configuratore non si "torna al sito", ci si è già */
+.mburger{display:flex;align-items:center;justify-content:flex-start;height:40px;padding:0 48px 0 18px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);border:none;border-radius:999px;box-shadow:0 6px 22px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.9);cursor:pointer;position:relative;z-index:110;transition:background .4s,box-shadow .4s}
+.mburger::before{content:'Menu';font-family:'Inter',sans-serif;font-size:9.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text);transition:color .4s}
+.mburger::after{content:'';position:absolute;inset:0;border:.5px solid rgba(26,26,24,.2);border-radius:999px;transition:border-color .4s}
+.mburger span{position:absolute;right:18px;width:18px;height:1.5px;border-radius:2px;background:var(--text);transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s ease,background .4s}
+.mburger span:nth-child(1){top:14.25px}
+.mburger span:nth-child(2){top:19.25px}
+.mburger span:nth-child(3){top:24.25px}
+body.mnav-open #nav{background:transparent;border-color:transparent;box-shadow:none}
+body.mnav-open .mburger{background:rgba(255,255,255,.12);box-shadow:0 6px 22px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.32)}
+body.mnav-open .mburger::before{content:'Chiudi';color:var(--gold)}
+body.mnav-open .mburger::after{border-color:rgba(201,169,110,.5)}
+body.mnav-open .mburger span{background:var(--gold)}
+body.mnav-open .mburger span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+body.mnav-open .mburger span:nth-child(2){opacity:0}
+body.mnav-open .mburger span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+body.mnav-open{overflow:hidden}
+body.mnav-open #nav svg>*{stroke:var(--gold)}
+#mmenu{display:flex;position:fixed;inset:0;background:var(--dark);z-index:70;opacity:0;pointer-events:none;transition:opacity .2s ease;flex-direction:column;justify-content:center;padding:0 32px}
+body.mnav-open #mmenu{opacity:1;pointer-events:auto}
+.mm-item{position:relative;display:flex;align-items:baseline;gap:14px;padding:15px 0;border:none;background:none;text-align:left;width:100%;text-decoration:none;cursor:pointer}
+.mm-item .mm-ln{position:absolute;top:0;left:0;height:.5px;width:100%;background:rgba(201,169,110,.5);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+body.mnav-open .mm-item:nth-child(1) .mm-ln{transition-delay:.05s}
+body.mnav-open .mm-item:nth-child(2) .mm-ln{transition-delay:.2s}
+body.mnav-open .mm-item:nth-child(3) .mm-ln{transition-delay:.35s}
+body.mnav-open .mm-item:nth-child(4) .mm-ln{transition-delay:.5s}
+body.mnav-open .mm-item:nth-child(5) .mm-ln{transition-delay:.65s}
+body.mnav-open .mm-item:nth-child(6) .mm-ln{transition-delay:.8s}
+body.mnav-open .mm-ln{transform:scaleX(1)}
+.mm-num,.mm-lbl{opacity:0;transition:opacity .4s ease}
+body.mnav-open .mm-item:nth-child(1) .mm-num,body.mnav-open .mm-item:nth-child(1) .mm-lbl{transition-delay:.3s}
+body.mnav-open .mm-item:nth-child(2) .mm-num,body.mnav-open .mm-item:nth-child(2) .mm-lbl{transition-delay:.45s}
+body.mnav-open .mm-item:nth-child(3) .mm-num,body.mnav-open .mm-item:nth-child(3) .mm-lbl{transition-delay:.6s}
+body.mnav-open .mm-item:nth-child(4) .mm-num,body.mnav-open .mm-item:nth-child(4) .mm-lbl{transition-delay:.75s}
+body.mnav-open .mm-item:nth-child(5) .mm-num,body.mnav-open .mm-item:nth-child(5) .mm-lbl{transition-delay:.9s}
+body.mnav-open .mm-item:nth-child(6) .mm-num,body.mnav-open .mm-item:nth-child(6) .mm-lbl{transition-delay:1.05s}
+body.mnav-open .mm-num,body.mnav-open .mm-lbl{opacity:1}
+.mm-num{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold)}
+.mm-lbl{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:#fff}
+.mm-item.qui{pointer-events:none}
+.mm-item.qui .mm-lbl{color:var(--gold)}
+.mm-qui{align-self:center;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);opacity:0;transition:opacity .4s ease}
+body.mnav-open .mm-qui{opacity:1;transition-delay:.75s}
+.mm-foot{margin-top:34px;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;opacity:0;transition:opacity .4s ease}
+body.mnav-open .mm-foot{opacity:1;transition-delay:1.25s}
+@media(max-width:620px){.mburger{height:36px;padding:0 42px 0 15px}.mburger::before{font-size:9px;letter-spacing:2px}.mburger span{right:15px;width:17px}.mburger span:nth-child(1){top:12.25px}.mburger span:nth-child(2){top:17.25px}.mburger span:nth-child(3){top:22.25px}.mm-lbl{font-size:26px}}
 
 /* ── apertura ── */
 #hero{padding-top:150px;padding-bottom:60px;text-align:center}
@@ -240,8 +284,18 @@ footer a{color:var(--gold)}
       <polygon points="594.43 240.04 594.43 298.03 623.1 269.8 623.1 240.04 594.43 240.04"/>
     </svg>
   </a>
-  <a class="nback" href="/">&larr; Torna al sito</a>
+  <button class="mburger" id="mburger" aria-label="Apri il menu" aria-expanded="false" aria-controls="mmenu"><span></span><span></span><span></span></button>
 </nav>
+
+<div id="mmenu" aria-hidden="true">
+  <a class="mm-item" href="/#render-gallery"><span class="mm-ln"></span><span class="mm-num">01</span><span class="mm-lbl">Lavori</span></a>
+  <a class="mm-item" href="/#lidar-section"><span class="mm-ln"></span><span class="mm-num">02</span><span class="mm-lbl">Tecnologia</span></a>
+  <a class="mm-item" href="/#documenti"><span class="mm-ln"></span><span class="mm-num">03</span><span class="mm-lbl">Servizi</span></a>
+  <span class="mm-item qui"><span class="mm-ln"></span><span class="mm-num">04</span><span class="mm-lbl">Preventivo</span><span class="mm-qui">sei qui</span></span>
+  <a class="mm-item" href="/faq"><span class="mm-ln"></span><span class="mm-num">05</span><span class="mm-lbl">FAQ</span></a>
+  <a class="mm-item" href="/#contatti"><span class="mm-ln"></span><span class="mm-num">06</span><span class="mm-lbl">Richiedi info</span></a>
+  <p class="mm-foot">Visio Studio · Rendering architettonico</p>
+</div>
 
 <header id="hero" class="wrap">
   <p class="slabel">Preventivo</p>
@@ -349,7 +403,7 @@ footer a{color:var(--gold)}
 </section>
 
 <footer>
-  <p>VISIO Studio &middot; Rendering architettonico, Roma &middot; <a href="mailto:rotondimatteo@gmail.com">rotondimatteo@gmail.com</a> &middot; <a href="/faq.html">Domande frequenti</a></p>
+  <p>VISIO Studio &middot; Rendering architettonico, Roma &middot; <a href="mailto:info@visiorender.it">info@visiorender.it</a> &middot; <a href="/faq.html">Domande frequenti</a></p>
 </footer>
 
 <script>
@@ -701,7 +755,7 @@ $('#pv-form').addEventListener('submit',async e=>{
     mostra('ok','Ricevuta. Ti rispondiamo con il preventivo definitivo e lo sconto del '+SCONTO+'% applicato. Di solito entro un paio di giorni lavorativi.');
     e.target.reset(); try{ localStorage.removeItem('visio-preventivo'); }catch(_){}
   }catch(_){
-    mostra('ko','Invio non riuscito. Scrivici direttamente a rotondimatteo@gmail.com oppure su WhatsApp al +39 342 668 4232: la bozza la ricostruiamo insieme in due minuti.');
+    mostra('ko','Invio non riuscito. Scrivici direttamente a info@visiorender.it oppure su WhatsApp al +39 342 668 4232: la bozza la ricostruiamo insieme in due minuti.');
   }
   btn.disabled=false; btn.textContent='Invia la bozza';
 });
@@ -712,6 +766,21 @@ if('IntersectionObserver' in window){
   const io=new IntersectionObserver(en=>en.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add('v'); io.unobserve(x.target); }}),{threshold:.12});
   $$('.rev').forEach(el=>io.observe(el));
 } else $$('.rev').forEach(el=>el.classList.add('v'));
+</script>
+<script>
+// ── MENU (stesso comportamento della home)
+(function(){
+  const burger=document.getElementById('mburger'), mmenu=document.getElementById('mmenu');
+  if(!burger||!mmenu) return;
+  function setOpen(open){
+    document.body.classList.toggle('mnav-open',open);
+    burger.setAttribute('aria-expanded',open?'true':'false');
+    mmenu.setAttribute('aria-hidden',open?'false':'true');
+  }
+  burger.addEventListener('click',()=>setOpen(!document.body.classList.contains('mnav-open')));
+  mmenu.querySelectorAll('a.mm-item').forEach(el=>el.addEventListener('click',()=>setOpen(false)));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') setOpen(false); });
+})();
 </script>
 </body>
 </html>

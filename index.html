@@ -23,7 +23,7 @@
   "@type": "ProfessionalService",
   "name": "VISIO Studio",
   "url": "https://visiorender.it/",
-  "email": "rotondimatteo@gmail.com",
+  "email": "info@visiorender.it",
   "telephone": "+39 342 668 4232",
   "description": "Studio di rendering architettonico e visualizzazione 3D a Roma: render fotorealistici, scansione LiDAR, tour VR/AR, siti web dedicati e progettazione arredo su misura.",
   "image": "https://visiorender.it/img/render-esterno-1.jpg",
@@ -113,18 +113,25 @@ body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; f
 .ncta:hover { background:var(--gold);color:var(--dark); }
 
 /* MENU MOBILE — hamburger che si disegna in righe numerate */
-.mburger { display:flex;align-items:center;justify-content:center;width:30px;height:30px;background:none;border:none;cursor:none;position:relative;padding:0;z-index:110; }
-.mburger::after { content:'';position:absolute;inset:0;border:.5px solid rgba(201,169,110,.5);border-radius:50%;transition:border-color .4s; }
-.mburger span { position:absolute;left:6px;width:18px;height:1px;background:var(--gold);transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s ease,background .4s; }
-.mburger span:nth-child(1) { top:10.5px; }
-.mburger span:nth-child(2) { top:14.5px; }
-.mburger span:nth-child(3) { top:18.5px; }
-#nav.light .mburger::after { border-color:rgba(26,26,26,.35); }
+.mburger { display:flex;align-items:center;justify-content:flex-start;height:40px;padding:0 48px 0 18px;background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);border:none;border-radius:999px;box-shadow:0 6px 22px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.32);cursor:none;position:relative;z-index:110;transition:background .4s,box-shadow .4s; }
+.mburger::before { content:'Menu';font-family:'Inter',sans-serif;font-size:9.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);transition:color .4s; }
+.mburger::after { content:'';position:absolute;inset:0;border:.5px solid rgba(201,169,110,.55);border-radius:999px;transition:border-color .4s; }
+.mburger span { position:absolute;right:18px;width:18px;height:1.5px;border-radius:2px;background:var(--gold);transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s ease,background .4s; }
+.mburger span:nth-child(1) { top:14.25px; }
+.mburger span:nth-child(2) { top:19.25px; }
+.mburger span:nth-child(3) { top:24.25px; }
+.mburger:hover { background:rgba(201,169,110,.2);box-shadow:0 8px 26px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.4); }
+#nav.light .mburger { background:rgba(255,255,255,.62);box-shadow:0 6px 22px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.9); }
+#nav.light .mburger::after { border-color:rgba(26,26,26,.2); }
+#nav.light .mburger::before { color:var(--text); }
 #nav.light .mburger span { background:var(--text); }
+body.mnav-open .mburger { background:rgba(255,255,255,.12);box-shadow:0 6px 22px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.32); }
+body.mnav-open .mburger::before { content:'Chiudi';color:var(--gold); }
 body.mnav-open .mburger::after { border-color:rgba(201,169,110,.5); }
-body.mnav-open .mburger span:nth-child(1) { transform:translateY(4px) rotate(45deg);background:var(--gold); }
+body.mnav-open .mburger span { background:var(--gold); }
+body.mnav-open .mburger span:nth-child(1) { transform:translateY(5px) rotate(45deg); }
 body.mnav-open .mburger span:nth-child(2) { opacity:0; }
-body.mnav-open .mburger span:nth-child(3) { transform:translateY(-4px) rotate(-45deg);background:var(--gold); }
+body.mnav-open .mburger span:nth-child(3) { transform:translateY(-5px) rotate(-45deg); }
 #mmenu { display:flex;position:fixed;inset:0;background:var(--dark);z-index:105;opacity:0;pointer-events:none;transition:opacity .2s ease;flex-direction:column;justify-content:center;padding:0 32px; }
 body.mnav-open #mmenu { opacity:1;pointer-events:auto; }
 .mm-item { position:relative;display:flex;align-items:baseline;gap:14px;padding:15px 0;border:none;background:none;text-align:left;width:100%;text-decoration:none;cursor:none; }
@@ -554,7 +561,8 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 .ct-prev-t { display:block;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--text);margin-bottom:7px; }
 .ct-prev-s { display:block;font-size:11.5px;color:var(--muted);line-height:1.8; }
 .ct-prev-s b { color:#8a6d35;font-weight:500; }
-.ct-prev-go { display:block;margin-top:13px;font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold); }
+.ct-prev-go { position:relative;overflow:hidden;display:inline-block;margin-top:16px;padding:12px 26px;border-radius:999px;border:.5px solid rgba(201,169,110,.6);background:rgba(201,169,110,.2);-webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);box-shadow:0 10px 26px -14px rgba(201,169,110,.8),inset 0 1px 0 rgba(255,255,255,.65);font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:#8a6d35;transition:background .35s,color .35s,box-shadow .35s; }
+.ct-prev:hover .ct-prev-go { background:rgba(201,169,110,.95);color:#fff;box-shadow:0 14px 30px -14px rgba(201,169,110,.9),inset 0 1px 0 rgba(255,255,255,.45); }
 #esterni { background:var(--light);color:var(--text);border-top:.5px solid var(--border); }
 #ex-wrap { position:relative;height:430vh; }
 #ex-sticky { position:sticky;top:0;height:100vh;overflow:hidden;background:#0d100d; }
@@ -639,14 +647,17 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 .ct-title { font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;line-height:1;margin-bottom:18px; }
 .ct-desc { font-size:12px;color:var(--muted);line-height:1.85;max-width:340px; }
 .ct-addr { margin-top:28px;font-size:11px;color:#AAA;line-height:1.9; }
+#ct-form { position:relative;border-radius:24px;padding:32px 30px 28px;border:.5px solid rgba(201,169,110,.3);background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%);box-shadow:0 30px 64px -38px rgba(26,26,26,.55),inset 0 1px 0 rgba(255,255,255,.9); }
+.ct-flabel { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:22px; }
 .ff { margin-bottom:22px; }
 .ff label { display:block;font-size:9px;letter-spacing:2px;color:#AAA;text-transform:uppercase;margin-bottom:7px; }
 .ff input,.ff select,.ff textarea { width:100%;background:transparent;border:none;border-bottom:.5px solid #C0BDB8;padding:6px 0;font-family:'Inter',sans-serif;font-size:13px;font-weight:300;color:var(--text);outline:none;transition:border-color .3s;-webkit-appearance:none;resize:none; }
 .ff input:focus,.ff select:focus,.ff textarea:focus { border-bottom-color:var(--gold); }
 .frow { display:grid;grid-template-columns:1fr 1fr;gap:22px; }
-.sbtn { width:100%;background:var(--gold);color:var(--dark);border:none;padding:14px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:none;margin-top:8px;transition:opacity .3s; }
-.sbtn:hover { opacity:.85; }
-.sbtn:disabled { opacity:.5; }
+.sbtn { position:relative;overflow:hidden;width:100%;border-radius:999px;border:.5px solid rgba(201,169,110,.55);background:rgba(201,169,110,.34);-webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);box-shadow:0 14px 32px -12px rgba(201,169,110,.9),inset 0 1px 0 rgba(255,255,255,.7);color:#6f5527;padding:19px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:none;margin-top:14px;transition:background .35s,color .35s,box-shadow .35s,transform .35s; }
+.sbtn::before { content:'';position:absolute;left:0;right:0;top:0;height:50%;background:linear-gradient(rgba(255,255,255,.55),transparent);pointer-events:none; }
+.sbtn:hover { background:rgba(201,169,110,.95);color:#fff;box-shadow:0 16px 36px -14px rgba(201,169,110,.85),inset 0 1px 0 rgba(255,255,255,.45);transform:translateY(-2px); }
+.sbtn:disabled { opacity:.5;transform:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.5); }
 .ff input[type=file] { border:.5px dashed #C0BDB8;border-radius:0;padding:12px;font-size:11px;color:var(--muted);cursor:none; }
 .ff input[type=file]:focus { border-color:var(--gold); }
 .ff input[type=file]::file-selector-button { font-family:'Inter',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:transparent;border:.5px solid var(--gold);color:var(--gold);padding:6px 12px;margin-right:12px;cursor:none; }
@@ -673,6 +684,15 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .rev-l,.rev-r { transform:translateY(28px); }
   .rev-l.in,.rev-r.in { transform:translateY(0); }
   #nav { padding:16px 20px; }
+  .mburger { height:36px;padding:0 42px 0 15px; }
+  .mburger::before { font-size:9px;letter-spacing:2px; }
+  .mburger span { right:15px;width:17px; }
+  .mburger span:nth-child(1) { top:12.25px; }
+  .mburger span:nth-child(2) { top:17.25px; }
+  .mburger span:nth-child(3) { top:22.25px; }
+  body.mnav-open .mburger span:nth-child(1) { transform:translateY(5px) rotate(45deg); }
+  body.mnav-open .mburger span:nth-child(3) { transform:translateY(-5px) rotate(-45deg); }
+  #ct-form { padding:26px 20px 22px;border-radius:20px; }
   .intro-grid { grid-template-columns:1fr;gap:40px; }
   #sd-sticky { padding:74px 20px 0; }
   .sd-laptop { width:88vw;left:0;bottom:17vh; }
@@ -2379,9 +2399,10 @@ ancora non esiste.</p>
       <span class="ct-prev-s">Componi la tua bozza di preventivo in due minuti &mdash; chi la invia riceve il <b>10% di sconto</b></span>
       <span class="ct-prev-go">Apri il configuratore &#8594;</span>
     </a>
-    <div class="ct-addr">Studio VISIO · Roma, Italia<br>rotondimatteo@gmail.com<br>+39 342 668 4232</div>
+    <div class="ct-addr">Studio VISIO · Roma, Italia<br>info@visiorender.it<br>+39 342 668 4232</div>
   </div>
   <form class="rev" id="ct-form" name="contatti" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+    <p class="ct-flabel">Richiedi informazioni &mdash; rispondiamo entro 24 ore</p>
     <input type="hidden" name="form-name" value="contatti">
     <div style="display:none;"><label>Non compilare questo campo: <input name="bot-field"></label></div>
     <div class="frow">
@@ -3255,7 +3276,7 @@ document.querySelectorAll('.modo-cta[data-serv]').forEach(a=>{
       st.textContent='Richiesta inviata. Ti risponderemo entro 24 ore.';
       st.className='ok';
     }catch(_){
-      st.textContent='Invio non riuscito. Riprova, oppure scrivici su WhatsApp o a rotondimatteo@gmail.com.';
+      st.textContent='Invio non riuscito. Riprova, oppure scrivici su WhatsApp o a info@visiorender.it.';
       st.className='err';
     }
     btn.disabled=false;
