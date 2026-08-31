@@ -17,7 +17,7 @@ Aggiornalo quando cambia qualcosa di strutturale.
 
 - **`index.html`** — l'UNICO file su cui lavorare. Contiene tutto: HTML, CSS (nel `<style>`) e JavaScript inline. Nessun build step, nessuna dipendenza: si apre direttamente nel browser.
 - `index-backup.html` — copia di sicurezza, NON modificarla (la vera cronologia è su git).
-- `img/journey/frame-0001.jpg … frame-0145.jpg` — sequenza di frame (12fps) per la sezione journey con scrub allo scroll (ha sostituito il vecchio video mp4).
+- `img/journey-2/frame-0001.jpg … frame-0145.jpg` — sequenza di frame (12fps) per la sezione journey con scrub allo scroll (ha sostituito il vecchio video mp4).
 - `img/esterni-2/frame-0001.jpg … frame-0060.jpg` — sequenza dell'area esterna (ha sostituito `img/esterni`, che aveva la filigrana di Gemini). Se si rigenera, creare `esterni-3`: la cache `immutable` di `netlify.toml` servirebbe i vecchi file a chi c'è già stato.
 - `img/room-360-tour.jpg` — panorama equirettangolare per la stanza 360° della sezione VR.
 - `img/` — altre immagini (render, lidar, luci).
@@ -31,7 +31,7 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - `backup/esploso-madia-svg.html` — vecchia versione vettoriale dell'esploso madia, sostituita prima dai fotogrammi e ora dal modello 3D.
 - `.nojekyll` — necessario per il deploy su GitHub Pages, non rimuoverlo.
 - `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` — icona del sito (la V dorata su tessera scura), collegata nel `<head>` di tutte le pagine. Se si rigenera, tenere gli stessi nomi: Google e i browser si aspettano indirizzi stabili.
-- `netlify.toml` — configurazione del deploy su Netlify: cartella da pubblicare (la radice, nessun build step), cache lunga e `immutable` sulle sequenze di fotogrammi (`img/journey`, `img/esterni-2`) e intestazioni di sicurezza. Se si aggiunge o rigenera una sequenza, aggiornare la regola qui.
+- `netlify.toml` — configurazione del deploy su Netlify: cartella da pubblicare (la radice, nessun build step), cache lunga e `immutable` sulle sequenze di fotogrammi (`img/journey-2`, `img/esterni-2`) e intestazioni di sicurezza. Se si aggiunge o rigenera una sequenza, aggiornare la regola qui.
 - `robots.txt`, `sitemap.xml`, `llms.txt` — file per l'indicizzazione da parte di motori di ricerca e crawler AI (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, ecc.). Se cambia l'URL del sito o l'elenco dei servizi, aggiornali insieme a `index.html`.
 
 ## SEO / ottimizzazione per motori AI (GEO)
@@ -46,7 +46,7 @@ L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → 
 
 1. **Loader** con logo SVG VISIO animato "a disegno" (`.logo-draw`, stroke-dashoffset) + cursore custom dorato (`#cur-d`, `#cur-r`). Si alza quando il primo fotogramma della journey è pronto (min 1,5 s, max 9 s), non a tempo fisso, e blocca lo scroll finché è su — vedi `NOTE-DI-LAVORO.md` §3 "Apertura del sito"
 2. **Navbar** (`#nav`) — solo logo (cliccabile, torna in cima) e hamburger, a ogni larghezza. Voci e CTA vivono nel menu a schermo intero `#mmenu`
-3. **Journey** (`#journey`) — canvas sticky (`#sv`) che disegna la sequenza di frame `img/journey/` legata allo scroll, testi che cambiano (`#stag`, `#stxt`), barra progresso (`#spb`)
+3. **Journey** (`#journey`) — canvas sticky (`#sv`) che disegna la sequenza di frame `img/journey-2/` legata allo scroll, testi che cambiano (`#stag`, `#stxt`), barra progresso (`#spb`)
 4. **Intro servizi** (`#intro-servizi`) — griglia di 8 card cliccabili (`.sv-card`, attributo `data-go="#id-sezione"`) che scrollano alla sezione corrispondente. **L'ordine delle card deve rispecchiare l'ordine reale delle sezioni in pagina** (e i valori `--i:0..7` lo stile del loro effetto di comparsa in cascata) — se si sposta una sezione, riordinare anche la card qui.
 5. **Render gallery** (`#render-gallery`) — strip orizzontale sticky con contatore e aggancio morbido allo scroll
 6. **Sezione LiDAR** (`#lidar-section` + `#lidar-after`) — nuvola di punti 3D animata (canvas `#lidar-cv`) e il render finale

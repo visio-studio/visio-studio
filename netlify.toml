@@ -15,12 +15,13 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "SAMEORIGIN"
 
-# ── Sequenze di fotogrammi (journey, esterni, madia): 361 immagini, ~27 MB.
+# ── Sequenze di fotogrammi (journey-2 ed esterni-2): 205 immagini, ~14 MB.
 # I file non cambiano mai, quindi cache lunga e nessuna riconvalida: lo scrub allo
 # scroll riparte istantaneo dalla seconda visita e il traffico non consuma crediti.
-# Se un giorno si rigenera una sequenza, cambiare nome alla cartella (es. journey-2).
+# Il numero in coda al nome serve proprio a questo: rigenerando una sequenza si
+# cambia cartella (journey-3, esterni-3), altrimenti chi c'e gia stato vede i vecchi.
 [[headers]]
-  for = "/img/journey/*"
+  for = "/img/journey-2/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 

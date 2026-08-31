@@ -32,23 +32,43 @@ Non è stato messo il markup `AggregateRating` nel JSON-LD: Google non ammette i
 snippet delle attività locali, e marcarle porterebbe una penalizzazione invece
 che una stellina.
 
-### Rifare la sequenza della journey — serve un video sorgente più grande
-I fotogrammi in `img/journey` sono **1152x864** e il canvas li disegna a tutto
-schermo fino a 2x (su un portatile retina ~2880x1800): vengono ingranditi due
-volte e mezzo, ed è per questo che scorrendo si vedono sfocati. Non è
-correggibile in codice, servono fotogrammi più grandi.
+### La journey sfocata — mezzo passo fatto, manca il sorgente grande
+**Il problema:** i fotogrammi sono **1152x864** e il canvas li disegna a tutto
+schermo fino a 2x (su un portatile retina ~2880x1800). Vengono ingranditi due
+volte e mezzo, ed e per questo che scorrendo si vedono molli. Nessuna riga di
+codice puo inventare i pixel che mancano.
 
-Quando c'è il video nuovo (villa mediterranea minimal, piscina, luce di
-tramonto, grandi vetrate):
+**Cosa e stato fatto il 31 agosto:** `img/journey-2` sostituisce `img/journey`.
+Stessa misura e stessi 145 fotogrammi, ma con una **maschera di contrasto**
+(PIL, `UnsharpMask(radius=1.1, percent=95, threshold=2)`, qualita 64,
+`optimize`, `progressive`) applicata prima della compressione: il browser
+ingrandisce un'immagine gia incisa e il risultato e visibilmente meno molle, a
+parita di peso (8,2 MB contro 7,6). E un cerotto, non la cura.
 
-- **almeno 1920 di larghezza**, meglio 2560, in **16:9** (il canvas ritaglia in
-  "cover": un 4:3 viene tagliato e ingrandito ancora di più);
-- movimento di camera lento e continuo, senza stacchi;
-- controllare **l'angolo in basso a destra**: i video generati con Gemini
-  portano lì il rombo della filigrana (è già successo con `img/esterni`);
-- si estrae a 12 fps in una cartella **nuova** (`img/journey-2`), perché la
-  cache `immutable` di `netlify.toml` continuerebbe a servire i vecchi file;
-- meglio **meno fotogrammi ma più grandi**: 96 a 1920 pesano quanto 145 a 1152.
+    python3 -c "
+    from PIL import Image, ImageFilter; import glob, os
+    os.makedirs('img/journey-3', exist_ok=True)
+    for f in sorted(glob.glob('img/journey-2/frame-*.jpg')):
+        Image.open(f).convert('RGB').filter(ImageFilter.UnsharpMask(1.1,95,2)).save(
+            'img/journey-3/'+os.path.basename(f),'JPEG',quality=64,optimize=True,progressive=True)"
+
+**La cura vera:** rifare i fotogrammi da un sorgente piu grande.
+
+- **Prima di generare un video nuovo, cercare l'mp4 originale** (`visio-journey*.mp4`
+  sul Mac): se e a 1080p o piu, i fotogrammi attuali sono stati estratti
+  rimpicciolendo, e basta ri-estrarli. Costa zero.
+- Video nuovo, se serve: **almeno 1920 di larghezza**, meglio 2560, in **16:9**
+  (il canvas ritaglia in "cover": un 4:3 viene tagliato e ingrandito ancora di
+  piu), movimento di camera lento e continuo.
+- **Controllare l'angolo in basso a destra**: i video generati con Gemini
+  portano li il rombo della filigrana (e gia successo con `img/esterni`).
+- Si estrae a 12 fps in una cartella **nuova** (`img/journey-3`) e si aggiorna la
+  regola in `netlify.toml` piu i due riferimenti in `index.html`.
+- Meglio **meno fotogrammi ma piu grandi**: 96 a 1920 pesano quanto 145 a 1152.
+
+**Da questa sessione non si possono generare immagini ne video:** l'MCP
+`nano-banana` sta sul Mac di Matteo e comunque fa solo immagini. Il video lo
+produce lui.
 
 ### Dominio visiorender.it — collegato il 25 agosto 2026
 Comprato su Aruba l'8 agosto insieme alla casella email. Dominio **attivo**
@@ -207,7 +227,7 @@ Tutte seguono lo stesso schema: un contenitore alto più schermate, un figlio
 
 | Sezione | Contenitore | Contenuto |
 |---|---|---|
-| Journey | `#journey` | 145 fotogrammi in `img/journey/` |
+| Journey | `#journey` | 145 fotogrammi in `img/journey-2/` |
 | LiDAR | `#lidar-section` | nuvola di punti su canvas |
 | VR 360 | `#vr-scroll` (450vh) | panorama WebGL |
 | Esterni | `#ex-wrap` (430vh) | 60 fotogrammi in `img/esterni-2/` |
@@ -467,7 +487,7 @@ riportare i crediti residui prima di generare**, anche per i lotti.
 - Non esiste uno strumento per generare video: quelli li produce Matteo.
 
 **Il metodo che funziona**: passare come riferimento i frame della villa
-(`img/journey/frame-0075.jpg` per i materiali interni, `frame-0145.jpg` per
+(`img/journey-2/frame-0075.jpg` per i materiali interni, `frame-0145.jpg` per
 esterni e luce), e per gli elaborati successivi passare **il precedente** —
 è così che schema impianti e planimetria sono risultati coerenti fra loro.
 
