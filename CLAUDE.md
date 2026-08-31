@@ -4,7 +4,7 @@ Sito vetrina one-page di **VISIO Studio**, studio di rendering architettonico a 
 
 - Repository GitHub: https://github.com/visio-studio/visio-studio
 - **Sito live (GitHub Pages): https://visio-studio.github.io/visio-studio/** — ogni push su `main` aggiorna il sito pubblico dopo 1-2 minuti.
-- **Hosting principale: Netlify — https://visiorender.netlify.app** (attivo e collegato al repo GitHub, deploy automatico a ogni push su `main`). Il form contatti (`#ct-form`) usa Netlify Forms (`data-netlify="true"`, invio AJAX via fetch, honeypot `bot-field`, allegato max 8 MB) — funzionante, richieste nella tab "Forms" del pannello Netlify + notifica email. Il form NON funziona su GitHub Pages né in locale (mostra il messaggio d'errore con i contatti alternativi). GitHub Pages è da considerare deprecato: il sito di riferimento è quello su Netlify.
+- **Hosting principale: Netlify — https://visiorender.it** (dominio Aruba puntato su Netlify dal 25 agosto 2026, certificato HTTPS dal 26; `visiorender.netlify.app` resta l'indirizzo tecnico). Netlify è collegato al repo GitHub: deploy automatico a ogni push su `main`. Il form contatti (`#ct-form`) usa Netlify Forms (`data-netlify="true"`, invio AJAX via fetch, honeypot `bot-field`, allegato max 8 MB) — funzionante, richieste nella tab "Forms" del pannello Netlify + notifica email. Il form NON funziona su GitHub Pages né in locale (mostra il messaggio d'errore con i contatti alternativi). GitHub Pages è da considerare deprecato: il sito di riferimento è quello su Netlify.
 
 ## Prima di iniziare
 
@@ -18,6 +18,7 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - **`index.html`** — l'UNICO file su cui lavorare. Contiene tutto: HTML, CSS (nel `<style>`) e JavaScript inline. Nessun build step, nessuna dipendenza: si apre direttamente nel browser.
 - `index-backup.html` — copia di sicurezza, NON modificarla (la vera cronologia è su git).
 - `img/journey/frame-0001.jpg … frame-0145.jpg` — sequenza di frame (12fps) per la sezione journey con scrub allo scroll (ha sostituito il vecchio video mp4).
+- `img/esterni-2/frame-0001.jpg … frame-0060.jpg` — sequenza dell'area esterna (ha sostituito `img/esterni`, che aveva la filigrana di Gemini). Se si rigenera, creare `esterni-3`: la cache `immutable` di `netlify.toml` servirebbe i vecchi file a chi c'è già stato.
 - `img/room-360-tour.jpg` — panorama equirettangolare per la stanza 360° della sezione VR.
 - `img/` — altre immagini (render, lidar, luci).
 - I file `visio-journey*.mp4` eventualmente presenti in locale sono residui non più usati dal sito.
@@ -25,10 +26,11 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - `preventivo.html` — configuratore di preventivo con fasce di prezzo (vedi `NOTE-DI-LAVORO.md`). I prezzi stanno tutti nel blocco `LISTINO` in cima al file.
 - `esempio/index.html` — sito cliente di esempio (Villa Ferrara), in `noindex`.
 - `strumenti/genera-accesso.py` — genera i codici cifrati dell'area riservata.
-- `backup/esploso-madia-svg.html` — versione vettoriale dell'esploso madia, sostituita dai fotogrammi.
-- `img/madia/frame-0001.jpg … 0096.jpg` — montaggio fotorealistico della madia (12fps).
+- `modelli/madia.glb` + `madia-3d.json` — la madia è un modello 3D vero, disegnato in WebGL scritto a mano (niente three.js). Il JSON si rigenera dal GLB con `strumenti/glb-a-json.py`; `strumenti/verifica-montaggio.py` controlla che i pezzi non si compenetrino durante il montaggio.
+- `_test-madia.html` — banco di prova isolato della madia 3D (in `noindex`).
+- `backup/esploso-madia-svg.html` — vecchia versione vettoriale dell'esploso madia, sostituita prima dai fotogrammi e ora dal modello 3D.
 - `.nojekyll` — necessario per il deploy su GitHub Pages, non rimuoverlo.
-- `netlify.toml` — configurazione del deploy su Netlify: cartella da pubblicare (la radice, nessun build step), cache lunga sulle tre sequenze di fotogrammi (`img/journey`, `img/esterni`, `img/madia`) e intestazioni di sicurezza.
+- `netlify.toml` — configurazione del deploy su Netlify: cartella da pubblicare (la radice, nessun build step), cache lunga e `immutable` sulle sequenze di fotogrammi (`img/journey`, `img/esterni-2`) e intestazioni di sicurezza. Se si aggiunge o rigenera una sequenza, aggiornare la regola qui.
 - `robots.txt`, `sitemap.xml`, `llms.txt` — file per l'indicizzazione da parte di motori di ricerca e crawler AI (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, ecc.). Se cambia l'URL del sito o l'elenco dei servizi, aggiornali insieme a `index.html`.
 
 ## SEO / ottimizzazione per motori AI (GEO)
@@ -41,7 +43,7 @@ Aggiornalo quando cambia qualcosa di strutturale.
 
 L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → prova (render) → metodo (LiDAR) → esperienza (VR/AR) → garanzia di completezza (documenti) → servizi di dettaglio (arredo, esterni, luce) → bonus finale (sito dedicato) → fiducia (stats, chi siamo) → chiusura (statement, contatti). Se si aggiungono nuove sezioni, inserirle nel punto della sequenza che rispetta questa logica, non in fondo per comodità.
 
-1. **Loader** con logo SVG VISIO animato "a disegno" (`.logo-draw`, stroke-dashoffset) + cursore custom dorato (`#cur-d`, `#cur-r`)
+1. **Loader** con logo SVG VISIO animato "a disegno" (`.logo-draw`, stroke-dashoffset) + cursore custom dorato (`#cur-d`, `#cur-r`). Si alza quando il primo fotogramma della journey è pronto (min 1,5 s, max 9 s), non a tempo fisso, e blocca lo scroll finché è su — vedi `NOTE-DI-LAVORO.md` §3 "Apertura del sito"
 2. **Navbar** (`#nav`) — solo logo (cliccabile, torna in cima) e hamburger, a ogni larghezza. Voci e CTA vivono nel menu a schermo intero `#mmenu`
 3. **Journey** (`#journey`) — canvas sticky (`#sv`) che disegna la sequenza di frame `img/journey/` legata allo scroll, testi che cambiano (`#stag`, `#stxt`), barra progresso (`#spb`)
 4. **Intro servizi** (`#intro-servizi`) — griglia di 8 card cliccabili (`.sv-card`, attributo `data-go="#id-sezione"`) che scrollano alla sezione corrispondente. **L'ordine delle card deve rispecchiare l'ordine reale delle sezioni in pagina** (e i valori `--i:0..7` lo stile del loro effetto di comparsa in cascata) — se si sposta una sezione, riordinare anche la card qui.
@@ -50,8 +52,8 @@ L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → 
 7. **VR scroll** (`#vr-scroll`) — zoom nel visore fino a entrare nella stanza 360° navigabile: rendering WebGL con proiezione prospettica, panorama `img/room-360-tour.jpg`
 8. **VR/AR** (`#vrar`) — demo interattiva telefono-mirino sulla stanza (vuota/arredata)
 9. **Documenti** (`#documenti`) — documentazione tecnica completa: planimetrie quotate, modello 3D, schemi impianti, computo metrico, render alta risoluzione, video
-10. **Arredo** (`#arredo`) — montaggio fotorealistico della madia (canvas `#madia-cv`, 96 fotogrammi in `img/madia/`) legato allo scroll + i tre modi di servizio (fornitori, scheda tecnico-esecutiva, chiavi in mano)
-11. **Esterni** (`#esterni`) — progettazione area esterna, timelapse allo scroll
+10. **Arredo** (`#arredo`) — montaggio della madia in 3D (canvas WebGL `#madia-cv` in `#esploso-wrap`, modello `madia-3d.json`) legato allo scroll, con le quattro finiture + i tre modi di servizio (fornitori, scheda tecnico-esecutiva, chiavi in mano) e il confronto prima/dopo render-realtà
+11. **Esterni** (`#esterni`) — progettazione area esterna, timelapse allo scroll (`img/esterni-2`, caricato in differita poco prima di servire)
 12. **Illuminazione** (`#illumino`) — confronto luci interattivo
 13. **Sito dedicato** (`#sito-dedicato`) — presentato come servizio "bonus" verso fine pagina, non tra i servizi tecnici. L'accesso all'area riservata sta nel menu (vedi `NOTE-DI-LAVORO.md` §4)
 14. **Stats + processo** (`#stats`)
@@ -72,3 +74,4 @@ L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → 
 - Lavora direttamente su `index.html`
 - Committa spesso con messaggi brevi in italiano (come lo storico esistente)
 - Push su `origin main` quando l'utente lo chiede (il push pubblica sul sito live)
+- **Un push = una build Netlify contata**: accumulare le modifiche della sessione e pubblicare una volta sola, committando in locale quanto si vuole
