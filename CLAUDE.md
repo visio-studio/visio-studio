@@ -30,12 +30,13 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - `_test-madia.html` — banco di prova isolato della madia 3D (in `noindex`).
 - `backup/esploso-madia-svg.html` — vecchia versione vettoriale dell'esploso madia, sostituita prima dai fotogrammi e ora dal modello 3D.
 - `.nojekyll` — necessario per il deploy su GitHub Pages, non rimuoverlo.
+- `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` — icona del sito (la V dorata su tessera scura), collegata nel `<head>` di tutte le pagine. Se si rigenera, tenere gli stessi nomi: Google e i browser si aspettano indirizzi stabili.
 - `netlify.toml` — configurazione del deploy su Netlify: cartella da pubblicare (la radice, nessun build step), cache lunga e `immutable` sulle sequenze di fotogrammi (`img/journey`, `img/esterni-2`) e intestazioni di sicurezza. Se si aggiunge o rigenera una sequenza, aggiornare la regola qui.
 - `robots.txt`, `sitemap.xml`, `llms.txt` — file per l'indicizzazione da parte di motori di ricerca e crawler AI (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, ecc.). Se cambia l'URL del sito o l'elenco dei servizi, aggiornali insieme a `index.html`.
 
 ## SEO / ottimizzazione per motori AI (GEO)
 
-- Il `<head>` contiene meta description, Open Graph, Twitter Card, canonical e uno schema JSON-LD `ProfessionalService` con nome, email, telefono, area servita e lista servizi (`makesOffer`). I contatti reali (email `rotondimatteo@gmail.com`, telefono/WhatsApp `+39 342 668 4232`) sono allineati fra pagina, JSON-LD e `llms.txt`: se cambiano, aggiornali in tutti e tre. Non ci sono profili social (i segnaposto Instagram/LinkedIn sono stati rimossi): quando ci saranno account reali, aggiungerli in pagina e come array `sameAs` nel JSON-LD.
+- Il `<head>` contiene meta description, Open Graph, Twitter Card, canonical e uno schema JSON-LD `ProfessionalService` con nome, email, telefono, area servita e lista servizi (`makesOffer`). I contatti reali (email `info@visiorender.it`, telefono/WhatsApp `+39 342 668 4232`) sono allineati fra pagina, JSON-LD e `llms.txt`: se cambiano, aggiornali in tutti e tre. Non ci sono profili social (i segnaposto Instagram/LinkedIn sono stati rimossi): quando ci saranno account reali, aggiungerli in pagina e come array `sameAs` nel JSON-LD.
 - C'è un `<h1>` e un blocco di riepilogo dei servizi, entrambi nascosti visivamente con la classe `.sr-only` (stessa tecnica standard di accessibilità: il contenuto esiste nel DOM per crawler/screen reader, ma non altera il design).
 - I testi della sezione journey (`#stag`, `#stxt`) partono ora precompilati con il testo della prima fase (invece che vuoti), perché molti crawler AI non eseguono JavaScript e altrimenti non vedrebbero mai quel testo. La funzione di scrub in JS è stata adattata (controlla anche l'assenza della classe `.v`, non solo il testo) per gestire correttamente il caso in cui il testo sia già quello atteso.
 
@@ -56,9 +57,10 @@ L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → 
 11. **Esterni** (`#esterni`) — progettazione area esterna, timelapse allo scroll (`img/esterni-2`, caricato in differita poco prima di servire)
 12. **Illuminazione** (`#illumino`) — confronto luci interattivo
 13. **Sito dedicato** (`#sito-dedicato`) — presentato come servizio "bonus" verso fine pagina, non tra i servizi tecnici. L'accesso all'area riservata sta nel menu (vedi `NOTE-DI-LAVORO.md` §4)
-14. **Stats + processo** (`#stats`)
-15. **Chi siamo** (`#chi`)
-16. **Statement** (`#statement`) + **Contatti** (`#contatti`)
+14. **Stats + processo** (`#stats`) — otto numeri in tessere di vetro, con conteggio animato e comparsa a cascata (`.stat-i`, variabile `--i`)
+15. **Recensioni** (`#recensioni`) — fascia che scorre da sola. **I testi sono segnaposto**: vanno sostituiti con recensioni di clienti veri, mai inventate (vedi `NOTE-DI-LAVORO.md` §1)
+16. **Chi siamo** (`#chi`)
+17. **Statement** (`#statement`) + **Contatti** (`#contatti`)
 
 ## Stile e convenzioni
 

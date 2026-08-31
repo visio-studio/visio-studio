@@ -5,29 +5,38 @@ Stato del progetto, decisioni prese e cose ancora da fare.
 disponibile su qualsiasi computer. Aggiornalo quando cambia qualcosa di
 strutturale: è la memoria condivisa del progetto.
 
-Ultimo aggiornamento: 19 agosto 2026.
+Ultimo aggiornamento: 31 agosto 2026.
 
 ---
 
 ## 1. Cose da fare, in ordine di urgenza
 
-### Netlify — ripubblicare il sito, fermo al 7 agosto
-Online c'è ancora la versione di `c98017d` (7 agosto): i commit successivi sono
-risultati *Skipped — account credit usage exceeded*, perché i crediti del piano
-gratuito (300/mese, ciclo 14 luglio → 13 agosto) erano esauriti.
+### Recensioni vere da raccogliere — la fascia è pubblicata con i segnaposto
+La sezione `#recensioni` (fra i numeri e "chi siamo") è pronta come impaginazione
+ma i testi dentro sono **SEGNAPOSTO**, non recensioni. Servono frasi di clienti
+veri, con nome e ruolo che il cliente autorizza a pubblicare — bastano tre.
+Recensioni inventate con nomi credibili non si scrivono: chi legge le prende per
+vere, ed è una pratica commerciale ingannevole vietata dal Codice del consumo
+(art. 21-23, recensioni false). Finché non arrivano quelle vere, la fascia va
+lasciata così (si vede che è da compilare) oppure tolta dalla pagina.
 
-- **I crediti sono tornati il 13 agosto**, ma i deploy saltati restano *Skipped*,
-  non in coda: **non ripartono da soli**. Per ripubblicare serve un nuovo push su
-  `main` — il deploy parte da sé — oppure *Trigger deploy* dal pannello Netlify.
-- I 18 deploy di sviluppo sono costati 270 dei 308 crediti consumati, circa 15
-  l'uno. Il traffico ha inciso solo per 38. A regime, con 2-3 pubblicazioni al
-  mese, il piano gratuito basta ampiamente, ma **ogni push su `main` è un deploy
-  pagato**: meglio raggruppare le modifiche invece di pubblicare a raffica.
-- Dal 19 agosto c'è **`netlify.toml`** nel repository: dichiara la cartella da
-  pubblicare (la radice, nessun build step), mette la cache lunga sulle tre
-  sequenze di fotogrammi (~27 MB, il grosso del traffico) e aggiunge le
-  intestazioni di sicurezza. Le altre immagini restano sulla riconvalida
-  predefinita, così una foto ricompressa si aggiorna al primo deploy.
+### Rifare la sequenza della journey — serve un video sorgente più grande
+I fotogrammi in `img/journey` sono **1152x864** e il canvas li disegna a tutto
+schermo fino a 2x (su un portatile retina ~2880x1800): vengono ingranditi due
+volte e mezzo, ed è per questo che scorrendo si vedono sfocati. Non è
+correggibile in codice, servono fotogrammi più grandi.
+
+Quando c'è il video nuovo (villa mediterranea minimal, piscina, luce di
+tramonto, grandi vetrate):
+
+- **almeno 1920 di larghezza**, meglio 2560, in **16:9** (il canvas ritaglia in
+  "cover": un 4:3 viene tagliato e ingrandito ancora di più);
+- movimento di camera lento e continuo, senza stacchi;
+- controllare **l'angolo in basso a destra**: i video generati con Gemini
+  portano lì il rombo della filigrana (è già successo con `img/esterni`);
+- si estrae a 12 fps in una cartella **nuova** (`img/journey-2`), perché la
+  cache `immutable` di `netlify.toml` continuerebbe a servire i vecchi file;
+- meglio **meno fotogrammi ma più grandi**: 96 a 1920 pesano quanto 145 a 1152.
 
 ### Dominio visiorender.it — collegato il 25 agosto 2026
 Comprato su Aruba l'8 agosto insieme alla casella email. Dominio **attivo**
@@ -189,9 +198,9 @@ Tutte seguono lo stesso schema: un contenitore alto più schermate, un figlio
 | Journey | `#journey` | 145 fotogrammi in `img/journey/` |
 | LiDAR | `#lidar-section` | nuvola di punti su canvas |
 | VR 360 | `#vr-scroll` (450vh) | panorama WebGL |
-| Esterni | `#ex-wrap` (430vh) | 120 fotogrammi in `img/esterni/` |
+| Esterni | `#ex-wrap` (430vh) | 60 fotogrammi in `img/esterni-2/` |
 | Sito dedicato | `#sd-wrap` | dispositivi + mini-sito |
-| Madia | `#esploso-wrap` (340vh) | 96 fotogrammi in `img/madia/` |
+| Madia | `#esploso-wrap` (620vh) | modello 3D WebGL (`madia-3d.json`) |
 
 **Usare sempre il ciclo `requestAnimationFrame`, non l'evento `scroll`**: è lo
 schema della journey, l'unico collaudato su tutti i browser qui.
@@ -373,10 +382,9 @@ La parte grossa del prezzo la decidono i servizi scelti e il numero di viste.
 
 **I prezzi stanno tutti nel blocco `LISTINO` in cima al file**, insieme a
 `SCONTO`, `MINIMO` e `IVA_ESCLUSA`. I prezzi dei servizi sono quelli dati da
-Matteo il 26 agosto 2026 (`PREZZI_VERIFICATI = true`). L'IVA esclusa e confermata. Restano **decisi da noi e non ancora confermati**
-lo sconto e il minimo di progetto:
-finche `APERTI_CONFERMATI` e `false` la pagina mostra un avviso giallo che li
-elenca. Lo sconto in particolare finisce nero su bianco in pagina: e una promessa
+Matteo il 26 agosto 2026 (`PREZZI_VERIFICATI = true`). L'IVA esclusa e confermata. Sconto (10%), minimo di progetto (300 €) e IVA esclusa sono stati
+confermati il 26 agosto: `APERTI_CONFERMATI = true` e l'avviso giallo è sparito.
+Se un domani si rimettono in discussione, rimetterlo a `false` e ricompare. Lo sconto in particolare finisce nero su bianco in pagina: e una promessa
 al cliente, non un dettaglio.
 
 **I pacchetti non sono la somma delle voci.** Ognuno porta in dote degli `extra`
