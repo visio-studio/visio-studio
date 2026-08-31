@@ -7,7 +7,7 @@ VISIO Studio realizza render fotorealistici, scansioni LiDAR, tour VR/AR e siti 
 ## Servizi
 
 - Render fotorealistici di interni ed esterni
-- Scansione LiDAR e rilievo 3D di precisione (<1mm)
+- Scansione LiDAR e rilievo 3D ad alta precisione (accuratezza millimetrica nelle condizioni operative previste)
 - Tour virtuali VR/AR e stanze navigabili a 360°
 - Siti web dedicati per presentare un singolo progetto immobiliare
 - Progettazione arredo su misura: schede tecnico-esecutive per il falegname del cliente, oppure realizzazione chiavi in mano (progettazione, produzione e installazione)
@@ -15,7 +15,7 @@ VISIO Studio realizza render fotorealistici, scansioni LiDAR, tour VR/AR e siti 
 
 ## Come lavoriamo
 
-Ogni progetto parte da un rilievo di precisione (scansione LiDAR, <1mm di tolleranza) su cui costruiamo la geometria esatta dell'edificio. Su questa base modelliamo materiali, luci e arredi e produciamo render, video e tour navigabili che mostrano il progetto prima ancora che venga costruito.
+Ogni progetto parte da un rilievo ad alta precisione (scansione LiDAR, accuratezza millimetrica nelle condizioni operative previste) su cui costruiamo la geometria esatta dell'edificio. Su questa base modelliamo materiali, luci e arredi e produciamo render, video e tour navigabili che mostrano il progetto prima ancora che venga costruito.
 
 ## Contatti
 
