@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Cookie e memoria del browser — VISIO Studio</title>
+<meta name="description" content="Questo sito non installa cookie di profilazione né strumenti di statistica: cosa usa davvero, cosa resta sul tuo dispositivo e come cancellarlo.">
+<link rel="canonical" href="https://visiorender.it/cookie">
+<meta name="robots" content="index, follow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+:root { --gold:#C9A96E; --dark:#0A0A0A; --text:#1A1A1A; --muted:#888; }
+* { margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased; }
+html { scroll-behavior:smooth;overflow-x:clip;max-width:100%; }
+body { background:var(--dark);color:#fff;font-family:'Inter',sans-serif;font-weight:300;overflow-x:clip; }
+a { color:inherit; }
+.serif { font-family:'Cormorant Garamond',serif; }
+#fnav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:rgba(10,10,10,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:.5px solid rgba(255,255,255,.07); }
+#fnav .nl-logo { height:28px;width:auto;display:block; }
+#fnav .nl-logo > * { fill:none;stroke:#fff;stroke-width:8;stroke-linejoin:round; }
+.fncta { border:.5px solid var(--gold);color:var(--gold);background:none;font-family:inherit;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:11px 22px;text-decoration:none;transition:background .3s,color .3s; }
+.fncta:hover { background:var(--gold);color:var(--dark); }
+#lhead { padding:150px 48px 44px;max-width:820px;margin:0 auto; }
+.llabel { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:16px; }
+#lhead h1 { font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,54px);font-weight:300;line-height:1.06;margin-bottom:18px; }
+#lhead .agg { font-size:11px;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase; }
+#ltxt { max-width:820px;margin:0 auto;padding:0 48px 70px; }
+#ltxt h2 { font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:#fff;margin:44px 0 14px;padding-top:26px;border-top:.5px solid rgba(201,169,110,.22); }
+#ltxt h3 { font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin:26px 0 10px; }
+#ltxt p, #ltxt li { font-size:13.5px;line-height:2;color:rgba(255,255,255,.62); }
+#ltxt p + p { margin-top:14px; }
+#ltxt ul { margin:12px 0 0 18px; }
+#ltxt li { margin-bottom:9px; }
+#ltxt b { color:rgba(255,255,255,.9);font-weight:400; }
+#ltxt a { color:var(--gold);text-decoration:none;border-bottom:.5px solid rgba(201,169,110,.4); }
+#ltxt a:hover { border-bottom-color:var(--gold); }
+.lbox { margin-top:18px;padding:22px 24px;border-radius:16px;border:.5px solid rgba(201,169,110,.28);background:rgba(201,169,110,.06); }
+.lbox p { color:rgba(255,255,255,.75); }
+#lfoot { border-top:.5px solid rgba(255,255,255,.08);padding:40px 48px 60px;text-align:center;font-size:11px;line-height:2.1;color:rgba(255,255,255,.4); }
+#lfoot a { color:rgba(255,255,255,.55);text-decoration:none; }
+#lfoot a:hover { color:var(--gold); }
+@media(max-width:760px){ #fnav{padding:16px 20px} #lhead{padding:120px 20px 36px} #ltxt{padding:0 20px 54px} #lfoot{padding:34px 20px 48px} }
+</style>
+</head>
+<body>
+
+<nav id="fnav">
+  <a href="/" aria-label="Torna alla home di VISIO Studio"><svg class="nl-logo" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
+    <polygon points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
+    <polygon points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
+    <polygon points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
+    <polyline points="415.49 215.83 415.49 215.83 415.49 269.8 386.12 298.03 386.12 187.16 467.94 187.16 467.94 215.83 415.49 215.83"/>
+    <polyline points="438.57 322.36 438.57 268.19 467.94 240.04 467.94 351.03 386.12 351.03 386.12 322.36 438.57 322.36"/>
+    <polygon points="502.59 187.16 484.77 187.16 484.77 204.16 502.59 187.16"/>
+    <polygon points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
+    <polyline points="562.86 215.83 562.86 215.83 562.86 302.72 533.49 330.39 533.49 187.16 615.31 187.16 586.57 215.83 562.86 215.83"/>
+    <polyline points="585.94 323.99 585.94 323.99 585.94 237.33 615.31 209.54 615.31 352.66 533.49 352.66 562.29 323.99 585.94 323.99"/>
+  </svg></a>
+  <a href="/#contatti" class="fncta">Parlaci del progetto</a>
+</nav>
+
+<header id="lhead">
+  <p class="llabel">Cookie</p>
+  <h1 class="serif">Cookie e memoria<br>del browser.</h1>
+  <p class="agg">Ultimo aggiornamento: 1 settembre 2026</p>
+</header>
+
+<main id="ltxt">
+
+<p>Nessun banner da accettare, e c'è un motivo: <b>questo sito non installa cookie di profilazione</b>, non usa strumenti di statistica, non ha pixel pubblicitari e non ti segue da un sito all'altro. Il consenso serve per quel tipo di cookie — qui non ce ne sono.</p>
+
+<h2 class="serif">Cosa usa davvero</h2>
+<h3>Memoria locale del browser</h3>
+<p>Quando compili il <a href="/preventivo">configuratore di preventivo</a>, la bozza viene salvata nella memoria locale del tuo browser (<code>localStorage</code>, voce <b>visio-preventivo</b>) così la ritrovi se torni sulla pagina. <b>Resta sul tuo dispositivo</b>: non ci viene trasmessa e non possiamo leggerla. Sparisce quando invii la bozza, quando svuoti i dati del sito dalle impostazioni del browser, o se navighi in finestra anonima.</p>
+<h3>Cookie tecnici dell'hosting</h3>
+<p>Il fornitore che ospita il sito (Netlify) può usare cookie strettamente tecnici e registrare log di sicurezza per far funzionare le pagine e difenderle da abusi. Non servono a profilare e per legge non richiedono consenso.</p>
+<h3>Font</h3>
+<p>I caratteri tipografici sono ospitati <b>sul nostro dominio</b>, non prelevati dai server di Google: aprendo il sito il tuo indirizzo IP non viene comunicato a terzi per mostrarti il testo.</p>
+
+<h2 class="serif">Cosa non c'è</h2>
+<ul>
+  <li>Nessun Google Analytics o strumento di statistica equivalente.</li>
+  <li>Nessun pixel di Meta, LinkedIn o altre piattaforme pubblicitarie.</li>
+  <li>Nessun video o mappa incorporati da terzi.</li>
+  <li>Nessuna profilazione, nessuna pubblicità comportamentale, nessuna cessione di dati.</li>
+</ul>
+<div class="lbox">
+  <p>Il collegamento a WhatsApp è un semplice link: si apre solo se lo premi tu, e da quel momento vale l'informativa di WhatsApp.</p>
+</div>
+
+<h2 class="serif">Come cancellare quello che c'è</h2>
+<p>Dalle impostazioni del browser, alla voce dedicata ai dati dei siti web (in Chrome e Safari si chiama "Dati dei siti web", in Firefox "Cookie e dati dei siti"), cercando <b>visiorender.it</b> ed eliminando i dati memorizzati.</p>
+
+<h2 class="serif">Se un domani cambierà</h2>
+<p>Se decideremo di misurare le visite o di aggiungere strumenti di terze parti, questa pagina verrà aggiornata <b>prima</b> e comparirà la richiesta di consenso, con la possibilità di rifiutare senza perdere l'accesso ai contenuti.</p>
+
+<h2 class="serif">Dati personali</h2>
+<p>Come trattiamo i dati che ci mandi con i moduli è spiegato nell'<a href="/privacy">informativa privacy</a>.</p>
+
+</main>
+
+<footer id="lfoot">
+  <span>Michelessi Corporation Srl · Via Nettunense 117, 04011 Aprilia (LT) · P.IVA 03294220599</span><br>
+  <span><a href="mailto:info@visiorender.it">info@visiorender.it</a> · +39 342 668 4232</span><br>
+  <span><a href="/privacy">Informativa privacy</a> · <a href="/cookie">Cookie e memoria del browser</a> · <a href="/faq">Domande frequenti</a></span>
+</footer>
+
+</body>
+</html>

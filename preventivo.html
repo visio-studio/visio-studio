@@ -13,9 +13,7 @@
 <meta property="og:title" content="Configura il tuo preventivo — VISIO Studio">
 <meta property="og:description" content="Scegli i servizi che ti servono e ottieni subito una stima trasparente. Invia la bozza e blocca lo sconto sul preventivo definitivo.">
 <meta property="og:url" content="https://visiorender.it/preventivo">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/font/visio.css">
 <style>
 :root{--gold:#C9A96E;--dark:#0A0A0A;--light:#FAFAF8;--text:#1A1A18;--muted:#8A8A82;--border:rgba(26,26,24,.14)}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -266,6 +264,8 @@ footer a{color:var(--gold)}
   body.scelto #cfg{padding-bottom:150px}
 }
 @media(max-width:620px){ .sv-grid{grid-template-columns:1fr} .pk-grid{grid-template-columns:1fr} }
+.pv-priv{margin-top:12px;font-size:10px;line-height:1.8;color:var(--muted)}
+.pv-priv a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
 #r-toggle{display:none;width:100%;border:none;background:none;font:inherit;font-size:9.5px;letter-spacing:1.8px;
   text-transform:uppercase;color:var(--gold);padding:8px 0 0;cursor:pointer}
 </style>
@@ -390,6 +390,7 @@ footer a{color:var(--gold)}
         <div class="f-row"><label for="f-tel">Telefono <span style="text-transform:none;letter-spacing:0">(facoltativo)</span></label><input id="f-tel" name="telefono"></div>
         <div class="f-row"><label for="f-note">Qualcosa che dovremmo sapere</label><textarea id="f-note" name="note" placeholder="Il contesto, le scadenze, un riferimento che ti piace&hellip;"></textarea></div>
         <button id="inv-send" type="submit">Invia la bozza</button>
+        <p class="pv-priv">Inviando la bozza dichiari di aver letto l&rsquo;<a href="/privacy">informativa privacy</a>. Finch&eacute; non premi invio la bozza resta solo nel tuo browser.</p>
         <p id="inv-msg"></p>
       </form>
     </div>
@@ -406,7 +407,8 @@ footer a{color:var(--gold)}
 </section>
 
 <footer>
-  <p>VISIO Studio &middot; Rendering architettonico, Roma &middot; <a href="mailto:info@visiorender.it">info@visiorender.it</a> &middot; <a href="/faq.html">Domande frequenti</a></p>
+  <p>Michelessi Corporation Srl &middot; Via Nettunense 117, 04011 Aprilia (LT) &middot; P.IVA 03294220599</p>
+  <p>VISIO Studio &middot; <a href="mailto:info@visiorender.it">info@visiorender.it</a> &middot; <a href="/faq">Domande frequenti</a> &middot; <a href="/privacy">Informativa privacy</a> &middot; <a href="/cookie">Cookie</a></p>
 </footer>
 
 <script>

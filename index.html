@@ -30,8 +30,10 @@
   "telephone": "+39 342 668 4232",
   "description": "Studio di rendering architettonico e visualizzazione 3D a Roma: render fotorealistici, scansione LiDAR, tour VR/AR, siti web dedicati e progettazione arredo su misura.",
   "image": "https://visiorender.it/img/render-esterno-1.jpg",
-  "areaServed": { "@type": "City", "name": "Roma" },
-  "address": { "@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT" },
+  "legalName": "Michelessi Corporation Srl",
+  "vatID": "IT03294220599",
+  "areaServed": [ { "@type": "City", "name": "Roma" }, { "@type": "AdministrativeArea", "name": "Lazio" } ],
+  "address": { "@type": "PostalAddress", "streetAddress": "Via Nettunense 117", "addressLocality": "Aprilia", "postalCode": "04011", "addressRegion": "LT", "addressCountry": "IT" },
   "makesOffer": [
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Render fotorealistici di interni ed esterni" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Scansione LiDAR e rilievo 3D di precisione" } },
@@ -42,8 +44,7 @@
   ]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/font/visio.css">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -676,6 +677,8 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 .ct-addr { margin-top:28px;font-size:11px;color:#AAA;line-height:1.9; }
 #ct-form { position:relative;border-radius:24px;padding:32px 30px 28px;border:.5px solid rgba(201,169,110,.3);background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%);box-shadow:0 30px 64px -38px rgba(26,26,26,.55),inset 0 1px 0 rgba(255,255,255,.9); }
 .ct-flabel { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:22px; }
+.ct-priv { margin-top:14px;font-size:10px;line-height:1.9;color:#9a978f; }
+.ct-priv a { color:#8a6d35;text-decoration:underline;text-underline-offset:2px; }
 .ff { margin-bottom:22px; }
 .ff label { display:block;font-size:9px;letter-spacing:2px;color:#AAA;text-transform:uppercase;margin-bottom:7px; }
 .ff input,.ff select,.ff textarea { width:100%;background:transparent;border:none;border-bottom:.5px solid #C0BDB8;padding:6px 0;font-family:'Inter',sans-serif;font-size:13px;font-weight:300;color:var(--text);outline:none;transition:border-color .3s;-webkit-appearance:none;resize:none; }
@@ -695,8 +698,8 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 /* FOOTER */
 footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between; }
 .fl { font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;letter-spacing:5px;color:rgba(255,255,255,.3); }
-.fc { font-size:10px;color:rgba(255,255,255,.18);letter-spacing:1px; }
-.fsoc { display:flex;gap:16px; }
+.fleg { display:flex;flex-direction:column;gap:3px;text-align:center;font-size:10px;color:rgba(255,255,255,.22);letter-spacing:.6px;line-height:1.7; }
+.fsoc { display:flex;gap:16px;margin-right:58px; }
 .fsoc a { color:rgba(255,255,255,.3);text-decoration:none;font-size:11px;cursor:none;letter-spacing:1px; }
 .fsoc a:hover { color:var(--gold); }
 
@@ -720,6 +723,8 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   body.mnav-open .mburger span:nth-child(1) { transform:translateY(5px) rotate(45deg); }
   body.mnav-open .mburger span:nth-child(3) { transform:translateY(-5px) rotate(-45deg); }
   #ct-form { padding:26px 20px 22px;border-radius:20px; }
+  footer { flex-direction:column;gap:14px;padding:26px 20px 74px;text-align:center; }
+  .fsoc { margin-right:0; }
   .intro-grid { grid-template-columns:1fr;gap:40px; }
   #sd-sticky { padding:74px 20px 0; }
   .sd-laptop { width:88vw;left:0;bottom:17vh; }
@@ -2580,15 +2585,21 @@ ancora non esiste.</p>
     <div class="ff"><label>Descrivi il progetto</label><textarea rows="3" name="messaggio" placeholder="Villa residenziale 300mq, Roma Nord, zona giardino + interni..."></textarea></div>
     <div class="ff"><label>Allegato — planimetria o foto (facoltativo, max 8 MB)</label><input type="file" name="allegato" accept=".pdf,.jpg,.jpeg,.png,.dwg,.zip"></div>
     <button type="submit" class="sbtn">Invia Richiesta</button>
+    <p class="ct-priv">Inviando la richiesta dichiari di aver letto l&rsquo;<a href="/privacy">informativa privacy</a>. I dati servono solo a risponderti: nessuna newsletter, nessuna cessione a terzi.</p>
     <p id="ct-status" role="status"></p>
   </form>
 </section>
 
 <footer>
   <span class="fl">VISIO</span>
-  <span class="fc">© 2025 VISIO Studio · Roma, Italia</span>
+  <div class="fleg">
+    <span>Michelessi Corporation Srl &middot; Via Nettunense 117, 04011 Aprilia (LT) &middot; P.IVA 03294220599</span>
+    <span>&copy; 2026 VISIO Studio &middot; info@visiorender.it &middot; +39 342 668 4232</span>
+  </div>
   <div class="fsoc">
-    <a href="#">LinkedIn</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/cookie">Cookie</a>
+    <a href="/faq">FAQ</a>
   </div>
 </footer>
 
