@@ -5,11 +5,29 @@ Stato del progetto, decisioni prese e cose ancora da fare.
 disponibile su qualsiasi computer. Aggiornalo quando cambia qualcosa di
 strutturale: è la memoria condivisa del progetto.
 
-Ultimo aggiornamento: 31 agosto 2026.
+Ultimo aggiornamento: 1 settembre 2026.
 
 ---
 
 ## 1. Cose da fare, in ordine di urgenza
+
+### Legale — resta solo roba di pannello, non di codice
+Fatto il 1 settembre: `privacy.html`, `cookie.html`, dati societari e P.IVA nel
+piede di tutte le pagine, riga sull'informativa sotto i due moduli, font portati
+in casa. Dettagli e ragionamento nel §7. Restano tre cose fuori dal repository:
+
+- **La notifica dei moduli su Netlify** punta ancora al vecchio indirizzo:
+  pannello → Forms → notifications → `info@visiorender.it`.
+- **Roma o Aprilia?** La sede legale è ad Aprilia (LT), ma tutto il sito è
+  costruito su "Roma": titolo, descrizione, `areaServed`, testi. Nello schema ho
+  messo l'indirizzo vero come `address` e Roma+Lazio come `areaServed`, che è la
+  lettura onesta (si opera a Roma, la società ha sede ad Aprilia). Se un domani
+  si apre una scheda Google Business, l'indirizzo lì dev'essere quello vero,
+  altrimenti la verifica salta.
+- **I periodi di conservazione** nell'informativa (24 mesi per le richieste che
+  non diventano incarico, 10 anni per i documenti contabili) sono una proposta
+  ragionevole, non un dato che mi ha dato Matteo: se il commercialista dice
+  altro, si cambia quella riga.
 
 ### Recensioni — fatte, ma se ne aggiungono altre si fa così
 La fascia `#recensioni` (fra i numeri e "chi siamo") contiene **sei recensioni di
@@ -498,6 +516,51 @@ neutro riesce invece molto bene al primo colpo.
 Le immagini vanno **sempre ricompresse** prima di pubblicarle: i render
 originali del sito pesavano 1,5-2,4 MB l'uno a fronte di 200 KB necessari.
 Qualità 85-88, `optimize`, `progressive`.
+
+---
+
+## 7. Legale, privacy e font
+
+### Perché non c'è il banner dei cookie
+Perché non serve. Il consenso si chiede per i cookie di profilazione e per gli
+strumenti di statistica: **questo sito non ne ha nessuno**. Niente Analytics,
+niente pixel, niente mappe o video incorporati. L'unico `localStorage` è la
+bozza del preventivo, che resta sul dispositivo di chi la compila.
+
+Mettere un banner "per sicurezza" costerebbe conversioni in cambio di niente.
+**Se un domani si aggiunge Analytics o un pixel, il banner diventa obbligatorio**
+e va aggiunto prima di pubblicare lo strumento, non dopo.
+
+Quello che invece serve, e adesso c'è: informativa privacy (art. 13 GDPR, perché
+i moduli raccolgono dati personali), pagina cookie, dati societari e partita IVA
+in ogni piede di pagina — per una società con partita IVA è un obbligo di legge,
+non un vezzo.
+
+### I font stanno sul nostro dominio
+Prima le pagine chiamavano `fonts.googleapis.com`: significa che l'indirizzo IP
+di ogni visitatore finiva a Google prima ancora che decidesse di restare. È il
+punto su cui in Europa sono arrivate le contestazioni. Ora i file stanno in
+`font/` e il foglio di stile è `font/visio.css` — nessuna richiesta a terzi.
+
+Sono solo i sottoinsiemi `latin` e `latin-ext` (cirillico, greco e vietnamita non
+servono) e solo i pesi usati davvero: Cormorant Garamond 300/400 e corsivo
+300/400, Inter 300/400/500. Se servisse un peso nuovo va aggiunto qui, altrimenti
+il browser lo sintetizza e si vede.
+
+Per rigenerarli (serve rete verso Google, una volta sola):
+
+    curl -A "Mozilla/5.0" "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" -o /tmp/gf.css
+
+poi si tengono i blocchi `/* latin */` e `/* latin-ext */`, si scaricano i
+`.woff2` in `font/` e si riscrivono le `@font-face` con `url(/font/nome.woff2)`.
+`netlify.toml` mette su `/font/*` la cache `immutable`: i nomi non devono
+cambiare, o chi è già stato sul sito continuerà a vedere i vecchi.
+
+### Le due pagine
+`privacy.html` e `cookie.html` girano sullo stesso guscio scuro delle FAQ, sono
+indicizzabili e stanno in `sitemap.xml`. I dati del titolare compaiono in tre
+posti — piede delle pagine, informativa, JSON-LD (`legalName`, `vatID`,
+`address`): se cambiano, vanno cambiati in tutti e tre.
 
 ---
 

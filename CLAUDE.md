@@ -23,6 +23,8 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - `img/` — altre immagini (render, lidar, luci).
 - I file `visio-journey*.mp4` eventualmente presenti in locale sono residui non più usati dal sito.
 - `faq.html` — pagina Domande frequenti, con schema JSON-LD `FAQPage`.
+- `privacy.html` e `cookie.html` — informativa privacy e pagina cookie. **Il sito non ha cookie di profilazione né statistiche, quindi non ha banner**: se si aggiunge Analytics o un pixel, il banner diventa obbligatorio (vedi `NOTE-DI-LAVORO.md` §7).
+- `font/` — i font (Cormorant Garamond e Inter) sono ospitati sul dominio, non presi da Google: serve a non trasmettere l'IP dei visitatori a terzi. Il foglio è `font/visio.css`, i nomi dei file non vanno cambiati (cache `immutable`).
 - `preventivo.html` — configuratore di preventivo con fasce di prezzo (vedi `NOTE-DI-LAVORO.md`). I prezzi stanno tutti nel blocco `LISTINO` in cima al file.
 - `esempio/index.html` — sito cliente di esempio (Villa Ferrara), in `noindex`.
 - `strumenti/genera-accesso.py` — genera i codici cifrati dell'area riservata.
@@ -36,7 +38,7 @@ Aggiornalo quando cambia qualcosa di strutturale.
 
 ## SEO / ottimizzazione per motori AI (GEO)
 
-- Il `<head>` contiene meta description, Open Graph, Twitter Card, canonical e uno schema JSON-LD `ProfessionalService` con nome, email, telefono, area servita e lista servizi (`makesOffer`). I contatti reali (email `info@visiorender.it`, telefono/WhatsApp `+39 342 668 4232`) sono allineati fra pagina, JSON-LD e `llms.txt`: se cambiano, aggiornali in tutti e tre. Non ci sono profili social (i segnaposto Instagram/LinkedIn sono stati rimossi): quando ci saranno account reali, aggiungerli in pagina e come array `sameAs` nel JSON-LD.
+- Il `<head>` contiene meta description, Open Graph, Twitter Card, canonical e uno schema JSON-LD `ProfessionalService` con nome, email, telefono, area servita e lista servizi (`makesOffer`). I contatti reali (email `info@visiorender.it`, telefono/WhatsApp `+39 342 668 4232`) sono allineati fra pagina, JSON-LD e `llms.txt`: se cambiano, aggiornali in tutti e tre. I dati societari — **Michelessi Corporation Srl, Via Nettunense 117, 04011 Aprilia (LT), P.IVA 03294220599** — stanno nel piede di ogni pagina, nell'informativa e nel JSON-LD (`legalName`, `vatID`, `address`): stessa regola, si cambiano in tutti e tre. Non ci sono profili social (i segnaposto Instagram/LinkedIn sono stati rimossi): quando ci saranno account reali, aggiungerli in pagina e come array `sameAs` nel JSON-LD.
 - C'è un `<h1>` e un blocco di riepilogo dei servizi, entrambi nascosti visivamente con la classe `.sr-only` (stessa tecnica standard di accessibilità: il contenuto esiste nel DOM per crawler/screen reader, ma non altera il design).
 - I testi della sezione journey (`#stag`, `#stxt`) partono ora precompilati con il testo della prima fase (invece che vuoti), perché molti crawler AI non eseguono JavaScript e altrimenti non vedrebbero mai quel testo. La funzione di scrub in JS è stata adattata (controlla anche l'assenza della classe `.v`, non solo il testo) per gestire correttamente il caso in cui il testo sia già quello atteso.
 
