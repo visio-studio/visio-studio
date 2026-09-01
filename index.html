@@ -50,7 +50,7 @@
 :root {
   --gold: #C9A96E; --dark: #0A0A0A; --dark2: #0F0F0F; --dark3: #141414;
   --light: #FAFAF8; --light2: #F5F3EF; --light3: #EEEAE4;
-  --text: #1A1A1A; --muted: #888; --border: #E0DDD8;
+  --text: #1A1A1A; --muted: #6a6a6a; --border: #E0DDD8;
 }
 html { scroll-behavior: smooth; overscroll-behavior-x: none; overflow-x: clip; max-width: 100%; }
 body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; cursor: none; overflow-x: clip; }
@@ -829,17 +829,55 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .render-slide-title { font-size:25px; }
   #render-hint { right:20px;bottom:86px; }
 }
+
+/* ══ ACCESSIBILITÀ ══════════════════════════════════════════════════════
+   Contrasti portati sopra 4.5:1 (WCAG AA, testo piccolo). L'oro #C9A96E e i
+   grigi #888/#999/#AAA sul fondo scuro vanno benissimo, ma sulle sezioni
+   chiare stavano fra 2.0 e 3.4: illeggibili con poca luce o su uno schermo
+   riflettente. Qui sotto valgono solo dove il fondo è chiaro; sul buio i
+   colori restano quelli di prima. */
+:root { --gold-t:#7a5f30; --muted-c:#6a6a6a; --muted-s:#7e7e7e; }
+
+/* oro come testo su fondo chiaro */
+#documenti .slabel,.doc-num,.doc-tag,#arredo .slabel,#stats .slabel,#recensioni .slabel,
+#esterni .slabel,#chi .slabel,.ct-label,.ct-flabel,.proc-num,.chi-link,#stats .stat-l,
+.ct-prev-go,.ct-prev-s b,.exp-num { color:var(--gold-t); }
+.doc-tag { border-color:rgba(122,95,48,.45); }
+
+/* grigi come testo su fondo chiaro */
+.doc-desc,.doc-header p,.doc-hint,.modo-num,.modo p,.modo-tag,.arredo-sub,.modi-head p,
+.stat-l,.proc-desc,.exp-item p,.exp-head,.chi-desc,.ct-desc,.ct-addr,.ct-priv,.ct-prev-s,
+.rec-ruolo,.ba-hint,.ff label,.ff input[type=file],#esterni .exp-head,
+[data-theme="light"] .rev-l p,[data-theme="light"] .rev-r p { color:var(--muted-c); }
+.exp-badge .exp-num,.exp-badge { color:#0A0A0A; }
+.ct-prev-go { color:#74592c; }
+.ct-priv a { color:var(--gold-t); }
+
+/* grigi come testo su fondo scuro */
+.sv-desc,#light-spec-text,.fl,.fsoc a,.fleg,.ill-spec b,.lc-box,.lc-box span { color:var(--muted-s); }
+#ar-hint { color:#9c855a; }
+
+/* il fuoco da tastiera deve vedersi: col cursore nascosto era invisibile */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,summary:focus-visible,[tabindex]:focus-visible {
+  outline:2px solid var(--gold);outline-offset:3px;border-radius:3px; }
+
+/* salta al contenuto: prima voce per chi naviga da tastiera */
+#salta { position:fixed;top:-100px;left:16px;z-index:200;background:var(--dark);color:var(--gold);
+  border:.5px solid var(--gold);padding:12px 20px;font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;text-decoration:none;transition:top .2s; }
+#salta:focus { top:16px; }
+
+/* niente cursore finto dove non c'è il mouse: sul telefono resta fermo in un angolo
+   e i comandi perdono il cursore a manina */
+@media (hover:none),(pointer:coarse) {
+  #cur-d,#cur-r { display:none !important; }
+  * { cursor:auto !important; }
+  a,button,summary,label,select,input,textarea,[onclick],[role="button"] { cursor:pointer !important; }
+}
 </style>
 </head>
 <body>
-
-<h1 class="sr-only">VISIO Studio — Rendering Architettonico e Progettazione 3D a Roma</h1>
-<div class="sr-only">
-  <p>VISIO Studio. Ti mostriamo quello che ancora non esiste.</p>
-  <p>Render, video, VR e tour interattivi.</p>
-  <p>Ogni luce e ogni materiale, prima del cantiere.</p>
-  <p>Decidi prima di costruire. Vendi prima di finire.</p>
-</div>
 
 <div id="cur-d"></div>
 <div id="cur-r"></div>
@@ -915,6 +953,17 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
     <p id="acc-msg-m" role="status"></p>
   </div>
   <p class="mm-foot">Visio Studio · Rendering architettonico</p>
+</div>
+
+<a id="salta" href="#contenuto">Salta al contenuto</a>
+
+<main id="contenuto">
+<h1 class="sr-only">VISIO Studio — Rendering Architettonico e Progettazione 3D a Roma</h1>
+<div class="sr-only">
+  <p>VISIO Studio. Ti mostriamo quello che ancora non esiste.</p>
+  <p>Render, video, VR e tour interattivi.</p>
+  <p>Ogni luce e ogni materiale, prima del cantiere.</p>
+  <p>Decidi prima di costruire. Vendi prima di finire.</p>
 </div>
 
 <!-- ══ VIDEO SCRUB ══ -->
@@ -1590,7 +1639,7 @@ ancora non esiste.</p>
 <!-- ══ DOCUMENTAZIONE TECNICA ══ -->
 <section id="documenti" data-theme="light">
   <div class="doc-header rev">
-    <p class="slabel" style="color:var(--gold);">Documentazione completa</p>
+    <p class="slabel" style="color:var(--gold-t);">Documentazione completa</p>
     <h2 class="serif" style="color:var(--text);">Consegniamo tutto.<br>Proprio tutto.</h2>
     <p>Oltre ai render, ogni progetto VISIO include una documentazione tecnica completa pronta per essere utilizzata da professionisti, comuni, imprese e clienti finali.</p>
   </div>
@@ -2107,7 +2156,7 @@ ancora non esiste.</p>
         </div>
       </div>
       <div id="ex-head">
-        <p class="slabel rev" style="color:var(--gold);">Outdoor</p>
+        <p class="slabel rev" style="color:var(--gold-t);">Outdoor</p>
         <h2 class="serif rev">Studio <em>area esterna</em>.</h2>
       </div>
       <div id="ex-scene">
@@ -2397,7 +2446,7 @@ ancora non esiste.</p>
     </div>
   </div>
   <div class="gold-line rev" style="margin-top:52px;"></div>
-  <p class="slabel rev" style="color:var(--gold);margin-top:40px;">Il nostro processo</p>
+  <p class="slabel rev" style="color:var(--gold-t);margin-top:40px;">Il nostro processo</p>
   <div class="process-row rev">
     <div class="proc-step">
       <div class="proc-dot"></div>
@@ -2439,7 +2488,7 @@ ancora non esiste.</p>
      sarebbero recensioni false, vietate dal Codice del consumo (art. 21-23).
      Le carte sono ripetute due volte: e cosi che la fascia scorre senza salti. -->
 <section id="recensioni" data-theme="light">
-  <p class="slabel rev" style="color:var(--gold);">Dicono di noi</p>
+  <p class="slabel rev" style="color:var(--gold-t);">Dicono di noi</p>
   <h2 class="rec-t serif rev">Le parole di chi<br>ha visto il progetto prima.</h2>
   <div class="rec-fascia">
     <div class="rec-pista">
@@ -2550,15 +2599,15 @@ ancora non esiste.</p>
     <input type="hidden" name="form-name" value="contatti">
     <div style="display:none;"><label>Non compilare questo campo: <input name="bot-field"></label></div>
     <div class="frow">
-      <div class="ff"><label>Nome</label><input type="text" name="nome" placeholder="Marco Rossi" required></div>
-      <div class="ff"><label>Cognome</label><input type="text" name="cognome" placeholder="Bianchi"></div>
+      <div class="ff"><label for="f-nome">Nome</label><input id="f-nome" type="text" name="nome" placeholder="Marco Rossi" required></div>
+      <div class="ff"><label for="f-cognome">Cognome</label><input id="f-cognome" type="text" name="cognome" placeholder="Bianchi"></div>
     </div>
     <div class="frow">
-      <div class="ff"><label>Email</label><input type="email" name="email" placeholder="marco@email.it" required></div>
-      <div class="ff"><label>Telefono</label><input type="tel" name="telefono" placeholder="+39 06..."></div>
+      <div class="ff"><label for="f-email">Email</label><input id="f-email" type="email" name="email" placeholder="marco@email.it" required></div>
+      <div class="ff"><label for="f-telefono">Telefono</label><input id="f-telefono" type="tel" name="telefono" placeholder="+39 06..."></div>
     </div>
     <div class="ff">
-      <label>Tipologia progetto</label>
+      <label for="f-serv">Tipologia progetto</label>
       <select id="f-serv" name="tipologia">
         <option value="">Seleziona...</option>
         <option>Render fotorealistici</option>
@@ -2573,8 +2622,8 @@ ancora non esiste.</p>
         <option>Pacchetto completo</option>
       </select>
     </div>
-    <div class="ff"><label>Sei un</label>
-      <select name="profilo">
+    <div class="ff"><label for="f-profilo">Sei un</label>
+      <select id="f-profilo" name="profilo">
         <option>Agenzia immobiliare</option>
         <option>Sviluppatore immobiliare</option>
         <option>Architetto / Studio</option>
@@ -2582,13 +2631,15 @@ ancora non esiste.</p>
         <option>Altro</option>
       </select>
     </div>
-    <div class="ff"><label>Descrivi il progetto</label><textarea rows="3" name="messaggio" placeholder="Villa residenziale 300mq, Roma Nord, zona giardino + interni..."></textarea></div>
-    <div class="ff"><label>Allegato — planimetria o foto (facoltativo, max 8 MB)</label><input type="file" name="allegato" accept=".pdf,.jpg,.jpeg,.png,.dwg,.zip"></div>
+    <div class="ff"><label for="f-messaggio">Descrivi il progetto</label><textarea id="f-messaggio" rows="3" name="messaggio" placeholder="Villa residenziale 300mq, Roma Nord, zona giardino + interni..."></textarea></div>
+    <div class="ff"><label for="f-allegato">Allegato — planimetria o foto (facoltativo, max 8 MB)</label><input id="f-allegato" type="file" name="allegato" accept=".pdf,.jpg,.jpeg,.png,.dwg,.zip"></div>
     <button type="submit" class="sbtn">Invia Richiesta</button>
     <p class="ct-priv">Inviando la richiesta dichiari di aver letto l&rsquo;<a href="/privacy">informativa privacy</a>. I dati servono solo a risponderti: nessuna newsletter, nessuna cessione a terzi.</p>
     <p id="ct-status" role="status"></p>
   </form>
 </section>
+
+</main>
 
 <footer>
   <span class="fl">VISIO</span>
@@ -2678,13 +2729,18 @@ ancora non esiste.</p>
 
 // ── CURSOR
 const cd=document.getElementById('cur-d'), cr=document.getElementById('cur-r');
+// senza mouse il cursore finto non serve: niente elementi, niente ciclo, niente batteria sprecata
+const HA_MOUSE = matchMedia('(hover:hover) and (pointer:fine)').matches;
+if(!HA_MOUSE){ cd.remove(); cr.remove(); }
 let mx=0,my=0,rx=0,ry=0;
+if(HA_MOUSE){
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 (function animC(){cd.style.left=mx+'px';cd.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(animC);})();
 document.querySelectorAll('button,.ncta,.chi-link,.st-cta,.path-link,.sbtn').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cr.style.transform='translate(-50%,-50%) scale(1.7)';cr.style.borderColor='rgba(201,169,110,.8)';});
   el.addEventListener('mouseleave',()=>{cr.style.transform='translate(-50%,-50%) scale(1)';cr.style.borderColor='rgba(201,169,110,.5)';});
 });
+}
 
 // ── NAVBAR
 const nav=document.getElementById('nav');
@@ -2708,7 +2764,13 @@ lights.forEach(s=>new IntersectionObserver(entries=>{
     document.body.classList.toggle('mnav-open',open);
     burger.setAttribute('aria-expanded',open?'true':'false');
     mmenu.setAttribute('aria-hidden',open?'false':'true');
+    // chiuso e invisibile: senza questo il tabulatore ci entrava dentro alla cieca
+    if(open) mmenu.removeAttribute('inert'); else mmenu.setAttribute('inert','');
+    if(open){ const primo=mmenu.querySelector('.mm-item'); if(primo) primo.focus({preventScroll:true}); }
+    else burger.focus({preventScroll:true});
   }
+  mmenu.setAttribute('inert','');
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&document.body.classList.contains('mnav-open')) setOpen(false); });
   burger.addEventListener('click',()=>setOpen(!document.body.classList.contains('mnav-open')));
   mmenu.querySelectorAll('.mm-item').forEach(el=>el.addEventListener('click',()=>setOpen(false)));
   document.getElementById('mmenu-cta').addEventListener('click',()=>{

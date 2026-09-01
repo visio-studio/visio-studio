@@ -5,7 +5,7 @@ Stato del progetto, decisioni prese e cose ancora da fare.
 disponibile su qualsiasi computer. Aggiornalo quando cambia qualcosa di
 strutturale: è la memoria condivisa del progetto.
 
-Ultimo aggiornamento: 1 settembre 2026.
+Ultimo aggiornamento: 1 settembre 2026 (accessibilità).
 
 ---
 
@@ -516,6 +516,62 @@ neutro riesce invece molto bene al primo colpo.
 Le immagini vanno **sempre ricompresse** prima di pubblicarle: i render
 originali del sito pesavano 1,5-2,4 MB l'uno a fronte di 200 KB necessari.
 Qualità 85-88, `optimize`, `progressive`.
+
+---
+
+## 8. Accessibilità
+
+Misurata con **axe-core** in Chromium, non a occhio. Prima: 6 tipi di problema in
+home (2 critici, 2 gravi), 5 nel configuratore. Adesso: **nessun problema critico
+o grave su nessuna pagina**; resta solo `region` (buona pratica, non un requisito
+WCAG) sul salta-contenuto e sul tasto WhatsApp, che stanno fuori dai landmark
+perché sono elementi flottanti.
+
+Per rimisurare:
+
+    cd <cartella scratch> && npm i axe-core playwright
+    # servire il sito su 127.0.0.1:4601 e lanciare axe su ogni pagina
+    # ATTENZIONE: forzare `.in` sugli elementi `.rev` e spegnere transizioni e
+    # animazioni prima di misurare, altrimenti axe legge i colori a metà
+    # dissolvenza e restituisce 170 falsi positivi.
+
+### Cosa è stato sistemato
+- **Contrasti**: l'oro `#C9A96E` e i grigi `#888/#999/#AAA` sul chiaro stavano fra
+  2,0 e 3,4:1. Ora ci sono due token — `--gold-t #7a5f30` per l'oro come testo su
+  fondo chiaro e `--muted-s #7e7e7e` per i grigi su fondo scuro — e `--muted` è
+  passato da `#888` a `#6a6a6a`. **Sul fondo scuro l'oro resta quello di sempre**
+  (8,85:1): il problema era solo sulle sezioni chiare.
+- **Etichette dei moduli**: erano `<label>` sciolte, senza `for`. Chi usa uno
+  screen reader sentiva "casella di testo" e basta. Ora tutte collegate.
+- **Menu chiuso**: era invisibile ma raggiungibile col tabulatore. Ora ha `inert`
+  quando è chiuso, il fuoco entra sulla prima voce quando si apre e torna sul
+  tasto quando si chiude. Esc lo chiude.
+- **Fuoco da tastiera visibile**: col cursore custom (`cursor:none`) non si vedeva
+  proprio dove si era. Ora c'è un contorno dorato su `:focus-visible`.
+- **Salta al contenuto** come prima voce di tabulazione, e `<main>` su tutte le
+  pagine (le FAQ ne avevano già uno: attenzione a non annidarne due).
+- **Livelli dei titoli** nel configuratore: c'erano `h4` dopo `h2`.
+- **Cursore finto spento dove non c'è il mouse** (`hover:none`): sul telefono
+  restava fermo in un angolo e toglieva la manina ai comandi. Ora non viene
+  nemmeno creato, e il suo ciclo `requestAnimationFrame` non parte.
+
+### Cosa resta — le cose che axe non sa misurare
+Sono tutte legate al fatto che il sito è molto interattivo, e vanno provate a
+mano, con la sola tastiera e con VoiceOver:
+
+1. **Le sezioni si comandano solo con mouse o dito.** Madia (trascinamento), tour
+   360°, mirino della realtà aumentata, cursore prima/dopo, comandi delle luci,
+   gallery orizzontale: da tastiera non si fa nulla. Servono almeno le frecce per
+   ruotare e `Tab`+`Invio` per i comandi.
+2. **I `<canvas>` non hanno alternativa testuale.** Chi non vede non sa cosa c'è
+   dentro: serve un testo che descriva la scena (`aria-label` o testo dentro il
+   canvas).
+3. **Il velo di apertura blocca lo scroll fino a 9 secondi** e non è annunciato.
+4. **Ordine del fuoco quando si apre il bottom-sheet** dei tre modi di lavorare.
+5. **`prefers-reduced-motion`**: rispettato da recensioni, madia e prima/dopo, non
+   ancora dalle sezioni legate allo scroll.
+6. **Dimensione dei bersagli** sotto i 44x44 px su alcuni comandi piccoli.
+7. **Ingrandimento del testo al 200%** da verificare sulle sezioni sticky.
 
 ---
 

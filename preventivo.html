@@ -268,6 +268,15 @@ footer a{color:var(--gold)}
 .pv-priv a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
 #r-toggle{display:none;width:100%;border:none;background:none;font:inherit;font-size:9.5px;letter-spacing:1.8px;
   text-transform:uppercase;color:var(--gold);padding:8px 0 0;cursor:pointer}
+/* accessibilità: contrasti sopra 4.5:1, fuoco da tastiera visibile, salta-contenuto */
+.slabel,#promo b,.r-lab2 span,.pv-priv a{color:#7a5f30}
+:root{--muted:#6a6a6a}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:3px}
+#salta{position:fixed;top:-100px;left:16px;z-index:200;background:var(--dark);color:var(--gold);border:.5px solid var(--gold);padding:12px 20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:top .2s}
+#salta:focus{top:16px}
+.pv-priv a{color:#7a5f30}
+footer a{color:#7a5f30}
+footer p{color:#6a6a6a}
 </style>
 </head>
 <body>
@@ -300,6 +309,9 @@ footer a{color:var(--gold)}
   <p class="mm-foot">Visio Studio · Rendering architettonico</p>
 </div>
 
+<a id="salta" href="#cfg">Salta al configuratore</a>
+
+<main>
 <header id="hero" class="wrap">
   <p class="slabel">Preventivo</p>
   <h1 class="serif">Costruisci la tua<br><em>bozza di preventivo</em>.</h1>
@@ -397,7 +409,7 @@ footer a{color:var(--gold)}
 
     <div>
       <div class="serve vetro">
-        <h4 class="serif">Cosa ci serve da te</h4>
+        <h3 class="serif">Cosa ci serve da te</h3>
         <p>Niente di complicato. Pi&ugrave; materiale ci dai all&rsquo;inizio, pi&ugrave; il preventivo &egrave; preciso e meno tempo perdiamo entrambi.</p>
         <ul id="serve-lista"></ul>
         <div class="tempi" id="tempi-box"></div>
@@ -405,6 +417,8 @@ footer a{color:var(--gold)}
     </div>
   </div>
 </section>
+
+</main>
 
 <footer>
   <p>Michelessi Corporation Srl &middot; Via Nettunense 117, 04011 Aprilia (LT) &middot; P.IVA 03294220599</p>
@@ -569,7 +583,7 @@ $('#sv-grid').innerHTML=SERVIZI.map(s=>`
     <div class="sv-img"><img src="img/prev/${s.id}.jpg" alt="${s.nome.replace(/&[a-z]+;/g,'')}" width="480" height="320" loading="lazy" decoding="async">
       <span class="sv-tick">✓</span>${s.play?'<span class="sv-play" aria-hidden="true"></span>':''}</div>
     <div class="sv-body">
-      <h4 class="serif">${s.nome}</h4>
+      <h3 class="serif">${s.nome}</h3>
       <p>${s.che}</p>
       <p class="sv-var"><b>Cosa fa variare il prezzo:</b> ${s.var}.</p>
       <div class="sv-foot">
@@ -781,7 +795,10 @@ if('IntersectionObserver' in window){
     document.body.classList.toggle('mnav-open',open);
     burger.setAttribute('aria-expanded',open?'true':'false');
     mmenu.setAttribute('aria-hidden',open?'false':'true');
+    if(open) mmenu.removeAttribute('inert'); else mmenu.setAttribute('inert','');
+    if(!open) burger.focus({preventScroll:true});
   }
+  mmenu.setAttribute('inert','');
   burger.addEventListener('click',()=>setOpen(!document.body.classList.contains('mnav-open')));
   mmenu.querySelectorAll('a.mm-item').forEach(el=>el.addEventListener('click',()=>setOpen(false)));
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') setOpen(false); });
