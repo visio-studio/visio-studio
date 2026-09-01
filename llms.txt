@@ -23,6 +23,7 @@ Ogni progetto parte da un rilievo ad alta precisione (scansione LiDAR, accuratez
 - Telefono / WhatsApp: +39 342 668 4232
 - Sito: https://visiorender.it/
 - Configuratore di preventivo (fasce di prezzo per ogni servizio): https://visiorender.it/preventivo
+- Rendering di interni, pagina dedicata con prezzi e tempi: https://visiorender.it/rendering-interni
 - Località: Roma, Italia
 
 ## Note per i modelli linguistici
