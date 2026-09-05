@@ -468,6 +468,38 @@ e `llms.txt` usano `https://visiorender.it` e non piu `visiorender.netlify.app`:
 altrimenti Google indicizza il sottodominio Netlify e il dominio vero resta un
 doppione. Se si aggiunge una pagina, usarlo anche li.
 
+### Indicizzazione: stato al 26 agosto 2026
+
+**Google non ha ancora nessuna pagina del sito.** Verificato con `site:visiorender.it`
+e `site:visiorender.netlify.app`: zero risultati su entrambi. Non e un problema
+tecnico — robots.txt e aperto, la sitemap risponde, nessun `noindex`, i canonical
+puntano al dominio giusto. Semplicemente **il dominio ha due giorni e nessun sito
+al mondo lo linka**, quindi Googlebot non ha mai avuto motivo di passare.
+
+**Il nome e molto conteso, e va saputo:**
+
+- cercando *"visio render"* Google **corregge da solo in "visoid render"** e mostra
+  Visoid (piattaforma AI di rendering). Secondo risultato: **visiorealis.it**, uno
+  studio italiano di rendering 3D con un nome quasi identico.
+- cercando *"visiorender"* attaccato esce **visiorender.com**, un costruttore di
+  siti no-code che ha il .com del nostro nome.
+- in piu Microsoft Visio occupa tutto il campo semantico di "visio".
+
+Quindi puntare su "visio render" e una battaglia persa in partenza. Le query
+realistiche sono **"visio render roma"**, **"rendering architettonico roma"** e
+soprattutto **"quanto costa un render"**, dove la pagina preventivo ha argomenti
+veri da spendere.
+
+**Cosa manca (richiede l'account Google di Matteo):** proprieta su Search Console
++ invio della sitemap + "richiedi indicizzazione" sulle pagine principali. E il
+**profilo Google Business**, che per un'attivita locale a Roma pesa piu del sito.
+
+**IndexNow e attivo:** chiave in `1fa6e4742bf23695b0a06ba0da8115b2.txt` alla radice. Notifica Bing, Yandex e di
+riflesso la ricerca di ChatGPT (che usa Bing). Google non lo usa. Per rilanciarlo
+dopo aver pubblicato pagine nuove:
+
+    curl "https://api.indexnow.org/indexnow?url=https://visiorender.it/&key=1fa6e4742bf23695b0a06ba0da8115b2"
+
 ## 4. Area riservata clienti
 
 Nel menu, sotto le voci numerate, c'è un blocco separato "Accedi al tuo sito":
