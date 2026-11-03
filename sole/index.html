@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Studio del sole 3D — VISIO Studio</title>
+  <meta name="description" content="Strumento gratuito di VISIO Studio: cerca un indirizzo, scegli giorno e ora e guarda in 3D il percorso del sole e le ombre degli edifici reali. Utile per orientare la casa e posizionare i pannelli solari." />
+  <link rel="canonical" href="https://visiorender.it/sole/" />
+  <meta property="og:title" content="Studio del sole 3D — VISIO Studio" />
+  <meta property="og:description" content="Percorso del sole e ombre in 3D su qualsiasi indirizzo, per ogni giorno dell'anno." />
+  <meta property="og:url" content="https://visiorender.it/sole/" />
+  <meta property="og:image" content="https://visiorender.it/img/render-esterno-1.jpg" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/font/visio.css" />
+  <script type="module" crossorigin src="/sole/assets/index-Bera8qgE.js"></script>
+  <link rel="stylesheet" crossorigin href="/sole/assets/index-JOMD2qpm.css">
+</head>
+<body>
+  <div id="viewport"></div>
+
+  <header class="panel" id="top">
+    <a class="brand" href="/" title="Torna a visiorender.it">VISIO <span>Studio del sole</span></a>
+    <form id="search">
+      <input id="q" type="search" placeholder="Indirizzo o lat, lng" autocomplete="off" />
+      <button class="btn primary" type="submit">Vai</button>
+    </form>
+    <div class="row wrap">
+      <label>Raggio
+        <select id="radius">
+          <option value="150">150 m</option>
+          <option value="300" selected>300 m</option>
+          <option value="500">500 m</option>
+        </select>
+      </label>
+      <label class="chk"><input type="checkbox" id="showMap" checked /> Mappa</label>
+      <label class="chk"><input type="checkbox" id="showPath" checked /> Percorso solare</label>
+    </div>
+    <div id="status" role="status" aria-live="polite"></div>
+  </header>
+
+  <button id="infoToggle" class="btn round" aria-label="Pannello dati">i</button>
+
+  <aside class="panel" id="info">
+    <h2>Sole</h2>
+    <dl>
+      <dt>Ora locale</dt><dd id="i-time">—</dd>
+      <dt>Altezza</dt><dd id="i-alt">—</dd>
+      <dt>Azimut</dt><dd id="i-az">—</dd>
+      <dt>Alba</dt><dd id="i-rise">—</dd>
+      <dt>Tramonto</dt><dd id="i-set">—</dd>
+    </dl>
+    <p id="i-shadow" class="note"></p>
+
+    <h2>Area</h2>
+    <p id="stat-buildings" class="note">—</p>
+    <p class="legend"><span class="sw a"></span>altezza da OSM <span class="sw b"></span>stimata</p>
+    <label class="btn file">Carica file OSM (JSON)<input type="file" id="importOsm" accept=".json,.geojson,application/json" hidden /></label>
+    <p class="hint">Da <a href="https://overpass-turbo.eu" target="_blank" rel="noopener">overpass-turbo.eu</a>: query sugli edifici con <code>out geom;</code>, poi Esporta → dati OSM grezzi.</p>
+
+    <h2>Modello di progetto</h2>
+    <label class="btn file">Importa GLB<input type="file" id="importModel" accept=".glb" hidden /></label>
+    <label class="range">Rotazione
+      <input type="range" id="modelRot" min="0" max="359" value="0" />
+      <output id="modelRotVal">0°</output>
+    </label>
+    <label class="chk"><input type="checkbox" id="hideCenter" /> Nascondi edificio OSM sul punto</label>
+    <button id="clearModel" class="btn ghost" type="button">Rimuovi modello</button>
+
+    <h2>Esporta</h2>
+    <div class="btns">
+      <button id="exportPng" class="btn" type="button">Immagine PNG</button>
+      <button id="exportGlb" class="btn" type="button">Scena GLB + sole</button>
+    </div>
+  </aside>
+
+  <footer class="panel" id="timebar">
+    <div class="row">
+      <input type="date" id="date" />
+      <div class="presets">
+        <button type="button" data-preset="winter">21 dic</button>
+        <button type="button" data-preset="equinox">21 mar</button>
+        <button type="button" data-preset="summer">21 giu</button>
+        <button type="button" data-preset="today">Oggi</button>
+      </div>
+    </div>
+    <div class="row">
+      <button id="play" class="btn round play" type="button" aria-label="Riproduci">▶</button>
+      <input type="range" id="time" min="0" max="1439" step="1" />
+      <output id="timeVal">10:00</output>
+      <select id="speed" aria-label="Velocità">
+        <option value="30">½ h/s</option>
+        <option value="60" selected>1 h/s</option>
+        <option value="180">3 h/s</option>
+      </select>
+    </div>
+  </footer>
+
+  <div id="compass" title="Nord"><div class="rose"><span>N</span></div></div>
+  <button id="resetView" class="btn round" type="button" title="Centra vista">⌖</button>
+  <div id="attrib">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors · <a href="/privacy#sole">Privacy</a></div>
+
+  <div id="consent" hidden>
+    <div class="cs-box" role="dialog" aria-modal="true" aria-labelledby="cs-t">
+      <p class="cs-lab">Studio del sole · VISIO</p>
+      <h2 id="cs-t">Il sole e le ombre,<br>su un indirizzo vero.</h2>
+      <p>Per mostrarti edifici e mappe reali il tuo browser li scarica dai server pubblici di <b>OpenStreetMap</b>, che ricevono il tuo indirizzo IP e il luogo che cerchi. Noi non vediamo nulla di quello che fai qui.</p>
+      <div class="cs-btns">
+        <button type="button" class="btn primary" id="cs-ok">Usa le mappe reali</button>
+        <button type="button" class="btn ghost" id="cs-no">Prima guardo l'esempio</button>
+      </div>
+      <p class="cs-note">Dettagli nell'<a href="/privacy#sole">informativa privacy</a>.</p>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -38,6 +38,18 @@
 # Le altre immagini restano sulla cache predefinita (riconvalida con ETag): vengono
 # ricompresse e sostituite di tanto in tanto, e devono aggiornarsi al primo deploy.
 
+# ── Studio del sole (/sole/): i file in assets/ hanno l'impronta nel nome e cambiano a ogni build
+[[headers]]
+  for = "/sole/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ── Sorgenti degli strumenti (script Python, codice dello studio del sole): non vanno indicizzati
+[[headers]]
+  for = "/strumenti/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 # ── Sito cliente di esempio: già noindex nel suo <head>, ribadito lato server
 [[headers]]
   for = "/esempio/*"

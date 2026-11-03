@@ -5,7 +5,7 @@ Stato del progetto, decisioni prese e cose ancora da fare.
 disponibile su qualsiasi computer. Aggiornalo quando cambia qualcosa di
 strutturale: è la memoria condivisa del progetto.
 
-Ultimo aggiornamento: 1 settembre 2026 (accessibilità).
+Ultimo aggiornamento: 4 novembre 2026 (studio del sole).
 
 ---
 
@@ -667,3 +667,24 @@ posti — piede delle pagine, informativa, JSON-LD (`legalName`, `vatID`,
   restringendo il campo visivo.
 - **Immagini reali al posto delle illustrazioni** dove possibile: fatto per
   documentazione, realtà aumentata, esterni e madia.
+
+---
+
+## Studio del sole — sezione `#solare` e pagina `/sole/` (4 novembre 2026)
+
+- **In home** la sezione `#solare` (fra esterni e illuminazione) spiega lo studio
+  dell'esposizione: orientamento della casa, pannelli solari, ombre sul contesto.
+  La demo è un canvas 2D scritto a mano come la madia, niente librerie. I calcoli
+  del sole sono quelli astronomici veri per Roma (41,9° N) ma in **ora solare**:
+  per questo la riga sotto lo dice esplicitamente. La percentuale "sole sulla falda
+  sud" è l'incidenza rispetto al sole perpendicolare, non una resa in kWh: non
+  presentarla come produzione dell'impianto.
+- **Lo strumento completo** sta in `/sole/` ed è generato da `strumenti/sole-src/`
+  (`npm run build:sito`). Parte con un quartiere di esempio e **non contatta
+  nessuno finché il visitatore non sceglie "Usa le mappe reali"**: OpenStreetMap
+  (mappe, ricerca indirizzi) e Overpass (edifici) ricevono l'IP, quindi è la
+  stessa logica dei font ospitati in casa. La scelta resta in `localStorage`
+  (`visio-sole-osm`), documentata in privacy (`#sole`) e nella pagina cookie.
+- I servizi pubblici di OSM hanno limiti d'uso pensati per traffico leggero. Se lo
+  strumento comincia a girare molto, passare a un fornitore (MapTiler, Stadia,
+  Geoapify) cambiando gli URL in `src/ground.js`, `src/geo.js`, `src/buildings.js`.

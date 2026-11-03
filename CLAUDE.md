@@ -25,6 +25,7 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - `faq.html` — pagina Domande frequenti, con schema JSON-LD `FAQPage`.
 - `privacy.html` e `cookie.html` — informativa privacy e pagina cookie. **Il sito non ha cookie di profilazione né statistiche, quindi non ha banner**: se si aggiunge Analytics o un pixel, il banner diventa obbligatorio (vedi `NOTE-DI-LAVORO.md` §7).
 - `font/` — i font (Cormorant Garamond e Inter) sono ospitati sul dominio, non presi da Google: serve a non trasmettere l'IP dei visitatori a terzi. Il foglio è `font/visio.css`, i nomi dei file non vanno cambiati (cache `immutable`).
+- `sole/` — **studio del sole 3D** (visiorender.it/sole/): pagina generata, non modificarla a mano. Il sorgente è in `strumenti/sole-src/` (Vite + three.js, edifici e mappe da OpenStreetMap); si rigenera con `cd strumenti/sole-src && npm install && npm run build:sito`, che riscrive la cartella `sole/`. Le richieste a OpenStreetMap partono solo dopo il consenso del visitatore (vedi privacy, voce `#sole`).
 - `preventivo.html` — configuratore di preventivo con fasce di prezzo (vedi `NOTE-DI-LAVORO.md`). I prezzi stanno tutti nel blocco `LISTINO` in cima al file.
 - `esempio/index.html` — sito cliente di esempio (Villa Ferrara), in `noindex`.
 - `strumenti/genera-accesso.py` — genera i codici cifrati dell'area riservata.
@@ -44,12 +45,12 @@ Aggiornalo quando cambia qualcosa di strutturale.
 
 ## Contenuto della pagina (sezioni in ordine)
 
-L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → prova (render) → metodo (LiDAR) → esperienza (VR/AR) → garanzia di completezza (documenti) → servizi di dettaglio (arredo, esterni, luce) → bonus finale (sito dedicato) → fiducia (stats, chi siamo) → chiusura (statement, contatti). Se si aggiungono nuove sezioni, inserirle nel punto della sequenza che rispetta questa logica, non in fondo per comodità.
+L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → prova (render) → metodo (LiDAR) → esperienza (VR/AR) → garanzia di completezza (documenti) → servizi di dettaglio (arredo, esterni, sole, luce) → bonus finale (sito dedicato) → fiducia (stats, chi siamo) → chiusura (statement, contatti). Se si aggiungono nuove sezioni, inserirle nel punto della sequenza che rispetta questa logica, non in fondo per comodità.
 
 1. **Loader** con logo SVG VISIO animato "a disegno" (`.logo-draw`, stroke-dashoffset) + cursore custom dorato (`#cur-d`, `#cur-r`). Si alza quando il primo fotogramma della journey è pronto (min 1,5 s, max 9 s), non a tempo fisso, e blocca lo scroll finché è su — vedi `NOTE-DI-LAVORO.md` §3 "Apertura del sito"
 2. **Navbar** (`#nav`) — solo logo (cliccabile, torna in cima) e hamburger, a ogni larghezza. Voci e CTA vivono nel menu a schermo intero `#mmenu`
 3. **Journey** (`#journey`) — canvas sticky (`#sv`) che disegna la sequenza di frame `img/journey-2/` legata allo scroll, testi che cambiano (`#stag`, `#stxt`), barra progresso (`#spb`)
-4. **Intro servizi** (`#intro-servizi`) — griglia di 8 card cliccabili (`.sv-card`, attributo `data-go="#id-sezione"`) che scrollano alla sezione corrispondente. **L'ordine delle card deve rispecchiare l'ordine reale delle sezioni in pagina** (e i valori `--i:0..7` lo stile del loro effetto di comparsa in cascata) — se si sposta una sezione, riordinare anche la card qui.
+4. **Intro servizi** (`#intro-servizi`) — griglia di 9 card cliccabili (3×3) (`.sv-card`, attributo `data-go="#id-sezione"`) che scrollano alla sezione corrispondente. **L'ordine delle card deve rispecchiare l'ordine reale delle sezioni in pagina** (e i valori `--i:0..8` lo stile del loro effetto di comparsa in cascata) — se si sposta una sezione, riordinare anche la card qui.
 5. **Render gallery** (`#render-gallery`) — strip orizzontale sticky con contatore e aggancio morbido allo scroll
 6. **Sezione LiDAR** (`#lidar-section` + `#lidar-after`) — nuvola di punti 3D animata (canvas `#lidar-cv`) e il render finale
 7. **VR scroll** (`#vr-scroll`) — zoom nel visore fino a entrare nella stanza 360° navigabile: rendering WebGL con proiezione prospettica, panorama `img/room-360-tour.jpg`
@@ -57,12 +58,13 @@ L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → 
 9. **Documenti** (`#documenti`) — documentazione tecnica completa: planimetrie quotate, modello 3D, schemi impianti, computo metrico, render alta risoluzione, video
 10. **Arredo** (`#arredo`) — montaggio della madia in 3D (canvas WebGL `#madia-cv` in `#esploso-wrap`, modello `madia-3d.json`) legato allo scroll, con le quattro finiture + i tre modi di servizio (fornitori, scheda tecnico-esecutiva, chiavi in mano) e il confronto prima/dopo render-realtà
 11. **Esterni** (`#esterni`) — progettazione area esterna, timelapse allo scroll (`img/esterni-2`, caricato in differita poco prima di servire)
-12. **Illuminazione** (`#illumino`) — confronto luci interattivo
-13. **Sito dedicato** (`#sito-dedicato`) — presentato come servizio "bonus" verso fine pagina, non tra i servizi tecnici. L'accesso all'area riservata sta nel menu (vedi `NOTE-DI-LAVORO.md` §4)
-14. **Stats + processo** (`#stats`) — otto numeri in tessere di vetro, con conteggio animato e comparsa a cascata (`.stat-i`, variabile `--i`)
-15. **Recensioni** (`#recensioni`) — fascia di sei recensioni di clienti veri, che scorre da sola su desktop (in pausa al passaggio del mouse) e si scorre col dito su mobile. **Qui dentro non si scrivono testi inventati**: sarebbero recensioni false, vietate dal Codice del consumo
-16. **Chi siamo** (`#chi`)
-17. **Statement** (`#statement`) + **Contatti** (`#contatti`)
+12. **Esposizione solare** (`#solare`) — orientamento della casa, pannelli solari e ombre sul contesto. Canvas 2D scritto a mano (`#so-cv`): casa in assonometria con il sole vero su Roma (ora solare) per solstizi ed equinozio, ombra, percorso del sole e quota di sole sulla falda sud; si ruota trascinando. Il pulsante porta allo strumento completo `/sole/`
+13. **Illuminazione** (`#illumino`) — confronto luci interattivo
+14. **Sito dedicato** (`#sito-dedicato`) — presentato come servizio "bonus" verso fine pagina, non tra i servizi tecnici. L'accesso all'area riservata sta nel menu (vedi `NOTE-DI-LAVORO.md` §4)
+15. **Stats + processo** (`#stats`) — otto numeri in tessere di vetro, con conteggio animato e comparsa a cascata (`.stat-i`, variabile `--i`)
+16. **Recensioni** (`#recensioni`) — fascia di sei recensioni di clienti veri, che scorre da sola su desktop (in pausa al passaggio del mouse) e si scorre col dito su mobile. **Qui dentro non si scrivono testi inventati**: sarebbero recensioni false, vietate dal Codice del consumo
+17. **Chi siamo** (`#chi`)
+18. **Statement** (`#statement`) + **Contatti** (`#contatti`)
 
 ## Stile e convenzioni
 

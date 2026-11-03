@@ -41,7 +41,8 @@
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Tour virtuali VR/AR e stanze navigabili a 360°" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sito web dedicato al progetto immobiliare" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Progettazione arredo su misura" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Progettazione area esterna e illuminotecnica" } }
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Progettazione area esterna e illuminotecnica" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Studio dell'esposizione solare: orientamento dell'edificio, ombre e posizionamento dei pannelli solari" } }
   ]
 }
 </script>
@@ -201,7 +202,7 @@ body.mnav-open .mm-foot { opacity:1;transition-delay:1.25s; }
 #sv-lead { text-align:center;margin:96px auto 0;max-width:560px; }
 #sv-lead h3 { font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;line-height:1.2; }
 #sv-lead h3 em { font-style:italic;color:var(--gold); }
-#sv-wrap { display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1060px;margin:44px auto 0;opacity:1;transform:none; }
+#sv-wrap { display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1060px;margin:44px auto 0;opacity:1;transform:none; }
 .sv-card { opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease;transition-delay:calc(var(--i)*.09s);perspective:700px; }
 #sv-wrap.in .sv-card { opacity:1;transform:none; }
 .sv-in { position:relative;height:100%;background:#141414;border:.5px solid rgba(255,255,255,.07);border-radius:14px;padding:26px 18px 22px;text-align:center;cursor:pointer;transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease,background .35s ease;transform-style:preserve-3d; }
@@ -610,6 +611,46 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1s; }
 /* ── ILLUMINOTECNICA (dark) ── */
 #illumino { background:var(--dark);padding:96px 0 110px;border-top:.5px solid rgba(255,255,255,.06); }
 .ill-head h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4.4vw,56px);font-weight:300;line-height:1.08;margin-bottom:18px; }
+/* ── ESPOSIZIONE SOLARE (dark) ── */
+#solare { position:relative;background:var(--dark2);padding:110px 0 120px;border-top:.5px solid rgba(255,255,255,.06);overflow:hidden; }
+#solare::before { content:'';position:absolute;inset:0;background:radial-gradient(55% 45% at 80% 20%,rgba(201,169,110,.11),transparent 70%);pointer-events:none; }
+.so-grid { position:relative;max-width:1360px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:72px;align-items:center; }
+.so-txt h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4.4vw,56px);font-weight:300;line-height:1.08;margin-bottom:20px; }
+.so-txt h2 em { font-style:italic;color:var(--gold); }
+.so-sub { font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.95;max-width:470px; }
+.so-list { margin-top:34px;display:flex;flex-direction:column; }
+.so-it { display:grid;grid-template-columns:34px 1fr;gap:18px;padding:20px 0;border-top:.5px solid rgba(201,169,110,.18); }
+.so-it:last-child { border-bottom:.5px solid rgba(201,169,110,.18); }
+.so-it svg { width:34px;height:34px; }
+.so-it h4 { font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:6px; }
+.so-it p { font-size:12px;line-height:1.85;color:rgba(255,255,255,.5); }
+.so-act { margin-top:34px;display:flex;flex-direction:column;align-items:flex-start;gap:14px; }
+.so-cta { display:inline-flex;align-items:center;gap:12px;border:.5px solid var(--gold);color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:16px 26px;cursor:none;transition:background .3s,color .3s; }
+.so-cta i { font-style:normal;transition:transform .3s; }
+.so-cta:hover { background:var(--gold);color:var(--dark); }
+.so-cta:hover i { transform:translateX(4px); }
+.so-cta:focus-visible,#so-play:focus-visible { outline:1px solid var(--gold);outline-offset:3px; }
+.so-cta-n { font-size:11px;color:rgba(255,255,255,.42);line-height:1.8;max-width:420px; }
+.so-stage { min-width:0; }
+.so-frame { position:relative;border-radius:18px;overflow:hidden;aspect-ratio:5/4;background:radial-gradient(120% 90% at 50% 0%,#1d1a15,#0b0b0b 70%);border:.5px solid rgba(201,169,110,.16);box-shadow:0 40px 90px -30px rgba(0,0,0,.9);touch-action:pan-y;cursor:none; }
+#so-cv { position:absolute;inset:0;width:100%;height:100%;display:block; }
+.so-hud { position:absolute;top:22px;left:26px;right:26px;display:flex;justify-content:space-between;align-items:baseline;pointer-events:none; }
+.so-geo { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.8); }
+.so-when { font-size:26px;font-weight:300;color:#fff;font-variant-numeric:tabular-nums; }
+.so-drag { position:absolute;top:50px;left:26px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);pointer-events:none;transition:opacity .6s; }
+.so-frame.mosso .so-drag { opacity:0; }
+.so-dock { position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;gap:8px;padding:8px;border-radius:999px;background:rgba(255,255,255,.08);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border:.5px solid rgba(255,255,255,.2);box-shadow:0 8px 32px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.3); }
+.so-dock .lgb { padding:10px 16px; }
+.so-time { display:flex;align-items:center;gap:16px;margin-top:22px; }
+#so-play { flex:none;width:38px;height:38px;border-radius:50%;border:.5px solid rgba(201,169,110,.5);background:rgba(201,169,110,.1);color:var(--gold);font-size:9px;letter-spacing:-1px;cursor:none;transition:background .3s; }
+#so-play:hover { background:rgba(201,169,110,.24); }
+#so-t { flex:1;min-width:0;-webkit-appearance:none;appearance:none;height:2px;background:linear-gradient(90deg,rgba(201,169,110,.15),rgba(201,169,110,.8) 50%,rgba(201,169,110,.15));border-radius:2px;cursor:none; }
+#so-t::-webkit-slider-thumb { -webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(201,169,110,.18),0 0 18px rgba(201,169,110,.7); }
+#so-t::-moz-range-thumb { width:16px;height:16px;border:0;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(201,169,110,.18),0 0 18px rgba(201,169,110,.7); }
+.so-data { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:22px;background:rgba(255,255,255,.07);border-radius:14px;overflow:hidden; }
+.so-data div { background:var(--dark2);padding:14px 16px; }
+.so-data dt { font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.75); }
+.so-data dd { margin-top:6px;font-family:'Cormorant Garamond',serif;font-size:24px;color:#fff;font-variant-numeric:tabular-nums; }
 .light-types { display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);margin-top:28px; }
 .lt-item { background:var(--dark);padding:20px;transition:background .3s; }
 .lt-item:hover { background:var(--dark3); }
@@ -733,6 +774,17 @@ footer { background:var(--dark);padding:20px 48px;border-top:.5px solid rgba(255
   .sd-phone { width:19vw;left:6vw;bottom:9vh; }
   .sd-cap { font-size:8px;letter-spacing:1.8px;padding:0 24px; }
   #sv-wrap { grid-template-columns:repeat(2,1fr);gap:12px;margin-top:36px; }
+  #solare { padding:64px 0 74px; }
+  .so-grid { grid-template-columns:1fr;gap:44px;padding:0 20px; }
+  .so-frame { aspect-ratio:1/1; }
+  .so-hud { top:16px;left:18px;right:18px; }
+  .so-when { font-size:21px; }
+  .so-drag { top:40px;left:18px; }
+  .so-dock { bottom:14px;gap:6px;padding:6px;width:calc(100% - 28px);justify-content:center; }
+  .so-dock .lgb { flex:1 1 0;padding:10px 4px;font-size:8.5px;letter-spacing:1px;gap:6px; }
+  .so-data { grid-template-columns:repeat(2,1fr); }
+  .so-data dd { font-size:21px; }
+  #sv-wrap .sv-card:last-child { grid-column:1/-1; }
   .sv-card { perspective:none; }
   .sv-in { padding:20px 12px 18px;transform-style:flat; }
   #sv-lead { margin-top:64px; }
@@ -1024,7 +1076,7 @@ ancora non esiste.</p>
 
   <div id="sv-lead">
     <p class="slabel rev">I nostri servizi</p>
-    <h3 class="rev">Otto servizi, <em>un unico</em> interlocutore.</h3>
+    <h3 class="rev">Nove servizi, <em>un unico</em> interlocutore.</h3>
   </div>
 
   <div id="sv-wrap" class="rev">
@@ -1121,7 +1173,21 @@ ancora non esiste.</p>
         <p class="sv-go">Scopri ↓</p>
       </div>
     </div>
-    <div class="sv-card" data-go="#illumino" style="--i:6">
+    <div class="sv-card" data-go="#solare" style="--i:6">
+      <div class="sv-in">
+        <div class="sv-ico"><svg viewBox="0 0 48 48" fill="none">
+          <path d="M7 34 A17 17 0 0 1 41 34" stroke="rgba(201,169,110,.45)" stroke-width="1" stroke-dasharray="2 3"/>
+          <circle class="sv-bl" cx="33" cy="20" r="3.6" fill="rgba(201,169,110,.45)" stroke="var(--gold)" stroke-width="1"/>
+          <path d="M14 40 V31 L21 26 L28 31 V40 Z" stroke="var(--gold)" stroke-width="1.2"/>
+          <path d="M14 40 L5 43 L14 37" stroke="rgba(201,169,110,.35)" stroke-width="1"/>
+          <line x1="4" y1="40" x2="44" y2="40" stroke="rgba(201,169,110,.35)" stroke-width="1"/>
+        </svg></div>
+        <p class="sv-name">Esposizione solare</p>
+        <p class="sv-desc">Orientamento della casa e pannelli solari</p>
+        <p class="sv-go">Scopri ↓</p>
+      </div>
+    </div>
+    <div class="sv-card" data-go="#illumino" style="--i:7">
       <div class="sv-in">
         <div class="sv-ico"><svg viewBox="0 0 48 48" fill="none">
           <line x1="24" y1="4" x2="24" y2="13" stroke="var(--gold)" stroke-width="1.2"/>
@@ -1138,7 +1204,7 @@ ancora non esiste.</p>
         <p class="sv-go">Scopri ↓</p>
       </div>
     </div>
-    <div class="sv-card" data-go="#sito-dedicato" style="--i:7">
+    <div class="sv-card" data-go="#sito-dedicato" style="--i:8">
       <div class="sv-in">
         <div class="sv-ico"><svg viewBox="0 0 48 48" fill="none">
           <rect x="6" y="9" width="36" height="30" rx="3" stroke="var(--gold)" stroke-width="1.2"/>
@@ -2270,6 +2336,62 @@ ancora non esiste.</p>
   </div>
 </section>
 
+<!-- ══ ESPOSIZIONE SOLARE ══ -->
+<section id="solare">
+  <div class="so-grid">
+    <div class="so-txt">
+      <p class="slabel rev">Esposizione solare</p>
+      <h2 class="rev">Il sole, <em>prima</em><br>delle fondamenta.</h2>
+      <p class="so-sub rev">Prima di decidere dove mettere il soggiorno o quanti pannelli montare, simuliamo il percorso del sole sul lotto, giorno per giorno, con gli edifici che ci sono davvero intorno.</p>
+      <div class="so-list">
+        <div class="so-it rev">
+          <svg viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1.2" aria-hidden="true"><path d="M6 28 V15 L17 7 L28 15 V28 Z"/><line x1="17" y1="28" x2="17" y2="19"/><path d="M4 6 L8 10"/><circle cx="4" cy="6" r="1.6" fill="#C9A96E" stroke="none"/></svg>
+          <div><h4>Orientamento della casa</h4><p>Quali stanze prendono il sole del mattino e quali quello del pomeriggio, dove servono sporti e schermature per non surriscaldare d&rsquo;estate e dove aprire le vetrate per scaldare d&rsquo;inverno.</p></div>
+        </div>
+        <div class="so-it rev">
+          <svg viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1.2" aria-hidden="true"><path d="M5 25 L12 13 L31 13 L24 25 Z"/><line x1="8.5" y1="19" x2="27.5" y2="19"/><line x1="18" y1="13" x2="14.5" y2="25"/><line x1="18" y1="25" x2="18" y2="30"/><line x1="13" y1="30" x2="23" y2="30"/><circle cx="27" cy="6" r="2.6"/></svg>
+          <div><h4>Pannelli solari</h4><p>Le ore di sole sulla falda in ogni stagione e le ombre di camini, alberi e palazzi vicini: si sceglie dove posare i moduli prima di chiedere il preventivo all&rsquo;installatore.</p></div>
+        </div>
+        <div class="so-it rev">
+          <svg viewBox="0 0 34 34" fill="none" stroke="#C9A96E" stroke-width="1.2" aria-hidden="true"><rect x="6" y="9" width="9" height="17"/><path d="M15 26 L30 30 L21 22 L15 22" stroke-dasharray="2 2"/><line x1="3" y1="26" x2="31" y2="26"/><circle cx="6" cy="4" r="2"/></svg>
+          <div><h4>Ombre sul contesto</h4><p>Quanto il nuovo volume ombreggia giardino, terrazze e vicini nelle diverse ore e stagioni: un dato utile al progetto e alle conversazioni con il condominio.</p></div>
+        </div>
+      </div>
+      <div class="so-act rev">
+        <a class="so-cta" href="/sole/">Prova lo strumento 3D <i>&#8594;</i></a>
+        <p class="so-cta-n">Cerca un indirizzo e guarda le ombre degli edifici reali, per qualsiasi giorno dell&rsquo;anno. Gratis, dal browser.</p>
+      </div>
+    </div>
+
+    <div class="so-stage rev-r">
+      <div class="so-frame">
+        <canvas id="so-cv" aria-label="Casa in assonometria con il percorso del sole e la sua ombra, a Roma" role="img"></canvas>
+        <div class="so-hud">
+          <p class="so-geo">Roma · 41,9&deg; N</p>
+          <p class="so-when serif" id="so-when">21 giugno · 09:30</p>
+        </div>
+        <p class="so-drag">Trascina per ruotare</p>
+        <div class="so-dock">
+          <button class="lgb" type="button" data-so="inverno" aria-pressed="false"><span class="lgb-led"></span>Inverno</button>
+          <button class="lgb" type="button" data-so="equinozio" aria-pressed="false"><span class="lgb-led"></span>Equinozio</button>
+          <button class="lgb active" type="button" data-so="estate" aria-pressed="true"><span class="lgb-led"></span>Estate</button>
+        </div>
+      </div>
+      <div class="so-time">
+        <button type="button" id="so-play" aria-label="Metti in pausa">&#10074;&#10074;</button>
+        <input type="range" id="so-t" min="5" max="19" step="0.05" value="9.5" aria-label="Ora del giorno">
+      </div>
+      <dl class="so-data">
+        <div><dt>Altezza sole</dt><dd id="so-alt">—</dd></div>
+        <div><dt>Azimut</dt><dd id="so-az">—</dd></div>
+        <div><dt>Ombra di 10 m</dt><dd id="so-sh">—</dd></div>
+        <div><dt>Sole sulla falda sud</dt><dd id="so-pv">—</dd></div>
+      </dl>
+      <p class="ill-spec"><b>Giornata</b><span id="so-day">—</span></p>
+    </div>
+  </div>
+</section>
+
 <!-- ══ ILLUMINOTECNICA ══ -->
 <section id="illumino">
   <div class="ill-head">
@@ -2737,7 +2859,7 @@ let mx=0,my=0,rx=0,ry=0;
 if(HA_MOUSE){
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 (function animC(){cd.style.left=mx+'px';cd.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(animC);})();
-document.querySelectorAll('button,.ncta,.chi-link,.st-cta,.path-link,.sbtn').forEach(el=>{
+document.querySelectorAll('button,.ncta,.chi-link,.st-cta,.path-link,.sbtn,.so-cta').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cr.style.transform='translate(-50%,-50%) scale(1.7)';cr.style.borderColor='rgba(201,169,110,.8)';});
   el.addEventListener('mouseleave',()=>{cr.style.transform='translate(-50%,-50%) scale(1)';cr.style.borderColor='rgba(201,169,110,.5)';});
 });
@@ -2975,6 +3097,153 @@ document.querySelectorAll('.sv-card').forEach(c=>{
   c.addEventListener('mouseleave',()=>{inn.style.transform='';});
   c.addEventListener('click',()=>{const t=document.querySelector(c.dataset.go);if(t)t.scrollIntoView({behavior:'smooth'});});
 });
+
+// ── ESPOSIZIONE SOLARE: casa in assonometria, sole vero su Roma (ora solare), ombra e falda sud
+(function(){
+  const cv=document.getElementById('so-cv');if(!cv)return;
+  const ctx=cv.getContext('2d'),frame=cv.parentElement;
+  const LAT=41.9*Math.PI/180,R=Math.PI/180,BETA=.6;
+  const DAY={inverno:355,equinozio:80,estate:172},NOME={inverno:'21 dicembre',equinozio:'21 marzo',estate:'21 giugno'};
+  const RIDOTTO=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const slider=document.getElementById('so-t'),bPlay=document.getElementById('so-play');
+  const $=id=>document.getElementById(id);
+  let st='estate',t=9.5,play=!RIDOTTO,vis=false,yaw=.62,W=0,H=0,dpr=1,raf=0,last=0,drag=null;
+
+  function decl(n){return 23.44*R*Math.sin(2*Math.PI*(n-81)/365);}
+  function sole(n,h){const d=decl(n),ha=(h-12)*15*R;
+    const alt=Math.asin(Math.sin(LAT)*Math.sin(d)+Math.cos(LAT)*Math.cos(d)*Math.cos(ha));
+    const az=Math.atan2(Math.sin(ha),Math.cos(ha)*Math.sin(LAT)-Math.tan(d)*Math.cos(LAT))+Math.PI,c=Math.cos(alt);
+    return{alt,az,x:Math.sin(az)*c,y:Math.sin(alt),z:-Math.cos(az)*c};}
+  function giorno(n){const w=Math.acos(-Math.tan(LAT)*Math.tan(decl(n)))/R/15;return[12-w,12+w];}
+
+  // geometria: x = est, y = su, z = sud (metri)
+  const P=(x,y,z)=>({x,y,z}),N=(x,y,z)=>({x,y,z});
+  const facce=[
+    {p:[P(-5,0,4),P(5,0,4),P(5,5,4),P(-5,5,4)],n:N(0,0,1),k:'m'},
+    {p:[P(5,0,-4),P(-5,0,-4),P(-5,5,-4),P(5,5,-4)],n:N(0,0,-1),k:'m'},
+    {p:[P(5,0,4),P(5,0,-4),P(5,5,-4),P(5,8.1,0),P(5,5,4)],n:N(1,0,0),k:'m'},
+    {p:[P(-5,0,-4),P(-5,0,4),P(-5,5,4),P(-5,8.1,0),P(-5,5,-4)],n:N(-1,0,0),k:'m'},
+    {p:[P(-5.4,4.8,4.4),P(5.4,4.8,4.4),P(5.4,8.1,0),P(-5.4,8.1,0)],n:N(0,.8,.6),k:'t'},
+    {p:[P(5.4,4.8,-4.4),P(-5.4,4.8,-4.4),P(-5.4,8.1,0),P(5.4,8.1,0)],n:N(0,.8,-.6),k:'t'},
+  ];
+  // finestre (su facciata sud ed est) e pannelli sulla falda sud
+  const det=[];
+  const rettZ=(x0,x1,y0,y1,z,k)=>det.push({p:[P(x0,y0,z),P(x1,y0,z),P(x1,y1,z),P(x0,y1,z)],n:N(0,0,1),k});
+  rettZ(-3.9,-1.7,1.5,3.6,4.02,'v');rettZ(1.7,3.9,1.5,3.6,4.02,'v');rettZ(-.7,.7,0,2.5,4.02,'p');
+  det.push({p:[P(5.02,1.5,1.2),P(5.02,1.5,-1.2),P(5.02,3.6,-1.2),P(5.02,3.6,1.2)],n:N(1,0,0),k:'v'});
+  const A=P(-5.4,4.8,4.4),U=P(10.8,0,0),V=P(0,3.3,-4.4),NP=N(0,.8,.6);
+  const sulTetto=(u,v)=>P(A.x+U.x*u+V.x*v+NP.x*.07,A.y+U.y*u+V.y*v+NP.y*.07,A.z+U.z*u+V.z*v+NP.z*.07);
+  for(let c=0;c<5;c++)for(let r=0;r<2;r++){const u0=.12+c*.155,v0=.16+r*.34;
+    det.push({p:[sulTetto(u0,v0),sulTetto(u0+.14,v0),sulTetto(u0+.14,v0+.3),sulTetto(u0,v0+.3)],n:NP,k:'pv'});}
+  const albero={x:-9,z:7.5,h:4.2,r:2.4};
+  const vertici=facce.flatMap(f=>f.p);
+
+  function vista(){const c=Math.cos(BETA);return N(Math.sin(yaw)*c,Math.sin(BETA),Math.cos(yaw)*c);}
+  let S=1,CX=0,CY=0;
+  function pr(p){const cy=Math.cos(yaw),sy=Math.sin(yaw),xr=p.x*cy-p.z*sy,zr=p.x*sy+p.z*cy;
+    return{x:CX+xr*S,y:CY+(-p.y*Math.cos(BETA)+zr*Math.sin(BETA))*S,d:zr*Math.cos(BETA)+p.y*Math.sin(BETA)};}
+  const dot=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z;
+  function poli(pts,fill,stroke,lw){ctx.beginPath();pts.forEach((p,i)=>{const q=pr(p);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.closePath();
+    if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw||1;ctx.stroke();}}
+  function mix(a,b,k){return'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*k)).join(',')+')';}
+  function hull(pts){pts=pts.slice().sort((a,b)=>a.x-b.x||a.z-b.z);const cr=(o,a,b)=>(a.x-o.x)*(b.z-o.z)-(a.z-o.z)*(b.x-o.x);
+    const lo=[],up=[];for(const p of pts){while(lo.length>1&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}
+    for(let i=pts.length-1;i>=0;i--){const p=pts[i];while(up.length>1&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);}
+    return lo.slice(0,-1).concat(up.slice(0,-1));}
+  const aTerra=(p,s)=>P(p.x-s.x*p.y/s.y,0,p.z-s.z*p.y/s.y);
+
+  function disegna(){
+    const n=DAY[st],s=sole(n,t),Vv=vista(),up=s.alt>0,k=up?Math.min(1,Math.sin(s.alt)*1.6):0;
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+    // terreno
+    const rg=17,ter=[];for(let i=0;i<72;i++){const a=i/72*Math.PI*2;ter.push(P(Math.cos(a)*rg,0,Math.sin(a)*rg));}
+    poli(ter,mix([22,21,19],[58,53,45],k),'rgba(201,169,110,.22)',.6);
+    // bussola
+    for(let i=0;i<72;i++){const a=i/72*Math.PI*2,l=i%18===0?1.6:i%6===0?.9:.45,q1=pr(P(Math.sin(a)*(rg-l),0,-Math.cos(a)*(rg-l))),q2=pr(P(Math.sin(a)*rg,0,-Math.cos(a)*rg));
+      ctx.beginPath();ctx.moveTo(q1.x,q1.y);ctx.lineTo(q2.x,q2.y);ctx.strokeStyle=i%18===0?'rgba(201,169,110,.8)':'rgba(201,169,110,.28)';ctx.lineWidth=1;ctx.stroke();}
+    ctx.font='500 '+Math.max(10,S*.75)+'px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    [['N',0],['E',90],['S',180],['O',270]].forEach(([l,a])=>{const q=pr(P(Math.sin(a*R)*(rg+1.6),0,-Math.cos(a*R)*(rg+1.6)));ctx.fillStyle=l==='N'?'#C9A96E':'rgba(255,255,255,.45)';ctx.fillText(l,q.x,q.y);});
+    // ombre: casa (inviluppo convesso) e albero
+    if(up&&s.y>.03){
+      ctx.globalAlpha=.62*k+.12;
+      poli(hull(vertici.map(p=>aTerra(p,s))),'#070707');
+      const c=P(albero.x,albero.h,albero.z),cc=aTerra(c,s),ax=Math.atan2(s.z,s.x),e=[];
+      for(let i=0;i<28;i++){const a=i/28*Math.PI*2,u=Math.cos(a)*albero.r/Math.max(.15,s.y),v=Math.sin(a)*albero.r;
+        e.push(P(cc.x+Math.cos(ax)*u-Math.sin(ax)*v,0,cc.z+Math.sin(ax)*u+Math.cos(ax)*v));}
+      poli(e,'#070707');
+      const b=pr(P(albero.x,0,albero.z)),tt=pr(aTerra(P(albero.x,albero.h-albero.r*.6,albero.z),s));
+      ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(tt.x,tt.y);ctx.strokeStyle='#070707';ctx.lineWidth=Math.max(2,S*.35);ctx.stroke();
+      ctx.globalAlpha=1;
+    }
+    // percorso del sole del giorno
+    const [g0,g1]=giorno(n),RD=15;ctx.setLineDash([3,5]);ctx.beginPath();
+    for(let h=g0;h<=g1+.01;h+=.1){const q=sole(n,Math.min(h,g1)),pp=pr(P(q.x*RD,Math.max(0,q.y)*RD,q.z*RD));h===g0?ctx.moveTo(pp.x,pp.y):ctx.lineTo(pp.x,pp.y);}
+    ctx.strokeStyle='rgba(201,169,110,.55)';ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);
+    ctx.font='400 '+Math.max(9,S*.62)+'px Inter,sans-serif';
+    for(let h=Math.ceil(g0);h<=g1;h++){const q=sole(n,h),pp=pr(P(q.x*RD,q.y*RD,q.z*RD));
+      ctx.beginPath();ctx.arc(pp.x,pp.y,Math.max(1.6,S*.13),0,7);ctx.fillStyle='rgba(201,169,110,.7)';ctx.fill();
+      if(h%2===0){ctx.fillStyle='rgba(255,255,255,.4)';ctx.fillText(h,pp.x,pp.y-S*.85);}}
+    // casa e albero, dal fondo verso chi guarda
+    const pezzi=[];
+    facce.forEach(f=>{if(dot(f.n,Vv)>0)pezzi.push({f,d:f.p.reduce((a,p)=>a+pr(p).d,0)/f.p.length});});
+    pezzi.sort((a,b)=>a.d-b.d);
+    const dAlb=pr(P(albero.x,albero.h,albero.z)).d,dettagli=det.filter(f=>dot(f.n,Vv)>0);
+    let alberoFatto=false;
+    const fai=()=>{if(alberoFatto)return;alberoFatto=true;
+      const b=pr(P(albero.x,0,albero.z)),c=pr(P(albero.x,albero.h,albero.z));
+      ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(c.x,c.y);ctx.strokeStyle='rgba(201,169,110,.55)';ctx.lineWidth=Math.max(1.5,S*.2);ctx.stroke();
+      const g=ctx.createRadialGradient(c.x-S*.6,c.y-S*.8,S*.2,c.x,c.y,albero.r*S);g.addColorStop(0,mix([46,52,38],[120,128,86],k));g.addColorStop(1,mix([18,21,16],[46,54,36],k));
+      ctx.beginPath();ctx.arc(c.x,c.y,albero.r*S,0,7);ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='rgba(201,169,110,.25)';ctx.lineWidth=.6;ctx.stroke();};
+    pezzi.forEach(({f,d})=>{
+      if(!alberoFatto&&dAlb<d)fai();
+      const lam=up?Math.max(0,dot(f.n,s)):0,luce=.16+.84*lam*k;
+      const col=f.k==='t'?mix([24,22,19],[176,142,92],luce):mix([30,28,25],[238,231,218],luce);
+      poli(f.p,col,'rgba(201,169,110,.45)',.7);
+      dettagli.filter(x=>(x.k==='pv')===(f.k==='t')&&dot(x.n,f.n)>.99).forEach(x=>{
+        if(x.k==='pv'){const inc=up?Math.max(0,dot(x.n,s)):0;poli(x.p,mix([12,17,26],[52,84,120],inc*k),'rgba(201,169,110,'+(.25+.6*inc*k).toFixed(2)+')',.8);}
+        else if(x.k==='v')poli(x.p,mix([16,22,28],[96,128,150],.25+.5*k),'rgba(201,169,110,.35)',.6);
+        else poli(x.p,'#0d0c0b','rgba(201,169,110,.4)',.6);});
+    });
+    fai();
+    // sole
+    if(up){const q=pr(P(s.x*RD,s.y*RD,s.z*RD)),g=ctx.createRadialGradient(q.x,q.y,0,q.x,q.y,S*3.2);
+      g.addColorStop(0,'rgba(255,226,160,.95)');g.addColorStop(.25,'rgba(232,190,110,.55)');g.addColorStop(1,'rgba(201,169,110,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(q.x,q.y,S*3.2,0,7);ctx.fill();
+      ctx.beginPath();ctx.arc(q.x,q.y,S*.75,0,7);ctx.fillStyle='#ffe7b0';ctx.fill();}
+    // dati
+    const fmt=(v,d)=>v.toFixed(d).replace('.',',');
+    const hh=Math.floor(t),mm=Math.round((t-hh)*60)%60,ora=String(hh+(Math.round((t-hh)*60)===60?1:0)).padStart(2,'0')+':'+String(mm).padStart(2,'0');
+    $('so-when').textContent=NOME[st]+' · '+ora;
+    const az=(s.az/R+360)%360,card=['N','NE','E','SE','S','SO','O','NO'][Math.round(az/45)%8];
+    $('so-alt').textContent=up?fmt(s.alt/R,0)+'°':'—';
+    $('so-az').textContent=fmt(az,0)+'° '+card;
+    $('so-sh').textContent=up&&s.alt>2*R?fmt(10/Math.tan(s.alt),1)+' m':'—';
+    $('so-pv').textContent=up?Math.round(Math.max(0,dot(NP,s))*100)+'%':'0%';
+  }
+  function giornata(){const n=DAY[st],[g0,g1]=giorno(n),fmt=h=>{const m=Math.round(h*60);return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');};
+    let ore=0;for(let h=g0;h<g1;h+=.05){if(dot(NP,sole(n,h))>0)ore+=.05;}
+    $('so-day').textContent='Alba '+fmt(g0)+' · tramonto '+fmt(g1)+' (ora solare) · '+(g1-g0).toFixed(1).replace('.',',')+' h di luce · falda sud al sole per '+ore.toFixed(1).replace('.',',')+' h';
+    slider.min=g0.toFixed(2);slider.max=g1.toFixed(2);t=Math.min(Math.max(t,g0+.1),g1-.1);slider.value=t;}
+  function misura(){const r=frame.getBoundingClientRect();W=r.width;H=r.height;dpr=Math.min(devicePixelRatio||1,2);
+    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);S=Math.min(W/40,H/34);CX=W/2;CY=H*.6;disegna();}
+  function giro(ts){raf=0;if(!vis||!play)return;const dt=Math.min(.05,(ts-(last||ts))/1000);last=ts;
+    const [g0,g1]=giorno(DAY[st]);t+=dt*1.1;if(t>g1-.05)t=g0+.05;slider.value=t;disegna();raf=requestAnimationFrame(giro);}
+  function avvia(){if(!raf&&vis&&play){last=0;raf=requestAnimationFrame(giro);}}
+  function setPlay(v){play=v;bPlay.innerHTML=v?'&#10074;&#10074;':'&#9654;';bPlay.setAttribute('aria-label',v?'Metti in pausa':'Fai scorrere le ore');avvia();}
+
+  document.querySelectorAll('[data-so]').forEach(b=>b.addEventListener('click',()=>{
+    st=b.dataset.so;document.querySelectorAll('[data-so]').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on);});
+    giornata();disegna();}));
+  slider.addEventListener('input',()=>{t=+slider.value;setPlay(false);disegna();});
+  bPlay.addEventListener('click',()=>setPlay(!play));
+  frame.addEventListener('pointerdown',e=>{if(e.target.closest('.so-dock'))return;drag={x:e.clientX,y:yaw};frame.setPointerCapture(e.pointerId);});
+  frame.addEventListener('pointermove',e=>{if(!drag)return;yaw=drag.y+(e.clientX-drag.x)*.008;frame.classList.add('mosso');disegna();});
+  ['pointerup','pointercancel'].forEach(ev=>frame.addEventListener(ev,()=>{drag=null;}));
+  new ResizeObserver(misura).observe(frame);
+  new IntersectionObserver(e=>{vis=e[0].isIntersecting;avvia();},{threshold:.15}).observe(frame);
+  if(RIDOTTO)setPlay(false);
+  giornata();misura();
+})();
 
 // ── SITO DEDICATO: pin, dispositivi che entrano, mini-sito che scorre negli schermi
 (function(){
