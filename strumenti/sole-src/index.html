@@ -100,6 +100,24 @@
   <button id="resetView" class="btn round" type="button" title="Centra vista">⌖</button>
   <div id="attrib">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors · <a href="/privacy#sole">Privacy</a></div>
 
+  <div id="loading" hidden role="status" aria-live="polite">
+    <div class="ld-card">
+      <div class="ld-sun" aria-hidden="true"><i></i></div>
+      <div class="ld-body">
+        <p class="ld-t"><span id="ld-title">Carico il quartiere</span> <span id="ld-sec" class="ld-sec">0 s</span></p>
+        <ul class="ld-steps">
+          <li data-step="map" data-st="wait">Mappa</li>
+          <li data-step="bld" data-st="wait">Edifici in 3D</li>
+        </ul>
+        <p id="ld-msg" class="ld-msg">Mappa e altezze degli edifici arrivano da OpenStreetMap.</p>
+        <div class="ld-btns">
+          <button type="button" class="btn primary" id="ld-retry" hidden>Riprova</button>
+          <button type="button" class="btn ghost" id="ld-close">Nascondi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="consent" hidden>
     <div class="cs-box" role="dialog" aria-modal="true" aria-labelledby="cs-t">
       <p class="cs-lab">Studio del sole · VISIO</p>

@@ -40,7 +40,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, 1, 1, 30000);
+const camera = new THREE.PerspectiveCamera(45, 1, 3, 12000);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.maxPolarAngle = Math.PI / 2 - 0.03;
@@ -61,6 +61,7 @@ const outer = new THREE.Mesh(
   new THREE.MeshStandardMaterial({ color: 0xd9d4c8, roughness: 1 })
 );
 outer.receiveShadow = true;
+outer.position.y = -0.6; // sotto la mappa, abbastanza da non contendersi la profondità (sfarfallio)
 outer.name = 'Terreno';
 scene.add(outer);
 
@@ -154,24 +155,70 @@ async function loadArea(preset = null) {
     return;
   }
 
-  setStatus('Carico gli edifici da OpenStreetMap… può richiedere fino a 30 secondi.');
+  setStatus('');
   $('stat-buildings').textContent = 'Caricamento edifici in corso…';
+  loader.start(token);
   buildGround(state.proj, R)
-    .then((g) => { if (token === state.loadToken) groundGroup.add(g); else { g.geometry.dispose(); g.material.map.dispose(); } })
-    .catch(() => {});
+    .then((g) => {
+      if (token === state.loadToken) { groundGroup.add(g); loader.step('map', 'ok'); }
+      else { g.geometry.dispose(); g.material.map.dispose(); }
+    })
+    .catch(() => { if (token === state.loadToken) loader.step('map', 'err'); });
 
   try {
     const els = await fetchBuildings(state.lat, state.lon, R);
     if (token !== state.loadToken) return;
     state.elements = els;
     rebuildBuildings();
-    setStatus('');
+    loader.step('bld', 'ok');
+    loader.done(token);
   } catch {
     if (token !== state.loadToken) return;
-    setStatus('I server degli edifici di OpenStreetMap sono occupati in questo momento. Premi di nuovo «Vai» tra qualche secondo.', true);
+    loader.fail(token);
     $('stat-buildings').textContent = 'Edifici non caricati.';
   }
 }
+
+// Pannello di caricamento al centro: dice cosa sta arrivando e da quanto si aspetta.
+const loader = (() => {
+  const box = $('loading'), sec = $('ld-sec'), msg = $('ld-msg');
+  let tok = 0, t0 = 0, iv = 0;
+  const tick = () => {
+    const s = Math.round((performance.now() - t0) / 1000);
+    sec.textContent = s + ' s';
+    if (s >= 12) msg.textContent = 'I server pubblici di OpenStreetMap oggi sono lenti: di solito rispondono entro 30 secondi.';
+  };
+  const step = (k, st) => {
+    const el = box.querySelector(`[data-step="${k}"]`);
+    if (el) el.dataset.st = st;
+  };
+  return {
+    start(t) {
+      tok = t; t0 = performance.now();
+      box.classList.remove('err');
+      box.querySelectorAll('[data-step]').forEach((e) => { e.dataset.st = 'wait'; });
+      $('ld-title').textContent = 'Carico il quartiere';
+      msg.textContent = 'Mappa e altezze degli edifici arrivano da OpenStreetMap.';
+      $('ld-retry').hidden = true;
+      box.hidden = false;
+      clearInterval(iv); tick(); iv = setInterval(tick, 500);
+    },
+    step,
+    done(t) { if (t !== tok) return; clearInterval(iv); setTimeout(() => { if (t === tok) box.hidden = true; }, 450); },
+    fail(t) {
+      if (t !== tok) return;
+      clearInterval(iv);
+      step('bld', 'err');
+      box.classList.add('err');
+      $('ld-title').textContent = 'Edifici non arrivati';
+      msg.textContent = 'I server degli edifici sono tutti occupati in questo momento. Riprova tra qualche secondo: la mappa resta visibile.';
+      $('ld-retry').hidden = false;
+    },
+    hide() { tok = 0; clearInterval(iv); box.hidden = true; },
+  };
+})();
+$('ld-retry').addEventListener('click', () => loadArea(state.uploaded));
+$('ld-close').addEventListener('click', () => loader.hide());
 
 function rebuildBuildings() {
   disposeGroup(world);
@@ -428,7 +475,7 @@ $('resetView').addEventListener('click', resetView);
 $('infoToggle').addEventListener('click', () => $('info').classList.toggle('open'));
 
 // ---------------- modello di progetto ----------------
-const loader = new GLTFLoader();
+const gltfLoader = new GLTFLoader();
 let modelPivot = null;
 
 function clearModel() {
@@ -439,7 +486,7 @@ $('importModel').addEventListener('change', async (e) => {
   if (!f) return;
   const url = URL.createObjectURL(f);
   try {
-    const g = await loader.loadAsync(url);
+    const g = await gltfLoader.loadAsync(url);
     clearModel();
     const root = g.scene;
     root.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });

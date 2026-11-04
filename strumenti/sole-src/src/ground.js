@@ -61,8 +61,8 @@ export async function buildGround(proj, radius) {
   tex.anisotropy = 8;
   const geo = new THREE.PlaneGeometry(w, h);
   geo.rotateX(-Math.PI / 2);
-  const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex, roughness: 1 }));
-  mesh.position.set((a.x + b.x) / 2, 0.03, -(a.n + b.n) / 2);
+  const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex, roughness: 1, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 }));
+  mesh.position.set((a.x + b.x) / 2, 0.02, -(a.n + b.n) / 2);
   mesh.receiveShadow = true;
   mesh.name = 'Mappa_suolo';
   return mesh;
