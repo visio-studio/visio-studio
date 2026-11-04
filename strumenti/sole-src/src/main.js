@@ -154,7 +154,8 @@ async function loadArea(preset = null) {
     return;
   }
 
-  setStatus('Carico mappa ed edifici da OpenStreetMap…');
+  setStatus('Carico gli edifici da OpenStreetMap… può richiedere fino a 30 secondi.');
+  $('stat-buildings').textContent = 'Caricamento edifici in corso…';
   buildGround(state.proj, R)
     .then((g) => { if (token === state.loadToken) groundGroup.add(g); else { g.geometry.dispose(); g.material.map.dispose(); } })
     .catch(() => {});
@@ -167,8 +168,8 @@ async function loadArea(preset = null) {
     setStatus('');
   } catch {
     if (token !== state.loadToken) return;
-    setStatus('Edifici non disponibili: il server Overpass è occupato. Riprova tra poco.', true);
-    $('stat-buildings').textContent = '—';
+    setStatus('I server degli edifici di OpenStreetMap sono occupati in questo momento. Premi di nuovo «Vai» tra qualche secondo.', true);
+    $('stat-buildings').textContent = 'Edifici non caricati.';
   }
 }
 

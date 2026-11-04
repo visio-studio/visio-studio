@@ -8,25 +8,39 @@ const ENDPOINTS = [
   'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
 ];
 
+// I server Overpass pubblici sono spesso pieni (502 immediato) o restano appesi senza
+// rispondere: si interrogano tutti insieme, vince il primo che risponde con dati validi,
+// gli altri vengono interrotti. Ognuno ha un tempo massimo, così non si resta mai bloccati.
+const TIMEOUT_MS = 45000;
+
 export async function fetchBuildings(lat, lon, radius) {
   const a = `(around:${radius},${lat},${lon})`;
-  const q = `[out:json][timeout:60];(way["building"]${a};way["building:part"]${a};relation["building"]${a};);out geom;`;
-  let lastErr;
-  for (const ep of ENDPOINTS) {
-    try {
-      const r = await fetch(ep, {
-        method: 'POST',
-        body: 'data=' + encodeURIComponent(q),
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const j = await r.json();
-      return j.elements || [];
-    } catch (e) {
-      lastErr = e;
-    }
+  const q = `[out:json][timeout:40];(way["building"]${a};way["building:part"]${a};relation["building"]${a};);out geom;`;
+  const ctrls = ENDPOINTS.map(() => new AbortController());
+  const timer = setTimeout(() => ctrls.forEach((c) => c.abort()), TIMEOUT_MS);
+  const tries = ENDPOINTS.map(async (ep, i) => {
+    const r = await fetch(ep, {
+      method: 'POST',
+      body: 'data=' + encodeURIComponent(q),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      signal: ctrls[i].signal,
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    if (!Array.isArray(j.elements)) throw new Error('risposta non valida');
+    // Overpass segnala i timeout interni con "remark" e un elenco vuoto: non è un risultato
+    if (!j.elements.length && j.remark && /timed out|runtime error/i.test(j.remark)) throw new Error(j.remark);
+    return { i, elements: j.elements };
+  });
+  try {
+    const win = await Promise.any(tries);
+    ctrls.forEach((c, i) => { if (i !== win.i) c.abort(); });
+    return win.elements;
+  } catch {
+    throw new Error('Overpass non raggiungibile');
+  } finally {
+    clearTimeout(timer);
   }
-  throw lastErr || new Error('Overpass non raggiungibile');
 }
 
 // ---------- altezze ----------
