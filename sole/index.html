@@ -15,8 +15,8 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="stylesheet" href="/font/visio.css" />
-  <script type="module" crossorigin src="/sole/assets/index-NzNACoTq.js"></script>
-  <link rel="stylesheet" crossorigin href="/sole/assets/index-n2SOVTKP.css">
+  <script type="module" crossorigin src="/sole/assets/index-Cxuas4Bw.js"></script>
+  <link rel="stylesheet" crossorigin href="/sole/assets/index-CBMRQzMp.css">
 </head>
 <body>
   <div id="viewport"></div>
@@ -60,14 +60,20 @@
     <label class="btn file">Carica file OSM (JSON)<input type="file" id="importOsm" accept=".json,.geojson,application/json" hidden /></label>
     <p class="hint">Da <a href="https://overpass-turbo.eu" target="_blank" rel="noopener">overpass-turbo.eu</a>: query sugli edifici con <code>out geom;</code>, poi Esporta → dati OSM grezzi.</p>
 
-    <h2>Modello di progetto</h2>
-    <label class="btn file">Importa GLB<input type="file" id="importModel" accept=".glb" hidden /></label>
-    <label class="range">Rotazione
-      <input type="range" id="modelRot" min="0" max="359" value="0" />
-      <output id="modelRotVal">0°</output>
-    </label>
-    <label class="chk"><input type="checkbox" id="hideCenter" /> Nascondi edificio OSM sul punto</label>
-    <button id="clearModel" class="btn ghost" type="button">Rimuovi modello</button>
+    <h2>Modelli di progetto</h2>
+    <label class="btn file">Importa modello<input type="file" id="importModel" multiple hidden /></label>
+    <p class="hint">SketchUp (.skp), GLB, DAE, KMZ, OBJ, FBX, STL. Puoi anche trascinare il file sulla mappa. Poi trascina il modello per spostarlo; con le frecce lo muovi di 0,5 m (Maiusc: 5 m). Il file resta sul tuo computer: non viene caricato da nessuna parte.</p>
+    <div id="mdl-list" hidden></div>
+    <div id="mdl-ctrl" hidden>
+      <label class="range">Rotazione
+        <input type="range" id="modelRot" min="0" max="359" value="0" />
+        <output id="modelRotVal">0°</output>
+      </label>
+      <label>Unità <select id="modelScale"></select></label>
+      <p id="mdl-pos" class="hint"></p>
+      <button id="clearModel" class="btn ghost" type="button">Rimuovi questo modello</button>
+    </div>
+    <label class="chk"><input type="checkbox" id="hideCenter" /> Nascondi gli edifici OSM sotto i modelli</label>
 
     <h2>Esporta</h2>
     <div class="btns">

@@ -2,7 +2,7 @@ import './style.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { loadModelFile, ACCEPT, SCALES } from './models.js';
 import { makeProjection, geocode, parseCoords } from './geo.js';
 import { fetchBuildings, buildBuildingsMesh } from './buildings.js';
 import { buildGround } from './ground.js';
@@ -222,7 +222,7 @@ $('ld-close').addEventListener('click', () => loader.hide());
 
 function rebuildBuildings() {
   disposeGroup(world);
-  const res = buildBuildingsMesh(state.elements, state.proj, { hideAt: $('hideCenter').checked ? [0, 0] : null });
+  const res = buildBuildingsMesh(state.elements, state.proj, { hideAt: $('hideCenter').checked ? (models.length ? hidePoints() : [[0, 0]]) : null });
   if (res.mesh) world.add(res.mesh);
   $('stat-buildings').textContent = res.count
     ? `${res.count} edifici nel raggio di ${state.radius} m · ${res.estimated} con altezza stimata`
@@ -474,45 +474,243 @@ window.addEventListener('keydown', (e) => {
 $('resetView').addEventListener('click', resetView);
 $('infoToggle').addEventListener('click', () => $('info').classList.toggle('open'));
 
-// ---------------- modello di progetto ----------------
-const gltfLoader = new GLTFLoader();
-let modelPivot = null;
+// ---------------- modelli di progetto ----------------
+// Ogni modello è un "pivot" appoggiato al suolo: dentro c'è una "scala" (unità del file)
+// e dentro ancora il modello centrato. Il pivot si sposta trascinandolo e ruota col cursore.
+const models = []; // { name, pivot, scaleNode, scale }
+let selected = null;
+const fmtM = (v) => v.toFixed(1).replace('.', ',');
+const selBox = new THREE.Box3Helper(new THREE.Box3(), 0xc9a96e);
+selBox.visible = false;
+scene.add(selBox);
 
-function clearModel() {
-  if (modelPivot) { disposeGroup(modelPivot); userModels.remove(modelPivot); modelPivot = null; }
+function refreshSelBox() {
+  if (!selected) { selBox.visible = false; return; }
+  selBox.box.setFromObject(selected.pivot);
+  selBox.visible = true;
 }
-$('importModel').addEventListener('change', async (e) => {
-  const f = e.target.files[0];
-  if (!f) return;
-  const url = URL.createObjectURL(f);
-  try {
-    const g = await gltfLoader.loadAsync(url);
-    clearModel();
-    const root = g.scene;
-    root.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
-    const box = new THREE.Box3().setFromObject(root);
-    root.position.x -= (box.min.x + box.max.x) / 2;
-    root.position.z -= (box.min.z + box.max.z) / 2;
-    root.position.y -= box.min.y;
-    modelPivot = new THREE.Group();
-    modelPivot.name = 'Modello_progetto';
-    modelPivot.add(root);
-    modelPivot.rotation.y = -THREE.MathUtils.degToRad(+$('modelRot').value);
-    userModels.add(modelPivot);
-    const sz = box.getSize(new THREE.Vector3());
-    setStatus(`Modello caricato: ${sz.x.toFixed(1)} × ${sz.z.toFixed(1)} m, alto ${sz.y.toFixed(1)} m (unità attese: metri).`, false, 6000);
-  } catch {
-    setStatus('Impossibile leggere il file: usa un .glb.', true, 6000);
-  } finally {
-    URL.revokeObjectURL(url);
-    e.target.value = '';
+
+function renderModelUI() {
+  const list = $('mdl-list');
+  list.replaceChildren();
+  for (const m of models) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'mdl-it' + (m === selected ? ' on' : '');
+    b.textContent = m.name;
+    b.title = m.name;
+    b.addEventListener('click', () => selectModel(m));
+    list.appendChild(b);
   }
+  list.hidden = !models.length;
+  $('mdl-ctrl').hidden = !selected;
+  if (selected) {
+    const deg = Math.round(((-THREE.MathUtils.radToDeg(selected.pivot.rotation.y) % 360) + 360) % 360);
+    $('modelRot').value = deg;
+    $('modelRotVal').textContent = `${deg}°`;
+    $('modelScale').value = String(selected.scale);
+    updatePosReadout();
+  }
+  refreshSelBox();
+}
+
+function updatePosReadout() {
+  if (!selected) return;
+  const p = selected.pivot.position;
+  const size = new THREE.Box3().setFromObject(selected.pivot).getSize(new THREE.Vector3());
+  $('mdl-pos').textContent = `${fmtM(Math.abs(p.x))} m ${p.x >= 0 ? 'E' : 'O'} · ${fmtM(Math.abs(p.z))} m ${p.z <= 0 ? 'N' : 'S'} dal punto cercato · ingombro ${fmtM(size.x)} × ${fmtM(size.z)} m, h ${fmtM(size.y)} m`;
+}
+
+function selectModel(m) {
+  selected = m;
+  renderModelUI();
+}
+
+function applyScale(m, k) {
+  m.scale = k;
+  m.scaleNode.scale.setScalar(k);
+  m.scaleNode.updateMatrixWorld(true);
+  // riappoggia al suolo e ricentra dopo il cambio di scala
+  const inner = m.scaleNode.children[0];
+  inner.position.set(0, 0, 0);
+  m.scaleNode.updateMatrixWorld(true);
+  const box = new THREE.Box3().setFromObject(inner);
+  inner.position.set(-(box.min.x + box.max.x) / 2 / k, -box.min.y / k, -(box.min.z + box.max.z) / 2 / k);
+}
+
+function hidePoints() {
+  return models.map((m) => [m.pivot.position.x, -m.pivot.position.z]);
+}
+
+function removeModel(m) {
+  disposeGroup(m.pivot);
+  userModels.remove(m.pivot);
+  models.splice(models.indexOf(m), 1);
+  if (selected === m) selected = models[models.length - 1] || null;
+  renderModelUI();
+  if ($('hideCenter').checked && state.elements.length) rebuildBuildings();
+}
+
+async function importFiles(files) {
+  for (const f of files) {
+    const isSkp = f.name.toLowerCase().endsWith('.skp');
+    setStatus(isSkp ? `Leggo ${f.name} (SketchUp)…` : `Leggo ${f.name}…`);
+    try {
+      const { object, geo, scale, guessed } = await loadModelFile(f);
+      const pivot = new THREE.Group();
+      pivot.name = 'Progetto_' + f.name.replace(/\.[^.]+$/, '').replace(/[^\w-]+/g, '_');
+      const scaleNode = new THREE.Group();
+      scaleNode.add(object);
+      pivot.add(scaleNode);
+      const m = { name: f.name, pivot, scaleNode, scale };
+      applyScale(m, scale);
+      if (geo && state.proj) {
+        const l = state.proj.toLocal(geo.lat, geo.lon);
+        pivot.position.set(l.x, 0, -l.n);
+        pivot.rotation.y = -THREE.MathUtils.degToRad(geo.heading);
+      } else {
+        // al centro di quello che si sta guardando, accanto agli altri modelli se ci sono
+        pivot.position.set(controls.target.x, 0, controls.target.z);
+        pivot.updateMatrixWorld(true);
+        const mine = new THREE.Box3().setFromObject(pivot);
+        for (let i = 0; i < 20; i++) {
+          const clash = models.map((o) => new THREE.Box3().setFromObject(o.pivot)).find((b) => b.intersectsBox(mine));
+          if (!clash) break;
+          const dx = clash.max.x - mine.min.x + 3;
+          pivot.position.x += dx;
+          mine.translate(new THREE.Vector3(dx, 0, 0));
+        }
+      }
+      userModels.add(pivot);
+      models.push(m);
+      selectModel(m);
+      const size = new THREE.Box3().setFromObject(pivot).getSize(new THREE.Vector3());
+      const far = geo && Math.hypot(pivot.position.x, pivot.position.z) > state.radius * 1.2;
+      setStatus(
+        `${f.name}: ${fmtM(size.x)} × ${fmtM(size.z)} m, alto ${fmtM(size.y)} m.` +
+        (geo ? (far ? ' Le coordinate del file sono fuori dall’area caricata: cerca quel luogo o trascinalo qui.' : ' Posizionato con le coordinate del file.') : ' Trascinalo sulla mappa per posizionarlo.') +
+        (guessed ? ' Unità dedotte dalle misure: se le dimensioni non tornano, cambia «Unità».' : ''),
+        false, 10000
+      );
+    } catch (err) {
+      console.error(err);
+      setStatus(
+        isSkp
+          ? `Non riesco a leggere ${f.name}. Da SketchUp esporta in .dae o .kmz (File → Esporta → Modello 3D) e riprova.`
+          : `Non riesco a leggere ${f.name}: formati accettati SKP, GLB, DAE, KMZ, OBJ, FBX, STL.`,
+        true, 10000
+      );
+    }
+  }
+  if ($('hideCenter').checked && state.elements.length) rebuildBuildings();
+}
+
+$('importModel').accept = ACCEPT;
+$('importModel').addEventListener('change', (e) => {
+  const files = [...e.target.files];
+  e.target.value = '';
+  if (files.length) importFiles(files);
 });
+// trascinare i file direttamente sulla scena
+container.addEventListener('dragover', (e) => { e.preventDefault(); });
+container.addEventListener('drop', (e) => {
+  e.preventDefault();
+  const files = [...(e.dataTransfer?.files || [])];
+  if (files.length) importFiles(files);
+});
+
 $('modelRot').addEventListener('input', (e) => {
   $('modelRotVal').textContent = `${e.target.value}°`;
-  if (modelPivot) modelPivot.rotation.y = -THREE.MathUtils.degToRad(+e.target.value);
+  if (selected) { selected.pivot.rotation.y = -THREE.MathUtils.degToRad(+e.target.value); refreshSelBox(); updatePosReadout(); }
 });
-$('clearModel').addEventListener('click', clearModel);
+$('modelScale').addEventListener('change', (e) => {
+  if (!selected) return;
+  applyScale(selected, +e.target.value);
+  refreshSelBox();
+  updatePosReadout();
+});
+$('clearModel').addEventListener('click', () => { if (selected) removeModel(selected); });
+SCALES.forEach((s) => {
+  const o = document.createElement('option');
+  o.value = String(s.k);
+  o.textContent = s.label;
+  $('modelScale').appendChild(o);
+});
+
+// --- trascinamento sulla mappa ---
+const ray = new THREE.Raycaster();
+const ndc = new THREE.Vector2();
+const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+const hitPt = new THREE.Vector3();
+let drag = null; // { m, dx, dz, id }
+
+function pointerRay(e) {
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+}
+function modelUnder(e) {
+  if (!models.length) return null;
+  pointerRay(e);
+  const hit = ray.intersectObjects(models.map((m) => m.pivot), true)[0];
+  if (!hit) return null;
+  return models.find((m) => { let o = hit.object; while (o) { if (o === m.pivot) return true; o = o.parent; } return false; }) || null;
+}
+
+// fase di cattura sul contenitore: arriva prima dei controlli della camera
+container.addEventListener('pointerdown', (e) => {
+  if (e.button !== 0 || e.target !== renderer.domElement) return;
+  const m = modelUnder(e);
+  if (!m) return;
+  if (!ray.ray.intersectPlane(groundPlane, hitPt)) return;
+  controls.enabled = false;
+  drag = { m, dx: m.pivot.position.x - hitPt.x, dz: m.pivot.position.z - hitPt.z, id: e.pointerId };
+  renderer.domElement.setPointerCapture(e.pointerId);
+  renderer.domElement.style.cursor = 'grabbing';
+  if (selected !== m) selectModel(m);
+}, true);
+
+container.addEventListener('pointermove', (e) => {
+  if (drag && e.pointerId === drag.id) {
+    pointerRay(e);
+    if (ray.ray.intersectPlane(groundPlane, hitPt)) {
+      drag.m.pivot.position.x = hitPt.x + drag.dx;
+      drag.m.pivot.position.z = hitPt.z + drag.dz;
+      refreshSelBox();
+      updatePosReadout();
+    }
+    return;
+  }
+  if (e.pointerType === 'mouse' && models.length && !e.buttons) {
+    renderer.domElement.style.cursor = modelUnder(e) ? 'grab' : '';
+  }
+});
+
+function endDrag(e) {
+  if (!drag || (e && e.pointerId !== drag.id)) return;
+  drag = null;
+  controls.enabled = true;
+  renderer.domElement.style.cursor = '';
+  if ($('hideCenter').checked && state.elements.length) rebuildBuildings();
+}
+container.addEventListener('pointerup', endDrag);
+container.addEventListener('pointercancel', endDrag);
+
+// frecce: sposta di 0,5 m (con Maiusc 5 m) il modello selezionato
+window.addEventListener('keydown', (e) => {
+  if (!selected || ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+  const step = e.shiftKey ? 5 : 0.5;
+  const mv = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
+  if (!mv) return;
+  e.preventDefault();
+  // le frecce seguono la vista: "su" è verso dove guarda la camera
+  const az = controls.getAzimuthalAngle();
+  const c = Math.cos(az), s = Math.sin(az);
+  selected.pivot.position.x += mv[0] * c + mv[1] * s;
+  selected.pivot.position.z += -mv[0] * s + mv[1] * c;
+  refreshSelBox();
+  updatePosReadout();
+});
 
 // ---------------- esportazioni ----------------
 function stamp() {

@@ -135,7 +135,7 @@ const COLOR_KNOWN = new THREE.Color(0xeae7e0);
 const COLOR_EST = new THREE.Color(0xdcc9a6);
 
 /**
- * opts.hideAt: [x, n] — salta gli edifici che contengono questo punto (per sostituirli col progetto).
+ * opts.hideAt: [[x, n], …] — salta gli edifici che contengono uno di questi punti (per sostituirli col progetto).
  */
 export function buildBuildingsMesh(elements, proj, opts = {}) {
   const fps = [];
@@ -172,7 +172,7 @@ export function buildBuildingsMesh(elements, proj, opts = {}) {
   let count = 0, estimated = 0;
   for (const f of fps) {
     if (f.skip || f.outer.length < 3) continue;
-    if (opts.hideAt && pointInRing(opts.hideAt, f.outer)) continue;
+    if (opts.hideAt && opts.hideAt.some((pt) => pointInRing(pt, f.outer))) continue;
     if (Math.abs(THREE.ShapeUtils.area(f.outer.map(([x, y]) => new THREE.Vector2(x, y)))) < 2) continue;
     const { h, min, estimated: est } = heights(f.tags);
     try {

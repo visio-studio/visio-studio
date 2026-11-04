@@ -153,3 +153,10 @@ dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
 .ld-msg { margin: 0; font-size: 13px; line-height: 1.6; color: rgba(255, 255, 255, 0.7); }
 .ld-btns { display: flex; gap: 8px; }
 @media (prefers-reduced-motion: reduce) { .ld-sun, .ld-steps li::before { animation: none; } }
+
+/* Modelli importati */
+#mdl-list { display: flex; flex-direction: column; gap: 4px; }
+#mdl-list[hidden], #mdl-ctrl[hidden] { display: none; }
+.mdl-it { text-align: left; background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
+.mdl-it.on { border-color: var(--accent); color: var(--fg); background: rgba(201, 169, 110, 0.12); }
+#mdl-ctrl { display: flex; flex-direction: column; gap: 8px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; }
