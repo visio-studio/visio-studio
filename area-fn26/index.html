@@ -70,10 +70,16 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 
 /* render */
 #render { background:var(--dark); }
-.rstrip { display:flex;gap:3px;overflow-x:auto;margin-top:44px;padding-bottom:10px;scroll-snap-type:x mandatory; }
-.rstrip figure { flex:0 0 auto;width:min(74vw,620px);scroll-snap-align:center;position:relative; }
-.rstrip img { width:100%;aspect-ratio:16/9;object-fit:cover; }
-.rstrip figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);padding-top:12px; }
+#render { padding-bottom:0; }
+#rbox { position:relative;margin:44px -40px 0; }
+.rstrip { display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none; }
+.rstrip::-webkit-scrollbar { display:none; }
+.rstrip figure { flex:0 0 100%;height:100vh;height:100svh;scroll-snap-align:start;position:relative; }
+.rstrip img { width:100%;height:100%;object-fit:cover; }
+.rstrip figcaption { position:absolute;left:0;right:0;bottom:0;padding:70px 40px 26px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:linear-gradient(180deg,transparent,rgba(10,10,10,.75)); }
+.rfr { position:absolute;top:50%;width:48px;height:48px;margin-top:-24px;background:rgba(10,10,10,.6);border:.5px solid var(--gold);color:var(--gold);font-size:18px;cursor:pointer; }
+#rprev { left:20px; }
+#rnext { right:20px; }
 .rhint { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.75);margin-top:16px; }
 
 /* scelte d'arredo — sezione chiara */
@@ -136,13 +142,22 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 
 footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.55); }
 
+@media(orientation:portrait){
+  .rstrip figure { height:auto; }
+  .rstrip img { height:auto;aspect-ratio:16/9; }
+}
+
 @media(max-width:900px){
   section { padding:64px 20px; }
   #pnav { padding:12px 20px; }
   .dgrid { grid-template-columns:1fr 1fr; }
   .tgrid { grid-template-columns:1fr;gap:2px; }
   .agrid { grid-template-columns:1fr;gap:28px; }
-  .rstrip figure { width:86vw; }
+  #rbox { margin:36px -20px 0; }
+  .rstrip figcaption { padding:50px 20px 16px; }
+  .rfr { width:40px;height:40px;margin-top:-20px; }
+  #rprev { left:10px; }
+  #rnext { right:10px; }
   .ptot { grid-template-columns:1fr; }
   .pgrid { grid-template-columns:1fr; }
   .pbar { grid-template-columns:minmax(0,1fr) 84px;gap:8px 12px; }
@@ -225,13 +240,18 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     <p class="slab">I render</p>
     <h2 class="st">La nuova sede, <em>prima</em> di costruirla.</h2>
     <p class="sd">Immagini di studio generate dal modello 3D: finiture e arredi sono indicativi.</p>
-    <div class="rstrip">
+    <p class="rhint">← Scorri per vedere tutti gli ambienti →</p>
+  </div>
+  <div id="rbox">
+    <div class="rstrip" id="rs">
       <figure><img src="img/render-reception.jpg" alt="Reception vista dall'ingresso con bancone curvo e marmo verde" loading="lazy"><figcaption>01 · Reception</figcaption></figure>
       <figure><img src="img/render-attesa.jpg" alt="Zona attesa con due poltrone accanto alla colonna tonda e al bancone" loading="lazy"><figcaption>02 · Zona attesa</figcaption></figure>
       <figure><img src="img/render-ingresso.jpg" alt="Porta d'ingresso in vetro tra le spalle in marmo verde, vista dall'esterno" loading="lazy"><figcaption>03 · Ingresso</figcaption></figure>
       <figure><img src="img/render-corridoio.jpg" alt="Corridoio con pareti vetrate a profili neri, controsoffitto con LED e palma" loading="lazy"><figcaption>04 · Corridoio</figcaption></figure>
+      <figure><img src="img/render-sala-corsi.jpg" alt="Sala corsi con lavagna interattiva, cattedra, sedie con ribaltina e parete in marmo verde" loading="lazy"><figcaption>05 · Sala corsi</figcaption></figure>
     </div>
-    <p class="rhint">← Scorri per vedere tutti gli ambienti →</p>
+    <button type="button" class="rfr" id="rprev" aria-label="Immagine precedente">←</button>
+    <button type="button" class="rfr" id="rnext" aria-label="Immagine successiva">→</button>
   </div>
 </section>
 
@@ -289,7 +309,10 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 <script>
 // Il repository del sito e' pubblico: i dati economici stanno cifrati in dati/p.bin (AES-GCM, chiave dal codice con PBKDF2).
 // Il codice arriva dal menu "Accedi al tuo sito" nell'indirizzo, oppure si scrive nel campo. Generata da 21_area_privata.py.
-const SALE='0xQyKRwBvoZwnWlDJUv1EA==',GIRI=600000;
+const rs=document.getElementById('rs');
+document.getElementById('rprev').addEventListener('click',()=>rs.scrollBy({left:-rs.clientWidth,behavior:'smooth'}));
+document.getElementById('rnext').addEventListener('click',()=>rs.scrollBy({left:rs.clientWidth,behavior:'smooth'}));
+const SALE='EdwpYeesRxq42NpBItz7yg==',GIRI=600000;
 const box=document.getElementById('dcod'),inp=document.getElementById('dc'),msg=document.getElementById('dmsg'),pv=document.getElementById('pv');
 const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
 const pt=x=>x.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
