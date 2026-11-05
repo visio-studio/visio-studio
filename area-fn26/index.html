@@ -61,7 +61,8 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 #tavole { background:var(--dark2); }
 .tgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:44px; }
 .tcard { background:#fff;position:relative;overflow:hidden;aspect-ratio:4/3; }
-.tcard img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
+.tcard a { display:block;height:100%; }
+.tcard img { width:100%;height:100%;object-fit:contain;background:#fff;transition:transform .6s ease; }
 .tcard:hover img { transform:scale(1.04); }
 .tcard figcaption { position:absolute;left:0;right:0;bottom:0;background:rgba(10,10,10,.82);color:#fff;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 14px; }
 .tcard.vuota { background:var(--dark3);border:.5px solid rgba(255,255,255,.1); }
@@ -86,17 +87,44 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 .asw { display:flex;gap:8px;margin-top:14px; }
 .asw i { width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,0,0,.12); }
 
-/* documenti cifrati */
+/* computo e preventivo, cifrati */
 #doc { background:var(--dark3); }
-.dlist { margin-top:36px;border-top:.5px solid rgba(255,255,255,.14); }
-.ditem { display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;text-align:left;padding:18px 2px;background:none;border:0;border-bottom:.5px solid rgba(255,255,255,.14);color:#fff;font:inherit;cursor:pointer; }
-.ditem b { display:block;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400; }
-.ditem small { display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#a0a0a0;margin-top:4px; }
-.ditem i { font-style:normal;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);white-space:nowrap; }
-#dcod { display:none;gap:6px;margin-top:26px;max-width:380px; }
-#dcod.on { display:flex; }
+#dcod { display:flex;gap:6px;margin-top:26px;max-width:380px; }
 #dcod input { flex:1;min-width:0;background:transparent;border:.5px solid rgba(255,255,255,.3);color:#fff;font:inherit;font-size:16px;padding:12px 14px; }
+#dcod button { background:none;border:.5px solid var(--gold);color:var(--gold);font:inherit;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:0 22px;cursor:pointer; }
 #dmsg { min-height:18px;margin-top:12px;font-size:12px;color:var(--gold); }
+#pv h3 { font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;margin:64px 0 8px; }
+.ptot { display:grid;grid-template-columns:1.2fr 1fr;gap:1px;background:rgba(255,255,255,.1);margin-top:14px; }
+.ptot > div { background:var(--dark);padding:30px 28px; }
+.ptot .k { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px; }
+.ptot .big { font-family:'Cormorant Garamond',serif;font-size:clamp(42px,6vw,60px);font-weight:400;line-height:1;color:var(--gold);font-variant-numeric:lining-nums; }
+.ptot .nt { font-size:11px;color:rgba(255,255,255,.62);line-height:1.7;margin-top:14px; }
+.prow { display:flex;justify-content:space-between;gap:14px;font-size:12px;padding:7px 0;color:rgba(255,255,255,.72);border-bottom:.5px solid rgba(255,255,255,.08); }
+.prow:last-child { border:0; }
+.prow.b { color:#fff;font-weight:500; }
+.pbar { display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) 92px;gap:18px;align-items:center;width:100%;background:none;border:0;border-bottom:.5px solid rgba(255,255,255,.1);color:#fff;font:inherit;font-size:13px;text-align:left;padding:13px 0;cursor:pointer; }
+.pbar i { display:block;height:5px;background:rgba(255,255,255,.08); }
+.pbar i s { display:block;height:100%;background:var(--gold); }
+.pbar b { font-weight:400;text-align:right;font-variant-numeric:tabular-nums; }
+.pcat { border-bottom:.5px solid rgba(255,255,255,.14); }
+.pcat summary { display:flex;justify-content:space-between;gap:14px;padding:17px 0;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:22px;list-style:none; }
+.pcat summary::-webkit-details-marker { display:none; }
+.pcat summary::before { content:'+';color:var(--gold);font-family:'Inter',sans-serif;font-size:15px;width:20px;flex:0 0 auto; }
+.pcat[open] summary::before { content:'–'; }
+.pcat summary span { flex:1; }
+.pcat summary b { font-family:'Inter',sans-serif;font-size:13px;font-weight:400;font-variant-numeric:tabular-nums; }
+.ptab { width:100%;border-collapse:collapse;font-size:12px;margin-bottom:20px; }
+.ptab th { font-size:9px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:#a0a0a0;text-align:left;padding:8px 8px 8px 0; }
+.ptab th.n { text-align:right; }
+.ptab td { padding:10px 8px 10px 0;border-top:.5px solid rgba(255,255,255,.08);vertical-align:top;line-height:1.55;color:rgba(255,255,255,.82); }
+.ptab .n { text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums; }
+.ptab .c { color:#a0a0a0;white-space:nowrap; }
+.pgrid { display:grid;grid-template-columns:1fr 1fr;gap:18px 56px;margin-top:20px; }
+.pgrid h4 { font-size:9px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px; }
+.pgrid p,.pgrid li { font-size:13px;line-height:1.85;color:rgba(255,255,255,.72); }
+.pgrid ul { list-style:none; }
+.pgrid li { padding:5px 0;border-bottom:.5px solid rgba(255,255,255,.08); }
+.pnote { font-size:11px;color:rgba(255,255,255,.62);margin-top:30px;line-height:1.8; }
 
 /* chiusura */
 #fine { background:var(--dark);text-align:center;border-top:.5px solid rgba(255,255,255,.08); }
@@ -115,6 +143,19 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   .tgrid { grid-template-columns:1fr;gap:2px; }
   .agrid { grid-template-columns:1fr;gap:28px; }
   .rstrip figure { width:86vw; }
+  .ptot { grid-template-columns:1fr; }
+  .pgrid { grid-template-columns:1fr; }
+  .pbar { grid-template-columns:minmax(0,1fr) 84px;gap:8px 12px; }
+  .pbar i { grid-column:1/-1;grid-row:2; }
+  .ptab thead { display:none; }
+  .ptab tr { display:grid;grid-template-columns:auto 1fr auto;gap:2px 8px;border-top:.5px solid rgba(255,255,255,.08);padding:10px 0; }
+  .ptab td { border:0;padding:0; }
+  .ptab td:nth-child(1) { grid-column:1;grid-row:1; }
+  .ptab td:nth-child(2) { grid-column:2/-1;grid-row:1; }
+  .ptab td:nth-child(3) { grid-column:1;grid-row:2; }
+  .ptab td:nth-child(4) { grid-column:2;grid-row:2;text-align:left;color:#a0a0a0; }
+  .ptab td:nth-child(5) { display:none; }
+  .ptab td:nth-child(6) { grid-column:3;grid-row:2;color:#fff; }
   footer { padding:20px;justify-content:center;text-align:center; }
 }
 </style>
@@ -144,7 +185,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="hero-in">
     <p class="k">Il progetto della nuova sede</p>
     <h1 class="serif">Circonvallazione Nomentana</h1>
-    <p class="s">Roma · 741 m² di intervento</p>
+    <p class="s">Roma · 657 m² di intervento</p>
   </div>
   <p class="hero-scroll">Scorri per visitare il progetto ↓</p>
 </header>
@@ -153,11 +194,11 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Il progetto in numeri</p>
     <h2 class="st">Reception, aule e uffici, <em>in un link</em>.</h2>
-    <p class="sd">Questa pagina raccoglie i materiali del progetto e si aggiorna a ogni revisione: render, tavole, mappe 3D, computo e file tecnici.</p>
+    <p class="sd">Questa pagina raccoglie i materiali del progetto e si aggiorna a ogni revisione: render, tavole, mappe 3D, computo e preventivo.</p>
     <div class="dgrid">
-      <div class="dcell"><b>741</b><span>Metri quadri</span></div>
+      <div class="dcell"><b>657</b><span>Metri quadri</span></div>
       <div class="dcell"><b>93</b><span>Posti aula</span></div>
-      <div class="dcell"><b>371</b><span>Faretti LED</span></div>
+      <div class="dcell"><b>328</b><span>Faretti LED</span></div>
       <div class="dcell"><b>29</b><span>Pilastri rivestiti</span></div>
     </div>
   </div>
@@ -167,11 +208,14 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Tavole tecniche</p>
     <h2 class="st">Le carte del <em>progetto</em>.</h2>
-    <p class="sd">La planimetria di partenza. Tavole, mappe 3D e file DWG arrivano qui man mano che vengono completati.</p>
+    <p class="sd">Lo stato attuale e il progetto, dal modello 3D aggiornato. Clicca una pianta per aprirla grande. Le altre tavole e le mappe 3D arrivano qui man mano.</p>
     <div class="tgrid">
-      <figure class="tcard"><img src="img/pianta-rev01.jpg" alt="Planimetria di progetto con aule, uffici e reception, revisione 01" loading="lazy"><figcaption>Pianta di progetto · Rev01</figcaption></figure>
-      <figure class="tcard vuota"><figcaption>Tavole di progetto</figcaption></figure>
+      <figure class="tcard"><a href="img/pianta-ante-operam.jpg" target="_blank" rel="noopener"><img src="img/pianta-ante-operam.jpg" alt="Pianta ante operam: muri esistenti, pilastri, vetrine e parti da demolire" loading="lazy"><figcaption>Ante operam · 1:100</figcaption></a></figure>
+      <figure class="tcard"><a href="img/pianta-post-operam.jpg" target="_blank" rel="noopener"><img src="img/pianta-post-operam.jpg" alt="Pianta post operam con aule, uffici, reception, pareti vetrate e arredi" loading="lazy"><figcaption>Post operam · 1:100</figcaption></a></figure>
+      <figure class="tcard"><a href="img/pianta-rev01.jpg" target="_blank" rel="noopener"><img src="img/pianta-rev01.jpg" alt="Planimetria di progetto con aule, uffici e reception, revisione 01" loading="lazy"><figcaption>Pianta di progetto · Rev01</figcaption></a></figure>
+      <figure class="tcard vuota"><figcaption>Altre tavole</figcaption></figure>
       <figure class="tcard vuota"><figcaption>Mappe 3D</figcaption></figure>
+      <figure class="tcard vuota"><figcaption>File DWG</figcaption></figure>
     </div>
   </div>
 </section>
@@ -218,15 +262,12 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 
 <section id="doc">
   <div class="wrap">
-    <p class="slab">Documenti</p>
-    <h2 class="st">Computo e <em>preventivo</em>.</h2>
-    <p class="sd">Bozze di lavoro. I file sono cifrati e si aprono solo con il codice progetto.</p>
-    <form id="dcod"><input id="dc" type="password" placeholder="Codice progetto" autocomplete="off" aria-label="Codice progetto"></form>
-    <div class="dlist">
-      <button type="button" class="ditem" data-f="8d2ac008a10a79bd70ab8dd9.bin" data-t="application/pdf" data-n="Nomentana_preventivo_bozza.pdf"><span><b>Preventivo impaginato</b><small>Bozza 2 · PDF</small></span><i>Scarica</i></button>
-      <button type="button" class="ditem" data-f="72effd17624e2565adb831d6.bin" data-t="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" data-n="Nomentana_computo_metrico_bozza.xlsx"><span><b>Computo metrico</b><small>Bozza 2 · Excel</small></span><i>Scarica</i></button>
-    </div>
+    <p class="slab">Computo e preventivo</p>
+    <h2 class="st">I costi del <em>progetto</em>.</h2>
+    <p class="sd">Prima stima, soggetta alle verifiche indicate qui sotto. Questa parte è cifrata e si apre con il codice progetto.</p>
+    <form id="dcod"><input id="dc" type="password" placeholder="Codice progetto" autocomplete="off" aria-label="Codice progetto"><button type="submit">Apri</button></form>
     <p id="dmsg" role="status"></p>
+    <div id="pv" hidden></div>
   </div>
 </section>
 
@@ -246,35 +287,70 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 </footer>
 
 <script>
-// Il repository del sito e' pubblico: computo e preventivo stanno qui cifrati (AES-GCM, chiave dal codice con PBKDF2).
+// Il repository del sito e' pubblico: i dati economici stanno cifrati in dati/p.bin (AES-GCM, chiave dal codice con PBKDF2).
 // Il codice arriva dal menu "Accedi al tuo sito" nell'indirizzo, oppure si scrive nel campo. Generata da 21_area_privata.py.
-const SALE='yYuxaKWYsbLyrtZHKh3viw==',GIRI=600000;
-const h=new URLSearchParams(location.hash.slice(1)).get('k');
-if(h) history.replaceState(null,'',location.pathname);
-let codice=h||'';
-const box=document.getElementById('dcod'),inp=document.getElementById('dc'),msg=document.getElementById('dmsg');
-if(!codice) box.classList.add('on');
-async function chiave(c){
-  const b=await crypto.subtle.importKey('raw',new TextEncoder().encode(c.trim().toLowerCase()),'PBKDF2',false,['deriveKey']);
-  return crypto.subtle.deriveKey({name:'PBKDF2',salt:Uint8Array.from(atob(SALE),x=>x.charCodeAt(0)),iterations:GIRI,hash:'SHA-256'},b,{name:'AES-GCM',length:256},false,['decrypt']);
+const SALE='0xQyKRwBvoZwnWlDJUv1EA==',GIRI=600000;
+const box=document.getElementById('dcod'),inp=document.getElementById('dc'),msg=document.getElementById('dmsg'),pv=document.getElementById('pv');
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
+const pt=x=>x.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const eur=v=>pt(String(Math.round(v)))+' €';
+const num=v=>{const [i,d]=v.toFixed(2).split('.');return pt(i)+','+d;};
+const eur2=v=>num(v)+' €';
+const riga=(a,b,x)=>{const r=el('div','prow'+(x?' b':''));r.append(el('span',null,a),el('span',null,b));return r;};
+function elenco(t,l){const d=el('div');d.append(el('h4',null,t));const u=el('ul');l.forEach(x=>u.append(el('li',null,x)));d.append(u);return d;}
+function mostra(p){
+  const t=el('div','ptot'),a=el('div'),b=el('div');
+  a.append(el('p','k','Totale IVA compresa'),el('p','big',eur(p.totale)),el('p','nt',eur(p.mq_costo)+' al m² IVA esclusa, su '+p.mq+' m². '+p.revisione+'.'));
+  p.quadro.forEach(([x,y,z])=>b.append(riga(x,eur(y),z)));
+  t.append(a,b);pv.append(t);
+  pv.append(el('h3',null,'Riepilogo per categoria'));
+  const mx=Math.max(...p.categorie.map(c=>c.importo));
+  const cat=new Map();
+  p.categorie.forEach(c=>{
+    const r=el('button','pbar');r.type='button';
+    const i=el('i'),s=el('s');s.style.width=(c.importo/mx*100)+'%';i.append(s);
+    r.append(el('span',null,c.cod+' · '+c.nome),i,el('b',null,eur(c.importo)));
+    r.addEventListener('click',()=>{const d=cat.get(c.cod);d.open=true;d.scrollIntoView({block:'center'});});
+    pv.append(r);
+  });
+  pv.append(el('h3',null,'Computo metrico'),el('p','sd','Quantità ricavate dal modello 3D e dalla planimetria. Prezzi unitari IVA esclusa. Apri una categoria per vedere le voci.'));
+  p.categorie.forEach(c=>{
+    const d=el('details','pcat'),s=el('summary');
+    s.append(el('span',null,c.cod+' · '+c.nome),el('b',null,eur(c.importo)));d.append(s);
+    const w=el('table','ptab'),h=el('tr');
+    ['Cod.','Descrizione','U.M.','Q.tà','Prezzo','Importo'].forEach((x,i)=>{h.append(el('th',i>2?'n':null,x));});
+    const th=el('thead');th.append(h);w.append(th);
+    const tb=el('tbody');
+    c.voci.forEach(v=>{
+      const r=el('tr');
+      r.append(el('td','c',v.cod),el('td',null,v.desc+(v.incl?'':' (escluso dal totale)')),el('td','c',v.um),el('td','n',num(v.qta)),el('td','n',eur2(v.prezzo)),el('td','n',v.incl?eur2(v.importo):'–'));
+      tb.append(r);
+    });
+    w.append(tb);d.append(w);pv.append(d);cat.set(c.cod,d);
+  });
+  pv.append(el('h3',null,'Il progetto'));
+  const g=el('div','pgrid'),st=el('div');
+  st.append(el('h4',null,'Stato attuale'),el('p',null,p.stato));
+  g.append(st,elenco('Lavori previsti',p.lavori));pv.append(g);
+  pv.append(el('h3',null,'Assunzioni ed esclusioni'));
+  const q=el('div','pgrid');
+  q.append(elenco('Il preventivo si basa su',p.basi),elenco('Non compresi',p.esclusi),elenco("Da definire prima dell'offerta definitiva",p.definire));pv.append(q);
+  pv.append(el('p','pnote',p.nota));
+  pv.hidden=false;box.style.display='none';msg.textContent='';
 }
-async function scarica(btn){
-  const c=codice||inp.value;
-  if(!c.trim()){ msg.textContent='Inserisci il codice progetto.'; inp.focus(); return; }
+async function apri(c){
   msg.textContent='Apertura in corso…';
   try{
-    const r=await fetch('dati/'+btn.dataset.f);
-    const d=await r.arrayBuffer();
-    const p=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(d,0,12)},await chiave(c),new Uint8Array(d,12));
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(new Blob([p],{type:btn.dataset.t}));
-    a.download=btn.dataset.n;
-    document.body.append(a);a.click();a.remove();
-    codice=c;box.classList.remove('on');msg.textContent='';
-  }catch(_){ codice='';box.classList.add('on');msg.textContent='Codice non riconosciuto. Controlla di averlo digitato correttamente.'; }
+    const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(c.trim().toLowerCase()),'PBKDF2',false,['deriveKey']);
+    const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:Uint8Array.from(atob(SALE),x=>x.charCodeAt(0)),iterations:GIRI,hash:'SHA-256'},k,{name:'AES-GCM',length:256},false,['decrypt']);
+    const d=await (await fetch('dati/p.bin')).arrayBuffer();
+    const b=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(d,0,12)},key,new Uint8Array(d,12));
+    mostra(JSON.parse(new TextDecoder().decode(b)));
+  }catch(_){ msg.textContent='Codice non riconosciuto. Controlla di averlo digitato correttamente.'; }
 }
-document.querySelectorAll('.ditem').forEach(b=>b.addEventListener('click',()=>scarica(b)));
-box.addEventListener('submit',e=>{e.preventDefault();scarica(document.querySelector('.ditem'));});
+box.addEventListener('submit',e=>{e.preventDefault();if(inp.value.trim())apri(inp.value);else inp.focus();});
+const h=new URLSearchParams(location.hash.slice(1)).get('k');
+if(h){history.replaceState(null,'',location.pathname);apri(h);}
 </script>
 
 </body>
