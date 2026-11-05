@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Circonvallazione Nomentana — Il tuo progetto · VISIO Studio</title>
+<meta name="description" content="Render, tavole e materiali del progetto della nuova sede in Circonvallazione Nomentana.">
+<meta name="robots" content="noindex, follow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+:root { --gold:#C9A96E; --dark:#0A0A0A; --dark2:#0F0F0F; --dark3:#141414; --light:#FAFAF8; --text:#1A1A1A; --border:#E0DDD8; }
+* { margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased; }
+html { scroll-behavior:smooth;overflow-x:clip;max-width:100%; }
+body { background:var(--dark);color:#fff;font-family:'Inter',sans-serif;font-weight:300;overflow-x:clip; }
+a { color:inherit;text-decoration:none; }
+.serif { font-family:'Cormorant Garamond',serif; }
+img { display:block;max-width:100%; }
+a:focus-visible,button:focus-visible,input:focus-visible { outline:2px solid var(--gold);outline-offset:3px;border-radius:3px; }
+
+/* navbar */
+#pnav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 40px;background:rgba(10,10,10,.8);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:.5px solid rgba(255,255,255,.07); }
+#pnav .pn-cl { height:28px;width:auto; }
+#pnav .pn-by { display:flex;align-items:center;gap:11px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.55);transition:color .3s; }
+#pnav .pn-by:hover { color:rgba(255,255,255,.85); }
+#pnav .nl-logo { height:20px;width:auto;display:block; }
+#pnav .nl-logo > * { fill:none;stroke:rgba(255,255,255,.6);stroke-width:8;stroke-linejoin:round;transition:stroke .3s; }
+#pnav .pn-by:hover .nl-logo > * { stroke:var(--gold); }
+
+/* copertina */
+#hero { position:relative;height:100vh;min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center; }
+#hero img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+#hero::after { content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55),rgba(10,10,10,.25) 45%,rgba(10,10,10,.85)); }
+.hero-in { position:relative;z-index:2;padding:0 24px; }
+.hero-in p.k { font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px; }
+.hero-in h1 { font-family:'Cormorant Garamond',serif;font-size:clamp(42px,8vw,86px);font-weight:300;line-height:1.02;letter-spacing:2px; }
+.hero-in p.s { font-size:12px;color:rgba(255,255,255,.7);margin-top:16px;letter-spacing:1px; }
+.hero-scroll { position:absolute;bottom:34px;left:0;right:0;z-index:2;text-align:center;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55); }
+
+/* sezioni */
+section { padding:96px 40px; }
+.wrap { max-width:1060px;margin:0 auto; }
+.slab { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px; }
+h2.st { font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4.4vw,46px);font-weight:300;line-height:1.1;margin-bottom:18px; }
+h2.st em { font-style:italic;color:var(--gold); }
+p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560px; }
+
+/* il progetto in numeri — sezione chiara */
+#dati { background:var(--light);color:var(--text); }
+#dati .slab { color:#7a5f30; }
+#dati h2.st em { color:#7a5f30; }
+#dati p.sd { color:#6a6a6a; }
+.dgrid { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:40px; }
+.dcell { background:var(--light);padding:30px 24px; }
+.dcell b { display:block;font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:400;line-height:1;margin-bottom:8px;font-variant-numeric:lining-nums; }
+.dcell span { font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6a6a6a; }
+
+/* tavole tecniche */
+#tavole { background:var(--dark2); }
+.tgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:44px; }
+.tcard { background:#fff;position:relative;overflow:hidden;aspect-ratio:4/3; }
+.tcard img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
+.tcard:hover img { transform:scale(1.04); }
+.tcard figcaption { position:absolute;left:0;right:0;bottom:0;background:rgba(10,10,10,.82);color:#fff;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 14px; }
+.tcard.vuota { background:var(--dark3);border:.5px solid rgba(255,255,255,.1); }
+.tcard.vuota::before { content:'In preparazione';position:absolute;inset:0 0 38px;display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.8); }
+
+/* render */
+#render { background:var(--dark); }
+.rstrip { display:flex;gap:3px;overflow-x:auto;margin-top:44px;padding-bottom:10px;scroll-snap-type:x mandatory; }
+.rstrip figure { flex:0 0 auto;width:min(74vw,620px);scroll-snap-align:center;position:relative; }
+.rstrip img { width:100%;aspect-ratio:16/9;object-fit:cover; }
+.rstrip figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);padding-top:12px; }
+.rhint { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.75);margin-top:16px; }
+
+/* scelte d'arredo — sezione chiara */
+#arredo { background:var(--light);color:var(--text); }
+#arredo .slab { color:#7a5f30; }
+#arredo h2.st em { color:#7a5f30; }
+#arredo p.sd { color:#6a6a6a; }
+.agrid { display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:44px; }
+.aitem h3 { font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:8px; }
+.aitem p { font-size:12px;color:#6a6a6a;line-height:1.85; }
+.asw { display:flex;gap:8px;margin-top:14px; }
+.asw i { width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,0,0,.12); }
+
+/* documenti cifrati */
+#doc { background:var(--dark3); }
+.dlist { margin-top:36px;border-top:.5px solid rgba(255,255,255,.14); }
+.ditem { display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;text-align:left;padding:18px 2px;background:none;border:0;border-bottom:.5px solid rgba(255,255,255,.14);color:#fff;font:inherit;cursor:pointer; }
+.ditem b { display:block;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400; }
+.ditem small { display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#a0a0a0;margin-top:4px; }
+.ditem i { font-style:normal;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);white-space:nowrap; }
+#dcod { display:none;gap:6px;margin-top:26px;max-width:380px; }
+#dcod.on { display:flex; }
+#dcod input { flex:1;min-width:0;background:transparent;border:.5px solid rgba(255,255,255,.3);color:#fff;font:inherit;font-size:16px;padding:12px 14px; }
+#dmsg { min-height:18px;margin-top:12px;font-size:12px;color:var(--gold); }
+
+/* chiusura */
+#fine { background:var(--dark);text-align:center;border-top:.5px solid rgba(255,255,255,.08); }
+#fine h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:300;margin-bottom:14px; }
+#fine h2 em { font-style:italic;color:var(--gold); }
+#fine p { font-size:12px;color:rgba(255,255,255,.62);line-height:1.9;max-width:440px;margin:0 auto 28px; }
+.btn { display:inline-block;border:.5px solid var(--gold);color:var(--gold);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:15px 34px;transition:background .3s,color .3s; }
+.btn:hover { background:var(--gold);color:var(--dark); }
+
+footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.55); }
+
+@media(max-width:900px){
+  section { padding:64px 20px; }
+  #pnav { padding:12px 20px; }
+  .dgrid { grid-template-columns:1fr 1fr; }
+  .tgrid { grid-template-columns:1fr;gap:2px; }
+  .agrid { grid-template-columns:1fr;gap:28px; }
+  .rstrip figure { width:86vw; }
+  footer { padding:20px;justify-content:center;text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<nav id="pnav">
+  <img class="pn-cl" src="img/logo-futura.png" alt="Futura Formazione Lavoro" width="560" height="111">
+  <a href="/" class="pn-by" aria-label="a cura di VISIO Studio — vai al sito">a cura di
+    <svg class="nl-logo" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
+      <polygon points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
+      <polygon points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
+      <polygon points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
+      <polyline points="415.49 215.83 415.49 215.83 415.49 269.8 386.12 298.03 386.12 187.16 467.94 187.16 467.94 215.83 415.49 215.83"/>
+      <polyline points="438.57 322.36 438.57 268.19 467.94 240.04 467.94 351.03 386.12 351.03 386.12 322.36 438.57 322.36"/>
+      <polygon points="502.59 187.16 484.77 187.16 484.77 204.16 502.59 187.16"/>
+      <polygon points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
+      <polyline points="562.86 215.83 562.86 215.83 562.86 302.72 533.49 330.39 533.49 187.16 615.31 187.16 586.57 215.83 562.86 215.83"/>
+      <polyline points="585.94 323.99 585.94 323.99 585.94 237.33 615.31 209.54 615.31 352.66 533.49 352.66 562.29 323.99 585.94 323.99"/>
+    </svg></a>
+</nav>
+
+<main>
+
+<header id="hero">
+  <img src="img/render-reception.jpg" alt="Reception con bancone curvo e parete in marmo verde con la scritta FUTURA retroilluminata">
+  <div class="hero-in">
+    <p class="k">Il progetto della nuova sede</p>
+    <h1 class="serif">Circonvallazione Nomentana</h1>
+    <p class="s">Roma · 741 m² di intervento</p>
+  </div>
+  <p class="hero-scroll">Scorri per visitare il progetto ↓</p>
+</header>
+
+<section id="dati">
+  <div class="wrap">
+    <p class="slab">Il progetto in numeri</p>
+    <h2 class="st">Reception, aule e uffici, <em>in un link</em>.</h2>
+    <p class="sd">Questa pagina raccoglie i materiali del progetto e si aggiorna a ogni revisione: render, tavole, mappe 3D, computo e file tecnici.</p>
+    <div class="dgrid">
+      <div class="dcell"><b>741</b><span>Metri quadri</span></div>
+      <div class="dcell"><b>93</b><span>Posti aula</span></div>
+      <div class="dcell"><b>371</b><span>Faretti LED</span></div>
+      <div class="dcell"><b>29</b><span>Pilastri rivestiti</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="tavole">
+  <div class="wrap">
+    <p class="slab">Tavole tecniche</p>
+    <h2 class="st">Le carte del <em>progetto</em>.</h2>
+    <p class="sd">La planimetria di partenza. Tavole, mappe 3D e file DWG arrivano qui man mano che vengono completati.</p>
+    <div class="tgrid">
+      <figure class="tcard"><img src="img/pianta-rev01.jpg" alt="Planimetria di progetto con aule, uffici e reception, revisione 01" loading="lazy"><figcaption>Pianta di progetto · Rev01</figcaption></figure>
+      <figure class="tcard vuota"><figcaption>Tavole di progetto</figcaption></figure>
+      <figure class="tcard vuota"><figcaption>Mappe 3D</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="render">
+  <div class="wrap">
+    <p class="slab">I render</p>
+    <h2 class="st">La nuova sede, <em>prima</em> di costruirla.</h2>
+    <p class="sd">Immagini di studio generate dal modello 3D: finiture e arredi sono indicativi.</p>
+    <div class="rstrip">
+      <figure><img src="img/render-reception.jpg" alt="Reception vista dall'ingresso con bancone curvo e marmo verde" loading="lazy"><figcaption>01 · Reception</figcaption></figure>
+      <figure><img src="img/render-attesa.jpg" alt="Zona attesa con due poltrone accanto alla colonna tonda e al bancone" loading="lazy"><figcaption>02 · Zona attesa</figcaption></figure>
+      <figure><img src="img/render-ingresso.jpg" alt="Porta d'ingresso in vetro tra le spalle in marmo verde, vista dall'esterno" loading="lazy"><figcaption>03 · Ingresso</figcaption></figure>
+      <figure><img src="img/render-corridoio.jpg" alt="Corridoio con pareti vetrate a profili neri, controsoffitto con LED e palma" loading="lazy"><figcaption>04 · Corridoio</figcaption></figure>
+    </div>
+    <p class="rhint">← Scorri per vedere tutti gli ambienti →</p>
+  </div>
+</section>
+
+<section id="arredo">
+  <div class="wrap">
+    <p class="slab">Scelte d'arredo</p>
+    <h2 class="st">Materiali e <em>finiture</em>.</h2>
+    <p class="sd">Le scelte di progetto di oggi, ancora da confermare con marche e campioni.</p>
+    <div class="agrid">
+      <div class="aitem">
+        <h3>Reception</h3>
+        <p>Bancone curvo con doghe nere, marmo verde e pietra chiara. Parete curva in marmo verde con scritta retroilluminata.</p>
+        <div class="asw"><i style="background:#4F6B55"></i><i style="background:#1A1A1A"></i><i style="background:#D8CFC0"></i></div>
+      </div>
+      <div class="aitem">
+        <h3>Spazi comuni</h3>
+        <p>Pavimento in gres antracite di grande formato, pilastri in pannelli laccati sabbia, pareti vetrate con profili neri sottili.</p>
+        <div class="asw"><i style="background:#3A3C3E"></i><i style="background:#B9A98F"></i><i style="background:#1A1A1A"></i></div>
+      </div>
+      <div class="aitem">
+        <h3>Aule e uffici</h3>
+        <p>Sedie con ribaltina e LIM da 86 pollici nelle aule. Negli uffici scrivania con telaio nero e piano in rovere, due sedute ospite.</p>
+        <div class="asw"><i style="background:#2B2B2B"></i><i style="background:#C9A97F"></i><i style="background:#EDE7DD"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="doc">
+  <div class="wrap">
+    <p class="slab">Documenti</p>
+    <h2 class="st">Computo e <em>preventivo</em>.</h2>
+    <p class="sd">Bozze di lavoro. I file sono cifrati e si aprono solo con il codice progetto.</p>
+    <form id="dcod"><input id="dc" type="password" placeholder="Codice progetto" autocomplete="off" aria-label="Codice progetto"></form>
+    <div class="dlist">
+      <button type="button" class="ditem" data-f="8d2ac008a10a79bd70ab8dd9.bin" data-t="application/pdf" data-n="Nomentana_preventivo_bozza.pdf"><span><b>Preventivo impaginato</b><small>Bozza 2 · PDF</small></span><i>Scarica</i></button>
+      <button type="button" class="ditem" data-f="72effd17624e2565adb831d6.bin" data-t="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" data-n="Nomentana_computo_metrico_bozza.xlsx"><span><b>Computo metrico</b><small>Bozza 2 · Excel</small></span><i>Scarica</i></button>
+    </div>
+    <p id="dmsg" role="status"></p>
+  </div>
+</section>
+
+<section id="fine">
+  <div class="wrap">
+    <h2 class="serif">Il progetto è <em>sempre qui</em>.</h2>
+    <p>Questa pagina si aggiorna insieme al lavoro.</p>
+    <a href="/#contatti" class="btn">Scrivici</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>Michelessi Corporation Srl · P.IVA 03294220599</span>
+  <span>info@visiorender.it · +39 342 668 4232</span>
+</footer>
+
+<script>
+// Il repository del sito e' pubblico: computo e preventivo stanno qui cifrati (AES-GCM, chiave dal codice con PBKDF2).
+// Il codice arriva dal menu "Accedi al tuo sito" nell'indirizzo, oppure si scrive nel campo. Generata da 21_area_privata.py.
+const SALE='yYuxaKWYsbLyrtZHKh3viw==',GIRI=600000;
+const h=new URLSearchParams(location.hash.slice(1)).get('k');
+if(h) history.replaceState(null,'',location.pathname);
+let codice=h||'';
+const box=document.getElementById('dcod'),inp=document.getElementById('dc'),msg=document.getElementById('dmsg');
+if(!codice) box.classList.add('on');
+async function chiave(c){
+  const b=await crypto.subtle.importKey('raw',new TextEncoder().encode(c.trim().toLowerCase()),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt:Uint8Array.from(atob(SALE),x=>x.charCodeAt(0)),iterations:GIRI,hash:'SHA-256'},b,{name:'AES-GCM',length:256},false,['decrypt']);
+}
+async function scarica(btn){
+  const c=codice||inp.value;
+  if(!c.trim()){ msg.textContent='Inserisci il codice progetto.'; inp.focus(); return; }
+  msg.textContent='Apertura in corso…';
+  try{
+    const r=await fetch('dati/'+btn.dataset.f);
+    const d=await r.arrayBuffer();
+    const p=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(d,0,12)},await chiave(c),new Uint8Array(d,12));
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([p],{type:btn.dataset.t}));
+    a.download=btn.dataset.n;
+    document.body.append(a);a.click();a.remove();
+    codice=c;box.classList.remove('on');msg.textContent='';
+  }catch(_){ codice='';box.classList.add('on');msg.textContent='Codice non riconosciuto. Controlla di averlo digitato correttamente.'; }
+}
+document.querySelectorAll('.ditem').forEach(b=>b.addEventListener('click',()=>scarica(b)));
+box.addEventListener('submit',e=>{e.preventDefault();scarica(document.querySelector('.ditem'));});
+</script>
+
+</body>
+</html>
