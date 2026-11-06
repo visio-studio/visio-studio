@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Modello 3D — Circonvallazione Nomentana · VISIO Studio</title>
+<meta name="robots" content="noindex, follow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+:root { --gold:#C9A96E; --dark:#0A0A0A; }
+* { margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased; }
+html,body { height:100%;overflow:hidden;background:#101010;color:#fff;font-family:'Inter',sans-serif;font-weight:300; }
+canvas#c { position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none; }
+button { font:inherit;color:inherit;background:none;border:0;cursor:pointer; }
+button:focus-visible,a:focus-visible { outline:2px solid var(--gold);outline-offset:2px; }
+#bar { position:fixed;top:14px;left:14px;right:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;pointer-events:none;z-index:5; }
+#bar > * { pointer-events:auto; }
+.seg { display:flex;background:rgba(10,10,10,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:.5px solid rgba(255,255,255,.16); }
+.seg button,.seg a { font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 14px;color:rgba(255,255,255,.72);text-decoration:none;white-space:nowrap; }
+.seg button[aria-pressed=true] { background:var(--gold);color:#0A0A0A; }
+.sp { flex:1; }
+#stanze { position:fixed;left:14px;top:64px;bottom:14px;width:190px;overflow:auto;z-index:4;scrollbar-width:none; }
+#stanze::-webkit-scrollbar { display:none; }
+#stanze button { display:block;width:100%;text-align:left;font-size:12px;padding:9px 12px;margin-bottom:2px;background:rgba(10,10,10,.6);color:rgba(255,255,255,.8);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px); }
+#stanze button:hover { color:var(--gold); }
+#mappa { position:fixed;right:14px;bottom:14px;width:230px;height:auto;z-index:4;background:rgba(10,10,10,.72);border:.5px solid rgba(255,255,255,.16);cursor:crosshair;display:none; }
+#aiuto { position:fixed;left:50%;bottom:22px;transform:translateX(-50%);font-size:11px;letter-spacing:.5px;background:rgba(10,10,10,.72);padding:10px 16px;color:rgba(255,255,255,.8);z-index:4;text-align:center;max-width:calc(100% - 40px);transition:opacity .6s;pointer-events:none; }
+#joy { position:fixed;left:26px;bottom:26px;width:120px;height:120px;border-radius:50%;border:.5px solid rgba(255,255,255,.35);background:rgba(10,10,10,.35);z-index:6;display:none;touch-action:none; }
+#joy i { position:absolute;left:38px;top:38px;width:44px;height:44px;border-radius:50%;background:var(--gold);opacity:.85; }
+#load { position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0A0A0A;z-index:10;text-align:center;padding:24px;transition:opacity .5s; }
+#load h1 { font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;margin-bottom:18px; }
+#load div { width:220px;height:2px;background:rgba(255,255,255,.12); }
+#load s { display:block;height:100%;width:0;background:var(--gold);transition:width .2s; }
+#load p { font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:14px; }
+@media(max-width:760px){
+  #stanze { display:none; }
+  #stanze.ap { display:block;width:auto;right:14px;bottom:auto;max-height:60%; }
+  #bStanze { display:block!important; }
+  #mappa { width:130px;bottom:auto;top:112px; }
+  #aiuto { bottom:160px; }
+  .seg button,.seg a { padding:10px 10px;font-size:9px;letter-spacing:1.5px; }
+}
+#bStanze { display:none; }
+</style>
+<script type="importmap">{"imports":{"three":"./lib/three.module.js"}}</script>
+</head>
+<body>
+<canvas id="c" tabindex="0" aria-label="Modello 3D navigabile della nuova sede"></canvas>
+<div id="bar">
+  <div class="seg"><button id="bGiro" aria-pressed="true">Modello</button><button id="bCammina" aria-pressed="false">Cammina</button></div>
+  <div class="seg"><button id="bSoff" aria-pressed="false">Soffitti</button><button id="bArr" aria-pressed="true">Arredi</button><button id="bStanze" aria-expanded="false">Locali</button></div>
+  <span class="sp"></span>
+  <div class="seg"><a id="bFull" href="./" target="_top">Schermo intero</a></div>
+</div>
+<nav id="stanze" aria-label="Vai a un locale"></nav>
+<canvas id="mappa" aria-label="Mappa: clicca per spostarti"></canvas>
+<div id="aiuto"></div>
+<div id="joy"><i></i></div>
+<div id="load"><h1>Circonvallazione Nomentana</h1><div><s id="pb"></s></div><p id="lt">Caricamento del modello</p></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from './lib/OrbitControls.js';
+import { RoomEnvironment } from './lib/RoomEnvironment.js';
+
+const q = new URLSearchParams(location.search);
+const cattura = q.has('cattura');
+const incorporato = window.self !== window.top;
+const $ = i => document.getElementById(i);
+const touch = matchMedia('(pointer:coarse)').matches;
+const EYE = 1.6, PASSO = 0.35;
+const LOCALI = [['Reception',12500,7500],['Aule lato sud',21700,5000],['Sala riunioni',31500,8000],['Aula 6',16500,14000],['Aula 3',6500,20500],['Aula 1',9000,29500],['Bagni',13500,29500],['Ufficio 7',21000,12500],['Sala 17 × 4,90',17500,23500],['Corridoio -1,30',27000,27000],['Soppalco',14500,30000,1]];
+
+const canvas = $('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance', preserveDrawingBuffer:cattura });
+renderer.setPixelRatio(Math.min(devicePixelRatio, touch ? 1.5 : 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x121212);
+const pm = new THREE.PMREMGenerator(renderer);
+scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.42;
+scene.add(new THREE.HemisphereLight(0xfff4e6, 0x8d8378, 0.8));
+const sole = new THREE.DirectionalLight(0xfff0dd, 0.55);
+sole.position.set(-20, 40, 30);
+scene.add(sole);
+const cam = new THREE.PerspectiveCamera(50, 1, 0.05, 400);
+const orbit = new OrbitControls(cam, canvas);
+orbit.enableDamping = true;
+orbit.dampingFactor = 0.08;
+orbit.maxPolarAngle = Math.PI * 0.495;
+orbit.minDistance = 4;
+orbit.maxDistance = 110;
+
+const gruppi = [new THREE.Group(), new THREE.Group(), new THREE.Group()];
+gruppi.forEach(g => scene.add(g));
+
+async function scarica(url, peso, avanzamento) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(url);
+  const rd = r.body.getReader(), parti = [];
+  let n = 0;
+  for (;;) {
+    const { done, value } = await rd.read();
+    if (done) break;
+    parti.push(value); n += value.length;
+    if (avanzamento && peso) avanzamento(Math.min(1, n / peso));
+  }
+  const b = new Blob(parti);
+  const testa = new Uint8Array(await b.slice(0, 2).arrayBuffer());
+  if (testa[0] === 0x1f && testa[1] === 0x8b) return new Response(b.stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+  return b.arrayBuffer();
+}
+
+const carTex = new THREE.TextureLoader();
+function materiale(m) {
+  const n = m.n || '', a = m.a ?? 1;
+  const o = { side:THREE.DoubleSide, roughness:0.72, metalness:0 };
+  if (/LED|Luce/i.test(n)) {
+    const c = new THREE.Color().setRGB(m.c[0]/255, m.c[1]/255, m.c[2]/255, THREE.SRGBColorSpace);
+    return new THREE.MeshBasicMaterial({ color:c.multiplyScalar(1.6), side:THREE.DoubleSide, toneMapped:false });
+  }
+  if (/Specchio/i.test(n)) { o.metalness = 1; o.roughness = 0.05; }
+  if (/Materiale5|Materiale87|marmo|Pavimento|Materiale3$/i.test(n)) o.roughness = 0.32;
+  if (/Profilo|Obsidian|casters|CP_C|ALUM/i.test(n)) { o.roughness = 0.42; o.metalness = 0.35; }
+  if (a < 1) { o.transparent = true; o.opacity = Math.max(a, 0.16); o.depthWrite = false; o.roughness = 0.08; }
+  const mt = new THREE.MeshStandardMaterial(o);
+  if (m.tex) {
+    const t = carTex.load('tex/' + m.tex);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.anisotropy = 8;
+    mt.map = t;
+    if (m.ta) mt.alphaTest = 0.5;
+  } else mt.color.setRGB(m.c[0]/255, m.c[1]/255, m.c[2]/255, THREE.SRGBColorSpace);
+  return mt;
+}
+
+function geometria(L, buf) {
+  const g = new THREE.BufferGeometry();
+  const p = new Int16Array(buf, L.op, L.v * 3), pos = new Float32Array(L.v * 3);
+  for (let i = 0; i < L.v; i++) for (let k = 0; k < 3; k++) pos[i*3+k] = L.lo[k] + (p[i*3+k] + 32768) * L.sc[k];
+  const u = new Int16Array(buf, L.ou, L.v * 2), uv = new Float32Array(L.v * 2);
+  for (let i = 0; i < L.v; i++) for (let k = 0; k < 2; k++) uv[i*2+k] = L.ulo[k] + (u[i*2+k] + 32768) * L.us[k];
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setAttribute('normal', new THREE.BufferAttribute(new Int8Array(buf, L.on, L.v * 3), 3, true));
+  g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+  g.setIndex(new THREE.BufferAttribute(L.i32 ? new Uint32Array(buf, L.oi, L.i) : new Uint16Array(buf, L.oi, L.i), 1));
+  return g;
+}
+
+let G = null, H = null, floorZ = 0;
+const stato = { modo:'giro', x:12.5, y:7.5, z:0, yaw:0, pitch:0 };
+
+function cella(x, y) {
+  const i = Math.floor((x - G.x0) / G.cella), j = Math.floor((y - G.y0) / G.cella);
+  if (i < 0 || j < 0 || i >= G.nx || j >= G.ny) return -1;
+  return j * G.nx + i;
+}
+const LIV = () => G.nx * G.ny;
+function piano(x, y, z) {
+  const c = cella(x, y);
+  if (c < 0) return null;
+  let m = null, d = 1e9;
+  for (let l = 0; l < 2; l++) {
+    const h = H[c + l * LIV()];
+    if (h === -32768) continue;
+    const e = Math.abs(h / 1000 - z);
+    if (e < d) { d = e; m = h / 1000; }
+  }
+  return d <= PASSO ? m : null;
+}
+function vicino(x, y, alto) {
+  for (let r = 0; r < 120; r++) for (let a = 0; a < 24; a++) {
+    const px = x + Math.cos(a / 24 * 6.2832) * r * 0.1, py = y + Math.sin(a / 24 * 6.2832) * r * 0.1, c = cella(px, py);
+    if (c < 0) continue;
+    const h = H[c + (alto ? LIV() : 0)];
+    if (h !== -32768) return [px, py, h / 1000];
+  }
+  return null;
+}
+function vaiA(x, y, alto) {
+  const v = vicino(x, y, alto);
+  if (!v) return;
+  [stato.x, stato.y, stato.z] = v;
+  floorZ = stato.z;
+  auto = null;
+  if (stato.modo !== 'cammina') modo('cammina');
+}
+
+const tasti = new Set();
+let auto = null, joy = [0, 0], visuale = null;
+addEventListener('keydown', e => { if (/^(Arrow|Key[WASD]|Shift)/.test(e.code)) { tasti.add(e.code); if (stato.modo === 'cammina') { e.preventDefault(); nascondiAiuto(); } } });
+addEventListener('keyup', e => tasti.delete(e.code));
+addEventListener('blur', () => tasti.clear());
+
+canvas.addEventListener('pointerdown', e => {
+  if (stato.modo !== 'cammina') return;
+  visuale = { id:e.pointerId, x:e.clientX, y:e.clientY, t:performance.now(), m:0 };
+  canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove', e => {
+  if (!visuale || e.pointerId !== visuale.id) return;
+  const dx = e.clientX - visuale.x, dy = e.clientY - visuale.y;
+  visuale.x = e.clientX; visuale.y = e.clientY; visuale.m += Math.abs(dx) + Math.abs(dy);
+  stato.yaw -= dx * 0.0035;
+  stato.pitch = Math.max(-1.3, Math.min(1.3, stato.pitch - dy * 0.0035));
+  nascondiAiuto();
+});
+canvas.addEventListener('pointerup', e => {
+  if (!visuale || e.pointerId !== visuale.id) return;
+  const clic = visuale.m < 8 && performance.now() - visuale.t < 350;
+  visuale = null;
+  if (clic) vaiVerso(e.clientX, e.clientY);
+});
+canvas.addEventListener('wheel', e => { if (stato.modo === 'cammina') { cam.fov = Math.max(35, Math.min(80, cam.fov + e.deltaY * 0.02)); cam.updateProjectionMatrix(); } }, { passive:true });
+function vaiVerso(cx, cy) {
+  const r = new THREE.Raycaster(), n = new THREE.Vector2(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1);
+  r.setFromCamera(n, cam);
+  const d = r.ray.direction, o = r.ray.origin;
+  if (d.y > -0.02) return;
+  const t = (stato.z - o.y) / d.y;
+  auto = [o.x + d.x * t, -(o.z + d.z * t)];
+  nascondiAiuto();
+}
+
+const jb = $('joy'), jk = jb.firstElementChild;
+let jid = null;
+function joyMuovi(e) {
+  const r = jb.getBoundingClientRect();
+  let x = (e.clientX - r.left - 60) / 50, y = (e.clientY - r.top - 60) / 50;
+  const l = Math.hypot(x, y);
+  if (l > 1) { x /= l; y /= l; }
+  joy = [x, -y];
+  jk.style.transform = `translate(${x * 38}px,${y * 38}px)`;
+}
+jb.addEventListener('pointerdown', e => { jid = e.pointerId; jb.setPointerCapture(jid); joyMuovi(e); nascondiAiuto(); });
+jb.addEventListener('pointermove', e => { if (e.pointerId === jid) joyMuovi(e); });
+const joyFine = () => { jid = null; joy = [0, 0]; jk.style.transform = ''; };
+jb.addEventListener('pointerup', joyFine);
+jb.addEventListener('pointercancel', joyFine);
+
+function nascondiAiuto() { $('aiuto').style.opacity = 0; }
+function aiuto(t) { const a = $('aiuto'); a.textContent = t; a.style.opacity = 1; }
+function premi(b, v) { b.setAttribute('aria-pressed', v); }
+function soffitti(v) { gruppi[1].visible = v; premi($('bSoff'), v); }
+
+function modo(m) {
+  stato.modo = m;
+  const c = m === 'cammina';
+  premi($('bGiro'), !c); premi($('bCammina'), c);
+  orbit.enabled = !c;
+  soffitti(c);
+  $('mappa').style.display = c ? 'block' : 'none';
+  jb.style.display = c && touch ? 'block' : 'none';
+  cam.near = c ? 0.05 : 0.5;
+  cam.fov = c ? 62 : 38;
+  cam.updateProjectionMatrix();
+  if (c) aiuto(touch ? 'Usa il cerchio per camminare e trascina per guardarti intorno. Tocca il pavimento per andarci.' : 'Frecce o W A S D per camminare, trascina per guardarti intorno, clicca sul pavimento per andarci. Maiuscole per correre.');
+  else { vista(); aiuto(touch ? 'Trascina per ruotare, due dita per zoom.' : 'Trascina per ruotare, rotella per lo zoom, tasto destro per spostare.'); }
+}
+function vista() {
+  orbit.target.set(20, 0, -16);
+  cam.position.set(4, 38, 24);
+  orbit.update();
+}
+
+$('bGiro').onclick = () => modo('giro');
+$('bCammina').onclick = () => { if (stato.modo !== 'cammina') { modo('cammina'); canvas.focus(); } };
+$('bSoff').onclick = () => soffitti(!gruppi[1].visible);
+$('bArr').onclick = () => { gruppi[2].visible = !gruppi[2].visible; premi($('bArr'), gruppi[2].visible); };
+$('bStanze').onclick = () => { const s = $('stanze').classList.toggle('ap'); $('bStanze').setAttribute('aria-expanded', s); };
+if (!incorporato) $('bFull').parentElement.style.display = 'none';
+$('bFull').href = location.pathname;
+for (const [n, x, y, alto] of LOCALI) {
+  const b = document.createElement('button');
+  b.textContent = n;
+  b.onclick = () => { vaiA(x / 1000, y / 1000, alto); $('stanze').classList.remove('ap'); canvas.focus(); };
+  $('stanze').append(b);
+}
+
+function mappa() {
+  const c = $('mappa'), S = 3;
+  c.width = Math.ceil(G.nx / S); c.height = Math.ceil(G.ny / S);
+  const x = c.getContext('2d'), im = x.createImageData(c.width, c.height);
+  for (let j = 0; j < c.height; j++) for (let i = 0; i < c.width; i++) {
+    const s = ((G.ny - 1 - j * S) * G.nx + i * S), a = (j * c.width + i) * 4;
+    if (s >= 0 && (H[s] !== -32768 || H[s + LIV()] !== -32768)) { im.data[a] = 201; im.data[a+1] = 169; im.data[a+2] = 110; im.data[a+3] = 90; }
+  }
+  mappa.sfondo = im;
+  mappa.S = S;
+  c.addEventListener('click', e => {
+    const r = c.getBoundingClientRect(), u = (e.clientX - r.left) / r.width, v = (e.clientY - r.top) / r.height;
+    vaiA(G.x0 + u * G.nx * G.cella, G.y0 + (1 - v) * G.ny * G.cella);
+  });
+}
+function disegnaMappa() {
+  const c = $('mappa'), x = c.getContext('2d'), S = mappa.S;
+  x.putImageData(mappa.sfondo, 0, 0);
+  const px = (stato.x - G.x0) / G.cella / S, py = (G.ny - (stato.y - G.y0) / G.cella) / S;
+  x.fillStyle = '#fff';
+  x.beginPath(); x.arc(px, py, 4.5, 0, 7); x.fill();
+  x.strokeStyle = '#fff'; x.lineWidth = 2;
+  x.beginPath(); x.moveTo(px, py); x.lineTo(px - Math.sin(stato.yaw) * 16, py - Math.cos(stato.yaw) * 16); x.stroke();
+}
+
+function prova(nx, ny) {
+  const p = piano(nx, ny, stato.z);
+  if (p === null) return false;
+  stato.x = nx; stato.y = ny; stato.z = p;
+  return true;
+}
+function passo(dx, dy) {
+  const r = prova(stato.x + dx, stato.y + dy) || prova(stato.x + dx, stato.y) || prova(stato.x, stato.y + dy);
+  return r;
+}
+let tPrima = performance.now(), mappaT = 0;
+function ciclo(t) {
+  const dt = Math.min(0.05, (t - tPrima) / 1000);
+  tPrima = t;
+  if (stato.modo === 'cammina') {
+    let f = 0, s = 0;
+    if (tasti.has('ArrowUp') || tasti.has('KeyW')) f += 1;
+    if (tasti.has('ArrowDown') || tasti.has('KeyS')) f -= 1;
+    if (tasti.has('KeyD')) s += 1;
+    if (tasti.has('KeyA')) s -= 1;
+    if (tasti.has('ArrowLeft')) stato.yaw += 1.6 * dt;
+    if (tasti.has('ArrowRight')) stato.yaw -= 1.6 * dt;
+    f += joy[1]; s += joy[0];
+    const v = (tasti.has('ShiftLeft') || tasti.has('ShiftRight') ? 3.4 : 1.7) * dt;
+    if (f || s) {
+      auto = null;
+      const l = Math.max(1, Math.hypot(f, s));
+      f /= l; s /= l;
+      const sx = -Math.sin(stato.yaw), sy = Math.cos(stato.yaw), rx = Math.cos(stato.yaw), ry = Math.sin(stato.yaw);
+      const n = Math.ceil(v / 0.04) || 1;
+      for (let i = 0; i < n; i++) passo((sx * f + rx * s) * v / n, (sy * f + ry * s) * v / n);
+    } else if (auto) {
+      const dx = auto[0] - stato.x, dy = auto[1] - stato.y, l = Math.hypot(dx, dy);
+      if (l < 0.1) auto = null;
+      else {
+        const k = Math.min(v, l) / l;
+        if (!passo(dx * k, dy * k)) auto = null;
+      }
+    }
+    floorZ += (stato.z - floorZ) * Math.min(1, dt * 10);
+    cam.position.set(stato.x, floorZ + EYE, -stato.y);
+    cam.rotation.set(stato.pitch, stato.yaw, 0, 'YXZ');
+    if (t - mappaT > 80) { mappaT = t; disegnaMappa(); }
+  } else orbit.update();
+  renderer.render(scene, cam);
+  requestAnimationFrame(ciclo);
+}
+function misura() {
+  cam.aspect = innerWidth / innerHeight;
+  cam.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight, false);
+}
+addEventListener('resize', misura);
+
+(async () => {
+  try {
+    if (!('DecompressionStream' in window)) throw new Error('browser');
+    const J = await (await fetch('modello.json')).json();
+    G = J.griglia;
+    const [buf, hb] = await Promise.all([
+      scarica('modello.dat', J.peso, p => { $('pb').style.width = (p * 90) + '%'; }),
+      scarica('pianta.dat')
+    ]);
+    H = new Int16Array(hb);
+    $('lt').textContent = 'Preparazione';
+    await new Promise(r => setTimeout(r, 20));
+    const mats = J.mat.map(materiale);
+    for (const L of J.lotti) {
+      const g = geometria(L, buf), m = mats[L.m];
+      let o;
+      if (L.n) {
+        o = new THREE.InstancedMesh(g, m, L.n);
+        o.instanceMatrix = new THREE.InstancedBufferAttribute(new Float32Array(buf.slice(L.om, L.om + L.n * 64)), 16);
+        o.frustumCulled = false;
+      } else o = new THREE.Mesh(g, m);
+      if (m.transparent) o.renderOrder = 2;
+      gruppi[L.c].add(o);
+    }
+    mappa();
+    misura();
+    vista();
+    const v = vicino(12.5, 3.8);
+    if (v) { [stato.x, stato.y, stato.z] = v; floorZ = stato.z; }
+    modo(q.get('modo') === 'cammina' ? 'cammina' : 'giro');
+    $('pb').style.width = '100%';
+    $('load').style.opacity = 0;
+    setTimeout(() => $('load').remove(), 500);
+    if (cattura) window.__v = { stato, cam, vaiA, piano, modo, soffitti, renderer, orbit, gruppi, render:() => renderer.render(scene, cam) };
+    requestAnimationFrame(ciclo);
+  } catch (e) {
+    console.error(e);
+    $('lt').textContent = 'Il modello 3D non si apre su questo browser. Aggiorna il browser o prova da computer.';
+  }
+})();
+</script>
+</body>
+</html>

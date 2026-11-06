@@ -68,6 +68,25 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 .tcard.vuota { background:var(--dark3);border:.5px solid rgba(255,255,255,.1); }
 .tcard.vuota::before { content:'In preparazione';position:absolute;inset:0 0 38px;display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.8); }
 
+/* modello 3D */
+#m3d { background:var(--dark);padding-bottom:0; }
+#m3box { position:relative;margin:44px -40px 0;height:82vh;min-height:460px;background:#101010;overflow:hidden; }
+#m3box > img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82; }
+#m3box iframe { position:absolute;inset:0;width:100%;height:100%;border:0; }
+.m3cta { position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(10,10,10,.18),rgba(10,10,10,.6)); }
+.m3cta div { display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:0 16px; }
+.m3cta button { background:rgba(10,10,10,.72);border:.5px solid var(--gold);color:var(--gold);font:inherit;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:15px 26px;cursor:pointer;transition:background .3s,color .3s; }
+.m3cta button:hover { background:var(--gold);color:var(--dark); }
+.m3cta p { font-size:11px;color:rgba(255,255,255,.8);text-align:center;padding:0 20px; }
+
+/* elenchi di tavole */
+h3.tg { font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin:52px 0 0; }
+h3.tg + .tgrid { margin-top:18px; }
+.tdown { display:flex;gap:10px;flex-wrap:wrap;margin-top:30px; }
+#mappe { background:var(--dark3); }
+#mappe .tcard { aspect-ratio:8/5;background:#121212; }
+#mappe .tcard img { object-fit:cover;background:#121212; }
+
 /* render */
 #render { background:var(--dark); }
 #render { padding-bottom:0; }
@@ -154,6 +173,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   .tgrid { grid-template-columns:1fr;gap:2px; }
   .agrid { grid-template-columns:1fr;gap:28px; }
   #rbox { margin:36px -20px 0; }
+  #m3box { margin:36px -20px 0;height:72vh; }
   .rstrip figcaption { padding:50px 20px 16px; }
   .rfr { width:40px;height:40px;margin-top:-20px; }
   #rprev { left:10px; }
@@ -209,7 +229,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Il progetto in numeri</p>
     <h2 class="st">Reception, aule e uffici, <em>in un link</em>.</h2>
-    <p class="sd">Questa pagina raccoglie i materiali del progetto e si aggiorna a ogni revisione: render, tavole, mappe 3D, computo e preventivo.</p>
+    <p class="sd">Questa pagina raccoglie i materiali del progetto e si aggiorna a ogni revisione: modello 3D, tavole, mappe, render, computo e preventivo.</p>
     <div class="dgrid">
       <div class="dcell"><b>657</b><span>Metri quadri</span></div>
       <div class="dcell"><b>93</b><span>Posti aula</span></div>
@@ -219,18 +239,66 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   </div>
 </section>
 
+<section id="m3d">
+  <div class="wrap">
+    <p class="slab">Modello 3D</p>
+    <h2 class="st">Entra nella nuova sede, <em>prima</em> dei lavori.</h2>
+    <p class="sd">Ruota il modello dall'alto oppure cammina dentro i locali, dalla reception alle aule. È il modello di progetto in tempo reale: luci e materiali sono indicativi. Funziona da computer, tablet e telefono.</p>
+  </div>
+  <div id="m3box">
+    <img src="mappe/mappa-assonometria-sud-ovest.jpg" alt="Vista dall'alto del modello 3D della nuova sede senza soffitti" loading="lazy">
+    <div class="m3cta">
+      <div><button type="button" data-m="giro">Ruota il modello</button><button type="button" data-m="cammina">Cammina dentro</button></div>
+      <p>Circa 9 MB, si caricano solo quando apri il modello.</p>
+    </div>
+  </div>
+</section>
+
 <section id="tavole">
   <div class="wrap">
     <p class="slab">Tavole tecniche</p>
     <h2 class="st">Le carte del <em>progetto</em>.</h2>
-    <p class="sd">Lo stato attuale e il progetto, dal modello 3D aggiornato. Clicca una pianta per aprirla grande. Le altre tavole e le mappe 3D arrivano qui man mano.</p>
+    <p class="sd">Piante, dettagli dei locali e sezioni, dal modello 3D aggiornato. Clicca una tavola per aprire il PDF. Misure e quote sono di progetto, da confermare in cantiere.</p>
+    <div class="tdown"><a class="btn" href="scarica/Nomentana_tavole_complete.pdf" target="_blank" rel="noopener">Tutte le tavole · PDF</a><a class="btn" href="scarica/Nomentana_DWG.zip" download>File DWG · ZIP</a></div>
+    <h3 class="tg">Piante generali</h3>
     <div class="tgrid">
-      <figure class="tcard"><a href="img/pianta-ante-operam.jpg" target="_blank" rel="noopener"><img src="img/pianta-ante-operam.jpg" alt="Pianta ante operam: muri esistenti, pilastri, vetrine e parti da demolire" loading="lazy"><figcaption>Ante operam · 1:100</figcaption></a></figure>
-      <figure class="tcard"><a href="img/pianta-post-operam.jpg" target="_blank" rel="noopener"><img src="img/pianta-post-operam.jpg" alt="Pianta post operam con aule, uffici, reception, pareti vetrate e arredi" loading="lazy"><figcaption>Post operam · 1:100</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_ante_operam_A2.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_ante_operam_A2.jpg" alt="Pianta dello stato attuale" loading="lazy"><figcaption>Ante operam · 1:100</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_post_operam_A2.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_post_operam_A2.jpg" alt="Pianta di progetto con aule, uffici, reception e tracce delle sezioni" loading="lazy"><figcaption>Post operam · 1:100</figcaption></a></figure>
       <figure class="tcard"><a href="img/pianta-rev01.jpg" target="_blank" rel="noopener"><img src="img/pianta-rev01.jpg" alt="Planimetria di progetto con aule, uffici e reception, revisione 01" loading="lazy"><figcaption>Pianta di progetto · Rev01</figcaption></a></figure>
-      <figure class="tcard vuota"><figcaption>Altre tavole</figcaption></figure>
-      <figure class="tcard vuota"><figcaption>Mappe 3D</figcaption></figure>
-      <figure class="tcard vuota"><figcaption>File DWG</figcaption></figure>
+    </div>
+    <h3 class="tg">Dettagli dei locali</h3>
+    <div class="tgrid">
+      <figure class="tcard"><a href="tavole/Nomentana_D01_reception_01.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D01_reception_01.jpg" alt="Tavola D01 · Reception" loading="lazy"><figcaption>D01 · Reception</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D02_aule_02.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D02_aule_02.jpg" alt="Tavola D02 · Aule 9, 10 e 11" loading="lazy"><figcaption>D02 · Aule 9, 10 e 11</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D03_sala_03.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D03_sala_03.jpg" alt="Tavola D03 · Sala riunioni" loading="lazy"><figcaption>D03 · Sala riunioni</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D04_aula_04.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D04_aula_04.jpg" alt="Tavola D04 · Aula 6 e Ufficio 7" loading="lazy"><figcaption>D04 · Aula 6 e Ufficio 7</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D05_aula_05.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D05_aula_05.jpg" alt="Tavola D05 · Aula 3 e one to one" loading="lazy"><figcaption>D05 · Aula 3 e one to one</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D06_aula_06.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D06_aula_06.jpg" alt="Tavola D06 · Aula 1 e one to one" loading="lazy"><figcaption>D06 · Aula 1 e one to one</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D07_bagni_07.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D07_bagni_07.jpg" alt="Tavola D07 · Bagni e servizi" loading="lazy"><figcaption>D07 · Bagni e servizi</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D08_sala_08.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D08_sala_08.jpg" alt="Tavola D08 · Sala 17,17 × 4,90" loading="lazy"><figcaption>D08 · Sala 17,17 × 4,90</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D09_corridoio_09.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D09_corridoio_09.jpg" alt="Tavola D09 · Corridoio -1,30" loading="lazy"><figcaption>D09 · Corridoio -1,30</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D10_soppalco_10.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D10_soppalco_10.jpg" alt="Tavola D10 · Soppalco" loading="lazy"><figcaption>D10 · Soppalco</figcaption></a></figure>
+    </div>
+    <h3 class="tg">Sezioni</h3>
+    <div class="tgrid">
+      <figure class="tcard"><a href="tavole/Nomentana_S01_sezioni_ac.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_S01_sezioni_ac.jpg" alt="Tavola S01 · Sezioni A e C" loading="lazy"><figcaption>S01 · Sezioni A e C</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_S02_sezioni_bd.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_S02_sezioni_bd.jpg" alt="Tavola S02 · Sezioni B e D" loading="lazy"><figcaption>S02 · Sezioni B e D</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_S03_sezioni_f.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_S03_sezioni_f.jpg" alt="Tavola S03 · Sezione F e chiave" loading="lazy"><figcaption>S03 · Sezione F e chiave</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_S04_sezioni_eg.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_S04_sezioni_eg.jpg" alt="Tavola S04 · Sezioni E e G" loading="lazy"><figcaption>S04 · Sezioni E e G</figcaption></a></figure>
+    </div>
+  </div>
+</section>
+
+<section id="mappe">
+  <div class="wrap">
+    <p class="slab">Mappe 3D</p>
+    <h2 class="st">La sede vista <em>dall'alto</em>.</h2>
+    <p class="sd">Viste senza soffitti, per leggere insieme locali, percorsi e arredi. Clicca per ingrandire.</p>
+    <div class="tgrid">
+      <figure class="tcard"><a href="mappe/mappa-assonometria-sud-ovest.jpg" target="_blank" rel="noopener"><img src="mappe/mappa-assonometria-sud-ovest.jpg" alt="Mappa 3D: da sud-ovest" loading="lazy"><figcaption>Da sud-ovest</figcaption></a></figure>
+      <figure class="tcard"><a href="mappe/mappa-assonometria-sud-est.jpg" target="_blank" rel="noopener"><img src="mappe/mappa-assonometria-sud-est.jpg" alt="Mappa 3D: da sud-est" loading="lazy"><figcaption>Da sud-est</figcaption></a></figure>
+      <figure class="tcard"><a href="mappe/mappa-assonometria-nord-ovest.jpg" target="_blank" rel="noopener"><img src="mappe/mappa-assonometria-nord-ovest.jpg" alt="Mappa 3D: da nord-ovest" loading="lazy"><figcaption>Da nord-ovest</figcaption></a></figure>
+      <figure class="tcard"><a href="mappe/mappa-dall-alto.jpg" target="_blank" rel="noopener"><img src="mappe/mappa-dall-alto.jpg" alt="Mappa 3D: dall'alto" loading="lazy"><figcaption>Dall'alto</figcaption></a></figure>
     </div>
   </div>
 </section>
@@ -313,6 +381,8 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 const rs=document.getElementById('rs');
 document.getElementById('rprev').addEventListener('click',()=>rs.scrollBy({left:-rs.clientWidth,behavior:'smooth'}));
 document.getElementById('rnext').addEventListener('click',()=>rs.scrollBy({left:rs.clientWidth,behavior:'smooth'}));
+const m3=document.getElementById('m3box');
+m3.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const f=document.createElement('iframe');f.title='Modello 3D navigabile';f.allow='fullscreen';f.src='3d/?modo='+b.dataset.m;m3.replaceChildren(f);f.focus();}));
 const SALE='yqdVEQ/IXjt3oYgzixlk5w==',GIRI=600000;
 const box=document.getElementById('dcod'),inp=document.getElementById('dc'),msg=document.getElementById('dmsg'),pv=document.getElementById('pv');
 const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
