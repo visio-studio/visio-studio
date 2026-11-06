@@ -105,7 +105,11 @@ h3.tg + .tgrid { margin-top:18px; }
 #prove { background:var(--dark2); }
 #prove[hidden] { display:none; }
 #pano { position:relative;margin-top:30px;height:min(72vh,640px);min-height:340px;background:#191816;overflow:hidden;touch-action:none;cursor:grab; }
-#pano canvas { display:block;width:100%;height:100%; }
+#pano canvas { display:block;width:100%;height:100%;transition:opacity .22s; }
+#pano.passa canvas { opacity:0; }
+#pvtour { display:flex;gap:6px;flex-wrap:wrap;margin-top:10px; }
+#pvtour button { background:none;border:.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.8);font:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 16px;cursor:pointer; }
+#pvtour button[aria-pressed=true] { background:var(--gold);border-color:var(--gold);color:var(--dark); }
 .pvgrid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px; }
 .pvgrid figure { display:grid;gap:8px;min-width:0; }
 .pvgrid img { width:100%; }
@@ -340,8 +344,9 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Prove di resa</p>
     <h2 class="st">La reception con <em>Blender</em>.</h2>
-    <p class="sd">Prove del 6 novembre 2026 sul modello aggiornato. Il pavimento è quello chiaro del modello, ancora da decidere. Trascina il 360° per guardarti intorno.</p>
+    <p class="sd">Prove del 6 novembre 2026 sul modello aggiornato. Il pavimento è quello chiaro del modello, ancora da decidere. Trascina per guardarti intorno, tocca il cerchio sul pavimento per spostarti.</p>
     <div id="pano" tabindex="0" role="application" aria-label="Panoramica 360 della reception: trascina per guardarti intorno"></div>
+    <div id="pvtour" role="group" aria-label="Postazioni della visita"></div>
     <div class="pvgrid">
       <figure><img id="pvb" alt="Render del bancone curvo con parete in marmo verde e scritta FUTURA retroilluminata"><figcaption>Render Cycles del bancone.</figcaption></figure>
       <figure><img id="pvc" alt="Vista in tempo reale della reception con la luce calcolata"><figcaption>Camminata con luce calcolata: schermata della prova.</figcaption></figure>
@@ -468,25 +473,50 @@ async function foto(n,key){
   const b=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(d,0,12)},key,new Uint8Array(d,12));
   return URL.createObjectURL(new Blob([b],{type:'image/jpeg'}));
 }
+// postazioni del tour: stesse direzioni in tutte le panoramiche; b = direzione del passaggio in gradi da +Y di pianta
+const TOUR=[{f:'a.bin',nome:'Ingresso',va:1,b:346,e:-20},{f:'e.bin',nome:'Zona attesa',va:0,b:140,e:-20}];
 async function prove(key){
-  const [a,b,c,d]=await Promise.all(['a.bin','b.bin','c.bin','d.bin'].map(n=>foto(n,key)));
-  const q=i=>document.getElementById(i);
+  const [a,e,b,c,d]=await Promise.all(['a.bin','e.bin','b.bin','c.bin','d.bin'].map(n=>foto(n,key)));
+  const q=i=>document.getElementById(i), url=[a,e];
   q('pvb').src=b;q('pvc').src=c;q('pvd').src=d;q('prove').hidden=false;
   const T=await import('./3d/lib/three.module.js');
   const box=q('pano'),r=new T.WebGLRenderer({antialias:true});
   r.setPixelRatio(Math.min(devicePixelRatio||1,2));box.append(r.domElement);
   const sc=new T.Scene(),cam=new T.PerspectiveCamera(72,1,.1,100),g=new T.SphereGeometry(40,64,40);g.scale(-1,1,1);
-  let yaw=0,pitch=0,drag=null;
+  const globo=new T.Mesh(g,new T.MeshBasicMaterial());sc.add(globo);
+  const cv=document.createElement('canvas');cv.width=cv.height=128;
+  const x=cv.getContext('2d');x.strokeStyle='#C9A96E';x.lineWidth=9;x.fillStyle='rgba(10,10,10,.55)';x.beginPath();x.arc(64,64,50,0,7);x.fill();x.stroke();
+  x.strokeStyle='#fff';x.lineWidth=10;x.lineCap='round';x.lineJoin='round';x.beginPath();x.moveTo(40,76);x.lineTo(64,50);x.lineTo(88,76);x.stroke();
+  const punto=new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(cv),depthTest:false,transparent:true}));punto.scale.set(4.6,4.6,1);sc.add(punto);
+  const dir=(bb,ee)=>{const y=(bb-90)*Math.PI/180,p=ee*Math.PI/180,k=Math.cos(p);return new T.Vector3(Math.sin(y)*k,Math.sin(p),-Math.cos(y)*k);};
+  let yaw=-Math.PI/2,pitch=-.05,drag=null,ora=-1;
   const draw=()=>{const k=Math.cos(pitch);cam.lookAt(Math.sin(yaw)*k,Math.sin(pitch),-Math.cos(yaw)*k);r.render(sc,cam);};
   const size=()=>{const w=box.clientWidth,h=box.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();draw();};
-  new T.TextureLoader().load(a,t=>{t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;sc.add(new T.Mesh(g,new T.MeshBasicMaterial({map:t})));size();});
-  box.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY];box.setPointerCapture(e.pointerId);});
-  box.addEventListener('pointermove',e=>{if(!drag)return;yaw-=(e.clientX-drag[0])*.004;pitch=Math.max(-1.45,Math.min(1.45,pitch+(e.clientY-drag[1])*.004));drag=[e.clientX,e.clientY];draw();});
-  const stop=()=>{drag=null;};
-  box.addEventListener('pointerup',stop);box.addEventListener('pointercancel',stop);
+  const tex=new T.TextureLoader(),cache=[];
+  const carica=i=>cache[i]||(cache[i]=new Promise(ok=>tex.load(url[i],t=>{t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;ok(t);})));
+  const vai=async i=>{
+    if(i===ora)return;
+    box.classList.add('passa');
+    const [t]=await Promise.all([carica(i),new Promise(ok=>setTimeout(ok,ora<0?0:220))]);
+    globo.material.map=t;globo.material.needsUpdate=true;ora=i;
+    punto.position.copy(dir(TOUR[i].b,TOUR[i].e).multiplyScalar(30));
+    q('pvtour').querySelectorAll('button').forEach((x,n)=>x.setAttribute('aria-pressed',n===i));
+    size();box.classList.remove('passa');
+    carica(TOUR[i].va);
+  };
+  TOUR.forEach((p,i)=>{const n=document.createElement('button');n.type='button';n.textContent=p.nome;n.addEventListener('click',()=>vai(i));q('pvtour').append(n);});
+  const clic=e=>{
+    const w=box.getBoundingClientRect(),v=new T.Vector3((e.clientX-w.left)/w.width*2-1,-(e.clientY-w.top)/w.height*2+1,.5).unproject(cam).normalize();
+    if(v.angleTo(punto.position.clone().normalize())<.1)vai(TOUR[ora].va);
+  };
+  box.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,0];box.setPointerCapture(e.pointerId);});
+  box.addEventListener('pointermove',e=>{if(!drag)return;drag[2]+=Math.abs(e.clientX-drag[0])+Math.abs(e.clientY-drag[1]);yaw-=(e.clientX-drag[0])*.004;pitch=Math.max(-1.45,Math.min(1.45,pitch+(e.clientY-drag[1])*.004));drag[0]=e.clientX;drag[1]=e.clientY;draw();});
+  box.addEventListener('pointerup',e=>{if(drag&&drag[2]<8)clic(e);drag=null;});
+  box.addEventListener('pointercancel',()=>{drag=null;});
   box.addEventListener('wheel',e=>{e.preventDefault();cam.fov=Math.max(35,Math.min(95,cam.fov+e.deltaY*.03));cam.updateProjectionMatrix();draw();},{passive:false});
   box.addEventListener('keydown',e=>{const v={ArrowLeft:[-.08,0],ArrowRight:[.08,0],ArrowUp:[0,.08],ArrowDown:[0,-.08]}[e.key];if(!v)return;e.preventDefault();yaw+=v[0];pitch=Math.max(-1.45,Math.min(1.45,pitch+v[1]));draw();});
   addEventListener('resize',size);size();
+  await vai(0);
 }
 async function apri(c){
   msg.textContent='Apertura in corso…';
