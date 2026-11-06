@@ -101,6 +101,17 @@ h3.tg + .tgrid { margin-top:18px; }
 #rnext { right:20px; }
 .rhint { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.75);margin-top:16px; }
 
+/* prove di resa, cifrate: compaiono dopo il codice */
+#prove { background:var(--dark2); }
+#prove[hidden] { display:none; }
+#pano { position:relative;margin-top:30px;height:min(72vh,640px);min-height:340px;background:#191816;overflow:hidden;touch-action:none;cursor:grab; }
+#pano canvas { display:block;width:100%;height:100%; }
+.pvgrid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px; }
+.pvgrid figure { display:grid;gap:8px;min-width:0; }
+.pvgrid img { width:100%; }
+.pvgrid figcaption { font-size:11px;line-height:1.6;color:rgba(255,255,255,.62); }
+#prove ul { margin:22px 0 0 18px;font-size:12px;line-height:1.85;color:rgba(255,255,255,.62); }
+
 /* scelte d'arredo — sezione chiara */
 #arredo { background:var(--light);color:var(--text); }
 #arredo .slab { color:#7a5f30; }
@@ -179,6 +190,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   #rprev { left:10px; }
   #rnext { right:10px; }
   .ptot { grid-template-columns:1fr; }
+  .pvgrid { grid-template-columns:1fr; }
   .pgrid { grid-template-columns:1fr; }
   .pbar { grid-template-columns:minmax(0,1fr) 84px;gap:8px 12px; }
   .pbar i { grid-column:1/-1;grid-row:2; }
@@ -324,6 +336,25 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   </div>
 </section>
 
+<section id="prove" hidden>
+  <div class="wrap">
+    <p class="slab">Prove di resa</p>
+    <h2 class="st">La reception con <em>Blender</em>.</h2>
+    <p class="sd">Prove del 6 novembre 2026 sul modello aggiornato. Il pavimento è quello chiaro del modello, ancora da decidere. Trascina il 360° per guardarti intorno.</p>
+    <div id="pano" tabindex="0" role="application" aria-label="Panoramica 360 della reception: trascina per guardarti intorno"></div>
+    <div class="pvgrid">
+      <figure><img id="pvb" alt="Render del bancone curvo con parete in marmo verde e scritta FUTURA retroilluminata"><figcaption>Render Cycles del bancone.</figcaption></figure>
+      <figure><img id="pvc" alt="Vista in tempo reale della reception con la luce calcolata"><figcaption>Camminata con luce calcolata: schermata della prova.</figcaption></figure>
+      <figure><img id="pvd" alt="Vista ravvicinata verso le vetrine con auto parcheggiata e strada"><figcaption>Vista ravvicinata delle vetrine: qui si nota il limite di risoluzione dello sfondo.</figcaption></figure>
+    </div>
+    <ul>
+      <li>Sfondo sfocato da vicino e con il marchio Google nel 360°.</li>
+      <li>Zona azzurrina in basso nel vetro verso la strada laterale.</li>
+      <li>Sfondo da Street View: da sostituire con foto proprie prima di mostrarlo al cliente.</li>
+    </ul>
+  </div>
+</section>
+
 <section id="arredo">
   <div class="wrap">
     <p class="slab">Scelte d'arredo</p>
@@ -432,6 +463,31 @@ function mostra(p){
   pv.append(el('p','pnote',p.nota));
   pv.hidden=false;box.style.display='none';msg.textContent='';
 }
+async function foto(n,key){
+  const d=await (await fetch('prove/'+n)).arrayBuffer();
+  const b=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(d,0,12)},key,new Uint8Array(d,12));
+  return URL.createObjectURL(new Blob([b],{type:'image/jpeg'}));
+}
+async function prove(key){
+  const [a,b,c,d]=await Promise.all(['a.bin','b.bin','c.bin','d.bin'].map(n=>foto(n,key)));
+  const q=i=>document.getElementById(i);
+  q('pvb').src=b;q('pvc').src=c;q('pvd').src=d;q('prove').hidden=false;
+  const T=await import('./3d/lib/three.module.js');
+  const box=q('pano'),r=new T.WebGLRenderer({antialias:true});
+  r.setPixelRatio(Math.min(devicePixelRatio||1,2));box.append(r.domElement);
+  const sc=new T.Scene(),cam=new T.PerspectiveCamera(72,1,.1,100),g=new T.SphereGeometry(40,64,40);g.scale(-1,1,1);
+  let yaw=0,pitch=0,drag=null;
+  const draw=()=>{const k=Math.cos(pitch);cam.lookAt(Math.sin(yaw)*k,Math.sin(pitch),-Math.cos(yaw)*k);r.render(sc,cam);};
+  const size=()=>{const w=box.clientWidth,h=box.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();draw();};
+  new T.TextureLoader().load(a,t=>{t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;sc.add(new T.Mesh(g,new T.MeshBasicMaterial({map:t})));size();});
+  box.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY];box.setPointerCapture(e.pointerId);});
+  box.addEventListener('pointermove',e=>{if(!drag)return;yaw-=(e.clientX-drag[0])*.004;pitch=Math.max(-1.45,Math.min(1.45,pitch+(e.clientY-drag[1])*.004));drag=[e.clientX,e.clientY];draw();});
+  const stop=()=>{drag=null;};
+  box.addEventListener('pointerup',stop);box.addEventListener('pointercancel',stop);
+  box.addEventListener('wheel',e=>{e.preventDefault();cam.fov=Math.max(35,Math.min(95,cam.fov+e.deltaY*.03));cam.updateProjectionMatrix();draw();},{passive:false});
+  box.addEventListener('keydown',e=>{const v={ArrowLeft:[-.08,0],ArrowRight:[.08,0],ArrowUp:[0,.08],ArrowDown:[0,-.08]}[e.key];if(!v)return;e.preventDefault();yaw+=v[0];pitch=Math.max(-1.45,Math.min(1.45,pitch+v[1]));draw();});
+  addEventListener('resize',size);size();
+}
 async function apri(c){
   msg.textContent='Apertura in corso…';
   try{
@@ -440,6 +496,7 @@ async function apri(c){
     const d=await (await fetch('dati/p.bin')).arrayBuffer();
     const b=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(d,0,12)},key,new Uint8Array(d,12));
     mostra(JSON.parse(new TextDecoder().decode(b)));
+    prove(key).catch(e=>console.error(e));
   }catch(_){ msg.textContent='Codice non riconosciuto. Controlla di averlo digitato correttamente.'; }
 }
 box.addEventListener('submit',e=>{e.preventDefault();if(inp.value.trim())apri(inp.value);else inp.focus();});
