@@ -160,6 +160,23 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 .igrid { display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:44px; }
 .igrid h3 { color:#fff; }
 @media(max-width:900px){ .mlist,.fgrid,.vgrid,.igrid { grid-template-columns:1fr; } .vgrid { padding-bottom:64px; } #ba { aspect-ratio:3/4; } }
+
+/* render interni */
+#render { background:var(--dark); }
+.rgrid2 { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:44px; }
+.rgrid2 figure { position:relative; }
+.rgrid2 img { width:100%;height:100%;object-fit:cover;aspect-ratio:3/4; }
+.rgrid2 .wide { grid-column:1/-1; }
+.rgrid2 .wide img { aspect-ratio:16/10; }
+.rgrid2 figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);padding:10px 0 4px; }
+.mgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:28px; }
+.mgrid img { width:100%;aspect-ratio:16/10;object-fit:cover; }
+.mgrid figcaption { font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#7e7e7e;padding-top:8px; }
+.mat { display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px; }
+.mat div { border-top:.5px solid rgba(255,255,255,.15);padding-top:14px; }
+.mat b { display:block;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;margin-bottom:6px; }
+.mat span { font-size:12px;color:rgba(255,255,255,.62);line-height:1.7; }
+@media(max-width:900px){ .rgrid2,.mgrid,.mat { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -243,7 +260,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Modello 3D</p>
     <h2 class="st">Sopra e sotto, <em>nello stesso modello</em>.</h2>
-    <p class="sd">Piano terra e seminterrato con lo stato attuale e il progetto, gli arredi, il vano scala condominiale e la corte. Puoi sovrapporre il rilievo Polycam e separare i piani con la vista esplosa.</p>
+    <p class="sd">Piano terra e seminterrato con lo stato attuale e il progetto: arredi reali da 3D Warehouse, porte e finestre, controsoffitti con LED (pulsante Controsoffitti), pavimento in resina, vano scala condominiale e corte. Puoi sovrapporre il rilievo Polycam e separare i piani con la vista esplosa.</p>
   </div>
   <div id="m3box">
     <img src="img/modello-progetto.jpg" alt="Modello 3D di progetto dall'alto, con i pavimenti colorati per unità e gli arredi" loading="lazy">
@@ -305,13 +322,37 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   </div>
 </section>
 
+<section id="render">
+  <div class="wrap">
+    <p class="slab">Gli interni</p>
+    <h2 class="st">Come si <em>vivrà</em>.</h2>
+    <p class="sd">Render generati dalle viste del modello 3D, con gli stessi arredi nelle stesse posizioni. Sotto, le viste del modello da cui partono.</p>
+    <div class="rgrid2">
+      <figure><img src="render/openspace-a.jpg" alt="Render dell'open space dell'unità A: tavolo in rovere con sedie scure, divano avorio, controsoffitto con gola LED, portafinestra con tende in lino" loading="lazy"><figcaption>Unità A · open space</figcaption></figure>
+      <figure><img src="render/camera-a.jpg" alt="Render della camera matrimoniale: letto a pedana in rovere con testiera imbottita, tappeto beige, gola LED e finestra con tende" loading="lazy"><figcaption>Unità A · camera matrimoniale</figcaption></figure>
+      <figure class="wide"><img src="render/soggiorno-b.jpg" alt="Render del soggiorno dell'unità B: portafinestra sul giardino a sinistra, tavolo in rovere al centro, cucina tortora a destra, divano avorio" loading="lazy"><figcaption>Unità B · soggiorno con cucina</figcaption></figure>
+    </div>
+    <div class="mgrid">
+      <figure><img src="render/modello-a.jpg" alt="Vista del modello 3D dell'open space A" loading="lazy"><figcaption>Modello · open space A</figcaption></figure>
+      <figure><img src="render/modello-camera.jpg" alt="Vista del modello 3D della camera matrimoniale" loading="lazy"><figcaption>Modello · camera</figcaption></figure>
+      <figure><img src="render/modello-b.jpg" alt="Vista del modello 3D del soggiorno B" loading="lazy"><figcaption>Modello · soggiorno B</figcaption></figure>
+    </div>
+    <div class="mat">
+      <div><b>Pavimento</b><span>Gres effetto resina chiaro, neutro freddo, lastre 120 × 60 con fuga 2 mm, uguale in tutta la casa.</span></div>
+      <div><b>Pareti e soffitti</b><span>Greige chiaro opaco, controsoffitto con gola LED perimetrale a 3000 K e faretti neri a incasso.</span></div>
+      <div><b>Cucine</b><span>Laccato tortora opaco con top sottile chiaro, colonne fino al soffitto, rubinetteria nera.</span></div>
+      <div><b>Legno e tessuti</b><span>Rovere naturale per tavoli e letti, divani in bouclé avorio, tende in lino, tappeti in lana beige.</span></div>
+    </div>
+  </div>
+</section>
+
 <section id="interni">
   <div class="wrap">
     <p class="slab">Interni e impianti</p>
     <h2 class="st">Tutto <em>rifatto</em> da zero.</h2>
     <p class="sd">Gli impianti sono da rifare completamente: le tavole 05–08 li descrivono stanza per stanza, così le ditte possono fare l'offerta sulle stesse quantità.</p>
     <div class="igrid">
-      <div><h3>Pavimenti</h3><p>Gres porcellanato in lastre grandi, posato a giunto minimo, uguale in tutte le stanze. Nei bagni lastre a tutta altezza in zona doccia.</p></div>
+      <div><h3>Pavimenti</h3><p>Gres effetto resina chiaro neutro freddo, lastre 120 × 60 con fuga 2 mm, uguale in tutte le stanze. Nei bagni lastre a tutta altezza in zona doccia.</p></div>
       <div><h3>Controsoffitti e luce</h3><p>Cartongesso con gola LED perimetrale nella zona giorno, faretti a incasso, sospensioni sull'isola e sul tavolo. Ribassi a 2,40 m dove passano gli impianti.</p></div>
       <div><h3>Impianto elettrico</h3><p>Un quadro per unità, linee dedicate per cucina, lavatrice e climatizzazione, punti TV e dati, videocitofono. Dotazioni almeno di livello 1 della norma CEI 64-8.</p></div>
       <div><h3>Acqua e clima</h3><p>Pompa di calore per unità, acqua calda ad accumulo, collettori sanitari, nuove colonne di scarico. Il bagno del seminterrato scarica con una stazione di sollevamento.</p></div>
