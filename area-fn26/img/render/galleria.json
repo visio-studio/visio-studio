@@ -1,0 +1,110 @@
+{
+ "ambienti": [
+  "Laboratorio",
+  "Reception e ingresso",
+  "Corridoio",
+  "Aule e uffici"
+ ],
+ "render": [
+  {
+   "id": "laboratorio-generale",
+   "ambiente": "Laboratorio",
+   "titolo": "Vista generale",
+   "desc": "Il laboratorio dall'ingresso: tavolo di montaggio, postazioni PC e zona lezione sul fondo",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "laboratorio-stampa-3d",
+   "ambiente": "Laboratorio",
+   "titolo": "Zona stampa 3D",
+   "desc": "Banchi con le stampanti 3D, mensola delle bobine di filamento e scaffali",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "laboratorio-postazioni-pc",
+   "ambiente": "Laboratorio",
+   "titolo": "Postazioni PC",
+   "desc": "Dieci postazioni PC affiancate con pannelli divisori in feltro e lampade sospese",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "laboratorio-lezione",
+   "ambiente": "Laboratorio",
+   "titolo": "Zona lezione",
+   "desc": "Sedie con ribaltina davanti alla lavagna a parete e alla lavagna mobile",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "reception",
+   "ambiente": "Reception e ingresso",
+   "titolo": "Reception",
+   "desc": "Reception vista dall'ingresso con bancone curvo e marmo verde",
+   "tipo": "studio",
+   "nuovo": false,
+   "w": 1441,
+   "h": 736
+  },
+  {
+   "id": "attesa",
+   "ambiente": "Reception e ingresso",
+   "titolo": "Zona attesa",
+   "desc": "Zona attesa con due poltrone accanto alla colonna tonda e al bancone",
+   "tipo": "studio",
+   "nuovo": false,
+   "w": 1441,
+   "h": 736
+  },
+  {
+   "id": "ingresso",
+   "ambiente": "Reception e ingresso",
+   "titolo": "Ingresso",
+   "desc": "Porta d'ingresso in vetro tra le spalle in marmo verde, vista dall'esterno",
+   "tipo": "studio",
+   "nuovo": false,
+   "w": 1441,
+   "h": 736
+  },
+  {
+   "id": "corridoio",
+   "ambiente": "Corridoio",
+   "titolo": "Corridoio",
+   "desc": "Corridoio con pareti vetrate a profili neri, controsoffitto con LED e palma",
+   "tipo": "studio",
+   "nuovo": false,
+   "w": 1441,
+   "h": 736
+  },
+  {
+   "id": "sala-corsi",
+   "ambiente": "Aule e uffici",
+   "titolo": "Sala corsi",
+   "desc": "Sala corsi con lavagna interattiva, cattedra, sedie con ribaltina e parete in marmo verde",
+   "tipo": "studio",
+   "nuovo": false,
+   "w": 1441,
+   "h": 736
+  },
+  {
+   "id": "ufficio",
+   "ambiente": "Aule e uffici",
+   "titolo": "Ufficio direzionale",
+   "desc": "Ufficio direzionale con grande tavolo in noce, sedute in rete e vetrate alte sul corridoio",
+   "tipo": "studio",
+   "nuovo": false,
+   "w": 1441,
+   "h": 736
+  }
+ ]
+}
