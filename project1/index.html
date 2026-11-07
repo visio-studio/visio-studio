@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Project1 — Il tuo progetto · VISIO Studio</title>
+<meta name="description" content="Studio di fattibilità: piano terra e seminterrato divisi in due unità, con rilievo 3D, tavole e modello.">
+<meta name="robots" content="noindex, follow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+:root { --gold:#C9A96E; --dark:#0A0A0A; --dark2:#0F0F0F; --dark3:#141414; --light:#FAFAF8; --text:#1A1A1A; --border:#E0DDD8; --ua:#9cc0e6; --ub:#f0b98a; }
+* { margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased; }
+html { scroll-behavior:smooth;overflow-x:clip;max-width:100%; }
+body { background:var(--dark);color:#fff;font-family:'Inter',sans-serif;font-weight:300;overflow-x:clip; }
+a { color:inherit;text-decoration:none; }
+.serif { font-family:'Cormorant Garamond',serif; }
+img { display:block;max-width:100%; }
+a:focus-visible,button:focus-visible { outline:2px solid var(--gold);outline-offset:3px;border-radius:3px; }
+
+/* navbar */
+#pnav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(10,10,10,.8);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:.5px solid rgba(255,255,255,.07); }
+#pnav .pn-name { font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:4px; }
+#pnav .pn-by { display:flex;align-items:center;gap:11px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.55);transition:color .3s; }
+#pnav .pn-by:hover { color:rgba(255,255,255,.85); }
+#pnav .nl-logo { height:20px;width:auto;display:block; }
+#pnav .nl-logo > * { fill:none;stroke:rgba(255,255,255,.6);stroke-width:8;stroke-linejoin:round;transition:stroke .3s; }
+#pnav .pn-by:hover .nl-logo > * { stroke:var(--gold); }
+
+/* copertina */
+#hero { position:relative;height:100vh;min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center; }
+#hero img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+#hero::after { content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55),rgba(10,10,10,.25) 45%,rgba(10,10,10,.85)); }
+.hero-in { position:relative;z-index:2;padding:0 24px; }
+.hero-in p.k { font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px; }
+.hero-in h1 { font-family:'Cormorant Garamond',serif;font-size:clamp(42px,8vw,86px);font-weight:300;line-height:1.02;letter-spacing:2px; }
+.hero-in p.s { font-size:12px;color:rgba(255,255,255,.7);margin-top:16px;letter-spacing:1px; }
+.hero-scroll { position:absolute;bottom:34px;left:0;right:0;z-index:2;text-align:center;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55); }
+
+/* sezioni */
+section { padding:96px 40px; }
+.wrap { max-width:1060px;margin:0 auto; }
+.slab { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px; }
+h2.st { font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4.4vw,46px);font-weight:300;line-height:1.1;margin-bottom:18px; }
+h2.st em { font-style:italic;color:var(--gold); }
+p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560px; }
+
+/* il progetto in numeri — sezione chiara */
+#dati { background:var(--light);color:var(--text); }
+#dati .slab { color:#7a5f30; }
+#dati p.sd { color:#6a6a6a; }
+.dgrid { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:40px; }
+.dcell { background:var(--light);padding:30px 24px; }
+.dcell b { display:block;font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:400;line-height:1;margin-bottom:8px; }
+.dcell span { font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6a6a6a; }
+
+/* modello 3D */
+#m3d { background:var(--dark);padding-bottom:0; }
+#m3box { position:relative;margin-top:44px;max-height:640px;overflow:hidden;border-top:.5px solid rgba(255,255,255,.08); }
+#m3box img { width:100%;height:100%;max-height:640px;object-fit:cover; }
+.m3cta { position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(10,10,10,.1),rgba(10,10,10,.6)); }
+.m3cta p { font-size:11px;color:rgba(255,255,255,.8);text-align:center;padding:0 20px; }
+
+/* le due unità */
+#unita { background:var(--dark2); }
+.ugrid { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:44px; }
+.ucard { background:var(--dark3);padding:34px 30px;border-top:2px solid var(--ua); }
+.ucard.b { border-top-color:var(--ub); }
+.ucard h3 { font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;margin-bottom:6px; }
+.ucard .tot { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:22px; }
+.ucard h4 { font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#7e7e7e;font-weight:400;margin:18px 0 8px; }
+.ucard ul { list-style:none; }
+.ucard li { display:flex;justify-content:space-between;gap:16px;font-size:13px;color:rgba(255,255,255,.78);padding:7px 0;border-bottom:.5px solid rgba(255,255,255,.07);font-variant-numeric:tabular-nums; }
+.nota { display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:56px; }
+.nota h3 { font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:8px; }
+.nota h3 em { font-style:italic;color:var(--gold); }
+.nota p { font-size:12px;color:rgba(255,255,255,.62);line-height:1.85; }
+
+/* tavole tecniche */
+#tavole { background:var(--dark); }
+.tdown { display:flex;gap:10px;flex-wrap:wrap;margin-top:28px; }
+.tgrid { display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-top:36px; }
+.tcard { background:#fff;position:relative;overflow:hidden;aspect-ratio:1588/1123; }
+.tcard img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
+.tcard:hover img { transform:scale(1.03); }
+.tcard figcaption { position:absolute;left:0;right:0;bottom:0;background:rgba(10,10,10,.82);color:#fff;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 14px; }
+
+/* rilievo — sezione chiara */
+#rilievo { background:var(--light);color:var(--text); }
+#rilievo .slab { color:#7a5f30; }
+#rilievo p.sd { color:#6a6a6a; }
+.rgrid { display:grid;grid-template-columns:1.25fr 1fr;gap:44px;align-items:center;margin-top:40px; }
+.rgrid img { width:100%;aspect-ratio:16/9;object-fit:cover;background:#0A0A0A; }
+.rlist { list-style:none; }
+.rlist li { font-size:13px;color:#3a3a3a;line-height:1.75;padding:12px 0;border-bottom:1px solid var(--border); }
+.rlist b { font-weight:500;color:var(--text); }
+
+/* da verificare + file */
+#doc { background:var(--dark3); }
+.dl2 { display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:44px; }
+.chk { list-style:none;counter-reset:c; }
+.chk li { counter-increment:c;position:relative;padding:12px 0 12px 40px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.7;border-bottom:.5px solid rgba(255,255,255,.07); }
+.chk li::before { content:counter(c,decimal-leading-zero);position:absolute;left:0;top:13px;font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold); }
+.files a { display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:16px 0;border-bottom:.5px solid rgba(255,255,255,.1);transition:color .3s; }
+.files a:hover { color:var(--gold); }
+.files b { font-weight:400;font-size:14px; }
+.files span { font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#7e7e7e;white-space:nowrap; }
+.files p { font-size:12px;color:#7e7e7e;line-height:1.8;margin-top:14px; }
+h3.sub { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:400;margin-bottom:10px; }
+
+/* chiusura */
+#fine { background:var(--dark);text-align:center;border-top:.5px solid rgba(255,255,255,.08); }
+#fine h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:300;margin-bottom:14px; }
+#fine h2 em { font-style:italic;color:var(--gold); }
+#fine p { font-size:12px;color:rgba(255,255,255,.62);line-height:1.9;max-width:440px;margin:0 auto 28px; }
+.btn { display:inline-block;border:.5px solid var(--gold);color:var(--gold);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:15px 34px;transition:background .3s,color .3s;background:rgba(10,10,10,.6); }
+.btn:hover { background:var(--gold);color:var(--dark); }
+
+footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.55); }
+
+@media(max-width:900px){
+  section { padding:64px 20px; }
+  #pnav { padding:14px 20px; }
+  .dgrid { grid-template-columns:1fr 1fr; }
+  .tgrid,.ugrid,.rgrid,.dl2 { grid-template-columns:1fr; }
+  .nota { grid-template-columns:1fr;gap:28px; }
+  .ucard { padding:28px 20px; }
+  footer { padding:20px;justify-content:center;text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<nav id="pnav">
+  <span class="pn-name serif">PROJECT1</span>
+  <a href="/" class="pn-by" aria-label="a cura di VISIO Studio — vai al sito">a cura di
+    <svg class="nl-logo" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
+      <polygon points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
+      <polygon points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
+      <polygon points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
+      <polyline points="415.49 215.83 415.49 215.83 415.49 269.8 386.12 298.03 386.12 187.16 467.94 187.16 467.94 215.83 415.49 215.83"/>
+      <polyline points="438.57 322.36 438.57 268.19 467.94 240.04 467.94 351.03 386.12 351.03 386.12 322.36 438.57 322.36"/>
+      <polygon points="502.59 187.16 484.77 187.16 484.77 204.16 502.59 187.16"/>
+      <polygon points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
+      <polyline points="562.86 215.83 562.86 215.83 562.86 302.72 533.49 330.39 533.49 187.16 615.31 187.16 586.57 215.83 562.86 215.83"/>
+      <polyline points="585.94 323.99 585.94 323.99 585.94 237.33 615.31 209.54 615.31 352.66 533.49 352.66 562.29 323.99 585.94 323.99"/>
+    </svg></a>
+</nav>
+
+<main>
+
+<header id="hero">
+  <img src="img/copertina-esploso.jpg" alt="Modello 3D esploso: piano terra con il rilievo Polycam sollevato sopra il seminterrato diviso in camere">
+  <div class="hero-in">
+    <p class="k">Studio di fattibilità</p>
+    <h1 class="serif">Project1</h1>
+    <p class="s">Aprilia · piano terra e seminterrato · due unità</p>
+  </div>
+  <p class="hero-scroll">Scorri per vedere il progetto ↓</p>
+</header>
+
+<section id="dati">
+  <div class="wrap">
+    <p class="slab">Il progetto in numeri</p>
+    <h2 class="st">Un piano terra, <em>due case</em>.</h2>
+    <p class="sd">Il piano terra rilevato con Polycam e la quota di seminterrato diventano due unità: una su un solo livello, l'altra su due livelli collegati da una scala interna. Le superfici sono nette e calcolate dalle piante di questa pagina.</p>
+    <div class="dgrid">
+      <div class="dcell"><b>140</b><span>m² lordi piano terra</span></div>
+      <div class="dcell"><b>40</b><span>m² netti seminterrato</span></div>
+      <div class="dcell"><b>2</b><span>Unità</span></div>
+      <div class="dcell"><b>4</b><span>Camere in totale</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="m3d">
+  <div class="wrap">
+    <p class="slab">Modello 3D</p>
+    <h2 class="st">Sopra e sotto, <em>nello stesso modello</em>.</h2>
+    <p class="sd">Piano terra e seminterrato insieme, con lo stato attuale e il progetto. Puoi sovrapporre il rilievo Polycam, separare i due piani con la vista esplosa e vedere dove si apre il solaio per la scala interna.</p>
+  </div>
+  <div id="m3box">
+    <img src="img/modello-progetto.jpg" alt="Modello 3D di progetto visto dall'alto, con i pavimenti colorati per unità e la scala interna" loading="lazy">
+    <div class="m3cta">
+      <a class="btn" href="3d/">Apri il modello 3D</a>
+      <p>Circa 7 MB, si caricano solo quando apri il modello.</p>
+    </div>
+  </div>
+</section>
+
+<section id="unita">
+  <div class="wrap">
+    <p class="slab">Le due unità</p>
+    <h2 class="st">Come si <em>divide</em> la casa.</h2>
+    <p class="sd">Entrambe le unità si aprono sul pianerottolo della scala condominiale, che resta comune come la cantina del seminterrato. L'unità B scende al seminterrato con una scala tutta sua, senza passare dalle parti comuni.</p>
+    <div class="ugrid">
+      <div class="ucard">
+        <h3>Unità A</h3>
+        <p class="tot">Solo piano terra · 65,3 m² netti</p>
+        <ul>
+          <li><span>Soggiorno con cucina</span><span>17,9 m²</span></li>
+          <li><span>Camera matrimoniale</span><span>14,8 m²</span></li>
+          <li><span>Camera</span><span>15,1 m²</span></li>
+          <li><span>Bagno</span><span>9,7 m²</span></li>
+          <li><span>Ingresso</span><span>3,9 m²</span></li>
+          <li><span>Disimpegno</span><span>3,9 m²</span></li>
+        </ul>
+      </div>
+      <div class="ucard b">
+        <h3>Unità B</h3>
+        <p class="tot">Duplex · 39,6 + 39,8 m² netti</p>
+        <h4>Piano terra</h4>
+        <ul>
+          <li><span>Soggiorno con cucina e scala</span><span>30,4 m²</span></li>
+          <li><span>Bagno</span><span>5,2 m²</span></li>
+          <li><span>Lavanderia</span><span>4,1 m²</span></li>
+        </ul>
+        <h4>Seminterrato</h4>
+        <ul>
+          <li><span>Camera</span><span>11,1 m²</span></li>
+          <li><span>Camera</span><span>9,7 m²</span></li>
+          <li><span>Bagno</span><span>3,6 m²</span></li>
+          <li><span>Disimpegno, scala e ripostiglio</span><span>15,4 m²</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="nota">
+      <div><h3>La scala <em>interna</em></h3><p>Una rampa unica lungo il muro di spina, dal soggiorno al seminterrato: 16 alzate da circa 19 cm e pedate da 25 cm. Il foro nel solaio misura 0,92 × 3,20 m e arriva nel disimpegno della quota dell'unità B.</p></div>
+      <div><h3>Finestre <em>ribassate</em></h3><p>Le finestre del seminterrato oggi sono alte 60 cm, sotto il soffitto. Abbassando il davanzale di un metro, a 20 cm dal giardino, diventano finestre normali da circa 1,60 m e danno aria e luce alle camere.</p></div>
+      <div><h3>Cosa <em>cambia</em></h3><p>Al piano terra si toglie poco: il tramezzo tra la camera e il disimpegno e quello tra ingresso e soggiorno. Si chiudono due passaggi per separare le unità e si apre un varco nel muro di spina. Nel seminterrato si costruiscono i tramezzi delle camere.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="tavole">
+  <div class="wrap">
+    <p class="slab">Tavole tecniche</p>
+    <h2 class="st">Le carte del <em>progetto</em>.</h2>
+    <p class="sd">Stato attuale, progetto, demolizioni e costruzioni, sezioni. Formato A3 in scala 1:100. Clicca una tavola per vederla a tutta pagina.</p>
+    <div class="tdown"><a class="btn" href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener">Tutte le tavole · PDF</a></div>
+    <div class="tgrid">
+      <figure class="tcard"><a href="tavole/tav01.jpg" target="_blank" rel="noopener"><img src="tavole/tav01.jpg" alt="Tavola 1: piante dello stato attuale di piano terra e seminterrato, con la divisione concordata del seminterrato tratteggiata in rosso" loading="lazy"><figcaption>01 · Stato attuale</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav02.jpg" target="_blank" rel="noopener"><img src="tavole/tav02.jpg" alt="Tavola 2: piante di progetto con l'unità A in azzurro, l'unità B in arancio e il foro della scala interna" loading="lazy"><figcaption>02 · Progetto</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav03.jpg" target="_blank" rel="noopener"><img src="tavole/tav03.jpg" alt="Tavola 3: muri da demolire in giallo e da costruire in rosso, piano terra e seminterrato" loading="lazy"><figcaption>03 · Demolizioni e costruzioni</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav04.jpg" target="_blank" rel="noopener"><img src="tavole/tav04.jpg" alt="Tavola 4: sezione sulla scala interna e sezione sulle camere del seminterrato con la finestra ribassata" loading="lazy"><figcaption>04 · Sezioni</figcaption></a></figure>
+    </div>
+  </div>
+</section>
+
+<section id="rilievo">
+  <div class="wrap">
+    <p class="slab">Stato di fatto</p>
+    <h2 class="st">Il rilievo, <em>com'è oggi</em>.</h2>
+    <p class="sd">Il piano terra è stato scansionato con Polycam: la mesh fotografica è allineata al modello disegnato, così ogni misura si controlla sul posto.</p>
+    <div class="rgrid">
+      <img src="img/rilievo-polycam.jpg" alt="Rilievo Polycam del piano terra allo stato attuale, visto dall'alto, sovrapposto ai muri disegnati" loading="lazy">
+      <ul class="rlist">
+        <li><b>Altezza interna del piano terra</b>: circa 3,00 m, misurata sul rilievo.</li>
+        <li><b>Piante confrontate</b>: le camere del rilievo corrispondono alla planimetria entro pochi centimetri.</li>
+        <li><b>Seminterrato</b>: disegnato dalla planimetria esistente, oggi accatastato come deposito.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="doc">
+  <div class="wrap">
+    <p class="slab">Prossimi passi</p>
+    <h2 class="st">Da verificare <em>in sito</em>.</h2>
+    <div class="dl2">
+      <ol class="chk">
+        <li>Altezza netta del seminterrato: nel modello è 2,80 m.</li>
+        <li>Quota del giardino rispetto al piano terra: nel modello è −2,30 m, ricavata dalle finestre a 1,20 m dal suolo.</li>
+        <li>Direzione dei travetti del solaio, guardando il soffitto del seminterrato: decide quanto rinforzo serve attorno al foro della scala.</li>
+        <li>Posizione dei pilastri e della trave sul muro di spina.</li>
+        <li>Seconda finestra della camera nord: nuova apertura sul fronte strada, da confermare.</li>
+        <li>Cambio d'uso del seminterrato da deposito ad abitazione e frazionamento catastale.</li>
+      </ol>
+      <div class="files">
+        <h3 class="sub">File del progetto</h3>
+        <a href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener"><b>Tavole A3</b><span>PDF · 4 tavole</span></a>
+        <a href="scarica/Project1_modello.skp" download><b>Modello SketchUp</b><span>SKP · millimetri</span></a>
+        <a href="scarica/Project1_modello_disegnato.dae" download><b>Modello 3D disegnato</b><span>DAE · Collada</span></a>
+        <a href="3d/"><b>Modello 3D nel browser</b><span>con rilievo Polycam</span></a>
+        <p>Il file SketchUp ha un tag per ogni parte, stato attuale e progetto, e cinque scene già pronte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fine">
+  <div class="wrap">
+    <h2 class="serif">Il progetto è <em>sempre qui</em>.</h2>
+    <p>Questa pagina si aggiorna insieme al lavoro: computo metrico e valutazione economica arriveranno nelle prossime versioni.</p>
+    <a href="/#contatti" class="btn">Scrivici</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>Michelessi Corporation Srl · P.IVA 03294220599</span>
+  <span>info@visiorender.it · +39 342 668 4232</span>
+</footer>
+
+</body>
+</html>

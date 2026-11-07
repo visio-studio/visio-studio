@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Modello 3D — Project1 · VISIO Studio</title>
+<meta name="robots" content="noindex, follow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+/* Layout: modello a tutto schermo; pannello comandi flottante in alto a sinistra, legenda e misure in basso */
+:root{--bg:#0A0A0A;--scene:#121212;--panel:rgba(14,14,14,.86);--ink:#fff;--muted:#7e7e7e;--accent:#C9A96E;--on-accent:#0A0A0A;--line:rgba(255,255,255,.12);--r:2px;--sans:'Inter',sans-serif;--title:300 26px/1.1 'Cormorant Garamond',serif;color-scheme:dark}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans);overflow:hidden}
+[hidden]{display:none!important}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;outline:none}
+.panel{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));top:calc(16px + env(safe-area-inset-top,0px));width:288px;max-height:calc(100% - 120px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.k{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin:0 0 4px}
+h1{font:var(--title);margin:0 0 4px;text-wrap:balance}
+.sub{color:var(--muted);font-size:12px;margin:0 0 12px}
+.grp{margin:12px 0 0}.grp>span{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+button{font:inherit;font-size:12.5px;padding:6px 11px;border-radius:calc(var(--r) - 2px);border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.lg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin-top:12px}
+.lg i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+#info{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));pointer-events:none;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#info>div{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:8px 12px;font-size:12.5px;pointer-events:auto;max-width:100%}
+#load{position:fixed;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px}
+a.back{color:var(--accent);text-decoration:none;font-size:12px}
+@media (max-width:640px){.panel{right:calc(16px + env(safe-area-inset-right,0px));width:auto;max-height:46%}}
+</style>
+</head>
+<body>
+<main>
+<canvas id="c" tabindex="0" aria-label="Modello 3D navigabile di piano terra e seminterrato"></canvas>
+<div id="load">Caricamento del modello…</div>
+<div class="panel">
+  <a class="back" href="../">← Torna al progetto</a>
+  <p class="k">Project1 · Aprilia</p>
+  <h1>Modello 3D</h1>
+  <p class="sub">Piano terra dal rilievo Polycam, seminterrato dalla planimetria. Altezze del seminterrato e del giardino da verificare.</p>
+  <div class="grp"><span>Stato</span><div class="seg"><button id="sA" aria-pressed="false">Attuale</button><button id="sP" aria-pressed="true">Progetto</button></div></div>
+  <div class="grp"><span>Livelli</span><div class="seg"><button id="lPT" aria-pressed="true">Piano terra</button><button id="lS" aria-pressed="true">Seminterrato</button><button id="lPC" aria-pressed="false">Rilievo Polycam</button></div></div>
+  <div class="grp"><span>Vista</span><div class="seg"><button id="v3" aria-pressed="true">3D</button><button id="vEx" aria-pressed="false">Esploso</button><button id="vT" aria-pressed="false">Dall'alto</button><button id="vG" aria-pressed="false">Giardino</button></div></div>
+  <div class="grp"><span>Taglio piano terra: <b id="cutv">1,60</b> m</span><input id="cut" type="range" min="0.3" max="3.4" step="0.05" value="1.6" aria-label="Altezza del taglio del piano terra"></div>
+  <div class="lg"><span><i style="background:#9cc0e6"></i>Unità A</span><span><i style="background:#f0b98a"></i>Unità B</span><span><i style="background:#cfcfcf"></i>Comune</span><span><i style="background:#d0281e"></i>Foro solaio</span></div>
+</div>
+<div id="info"><div id="msg">Trascina per ruotare · rotella per lo zoom · tasto destro per spostare</div></div>
+<script type="importmap">{"imports":{"three":"./lib/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from './lib/OrbitControls.js';
+const $=id=>document.getElementById(id);
+const cv=$('c');const r=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+r.setPixelRatio(Math.min(devicePixelRatio,2));r.localClippingEnabled=true;
+if('outputColorSpace' in r)r.outputColorSpace=THREE.SRGBColorSpace;
+const css=getComputedStyle(document.documentElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(css.getPropertyValue('--scene').trim()||'#eef1f4');
+const cam=new THREE.PerspectiveCamera(40,1,0.05,300);cam.position.set(13,11,17);
+const ctl=new OrbitControls(cam,cv);ctl.target.set(0,-0.6,0);ctl.enableDamping=true;ctl.update();
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a8070,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.6);sun.position.set(-8,14,6);scene.add(sun);
+const clipPT=new THREE.Plane(new THREE.Vector3(0,-1,0),1.6);
+const L={PT:new THREE.Group(),S:new THREE.Group(),SL:new THREE.Group(),PC:new THREE.Group(),COP:new THREE.Group(),TER:new THREE.Group(),SC:new THREE.Group()};
+for(const g of Object.values(L))scene.add(g);
+let stato='P';const byState={A:[],P:[]};
+function boxesGeo(boxes){const n=boxes.length,P=new Float32Array(n*72),N=new Float32Array(n*72),I=new Uint32Array(n*36);
+ const F=[[[0,0,1],[[0,0,1],[1,0,1],[1,1,1],[0,1,1]]],[[0,0,-1],[[1,0,0],[0,0,0],[0,1,0],[1,1,0]]],[[1,0,0],[[1,0,1],[1,0,0],[1,1,0],[1,1,1]]],[[-1,0,0],[[0,0,0],[0,0,1],[0,1,1],[0,1,0]]],[[0,1,0],[[0,1,1],[1,1,1],[1,1,0],[0,1,0]]],[[0,-1,0],[[0,0,0],[1,0,0],[1,0,1],[0,0,1]]]];
+ boxes.forEach((b,k)=>{const [x0,x1,z0,z1,y0,y1]=b;F.forEach(([nn,vs],f)=>{const base=k*24+f*4;vs.forEach(([a,c,e],v)=>{const o=(base+v)*3;P[o]=a?x1:x0;P[o+1]=c?y1:y0;P[o+2]=e?z1:z0;N[o]=nn[0];N[o+1]=nn[1];N[o+2]=nn[2];});const io=k*36+f*6;I.set([base,base+1,base+2,base,base+2,base+3],io);});});
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(P,3));g.setAttribute('normal',new THREE.BufferAttribute(N,3));g.setIndex(new THREE.BufferAttribute(I,1));return g;}
+const mat=(c,o={})=>new THREE.MeshLambertMaterial({color:c,...o});
+function addGroup(name,color,boxes){
+ const st=name.includes('attuale')?'A':(name.includes('progetto')||name.startsWith('Pavimenti')||name.includes('interna B'))?'P':'*';
+ const lvl=b=>b[5]<=-0.29?'S':(b[4]>=-0.31&&b[5]<=0.01&&name.startsWith('Solaio'))?'SL':'PT';
+ const parts={};for(const b of boxes){let k=name.startsWith('Terreno')?'TER':name.includes('primo piano')?'COP':name.includes('interna B')?'SC':lvl(b);(parts[k]=parts[k]||[]).push(b);}
+ for(const [k,bs] of Object.entries(parts)){const m=new THREE.Mesh(boxesGeo(bs),mat(color,k==='TER'?{transparent:true,opacity:.55}:k==='SL'?{transparent:true,opacity:.92}:{}));
+  if(k==='PT')m.material.clippingPlanes=[clipPT];m.userData.st=st;L[k].add(m);if(st!=='*')byState[st].push(m);}}
+const foroMesh=new THREE.Group();scene.add(foroMesh);
+function applica(){for(const m of byState.A)m.visible=stato==='A';for(const m of byState.P)m.visible=stato==='P';foroMesh.visible=stato==='P'&&L.SL.visible;
+ $('sA').setAttribute('aria-pressed',stato==='A');$('sP').setAttribute('aria-pressed',stato==='P');}
+const base=new URL('.',location.href);
+async function carica(){
+ const J=await (await fetch('progetto.json')).json();
+ for(const g of J.gruppi)addGroup(g.n,g.c,g.b);
+ const [x0,x1,z0,z1]=J.foro;const fb=new THREE.Mesh(boxesGeo([[x0,x1,z0,z1,-0.32,0.02]]),new THREE.MeshBasicMaterial({color:0xd0281e,transparent:true,opacity:.35,depthWrite:false}));
+ const fe=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(x1-x0,0.34,z1-z0)),new THREE.LineBasicMaterial({color:0xd0281e}));fe.position.set((x0+x1)/2,-0.15,(z0+z1)/2);foroMesh.add(fb,fe);
+ L.COP.visible=false;L.TER.visible=false;applica();$('load').remove();
+ caricaPolycam().catch(e=>{$('lPC').disabled=true;$('lPC').title='Rilievo non disponibile';});
+}
+async function caricaPolycam(){
+ const M=await (await fetch('polycam.json')).json();let buf;
+ if(M.data){const s=atob(M.data);buf=new Uint8Array(s.length);for(let i=0;i<s.length;i++)buf[i]=s.charCodeAt(i);buf=buf.buffer;}else buf=await (await fetch(''+M.bin)).arrayBuffer();
+ const tl=new THREE.TextureLoader();
+ for(const e of M.mesh){const q=new Uint16Array(buf,e.pos,e.nv*3),u=new Uint16Array(buf,e.uv,e.nv*2),idx=new Uint16Array(buf,e.idx,e.ni);
+  const P=new Float32Array(e.nv*3);for(let k=0;k<P.length;k++){const a=k%3;P[k]=e.min[a]+q[k]/65535*(e.max[a]-e.min[a]);}
+  const U=new Float32Array(e.nv*2);for(let k=0;k<U.length;k++)U[k]=u[k]/65535;
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(P,3));g.setAttribute('uv',new THREE.BufferAttribute(U,2));g.setIndex(new THREE.BufferAttribute(idx,1));
+  const t=tl.load(''+e.tex);if('colorSpace' in t)t.colorSpace=THREE.SRGBColorSpace;t.flipY=false;
+  const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({map:t,side:THREE.DoubleSide,clippingPlanes:[clipPT]}));L.PC.add(m);}
+ L.PC.visible=false;$('lPC').disabled=false;
+ // parametri per le immagini di anteprima: ?ex&pc&nui&cam=x,y,z
+ const qs=new URLSearchParams(location.search);
+ if(qs.has('ex'))$('vEx').click();if(qs.has('pc'))$('lPC').click();if(qs.has('att'))$('sA').click();
+ if(qs.has('nui'))for(const e of document.querySelectorAll('.panel,#info'))e.hidden=true;
+ if(qs.get('cam')){const c=qs.get('cam').split(',').map(Number);cam.position.set(c[0],c[1],c[2]);ctl.update();}
+}
+function resize(){const w=innerWidth,h=innerHeight;r.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();}
+addEventListener('resize',resize);resize();
+const tog=(id,fn)=>$(id).onclick=()=>{const on=$(id).getAttribute('aria-pressed')!=='true';$(id).setAttribute('aria-pressed',on);fn(on);};
+$('sA').onclick=()=>{stato='A';applica();};$('sP').onclick=()=>{stato='P';applica();};
+tog('lPT',on=>{L.PT.visible=on;L.PC.visible=on&&$('lPC').getAttribute('aria-pressed')==='true';L.SL.visible=on;foroMesh.visible=on&&stato==='P';});
+tog('lS',on=>{L.S.visible=on;});
+tog('lPC',on=>{L.PC.visible=on&&L.PT.visible;$('msg').textContent=on?'Rilievo Polycam sovrapposto al modello disegnato':'Trascina per ruotare · rotella per lo zoom · tasto destro per spostare';});
+tog('vG',on=>{L.TER.visible=on;});
+let ex=0;tog('vEx',on=>{ex=on?3.2:0;for(const k of ['PT','PC','SL','COP'])L[k].position.y=ex;foroMesh.position.y=ex;clipPT.constant=+cut.value+ex;});
+$('v3').onclick=()=>{anim([13,11,17],[0,-0.6,0]);};
+tog('vT',on=>{if(on)anim([0.01,24,0.6],[0,-1,0]);else anim([13,11,17],[0,-0.6,0]);});
+const cut=$('cut');cut.oninput=()=>{clipPT.constant=+cut.value+ex;$('cutv').textContent=(+cut.value).toFixed(2).replace('.',',');};
+let A=null;function anim(p,t){A={p0:cam.position.clone(),t0:ctl.target.clone(),p1:new THREE.Vector3(...p),t1:new THREE.Vector3(...t),k:0};}
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+(function loop(){requestAnimationFrame(loop);if(A){A.k=Math.min(1,A.k+(rm?1:0.06));const e=A.k<.5?2*A.k*A.k:1-Math.pow(-2*A.k+2,2)/2;cam.position.lerpVectors(A.p0,A.p1,e);ctl.target.lerpVectors(A.t0,A.t1,e);if(A.k>=1)A=null;}ctl.update();r.render(scene,cam);})();
+carica().catch(e=>{$('load').textContent='Il modello non si è caricato. Ricarica la pagina.';console.error(e);});
+</script>
+</main>
+</body>
+</html>
