@@ -7,7 +7,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Project1 — Il tuo progetto · VISIO Studio</title>
-<meta name="description" content="Studio di fattibilità: piano terra e seminterrato divisi in due unità, con rilievo 3D, tavole e modello.">
+<meta name="description" content="Studio di fattibilità: piano terra e seminterrato divisi in due unità, con render della facciata, rilievo 3D, tavole e impianti.">
 <meta name="robots" content="noindex, follow">
 <link rel="stylesheet" href="/font/visio.css">
 <style>
@@ -81,7 +81,7 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 /* tavole tecniche */
 #tavole { background:var(--dark); }
 .tdown { display:flex;gap:10px;flex-wrap:wrap;margin-top:28px; }
-.tgrid { display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-top:36px; }
+.tgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:36px; }
 .tcard { background:#fff;position:relative;overflow:hidden;aspect-ratio:1588/1123; }
 .tcard img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
 .tcard:hover img { transform:scale(1.03); }
@@ -129,6 +129,37 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   .ucard { padding:28px 20px; }
   footer { padding:20px;justify-content:center;text-align:center; }
 }
+
+/* prima e dopo */
+#prima { background:var(--dark2); }
+#ba { position:relative;margin-top:44px;overflow:hidden;max-width:820px;aspect-ratio:3/4;max-height:86vh;margin-left:auto;margin-right:auto; }
+#ba img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+#ba-top { position:absolute;inset:0; }
+#ba-line { position:absolute;top:0;bottom:0;width:2px;background:var(--gold);transform:translateX(-1px);pointer-events:none; }
+#ba-r { position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0; }
+#ba-r:focus-visible + * { outline:none; }
+.ba-l,.ba-r { position:absolute;top:14px;font-size:9px;letter-spacing:3px;text-transform:uppercase;background:rgba(10,10,10,.7);padding:7px 12px;pointer-events:none; }
+.ba-l { left:14px; } .ba-r { right:14px;color:var(--gold); }
+.mlist { display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:48px; }
+.mlist h3,.igrid h3 { font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:8px; }
+.mlist h3 em { font-style:italic;color:var(--gold); }
+.mlist p,.igrid p { font-size:12px;color:rgba(255,255,255,.62);line-height:1.85; }
+/* stato di fatto */
+#stato { background:var(--light);color:var(--text); }
+#stato .slab { color:#7a5f30; } #stato p.sd { color:#6a6a6a; }
+#stato h2.st em { color:#7a5f30; }
+.fgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:40px; }
+.fgrid img { width:100%;aspect-ratio:3/4;object-fit:cover; }
+.fgrid figcaption,.vgrid figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;padding-top:10px; }
+.fgrid figcaption { color:#6a6a6a; }
+.vgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3px;padding-bottom:96px; }
+.vgrid img { width:100%;aspect-ratio:16/10;object-fit:cover; }
+.vgrid figcaption { color:rgba(255,255,255,.6); }
+/* interni */
+#interni { background:var(--dark3); }
+.igrid { display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:44px; }
+.igrid h3 { color:#fff; }
+@media(max-width:900px){ .mlist,.fgrid,.vgrid,.igrid { grid-template-columns:1fr; } .vgrid { padding-bottom:64px; } #ba { aspect-ratio:3/4; } }
 </style>
 </head>
 <body>
@@ -152,7 +183,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 <main>
 
 <header id="hero">
-  <img src="img/copertina-esploso.jpg" alt="Modello 3D esploso: piano terra con il rilievo Polycam sollevato sopra il seminterrato diviso in camere">
+  <img src="foto/facciata-dopo.jpg" alt="Render della palazzina riqualificata: corpo scala rivestito in pietra a spacco, cornicione e solette antracite, intonaco bianco, ringhiere a piatti neri">
   <div class="hero-in">
     <p class="k">Studio di fattibilità</p>
     <h1 class="serif">Project1</h1>
@@ -165,12 +196,45 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Il progetto in numeri</p>
     <h2 class="st">Un piano terra, <em>due case</em>.</h2>
-    <p class="sd">Il piano terra rilevato con Polycam e la quota di seminterrato diventano due unità: una su un solo livello, l'altra su due livelli collegati da una scala interna. Le superfici sono nette e calcolate dalle piante di questa pagina.</p>
+    <p class="sd">Il piano terra rialzato e la quota di seminterrato diventano due unità: una su un solo livello, l'altra su due livelli collegati da una scala interna. Le superfici sono nette e calcolate dalle piante di questa pagina.</p>
     <div class="dgrid">
-      <div class="dcell"><b>140</b><span>m² lordi piano terra</span></div>
-      <div class="dcell"><b>40</b><span>m² netti seminterrato</span></div>
+      <div class="dcell"><b>142</b><span>m² netti in totale</span></div>
       <div class="dcell"><b>2</b><span>Unità</span></div>
-      <div class="dcell"><b>4</b><span>Camere in totale</span></div>
+      <div class="dcell"><b>4</b><span>Camere</span></div>
+      <div class="dcell"><b>3</b><span>Bagni</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="prima">
+  <div class="wrap">
+    <p class="slab">Prima e dopo</p>
+    <h2 class="st">Stessa casa, <em>nuova pelle</em>.</h2>
+    <p class="sd">Le geometrie restano quelle di oggi: cambiano solo materiali e finiture, con lo stesso linguaggio delle villette nuove della zona. Trascina il cursore per confrontare.</p>
+    <div id="ba">
+      <img src="foto/facciata-prima.jpg" alt="Facciata della palazzina oggi: intonaco bianco, cornici a mosaico, ringhiere decorate, tende da sole a righe verdi">
+      <div id="ba-top"><img src="foto/facciata-dopo.jpg" alt="Render della stessa facciata riqualificata"></div>
+      <div id="ba-line" aria-hidden="true"></div>
+      <span class="ba-l">Oggi</span><span class="ba-r">Progetto</span>
+      <input id="ba-r" type="range" min="0" max="100" value="50" aria-label="Confronto tra facciata attuale e render di progetto">
+    </div>
+    <div class="mlist">
+      <div><h3>Pietra a <em>spacco</em></h3><p>Il corpo scala centrale, dal portoncino al cornicione, rivestito in listelli di pietra nei toni del grigio e della ruggine.</p></div>
+      <div><h3>Fasce <em>antracite</em></h3><p>Cornicione e frontalini dei balconi in grigio antracite opaco; intonaco bianco caldo e zoccolatura scura.</p></div>
+      <div><h3>Linee <em>pulite</em></h3><p>Parapetti a piatti verticali neri, nessuna cornice a mosaico, infissi e portoncino antracite, via le tende a righe.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="stato">
+  <div class="wrap">
+    <p class="slab">Stato di fatto</p>
+    <h2 class="st">La casa <em>com'è oggi</em>.</h2>
+    <p class="sd">Fronte su via Cagliari, corpo scala centrale con l'ingresso condominiale, lato nord con l'accesso al garage e il piazzale in porfido.</p>
+    <div class="fgrid">
+      <figure><img src="foto/stato-1.jpg" alt="La palazzina vista dal piazzale in porfido, con il giardino davanti e la villetta con il tetto rosso a destra" loading="lazy"><figcaption>Dal piazzale d'ingresso</figcaption></figure>
+      <figure><img src="foto/stato-2.jpg" alt="Lato nord della palazzina con la serranda del garage e la scaletta del seminterrato" loading="lazy"><figcaption>Lato nord e garage</figcaption></figure>
+      <figure><img src="foto/stato-3.jpg" alt="Vista d'insieme della facciata e del giardino davanti" loading="lazy"><figcaption>Facciata e giardino</figcaption></figure>
     </div>
   </div>
 </section>
@@ -179,13 +243,20 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Modello 3D</p>
     <h2 class="st">Sopra e sotto, <em>nello stesso modello</em>.</h2>
-    <p class="sd">Piano terra e seminterrato insieme, con lo stato attuale e il progetto. Puoi sovrapporre il rilievo Polycam, separare i due piani con la vista esplosa e vedere dove si apre il solaio per la scala interna.</p>
+    <p class="sd">Piano terra e seminterrato con lo stato attuale e il progetto, gli arredi, il vano scala condominiale e la corte. Puoi sovrapporre il rilievo Polycam e separare i piani con la vista esplosa.</p>
   </div>
   <div id="m3box">
-    <img src="img/modello-progetto.jpg" alt="Modello 3D di progetto visto dall'alto, con i pavimenti colorati per unità e la scala interna" loading="lazy">
+    <img src="img/modello-progetto.jpg" alt="Modello 3D di progetto dall'alto, con i pavimenti colorati per unità e gli arredi" loading="lazy">
     <div class="m3cta">
       <a class="btn" href="3d/">Apri il modello 3D</a>
       <p>Circa 7 MB, si caricano solo quando apri il modello.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="vgrid">
+      <figure><img src="img/modello-esploso.jpg" alt="Vista esplosa: il piano terra con il rilievo Polycam sollevato sopra il seminterrato" loading="lazy"><figcaption>Vista esplosa con il rilievo</figcaption></figure>
+      <figure><img src="img/vano-scala.jpg" alt="Il corpo scala condominiale con l'atrio, le rampe e il pianerottolo intermedio" loading="lazy"><figcaption>Il vano scala condominiale</figcaption></figure>
+      <figure><img src="img/rilievo-polycam.jpg" alt="Rilievo Polycam del piano terra allo stato attuale visto dall'alto" loading="lazy"><figcaption>Rilievo Polycam, stato attuale</figcaption></figure>
     </div>
   </div>
 </section>
@@ -194,23 +265,23 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Le due unità</p>
     <h2 class="st">Come si <em>divide</em> la casa.</h2>
-    <p class="sd">Entrambe le unità si aprono sul pianerottolo della scala condominiale, che resta comune come la cantina del seminterrato. L'unità B scende al seminterrato con una scala tutta sua, senza passare dalle parti comuni.</p>
+    <p class="sd">Le due unità si aprono sul pianerottolo del piano terra. L'unità B scende al seminterrato con una scala tutta sua, senza passare dalle parti comuni.</p>
     <div class="ugrid">
       <div class="ucard">
         <h3>Unità A</h3>
-        <p class="tot">Solo piano terra · 65,3 m² netti</p>
+        <p class="tot">Solo piano terra · 65,6 m² netti</p>
         <ul>
-          <li><span>Soggiorno con cucina</span><span>17,9 m²</span></li>
-          <li><span>Camera matrimoniale</span><span>14,8 m²</span></li>
-          <li><span>Camera</span><span>15,1 m²</span></li>
-          <li><span>Bagno</span><span>9,7 m²</span></li>
+          <li><span>Soggiorno, pranzo e cucina sul fronte</span><span>33,2 m²</span></li>
+          <li><span>Camera matrimoniale</span><span>15,1 m²</span></li>
+          <li><span>Camera</span><span>9,1 m²</span></li>
           <li><span>Ingresso</span><span>3,9 m²</span></li>
-          <li><span>Disimpegno</span><span>3,9 m²</span></li>
+          <li><span>Bagno</span><span>3,2 m²</span></li>
+          <li><span>Disimpegno</span><span>1,1 m²</span></li>
         </ul>
       </div>
       <div class="ucard b">
         <h3>Unità B</h3>
-        <p class="tot">Duplex · 39,6 + 39,8 m² netti</p>
+        <p class="tot">Duplex · 36,7 + 39,8 m² netti</p>
         <h4>Piano terra</h4>
         <ul>
           <li><span>Soggiorno con cucina e scala</span><span>30,4 m²</span></li>
@@ -227,9 +298,23 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       </div>
     </div>
     <div class="nota">
-      <div><h3>La scala <em>interna</em></h3><p>Una rampa unica lungo il muro di spina, dal soggiorno al seminterrato: 16 alzate da circa 19 cm e pedate da 25 cm. Il foro nel solaio misura 0,92 × 3,20 m e arriva nel disimpegno della quota dell'unità B.</p></div>
-      <div><h3>Finestre <em>ribassate</em></h3><p>Le finestre del seminterrato oggi sono alte 60 cm, sotto il soffitto. Abbassando il davanzale di un metro, a 20 cm dal giardino, diventano finestre normali da circa 1,60 m e danno aria e luce alle camere.</p></div>
-      <div><h3>Cosa <em>cambia</em></h3><p>Al piano terra si toglie poco: il tramezzo tra la camera e il disimpegno e quello tra ingresso e soggiorno. Si chiudono due passaggi per separare le unità e si apre un varco nel muro di spina. Nel seminterrato si costruiscono i tramezzi delle camere.</p></div>
+      <div><h3>Il vano <em>scala</em></h3><p>Dalla strada 5 gradini portano al portoncino e all'atrio, 1,36 m sotto il piano terra. Dall'atrio una rampa sale al pianerottolo delle due unità, una scende al garage e sopra di questa parte la scala per il primo piano.</p></div>
+      <div><h3>La scala <em>interna</em></h3><p>Una rampa unica lungo il muro di spina, dal soggiorno dell'unità B al seminterrato: 16 alzate da circa 19 cm e pedate da 25 cm, con un foro nel solaio di 0,92 × 3,20 m.</p></div>
+      <div><h3>Finestre <em>ribassate</em></h3><p>Il piano terra è circa 2,20 m sopra il giardino e il seminterrato è interrato per meno di un metro. Le finestre si abbassano fino a 20 cm dal terreno e diventano finestre da circa 1,50 m.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="interni">
+  <div class="wrap">
+    <p class="slab">Interni e impianti</p>
+    <h2 class="st">Tutto <em>rifatto</em> da zero.</h2>
+    <p class="sd">Gli impianti sono da rifare completamente: le tavole 05–08 li descrivono stanza per stanza, così le ditte possono fare l'offerta sulle stesse quantità.</p>
+    <div class="igrid">
+      <div><h3>Pavimenti</h3><p>Gres porcellanato in lastre grandi, posato a giunto minimo, uguale in tutte le stanze. Nei bagni lastre a tutta altezza in zona doccia.</p></div>
+      <div><h3>Controsoffitti e luce</h3><p>Cartongesso con gola LED perimetrale nella zona giorno, faretti a incasso, sospensioni sull'isola e sul tavolo. Ribassi a 2,40 m dove passano gli impianti.</p></div>
+      <div><h3>Impianto elettrico</h3><p>Un quadro per unità, linee dedicate per cucina, lavatrice e climatizzazione, punti TV e dati, videocitofono. Dotazioni almeno di livello 1 della norma CEI 64-8.</p></div>
+      <div><h3>Acqua e clima</h3><p>Pompa di calore per unità, acqua calda ad accumulo, collettori sanitari, nuove colonne di scarico. Il bagno del seminterrato scarica con una stazione di sollevamento.</p></div>
     </div>
   </div>
 </section>
@@ -238,29 +323,18 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Tavole tecniche</p>
     <h2 class="st">Le carte del <em>progetto</em>.</h2>
-    <p class="sd">Stato attuale, progetto, demolizioni e costruzioni, sezioni. Formato A3 in scala 1:100. Clicca una tavola per vederla a tutta pagina.</p>
+    <p class="sd">Nove tavole in formato A3: architettonico, interni, impianti e area esterna. Clicca una tavola per vederla a tutta pagina.</p>
     <div class="tdown"><a class="btn" href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener">Tutte le tavole · PDF</a></div>
     <div class="tgrid">
-      <figure class="tcard"><a href="tavole/tav01.jpg" target="_blank" rel="noopener"><img src="tavole/tav01.jpg" alt="Tavola 1: piante dello stato attuale di piano terra e seminterrato, con la divisione concordata del seminterrato tratteggiata in rosso" loading="lazy"><figcaption>01 · Stato attuale</figcaption></a></figure>
-      <figure class="tcard"><a href="tavole/tav02.jpg" target="_blank" rel="noopener"><img src="tavole/tav02.jpg" alt="Tavola 2: piante di progetto con l'unità A in azzurro, l'unità B in arancio e il foro della scala interna" loading="lazy"><figcaption>02 · Progetto</figcaption></a></figure>
-      <figure class="tcard"><a href="tavole/tav03.jpg" target="_blank" rel="noopener"><img src="tavole/tav03.jpg" alt="Tavola 3: muri da demolire in giallo e da costruire in rosso, piano terra e seminterrato" loading="lazy"><figcaption>03 · Demolizioni e costruzioni</figcaption></a></figure>
-      <figure class="tcard"><a href="tavole/tav04.jpg" target="_blank" rel="noopener"><img src="tavole/tav04.jpg" alt="Tavola 4: sezione sulla scala interna e sezione sulle camere del seminterrato con la finestra ribassata" loading="lazy"><figcaption>04 · Sezioni</figcaption></a></figure>
-    </div>
-  </div>
-</section>
-
-<section id="rilievo">
-  <div class="wrap">
-    <p class="slab">Stato di fatto</p>
-    <h2 class="st">Il rilievo, <em>com'è oggi</em>.</h2>
-    <p class="sd">Il piano terra è stato scansionato con Polycam: la mesh fotografica è allineata al modello disegnato, così ogni misura si controlla sul posto.</p>
-    <div class="rgrid">
-      <img src="img/rilievo-polycam.jpg" alt="Rilievo Polycam del piano terra allo stato attuale, visto dall'alto, sovrapposto ai muri disegnati" loading="lazy">
-      <ul class="rlist">
-        <li><b>Altezza interna del piano terra</b>: circa 3,00 m, misurata sul rilievo.</li>
-        <li><b>Piante confrontate</b>: le camere del rilievo corrispondono alla planimetria entro pochi centimetri.</li>
-        <li><b>Seminterrato</b>: disegnato dalla planimetria esistente, oggi accatastato come deposito.</li>
-      </ul>
+      <figure class="tcard"><a href="tavole/tav01.jpg" target="_blank" rel="noopener"><img src="tavole/tav01.jpg" alt="Tavola 1: piante dello stato attuale di piano terra e seminterrato con il vano scala condominiale" loading="lazy"><figcaption>01 · Stato attuale</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav02.jpg" target="_blank" rel="noopener"><img src="tavole/tav02.jpg" alt="Tavola 2: piante di progetto con l'unità A in azzurro e l'unità B in arancio" loading="lazy"><figcaption>02 · Progetto</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav03.jpg" target="_blank" rel="noopener"><img src="tavole/tav03.jpg" alt="Tavola 3: muri da demolire in giallo e da costruire in rosso" loading="lazy"><figcaption>03 · Demolizioni e costruzioni</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav04.jpg" target="_blank" rel="noopener"><img src="tavole/tav04.jpg" alt="Tavola 4: sezioni sulla scala interna e sulle camere del seminterrato" loading="lazy"><figcaption>04 · Sezioni</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav05.jpg" target="_blank" rel="noopener"><img src="tavole/tav05.jpg" alt="Tavola 5: arredi e posa del pavimento in lastre grandi" loading="lazy"><figcaption>05 · Arredi e pavimenti</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav06.jpg" target="_blank" rel="noopener"><img src="tavole/tav06.jpg" alt="Tavola 6: altezze dei controsoffitti, gole LED, faretti e sospensioni" loading="lazy"><figcaption>06 · Controsoffitti e luce</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav07.jpg" target="_blank" rel="noopener"><img src="tavole/tav07.jpg" alt="Tavola 7: impianto elettrico con punti luce, comandi, prese e quadri" loading="lazy"><figcaption>07 · Impianto elettrico</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav08.jpg" target="_blank" rel="noopener"><img src="tavole/tav08.jpg" alt="Tavola 8: impianto idrico-sanitario, scarichi, collettori e pompe di calore" loading="lazy"><figcaption>08 · Idrico e termico</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav09.jpg" target="_blank" rel="noopener"><img src="tavole/tav09.jpg" alt="Tavola 9: la corte con il piazzale in porfido, i giardini e la divisione tra le proprietà" loading="lazy"><figcaption>09 · Area esterna</figcaption></a></figure>
     </div>
   </div>
 </section>
@@ -272,19 +346,18 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     <div class="dl2">
       <ol class="chk">
         <li>Altezza netta del seminterrato: nel modello è 2,80 m.</li>
-        <li>Quota del giardino rispetto al piano terra: nel modello è −2,30 m, ricavata dalle finestre a 1,20 m dal suolo.</li>
-        <li>Direzione dei travetti del solaio, guardando il soffitto del seminterrato: decide quanto rinforzo serve attorno al foro della scala.</li>
-        <li>Posizione dei pilastri e della trave sul muro di spina.</li>
-        <li>Seconda finestra della camera nord: nuova apertura sul fronte strada, da confermare.</li>
-        <li>Cambio d'uso del seminterrato da deposito ad abitazione e frazionamento catastale.</li>
+        <li>Quote dell'atrio e del giardino rispetto al piano terra: nel modello −1,36 m e −2,21 m.</li>
+        <li>Direzione dei travetti del solaio, guardando il soffitto del seminterrato: decide il rinforzo attorno al foro della scala.</li>
+        <li>Pilastri e trave sul muro di spina; lato e profondità reali del lotto.</li>
+        <li>Nuova finestra della camera nord del seminterrato, fuori dall'ingombro della rampa comune.</li>
+        <li>Cambio d'uso del seminterrato, frazionamento e divisione della corte con l'altra proprietà.</li>
       </ol>
       <div class="files">
         <h3 class="sub">File del progetto</h3>
-        <a href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener"><b>Tavole A3</b><span>PDF · 4 tavole</span></a>
-        <a href="scarica/Project1_modello.skp" download><b>Modello SketchUp</b><span>SKP · millimetri</span></a>
-        <a href="scarica/Project1_modello_disegnato.dae" download><b>Modello 3D disegnato</b><span>DAE · Collada</span></a>
+        <a href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener"><b>Tavole A3</b><span>PDF · 9 tavole</span></a>
+        <a href="scarica/Project1_modello_disegnato.dae" download><b>Modello 3D disegnato</b><span>DAE · per SketchUp</span></a>
         <a href="3d/"><b>Modello 3D nel browser</b><span>con rilievo Polycam</span></a>
-        <p>Il file SketchUp ha un tag per ogni parte, stato attuale e progetto, e cinque scene già pronte.</p>
+        <p>Il modello DAE si importa in SketchUp con File, Importa: ogni parte è un gruppo con il suo nome, stato attuale e progetto separati.</p>
       </div>
     </div>
   </div>
@@ -293,7 +366,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 <section id="fine">
   <div class="wrap">
     <h2 class="serif">Il progetto è <em>sempre qui</em>.</h2>
-    <p>Questa pagina si aggiorna insieme al lavoro: computo metrico e valutazione economica arriveranno nelle prossime versioni.</p>
+    <p>Questa pagina si aggiorna insieme al lavoro: render degli interni e versioni successive arriveranno qui.</p>
     <a href="/#contatti" class="btn">Scrivici</a>
   </div>
 </section>
@@ -305,5 +378,10 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <span>info@visiorender.it · +39 342 668 4232</span>
 </footer>
 
+<script>
+(function(){const r=document.getElementById('ba-r'),t=document.getElementById('ba-top'),l=document.getElementById('ba-line');
+ function set(v){t.style.clipPath='inset(0 0 0 '+v+'%)';l.style.left=v+'%';}
+ r.addEventListener('input',function(){set(r.value);});set(r.value);})();
+</script>
 </body>
 </html>

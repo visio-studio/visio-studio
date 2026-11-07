@@ -73,10 +73,10 @@ function boxesGeo(boxes){const n=boxes.length,P=new Float32Array(n*72),N=new Flo
  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(P,3));g.setAttribute('normal',new THREE.BufferAttribute(N,3));g.setIndex(new THREE.BufferAttribute(I,1));return g;}
 const mat=(c,o={})=>new THREE.MeshLambertMaterial({color:c,...o});
 function addGroup(name,color,boxes){
- const st=name.includes('attuale')?'A':(name.includes('progetto')||name.startsWith('Pavimenti')||name.includes('interna B'))?'P':'*';
+ const st=name.includes('attuale')?'A':(name.includes('progetto')||name.startsWith('Pavimenti')||name.includes('interna B')||name.startsWith('Arredi'))?'P':'*';
  const lvl=b=>b[5]<=-0.29?'S':(b[4]>=-0.31&&b[5]<=0.01&&name.startsWith('Solaio'))?'SL':'PT';
- const parts={};for(const b of boxes){let k=name.startsWith('Terreno')?'TER':name.includes('primo piano')?'COP':name.includes('interna B')?'SC':lvl(b);(parts[k]=parts[k]||[]).push(b);}
- for(const [k,bs] of Object.entries(parts)){const m=new THREE.Mesh(boxesGeo(bs),mat(color,k==='TER'?{transparent:true,opacity:.55}:k==='SL'?{transparent:true,opacity:.92}:{}));
+ const parts={};for(const b of boxes){let k=/^(Terreno|Esterni|Recinzioni|Cancelli)/.test(name)?'TER':name.includes('primo piano')?'COP':name.includes('interna B')||name.startsWith('Scala cond')?'SC':lvl(b);(parts[k]=parts[k]||[]).push(b);}
+ for(const [k,bs] of Object.entries(parts)){const m=new THREE.Mesh(boxesGeo(bs),mat(color,name.startsWith('Terreno')?{transparent:true,opacity:.55}:k==='SL'?{transparent:true,opacity:.92}:{}));
   if(k==='PT')m.material.clippingPlanes=[clipPT];m.userData.st=st;L[k].add(m);if(st!=='*')byState[st].push(m);}}
 const foroMesh=new THREE.Group();scene.add(foroMesh);
 function applica(){for(const m of byState.A)m.visible=stato==='A';for(const m of byState.P)m.visible=stato==='P';foroMesh.visible=stato==='P'&&L.SL.visible;
