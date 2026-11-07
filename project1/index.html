@@ -177,6 +177,36 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 .mat b { display:block;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;margin-bottom:6px; }
 .mat span { font-size:12px;color:rgba(255,255,255,.62);line-height:1.7; }
 @media(max-width:900px){ .rgrid2,.mgrid,.mat { grid-template-columns:1fr; } }
+/* pianta con punti di vista */
+.vplan { margin-top:44px;background:#fff; }
+.vplan img { display:block;width:100%;max-width:980px;margin:0 auto; }
+.vplan figcaption { background:var(--dark);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);padding-top:10px; }
+.vista { display:grid;grid-template-columns:280px 1fr;gap:28px;margin-top:56px;align-items:start; }
+.vh { display:flex;gap:16px; }
+.vn { flex:none;width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--dark);display:grid;place-items:center;font-weight:600;font-size:16px; }
+.vh h3 { font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:8px; }
+.vh p { font-size:12px;color:rgba(255,255,255,.62);line-height:1.8;margin-bottom:12px; }
+.vh a { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none; }
+.vimg { display:grid;grid-template-columns:1fr 1fr;gap:3px;min-width:0; }
+.vimg img { width:100%;aspect-ratio:16/10;object-fit:cover;display:block; }
+.vimg figcaption { font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#7e7e7e;padding-top:8px; }
+/* computo */
+#computo { background:var(--dark2); }
+.cwrap { overflow-x:auto;margin-top:40px; }
+.ctab { width:100%;border-collapse:collapse;font-size:13px;min-width:560px; }
+.ctab th,.ctab td { padding:10px 12px;border-bottom:.5px solid rgba(255,255,255,.1);text-align:right;white-space:nowrap; }
+.ctab th:first-child,.ctab td:first-child { text-align:left;white-space:normal; }
+.ctab th { font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#7e7e7e;font-weight:400; }
+.ctab tr.sub td { color:#fff;font-weight:500;border-top:.5px solid rgba(255,255,255,.3); }
+.ctab tr.tot td { color:var(--gold);font-size:15px;font-weight:500;border-top:.5px solid var(--gold); }
+.ctab td { color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums; }
+.cnum { display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px; }
+.cnum div { border-top:.5px solid rgba(255,255,255,.15);padding-top:14px; }
+.cnum b { display:block;font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;color:var(--gold); }
+.cnum span { font-size:11px;color:rgba(255,255,255,.62);line-height:1.6; }
+.cnum b.neg { color:#e0a39b; }
+.cnote { font-size:12px;color:rgba(255,255,255,.55);line-height:1.8;margin-top:20px;max-width:760px; }
+@media(max-width:900px){ .vista { grid-template-columns:1fr; } .vimg { grid-template-columns:1fr; } .cnum { grid-template-columns:1fr 1fr; } }
 </style>
 </head>
 <body>
@@ -326,16 +356,21 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Gli interni</p>
     <h2 class="st">Come si <em>vivrà</em>.</h2>
-    <p class="sd">Render generati dalle viste del modello 3D, con gli stessi arredi nelle stesse posizioni. Sotto, le viste del modello da cui partono.</p>
-    <div class="rgrid2">
-      <figure><img src="render/openspace-a.jpg" alt="Render dell'open space dell'unità A: tavolo in rovere con sedie scure, divano avorio, controsoffitto con gola LED, portafinestra con tende in lino" loading="lazy"><figcaption>Unità A · open space</figcaption></figure>
-      <figure><img src="render/camera-a.jpg" alt="Render della camera matrimoniale: letto a pedana in rovere con testiera imbottita, tappeto beige, gola LED e finestra con tende" loading="lazy"><figcaption>Unità A · camera matrimoniale</figcaption></figure>
-      <figure class="wide"><img src="render/soggiorno-b.jpg" alt="Render del soggiorno dell'unità B: portafinestra sul giardino a sinistra, tavolo in rovere al centro, cucina tortora a destra, divano avorio" loading="lazy"><figcaption>Unità B · soggiorno con cucina</figcaption></figure>
+    <p class="sd">Ogni render parte da una camera del modello 3D. Il numero sulla pianta arredata è la posizione della camera, il cono è quello che inquadra; accanto ci sono il render e la vista del modello dalla stessa camera, con gli arredi nelle stesse posizioni.</p>
+    <div class="vplan">
+      <figure><a href="img/pianta-viste.svg" target="_blank" rel="noopener"><img src="img/pianta-viste.svg" alt="Pianta arredata del piano terra con tre punti di vista numerati: 1 nell'open space A, 2 nella camera matrimoniale A, 3 nel soggiorno B" loading="lazy"></a><figcaption>Piano terra arredato · punti di vista 1–3 · in alto l'unità A, in basso l'unità B, a sinistra la strada</figcaption></figure>
     </div>
-    <div class="mgrid">
-      <figure><img src="render/modello-a.jpg" alt="Vista del modello 3D dell'open space A" loading="lazy"><figcaption>Modello · open space A</figcaption></figure>
-      <figure><img src="render/modello-camera.jpg" alt="Vista del modello 3D della camera matrimoniale" loading="lazy"><figcaption>Modello · camera</figcaption></figure>
-      <figure><img src="render/modello-b.jpg" alt="Vista del modello 3D del soggiorno B" loading="lazy"><figcaption>Modello · soggiorno B</figcaption></figure>
+    <div class="vista">
+      <div class="vh"><span class="vn">1</span><div><h3>Open space · unità A</h3><p>Dall'angolo nord-est verso la strada: cucina sul muro nord, tavolo al centro, divano verso la portafinestra.</p><a href="3d/?cam=1.0,1.5,-5.0&amp;tgt=-5.0,0.9,-2.2&amp;cut=3.4&amp;cop&amp;fov=62">Apri il 3D da questa camera →</a></div></div>
+      <div class="vimg"><figure><img src="render/openspace-a.jpg" alt="Render dell'open space dell'unità A: tavolo in rovere con sedie scure, divano avorio, controsoffitto con gola LED, portafinestra con tende in lino" loading="lazy"><figcaption>Render</figcaption></figure><figure><img src="render/modello-a.jpg" alt="Vista del modello 3D dell'open space A dalla stessa camera del render" loading="lazy"><figcaption>Modello 3D · stessa camera</figcaption></figure></div>
+    </div>
+    <div class="vista">
+      <div class="vh"><span class="vn">2</span><div><h3>Camera matrimoniale · unità A</h3><p>Dalla porta verso il letto: letto contro il muro nord, armadio a tutta altezza, finestra sul retro.</p><a href="3d/?cam=2.0,1.5,-1.7&amp;tgt=4.4,0.5,-4.2&amp;cut=3.4&amp;cop&amp;fov=62">Apri il 3D da questa camera →</a></div></div>
+      <div class="vimg"><figure><img src="render/camera-a.jpg" alt="Render della camera matrimoniale: letto a pedana in rovere con testiera imbottita, tappeto beige, gola LED e finestra con tende" loading="lazy"><figcaption>Render</figcaption></figure><figure><img src="render/modello-camera.jpg" alt="Vista del modello 3D della camera matrimoniale dalla stessa camera del render" loading="lazy"><figcaption>Modello 3D · stessa camera</figcaption></figure></div>
+    </div>
+    <div class="vista">
+      <div class="vh"><span class="vn">3</span><div><h3>Soggiorno con cucina · unità B</h3><p>Dal lato sud verso la strada: portafinestra sul giardino a sinistra, tavolo al centro, cucina tortora a destra.</p><a href="3d/?cam=-0.3,1.5,5.7&amp;tgt=-5.0,0.9,2.8&amp;cut=3.4&amp;cop&amp;fov=62">Apri il 3D da questa camera →</a></div></div>
+      <div class="vimg"><figure><img src="render/soggiorno-b.jpg" alt="Render del soggiorno dell'unità B: portafinestra sul giardino a sinistra, tavolo in rovere al centro, cucina tortora a destra, divano avorio" loading="lazy"><figcaption>Render</figcaption></figure><figure><img src="render/modello-b.jpg" alt="Vista del modello 3D del soggiorno B dalla stessa camera del render" loading="lazy"><figcaption>Modello 3D · stessa camera</figcaption></figure></div>
     </div>
     <div class="mat">
       <div><b>Pavimento</b><span>Gres effetto resina chiaro, neutro freddo, lastre 120 × 60 con fuga 2 mm, uguale in tutta la casa.</span></div>
@@ -360,11 +395,52 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   </div>
 </section>
 
+<section id="computo">
+  <div class="wrap">
+    <p class="slab">Computo metrico</p>
+    <h2 class="st">Quanto <em>costa</em>.</h2>
+    <p class="sd">Quantità ricavate dal modello di progetto, prezzi indicativi Lazio 2026, da confermare con le offerte delle ditte. Arredi esclusi. Il file Excel ha le 62 voci con le formule, le leve di risparmio e il conto economico.</p>
+    <div class="cnum">
+      <div><b>306.600 €</b><span>costo dell'intervento con il capitolato completo, IVA e tecnici compresi</span></div>
+      <div><b>204.000 €</b><span>con le 15 leve di risparmio già selezionate nel foglio “Ottimizzazione”</span></div>
+      <div><b class="neg">−29.800 €</b><span>margine dell'operazione dopo le leve, con l'acquisto a 135.000 €</span></div>
+      <div><b>2.233 €/m²</b><span>prezzo di vendita di pareggio su 160 m² commerciali</span></div>
+    </div>
+    <div class="cwrap">
+      <table class="ctab">
+        <thead><tr><th>Voce</th><th>Unità A €</th><th>Unità B €</th><th>Totale €</th></tr></thead>
+        <tbody>
+          <tr><td>01 Demolizioni, rimozioni e sgombero</td><td>7.544</td><td>6.097</td><td>13.641</td></tr>
+          <tr><td>02 Opere strutturali</td><td>6.800</td><td>27.000</td><td>33.800</td></tr>
+          <tr><td>03 Seminterrato: risanamento e abitabilità</td><td>0</td><td>7.455</td><td>7.455</td></tr>
+          <tr><td>04 Opere edili e finiture</td><td>22.949</td><td>33.341</td><td>56.290</td></tr>
+          <tr><td>05 Serramenti</td><td>9.358</td><td>15.180</td><td>24.538</td></tr>
+          <tr><td>06 Impianto elettrico e illuminazione</td><td>10.748</td><td>14.225</td><td>24.973</td></tr>
+          <tr><td>07 Impianto idrico-sanitario</td><td>7.880</td><td>13.390</td><td>21.270</td></tr>
+          <tr><td>08 Riscaldamento, raffrescamento e ACS</td><td>14.184</td><td>17.234</td><td>31.417</td></tr>
+          <tr><td>09 Esterni e parti comuni (quota)</td><td>1.250</td><td>2.450</td><td>3.700</td></tr>
+          <tr class="sub"><td>Totale lavori</td><td>80.713</td><td>136.372</td><td>217.084</td></tr>
+          <tr><td>Assistenze murarie agli impianti (8%)</td><td>2.625</td><td>3.588</td><td>6.213</td></tr>
+          <tr><td>Oneri della sicurezza (3%)</td><td>2.421</td><td>4.091</td><td>6.513</td></tr>
+          <tr><td>Imprevisti (8%)</td><td>6.667</td><td>11.197</td><td>17.864</td></tr>
+          <tr><td>IVA sui lavori (10%)</td><td>9.243</td><td>15.525</td><td>24.767</td></tr>
+          <tr><td>Spese tecniche (9% + cassa + IVA)</td><td>10.554</td><td>17.728</td><td>28.282</td></tr>
+          <tr><td>Catasto, frazionamento, APE</td><td>1.200</td><td>1.200</td><td>2.400</td></tr>
+          <tr><td>Contributo per il cambio d'uso (stima)</td><td>0</td><td>3.500</td><td>3.500</td></tr>
+          <tr class="tot"><td>Totale costo intervento</td><td>113.423</td><td>193.200</td><td>306.623</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cnote">Le leve più pesanti: climatizzazione a split invece del radiante (−27.200 €), controsoffitti solo dove servono (−12.900 €), nessun nuovo varco nel muro di spina dell'unità A (−9.600 €), spese tecniche al 6% con progetto e render fatti da VISIO (−9.400 €). Restano da valutare l'acquisto diretto dei materiali, gli imprevisti al 5% dopo i saggi e l'operazione tramite società.</p>
+    <div class="tdown"><a class="btn" href="scarica/Project1_computo_metrico.xlsx" download>Computo completo · Excel</a></div>
+  </div>
+</section>
+
 <section id="tavole">
   <div class="wrap">
     <p class="slab">Tavole tecniche</p>
     <h2 class="st">Le carte del <em>progetto</em>.</h2>
-    <p class="sd">Nove tavole in formato A3: architettonico, interni, impianti e area esterna. Clicca una tavola per vederla a tutta pagina.</p>
+    <p class="sd">Dieci tavole in formato A3: architettonico, interni, impianti, area esterna e punti di vista dei render. Clicca una tavola per vederla a tutta pagina.</p>
     <div class="tdown"><a class="btn" href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener">Tutte le tavole · PDF</a></div>
     <div class="tgrid">
       <figure class="tcard"><a href="tavole/tav01.jpg" target="_blank" rel="noopener"><img src="tavole/tav01.jpg" alt="Tavola 1: piante dello stato attuale di piano terra e seminterrato con il vano scala condominiale" loading="lazy"><figcaption>01 · Stato attuale</figcaption></a></figure>
@@ -376,6 +452,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       <figure class="tcard"><a href="tavole/tav07.jpg" target="_blank" rel="noopener"><img src="tavole/tav07.jpg" alt="Tavola 7: impianto elettrico con punti luce, comandi, prese e quadri" loading="lazy"><figcaption>07 · Impianto elettrico</figcaption></a></figure>
       <figure class="tcard"><a href="tavole/tav08.jpg" target="_blank" rel="noopener"><img src="tavole/tav08.jpg" alt="Tavola 8: impianto idrico-sanitario, scarichi, collettori e pompe di calore" loading="lazy"><figcaption>08 · Idrico e termico</figcaption></a></figure>
       <figure class="tcard"><a href="tavole/tav09.jpg" target="_blank" rel="noopener"><img src="tavole/tav09.jpg" alt="Tavola 9: la corte con il piazzale in porfido, i giardini e la divisione tra le proprietà" loading="lazy"><figcaption>09 · Area esterna</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/tav10.jpg" target="_blank" rel="noopener"><img src="tavole/tav10.jpg" alt="Tavola 10: pianta arredata del piano terra con i tre punti di vista dei render" loading="lazy"><figcaption>10 · Punti di vista</figcaption></a></figure>
     </div>
   </div>
 </section>
@@ -395,11 +472,12 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       </ol>
       <div class="files">
         <h3 class="sub">File del progetto</h3>
-        <a href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener"><b>Tavole A3</b><span>PDF · 9 tavole</span></a>
-        <a href="scarica/Project1_modello_v2.skp" download><b>Modello SketchUp con arredi</b><span>SKP · millimetri</span></a>
+        <a href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener"><b>Tavole A3</b><span>PDF · 10 tavole</span></a>
+        <a href="scarica/Project1_modello_v3.skp" download><b>Modello SketchUp v3</b><span>SKP · millimetri · arredi, serramenti, controsoffitti</span></a>
+        <a href="scarica/Project1_computo_metrico.xlsx" download><b>Computo metrico</b><span>Excel · voci, leve, conto economico</span></a>
         <a href="scarica/Project1_modello_disegnato.dae" download><b>Modello 3D disegnato</b><span>DAE · per SketchUp</span></a>
         <a href="3d/"><b>Modello 3D nel browser</b><span>con rilievo Polycam</span></a>
-        <p>Il file SketchUp ha un tag per ogni parte (stato attuale, progetto, arredi, esterni) e cinque scene pronte. Gli arredi vengono da 3D Warehouse e sono esclusi dal computo.</p>
+        <p>Il file SketchUp v3 ha un tag per ogni parte (stato attuale, progetto, arredi, serramenti, controsoffitti e LED, esterni) e cinque scene pronte; pavimento in resina 120 × 60 con texture, pareti greige, cucine tortora. Gli arredi vengono da 3D Warehouse e sono esclusi dal computo.</p>
       </div>
     </div>
   </div>
