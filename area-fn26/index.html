@@ -158,18 +158,9 @@ body.lbon { overflow:hidden; }
 #dcod button { background:none;border:.5px solid var(--gold);color:var(--gold);font:inherit;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:0 22px;cursor:pointer; }
 #dmsg { min-height:18px;margin-top:12px;font-size:12px;color:var(--gold); }
 #pv h3 { font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;margin:64px 0 8px; }
-.ptot { display:grid;grid-template-columns:1.2fr 1fr;gap:1px;background:rgba(255,255,255,.1);margin-top:14px; }
-.ptot > div { background:var(--dark);padding:30px 28px; }
-.ptot .k { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px; }
-.ptot .big { font-family:'Cormorant Garamond',serif;font-size:clamp(42px,6vw,60px);font-weight:400;line-height:1;color:var(--gold);font-variant-numeric:lining-nums; }
-.ptot .nt { font-size:11px;color:rgba(255,255,255,.62);line-height:1.7;margin-top:14px; }
-.prow { display:flex;justify-content:space-between;gap:14px;font-size:12px;padding:7px 0;color:rgba(255,255,255,.72);border-bottom:.5px solid rgba(255,255,255,.08); }
-.prow:last-child { border:0; }
-.prow.b { color:#fff;font-weight:500; }
-.pbar { display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) 92px;gap:18px;align-items:center;width:100%;background:none;border:0;border-bottom:.5px solid rgba(255,255,255,.1);color:#fff;font:inherit;font-size:13px;text-align:left;padding:13px 0;cursor:pointer; }
-.pbar i { display:block;height:5px;background:rgba(255,255,255,.08); }
-.pbar i s { display:block;height:100%;background:var(--gold); }
-.pbar b { font-weight:400;text-align:right;font-variant-numeric:tabular-nums; }
+.pind { display:flex;flex-wrap:wrap;gap:6px;margin-top:14px; }
+.pind button { background:none;border:.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.8);font:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 14px;cursor:pointer; }
+.pind button:hover { border-color:var(--gold);color:var(--gold); }
 .pcat { border-bottom:.5px solid rgba(255,255,255,.14); }
 .pcat summary { display:flex;justify-content:space-between;gap:14px;padding:17px 0;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:22px;list-style:none; }
 .pcat summary::-webkit-details-marker { display:none; }
@@ -183,6 +174,7 @@ body.lbon { overflow:hidden; }
 .ptab td { padding:10px 8px 10px 0;border-top:.5px solid rgba(255,255,255,.08);vertical-align:top;line-height:1.55;color:rgba(255,255,255,.82); }
 .ptab .n { text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums; }
 .ptab .c { color:#a0a0a0;white-space:nowrap; }
+.ptab small { display:block;color:#a0a0a0;font-size:11px;margin-top:3px; }
 .pgrid { display:grid;grid-template-columns:1fr 1fr;gap:18px 56px;margin-top:20px; }
 .pgrid h4 { font-size:9px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px; }
 .pgrid p,.pgrid li { font-size:13px;line-height:1.85;color:rgba(255,255,255,.72); }
@@ -210,11 +202,8 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   #lb .lbimg { padding:0; }
   #lb .lbp, #lb .lbn { top:auto;bottom:10px;margin:0;width:42px;height:42px; }
   #m3box { margin:36px -20px 0;height:72vh; }
-  .ptot { grid-template-columns:1fr; }
   .pvgrid { grid-template-columns:1fr; }
   .pgrid { grid-template-columns:1fr; }
-  .pbar { grid-template-columns:minmax(0,1fr) 84px;gap:8px 12px; }
-  .pbar i { grid-column:1/-1;grid-row:2; }
   .ptab thead { display:none; }
   .ptab tr { display:grid;grid-template-columns:auto 1fr auto;gap:2px 8px;border-top:.5px solid rgba(255,255,255,.08);padding:10px 0; }
   .ptab td { border:0;padding:0; }
@@ -222,8 +211,6 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   .ptab td:nth-child(2) { grid-column:2/-1;grid-row:1; }
   .ptab td:nth-child(3) { grid-column:1;grid-row:2; }
   .ptab td:nth-child(4) { grid-column:2;grid-row:2;text-align:left;color:#a0a0a0; }
-  .ptab td:nth-child(5) { display:none; }
-  .ptab td:nth-child(6) { grid-column:3;grid-row:2;color:#fff; }
   footer { padding:20px;justify-content:center;text-align:center; }
 }
 @media(max-width:560px){
@@ -265,7 +252,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Il progetto in numeri</p>
     <h2 class="st">Reception, aule, uffici e laboratorio, <em>in un link</em>.</h2>
-    <p class="sd">Questa pagina raccoglie i materiali del progetto e si aggiorna a ogni revisione: modello 3D, tavole, mappe, render, computo e preventivo.</p>
+    <p class="sd">Questa pagina raccoglie i materiali del progetto e si aggiorna a ogni revisione: modello 3D, tavole, mappe, render e capitolato dei lavori.</p>
     <div class="dgrid">
       <div class="dcell"><b>674</b><span>Metri quadri</span></div>
       <div class="dcell"><b>109</b><span>Posti aula</span></div>
@@ -408,9 +395,9 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 
 <section id="doc">
   <div class="wrap">
-    <p class="slab">Computo e preventivo</p>
-    <h2 class="st">I costi del <em>progetto</em>.</h2>
-    <p class="sd">Prima stima, soggetta alle verifiche indicate qui sotto. Questa parte è cifrata e si apre con il codice progetto.</p>
+    <p class="slab">Capitolato</p>
+    <h2 class="st">Tutti i lavori, <em>voce per voce</em>.</h2>
+    <p class="sd">L'elenco dei lavori e delle forniture previsti finora, con le quantità ricavate dal modello. Questa parte si apre con il codice progetto.</p>
     <form id="dcod"><input id="dc" type="password" placeholder="Codice progetto" autocomplete="off" aria-label="Codice progetto"><button type="submit">Apri</button></form>
     <p id="dmsg" role="status"></p>
     <div id="pv" hidden></div>
@@ -433,7 +420,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 </footer>
 
 <script>
-// Il repository del sito e' pubblico: i dati economici stanno cifrati in dati/p.bin (AES-GCM, chiave dal codice con PBKDF2).
+// Il repository del sito e' pubblico: il capitolato (senza prezzi) sta cifrato in dati/p.bin (AES-GCM, chiave dal codice con PBKDF2).
 // Il codice arriva dal menu "Accedi al tuo sito" nell'indirizzo, oppure si scrive nel campo. Generata da 21_area_privata.py.
 // galleria: l'elenco dei render sta in img/render/galleria.json, scritto da 21_area_privata.py
 (async()=>{
@@ -490,41 +477,34 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 })().catch(e=>console.error(e));
 const m3=document.getElementById('m3box');
 m3.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const f=document.createElement('iframe');f.title='Modello 3D navigabile';f.allow='fullscreen';f.src='3d/?modo='+b.dataset.m;m3.replaceChildren(f);f.focus();}));
-const SALE='kUdqlFbgGyo04pyeWw4X5w==',GIRI=600000;
+const SALE='HiZnkHPj2zYFYvEk1YbZkg==',GIRI=600000;
 const box=document.getElementById('dcod'),inp=document.getElementById('dc'),msg=document.getElementById('dmsg'),pv=document.getElementById('pv');
 const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
 const pt=x=>x.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
-const eur=v=>pt(String(Math.round(v)))+' €';
-const num=v=>{const [i,d]=v.toFixed(2).split('.');return pt(i)+','+d;};
-const eur2=v=>num(v)+' €';
-const riga=(a,b,x)=>{const r=el('div','prow'+(x?' b':''));r.append(el('span',null,a),el('span',null,b));return r;};
+const num=v=>{const r=Math.round(v*100)/100,[i,d]=r.toFixed(2).split('.');return pt(i)+(d==='00'?'':','+d.replace(/0$/,''));};
 function elenco(t,l){const d=el('div');d.append(el('h4',null,t));const u=el('ul');l.forEach(x=>u.append(el('li',null,x)));d.append(u);return d;}
 function mostra(p){
-  const t=el('div','ptot'),a=el('div'),b=el('div');
-  a.append(el('p','k','Totale IVA compresa'),el('p','big',eur(p.totale)),el('p','nt',eur(p.mq_costo)+' al m² IVA esclusa, su '+p.mq+' m². '+p.revisione+'.'));
-  p.quadro.forEach(([x,y,z])=>b.append(riga(x,eur(y),z)));
-  t.append(a,b);pv.append(t);
-  pv.append(el('h3',null,'Riepilogo per categoria'));
-  const mx=Math.max(...p.categorie.map(c=>c.importo));
-  const cat=new Map();
+  const n=p.categorie.reduce((a,c)=>a+c.voci.length,0);
+  pv.append(el('p','sd',p.revisione+'. '+n+' voci in '+p.categorie.length+' categorie, su '+p.mq+' m² di intervento.'));
+  const ind=el('div','pind'),cat=new Map();
   p.categorie.forEach(c=>{
-    const r=el('button','pbar');r.type='button';
-    const i=el('i'),s=el('s');s.style.width=(c.importo/mx*100)+'%';i.append(s);
-    r.append(el('span',null,c.cod+' · '+c.nome),i,el('b',null,eur(c.importo)));
-    r.addEventListener('click',()=>{const d=cat.get(c.cod);d.open=true;d.scrollIntoView({block:'center'});});
-    pv.append(r);
+    const b=el('button',null,c.cod+' · '+c.nome);b.type='button';
+    b.addEventListener('click',()=>{const d=cat.get(c.cod);d.open=true;d.scrollIntoView({block:'start'});});
+    ind.append(b);
   });
-  pv.append(el('h3',null,'Computo metrico'),el('p','sd','Quantità ricavate dal modello 3D e dalla planimetria. Prezzi unitari IVA esclusa. Apri una categoria per vedere le voci.'));
+  pv.append(ind);
+  pv.append(el('h3',null,'Elenco delle lavorazioni'),el('p','sd','Apri una categoria per vedere le voci. Le quantità sono ricavate dal modello 3D e dalla planimetria, da confermare.'));
   p.categorie.forEach(c=>{
     const d=el('details','pcat'),s=el('summary');
-    s.append(el('span',null,c.cod+' · '+c.nome),el('b',null,eur(c.importo)));d.append(s);
+    s.append(el('span',null,c.cod+' · '+c.nome),el('b',null,c.voci.length+(c.voci.length>1?' voci':' voce')));d.append(s);
     const w=el('table','ptab'),h=el('tr');
-    ['Cod.','Descrizione','U.M.','Q.tà','Prezzo','Importo'].forEach((x,i)=>{h.append(el('th',i>2?'n':null,x));});
+    ['Cod.','Descrizione','U.M.','Q.tà'].forEach((x,i)=>{h.append(el('th',i>2?'n':null,x));});
     const th=el('thead');th.append(h);w.append(th);
     const tb=el('tbody');
     c.voci.forEach(v=>{
-      const r=el('tr');
-      r.append(el('td','c',v.cod),el('td',null,v.desc+(v.incl?'':' (escluso dal totale)')),el('td','c',v.um),el('td','n',num(v.qta)),el('td','n',eur2(v.prezzo)),el('td','n',v.incl?eur2(v.importo):'–'));
+      const r=el('tr'),t=el('td',null,v.desc+(v.incl?'':' (fornitura esclusa)'));
+      if(v.nota)t.append(el('small',null,v.nota));
+      r.append(el('td','c',v.cod),t,el('td','c',v.um),el('td','n',num(v.qta)));
       tb.append(r);
     });
     w.append(tb);d.append(w);pv.append(d);cat.set(c.cod,d);
@@ -535,7 +515,7 @@ function mostra(p){
   g.append(st,elenco('Lavori previsti',p.lavori));pv.append(g);
   pv.append(el('h3',null,'Assunzioni ed esclusioni'));
   const q=el('div','pgrid');
-  q.append(elenco('Il preventivo si basa su',p.basi),elenco('Non compresi',p.esclusi),elenco("Da definire prima dell'offerta definitiva",p.definire));pv.append(q);
+  q.append(elenco('Il capitolato si basa su',p.basi),elenco('Non compresi',p.esclusi),elenco('Da definire',p.definire));pv.append(q);
   pv.append(el('p','pnote',p.nota));
   pv.hidden=false;box.style.display='none';msg.textContent='';
 }
