@@ -125,7 +125,7 @@ h3.tg + .tgrid { margin-top:18px; }
 #lb .lbn { right:14px; }
 body.lbon { overflow:hidden; }
 
-/* prove di resa, cifrate: compaiono dopo il codice */
+/* prove di resa */
 #prove { background:var(--dark2); }
 #prove[hidden] { display:none; }
 #pano { position:relative;margin-top:30px;height:min(72vh,640px);min-height:340px;background:#191816;overflow:hidden;touch-action:none;cursor:grab; }
@@ -153,10 +153,6 @@ body.lbon { overflow:hidden; }
 
 /* computo e preventivo, cifrati */
 #doc { background:var(--dark3); }
-#dcod { display:flex;gap:6px;margin-top:26px;max-width:380px; }
-#dcod input { flex:1;min-width:0;background:transparent;border:.5px solid rgba(255,255,255,.3);color:#fff;font:inherit;font-size:16px;padding:12px 14px; }
-#dcod button { background:none;border:.5px solid var(--gold);color:var(--gold);font:inherit;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:0 22px;cursor:pointer; }
-#dmsg { min-height:18px;margin-top:12px;font-size:12px;color:var(--gold); }
 #pv h3 { font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;margin:64px 0 8px; }
 .pind { display:flex;flex-wrap:wrap;gap:6px;margin-top:14px; }
 .pind button { background:none;border:.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.8);font:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 14px;cursor:pointer; }
@@ -343,7 +339,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="lbcap"><b id="lbt"></b><p id="lbd"></p></div>
 </div>
 
-<section id="prove" hidden>
+<section id="prove">
   <div class="wrap">
     <p class="slab">Prove di resa</p>
     <h2 class="st">La reception con <em>Blender</em>.</h2>
@@ -397,9 +393,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Capitolato</p>
     <h2 class="st">Tutti i lavori, <em>voce per voce</em>.</h2>
-    <p class="sd">L'elenco dei lavori e delle forniture previsti finora, con le quantità ricavate dal modello. Questa parte si apre con il codice progetto.</p>
-    <form id="dcod"><input id="dc" type="password" placeholder="Codice progetto" autocomplete="off" aria-label="Codice progetto"><button type="submit">Apri</button></form>
-    <p id="dmsg" role="status"></p>
+    <p class="sd">L'elenco dei lavori e delle forniture previsti finora, con le quantità ricavate dal modello.</p>
     <div id="pv" hidden></div>
   </div>
 </section>
@@ -420,8 +414,8 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 </footer>
 
 <script>
-// Il repository del sito e' pubblico: il capitolato (senza prezzi) sta cifrato in dati/p.bin (AES-GCM, chiave dal codice con PBKDF2).
-// Il codice arriva dal menu "Accedi al tuo sito" nell'indirizzo, oppure si scrive nel campo. Generata da 21_area_privata.py.
+// Si entra dal menu "Accedi al tuo sito" con il codice: qui non serve altro. Capitolato in dati/capitolato.json, prove in prove/.
+// Il repository del sito e' pubblico: nessun prezzo nella pagina. Generata da 21_area_privata.py.
 // galleria: l'elenco dei render sta in img/render/galleria.json, scritto da 21_area_privata.py
 (async()=>{
   const G=await (await fetch('img/render/galleria.json')).json();
@@ -477,8 +471,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 })().catch(e=>console.error(e));
 const m3=document.getElementById('m3box');
 m3.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const f=document.createElement('iframe');f.title='Modello 3D navigabile';f.allow='fullscreen';f.src='3d/?modo='+b.dataset.m;m3.replaceChildren(f);f.focus();}));
-const SALE='HiZnkHPj2zYFYvEk1YbZkg==',GIRI=600000;
-const box=document.getElementById('dcod'),inp=document.getElementById('dc'),msg=document.getElementById('dmsg'),pv=document.getElementById('pv');
+const pv=document.getElementById('pv');
 const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
 const pt=x=>x.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
 const num=v=>{const r=Math.round(v*100)/100,[i,d]=r.toFixed(2).split('.');return pt(i)+(d==='00'?'':','+d.replace(/0$/,''));};
@@ -517,17 +510,12 @@ function mostra(p){
   const q=el('div','pgrid');
   q.append(elenco('Il capitolato si basa su',p.basi),elenco('Non compresi',p.esclusi),elenco('Da definire',p.definire));pv.append(q);
   pv.append(el('p','pnote',p.nota));
-  pv.hidden=false;box.style.display='none';msg.textContent='';
-}
-async function foto(n,key){
-  const d=await (await fetch('prove/'+n)).arrayBuffer();
-  const b=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(d,0,12)},key,new Uint8Array(d,12));
-  return URL.createObjectURL(new Blob([b],{type:'image/jpeg'}));
+  pv.hidden=false;
 }
 // postazioni del tour: stesse direzioni in tutte le panoramiche; b = direzione del passaggio in gradi da +Y di pianta
-const TOUR=[{f:'a.bin',nome:'Ingresso',va:1,b:346,e:-20},{f:'e.bin',nome:'Zona attesa',va:0,b:140,e:-20}];
-async function prove(key){
-  const [a,e,b,c,d]=await Promise.all(['a.bin','e.bin','b.bin','c.bin','d.bin'].map(n=>foto(n,key)));
+const TOUR=[{f:'a.jpg',nome:'Ingresso',va:1,b:346,e:-20},{f:'e.jpg',nome:'Zona attesa',va:0,b:140,e:-20}];
+async function prove(){
+  const [a,e,b,c,d]=['a','e','b','c','d'].map(n=>'prove/'+n+'.jpg');
   const q=i=>document.getElementById(i), url=[a,e];
   q('pvb').src=b;q('pvc').src=c;q('pvd').src=d;q('prove').hidden=false;
   const T=await import('./3d/lib/three.module.js');
@@ -569,20 +557,10 @@ async function prove(key){
   addEventListener('resize',size);size();
   await vai(0);
 }
-async function apri(c){
-  msg.textContent='Apertura in corso…';
-  try{
-    const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(c.trim().toLowerCase()),'PBKDF2',false,['deriveKey']);
-    const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:Uint8Array.from(atob(SALE),x=>x.charCodeAt(0)),iterations:GIRI,hash:'SHA-256'},k,{name:'AES-GCM',length:256},false,['decrypt']);
-    const d=await (await fetch('dati/p.bin')).arrayBuffer();
-    const b=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(d,0,12)},key,new Uint8Array(d,12));
-    mostra(JSON.parse(new TextDecoder().decode(b)));
-    prove(key).catch(e=>console.error(e));
-  }catch(_){ msg.textContent='Codice non riconosciuto. Controlla di averlo digitato correttamente.'; }
-}
-box.addEventListener('submit',e=>{e.preventDefault();if(inp.value.trim())apri(inp.value);else inp.focus();});
-const h=new URLSearchParams(location.hash.slice(1)).get('k');
-if(h){history.replaceState(null,'',location.pathname);apri(h);}
+// il codice arriva nell'indirizzo dal menu del sito: lo tolgo dalla barra, non serve per aprire nulla
+if(location.hash.includes('k='))history.replaceState(null,'',location.pathname);
+fetch('dati/capitolato.json').then(r=>r.json()).then(mostra).catch(e=>console.error(e));
+prove().catch(e=>console.error(e));
 </script>
 
 </body>

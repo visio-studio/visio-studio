@@ -1,0 +1,836 @@
+{
+ "revisione": "Revisione del 9 novembre 2026",
+ "mq": 674,
+ "categorie": [
+  {
+   "cod": "A",
+   "nome": "Cantiere e sicurezza",
+   "voci": [
+    {
+     "cod": "A.01",
+     "desc": "Allestimento cantiere, protezioni, recinzioni, baracca e bagno di cantiere",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "A.02",
+     "desc": "Pulizia finale di cantiere",
+     "um": "m²",
+     "qta": 674.3,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "A.03",
+     "desc": "Trasporto e conferimento a discarica autorizzata",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    }
+   ]
+  },
+  {
+   "cod": "B",
+   "nome": "Demolizioni e rimozioni",
+   "voci": [
+    {
+     "cod": "B.01",
+     "desc": "Rimozione pavimento esistente con sottofondo",
+     "um": "m²",
+     "qta": 365.39,
+     "incl": 1,
+     "nota": "Finitura esistente da verificare: se resta il massetto la voce si riduce"
+    },
+    {
+     "cod": "B.02",
+     "desc": "Rimozione pavimento esistente, zona -1.30",
+     "um": "m²",
+     "qta": 119.517,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "B.03",
+     "desc": "Rimozione pavimento esistente, zona 17,17 x 4,90",
+     "um": "m²",
+     "qta": 84.13300000000001,
+     "incl": 1,
+     "nota": "Finitura esistente da verificare"
+    },
+    {
+     "cod": "B.04",
+     "desc": "Rimozione controsoffitti e impianti in vista esistenti",
+     "um": "m²",
+     "qta": 674.3,
+     "incl": 1,
+     "nota": "Stato da verificare in sito"
+    },
+    {
+     "cod": "B.05",
+     "desc": "Apertura di nuova porta in muratura con architrave",
+     "um": "n",
+     "qta": 2,
+     "incl": 1,
+     "nota": "PDF: 'Apertura nuova porta'"
+    },
+    {
+     "cod": "B.06",
+     "desc": "Chiusura di varco esistente",
+     "um": "n",
+     "qta": 2,
+     "incl": 1,
+     "nota": "PDF: 'Chiusura del varco esistente'"
+    }
+   ]
+  },
+  {
+   "cod": "C",
+   "nome": "Opere edili e cartongesso",
+   "voci": [
+    {
+     "cod": "C.01",
+     "desc": "Tramezzo in cartongesso a doppia lastra con isolamento acustico",
+     "um": "m²",
+     "qta": 98.1,
+     "incl": 1,
+     "nota": "Sono muri nuovi: gli uffici oggi non esistono"
+    },
+    {
+     "cod": "C.02",
+     "desc": "Massetto autolivellante di regolarizzazione",
+     "um": "m²",
+     "qta": 365.39,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "C.03",
+     "desc": "Massetto autolivellante, zona -1.30",
+     "um": "m²",
+     "qta": 119.517,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "C.04",
+     "desc": "Massetto autolivellante, zona 17,17 x 4,90",
+     "um": "m²",
+     "qta": 84.13300000000001,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "C.05",
+     "desc": "Assistenze murarie agli impianti",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    }
+   ]
+  },
+  {
+   "cod": "D",
+   "nome": "Pavimenti e rivestimenti",
+   "voci": [
+    {
+     "cod": "D.01",
+     "desc": "Pavimento in gres grande formato antracite opaco, fornitura e posa",
+     "um": "m²",
+     "qta": 365.39,
+     "incl": 1,
+     "nota": "Prodotto da scegliere"
+    },
+    {
+     "cod": "D.02",
+     "desc": "Pavimento in gres, zona -1.30",
+     "um": "m²",
+     "qta": 119.517,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "D.03",
+     "desc": "Pavimento in gres, zona 17,17 x 4,90",
+     "um": "m²",
+     "qta": 84.13300000000001,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "D.04",
+     "desc": "Pavimento in gres, Ufficio 7",
+     "um": "m²",
+     "qta": 32.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "D.05",
+     "desc": "Pavimento in gres, WC e servizi",
+     "um": "m²",
+     "qta": 52.7,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "D.06",
+     "desc": "Rampe con finitura antiscivolo",
+     "um": "m²",
+     "qta": 20.56,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "D.07",
+     "desc": "Battiscopa in gres o alluminio",
+     "um": "m",
+     "qta": 545.3199999999999,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "D.08",
+     "desc": "Rivestimento gradini scale",
+     "um": "n",
+     "qta": 18.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "D.09",
+     "desc": "Rivestimento pareti WC",
+     "um": "m²",
+     "qta": 34.0,
+     "incl": 1,
+     "nota": ""
+    }
+   ]
+  },
+  {
+   "cod": "E",
+   "nome": "Serramenti e pareti vetrate",
+   "voci": [
+    {
+     "cod": "E.01",
+     "desc": "Portone d'ingresso a due ante in vetro con sopraluce",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": "Da togliere se anche il portone esistente resta"
+    },
+    {
+     "cod": "E.02",
+     "desc": "Pareti vetrate interne, profili neri 40 mm, vetro stratificato",
+     "um": "m²",
+     "qta": 116.99799999999999,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "E.03",
+     "desc": "Porta in vetro su parete vetrata con ferramenta",
+     "um": "n",
+     "qta": 9.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "E.04",
+     "desc": "Porta interna tamburata laccata",
+     "um": "n",
+     "qta": 6.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "E.05",
+     "desc": "Porta di uscita con maniglione antipanico",
+     "um": "n",
+     "qta": 3.0,
+     "incl": 1,
+     "nota": ""
+    }
+   ]
+  },
+  {
+   "cod": "F",
+   "nome": "Controsoffitti",
+   "voci": [
+    {
+     "cod": "F.01",
+     "desc": "Controsoffitto in cartongesso su orditura metallica, piano",
+     "um": "m²",
+     "qta": 400.9,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "F.02",
+     "desc": "Controsoffitto semplice in cartongesso, zona 17,17 x 4,90, senza velette",
+     "um": "m²",
+     "qta": 84.13300000000001,
+     "incl": 1,
+     "nota": "Finitura più semplice, richiesta dal committente"
+    },
+    {
+     "cod": "F.03",
+     "desc": "Velette perimetrali in cartongesso con gola per LED",
+     "um": "m²",
+     "qta": 202.1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "F.04",
+     "desc": "Chiusure verticali in cartongesso",
+     "um": "m²",
+     "qta": 150.7,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "F.05",
+     "desc": "Anello curvo sospeso in reception",
+     "um": "m²",
+     "qta": 12.6,
+     "incl": 1,
+     "nota": "Lavorazione curva"
+    }
+   ]
+  },
+  {
+   "cod": "G",
+   "nome": "Finiture e tinteggiature",
+   "voci": [
+    {
+     "cod": "G.01",
+     "desc": "Tinteggiatura pareti, due mani lavabile opaca, rasatura compresa",
+     "um": "m²",
+     "qta": 1358.8959999999997,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "G.02",
+     "desc": "Tinteggiatura controsoffitti",
+     "um": "m²",
+     "qta": 850.4330000000001,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "G.03",
+     "desc": "Rivestimento pilastri, pannelli in legno laccato opaco bisellati",
+     "um": "m²",
+     "qta": 279.06018518518516,
+     "incl": 1,
+     "nota": "Sottostruttura compresa"
+    },
+    {
+     "cod": "G.04",
+     "desc": "Parete curva in marmo verde, lastra curvata",
+     "um": "m²",
+     "qta": 6.0695,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "G.05",
+     "desc": "Portale d'ingresso e colonne in marmo verde",
+     "um": "m²",
+     "qta": 12.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "G.06",
+     "desc": "Scritta FUTURA retroilluminata su parete curva",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "G.07",
+     "desc": "Seconda scritta FUTURA su parete piana",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    }
+   ]
+  },
+  {
+   "cod": "H",
+   "nome": "Impianto elettrico e dati",
+   "voci": [
+    {
+     "cod": "H.01",
+     "desc": "Quadro generale e sottoquadri",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "H.02",
+     "desc": "Distribuzione principale, canalizzazioni e linee",
+     "um": "m²",
+     "qta": 674.3,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "H.03",
+     "desc": "Punto presa",
+     "um": "n",
+     "qta": 152.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "H.04",
+     "desc": "Punto rete dati Cat. 6",
+     "um": "n",
+     "qta": 46.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "H.05",
+     "desc": "Comando luci e zona di accensione",
+     "um": "n",
+     "qta": 44.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "H.06",
+     "desc": "Rack dati, patch panel e switch",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "H.07",
+     "desc": "Impianto antintrusione e videocitofono",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    }
+   ]
+  },
+  {
+   "cod": "I",
+   "nome": "Illuminazione",
+   "voci": [
+    {
+     "cod": "I.01",
+     "desc": "Faretto LED da incasso D90 3000K, fornitura e posa",
+     "um": "n",
+     "qta": 328.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "I.02",
+     "desc": "Strip LED 3000K in gola con profilo e alimentatori",
+     "um": "m",
+     "qta": 436.6153846153846,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "I.03",
+     "desc": "Plafoniera LED, zona 17,17 x 4,90",
+     "um": "n",
+     "qta": 12.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "I.04",
+     "desc": "Lampada di emergenza autonoma",
+     "um": "n",
+     "qta": 46.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "I.05",
+     "desc": "Sistema dimmerabile di gestione luci",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    }
+   ]
+  },
+  {
+   "cod": "L",
+   "nome": "Impianti meccanici e sicurezza",
+   "voci": [
+    {
+     "cod": "L.01",
+     "desc": "Climatizzazione a pompa di calore VRF con unità canalizzate",
+     "um": "m²",
+     "qta": 674.3,
+     "incl": 1,
+     "nota": "Dimensionare col termotecnico"
+    },
+    {
+     "cod": "L.02",
+     "desc": "Ventilazione meccanica e ricambio aria",
+     "um": "m²",
+     "qta": 674.3,
+     "incl": 1,
+     "nota": "Necessaria per aule e sala riunioni"
+    },
+    {
+     "cod": "L.03",
+     "desc": "Impianto idrico sanitario e scarichi WC, sanitari compresi",
+     "um": "n",
+     "qta": 2.0,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "L.04",
+     "desc": "Rilevazione fumo",
+     "um": "n",
+     "qta": 44.0,
+     "incl": 1,
+     "nota": "Secondo progetto antincendio"
+    },
+    {
+     "cod": "L.05",
+     "desc": "Estintori e segnaletica di sicurezza",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    }
+   ]
+  },
+  {
+   "cod": "M",
+   "nome": "Arredi",
+   "voci": [
+    {
+     "cod": "M.01",
+     "desc": "Bancone reception curvo su misura, doghe nere, marmo verde e pietra",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.02",
+     "desc": "Sedia con ribaltina per aula",
+     "um": "n",
+     "qta": 93,
+     "incl": 1,
+     "nota": "Quelle del laboratorio sono nella categoria N"
+    },
+    {
+     "cod": "M.03",
+     "desc": "Sedia operativa",
+     "um": "n",
+     "qta": 24,
+     "incl": 1,
+     "nota": "Docenti, uffici e sale riunioni"
+    },
+    {
+     "cod": "M.04",
+     "desc": "Sedia ospite",
+     "um": "n",
+     "qta": 4,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.05",
+     "desc": "Poltrona zona attesa",
+     "um": "n",
+     "qta": 2,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.06",
+     "desc": "Tavolino zona attesa",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.07",
+     "desc": "Cattedra 160x80",
+     "um": "n",
+     "qta": 5,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.08",
+     "desc": "Scrivania ufficio 140x70",
+     "um": "n",
+     "qta": 2,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.09",
+     "desc": "Postazione 180x80",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": "Ufficio 7"
+    },
+    {
+     "cod": "M.10",
+     "desc": "Tavolo riunioni 360x120",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.11",
+     "desc": "Tavolo riunioni 240x100",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.12",
+     "desc": "Armadio 100x45x180",
+     "um": "n",
+     "qta": 2,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.13",
+     "desc": "Mobile basso 90x45",
+     "um": "n",
+     "qta": 2,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.14",
+     "desc": "Lavagna interattiva LIM 86 pollici",
+     "um": "n",
+     "qta": 7,
+     "incl": 1,
+     "nota": "5 a parete e 2 su carrello"
+    },
+    {
+     "cod": "M.15",
+     "desc": "Piante e vasi",
+     "um": "n",
+     "qta": 4,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "M.16",
+     "desc": "Computer e monitor",
+     "um": "n",
+     "qta": 4,
+     "incl": 0,
+     "nota": "Escluso: di solito a carico del cliente"
+    }
+   ]
+  },
+  {
+   "cod": "N",
+   "nome": "Laboratorio di formazione",
+   "voci": [
+    {
+     "cod": "N.01",
+     "desc": "Scrivania PC 120x75, piano rovere, telaio nero, canalina e presa",
+     "um": "n",
+     "qta": 10,
+     "incl": 1,
+     "nota": "Postazioni affiancate a coppie"
+    },
+    {
+     "cod": "N.02",
+     "desc": "Pannello divisorio fonoassorbente in feltro, 120 cm",
+     "um": "n",
+     "qta": 5,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.03",
+     "desc": "Sedia operativa per postazione PC",
+     "um": "n",
+     "qta": 10,
+     "incl": 1,
+     "nota": "Stesso modello degli uffici"
+    },
+    {
+     "cod": "N.04",
+     "desc": "Sedia con ribaltina, zona lezione",
+     "um": "n",
+     "qta": 16,
+     "incl": 1,
+     "nota": "Stesso modello delle aule"
+    },
+    {
+     "cod": "N.05",
+     "desc": "Lavagna bianca a parete 300x120",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.06",
+     "desc": "Lavagna mobile bifacciale 180x120",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.07",
+     "desc": "Banco da lavoro 200x75 con cassettiera",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.08",
+     "desc": "Pannello forato portautensili con dotazione base",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.09",
+     "desc": "Tavolo da montaggio 240x100",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.10",
+     "desc": "Sgabello da laboratorio regolabile",
+     "um": "n",
+     "qta": 7,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.11",
+     "desc": "Banco per stampanti 3D 140x75",
+     "um": "n",
+     "qta": 2,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.12",
+     "desc": "Scaffale metallico con contenitori",
+     "um": "n",
+     "qta": 3,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.13",
+     "desc": "Mensola portabobine 280 cm",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.14",
+     "desc": "Lampada lineare LED sospesa",
+     "um": "n",
+     "qta": 3,
+     "incl": 1,
+     "nota": "Sopra postazioni PC e tavolo da montaggio"
+    },
+    {
+     "cod": "N.15",
+     "desc": "Pianta in vaso",
+     "um": "n",
+     "qta": 1,
+     "incl": 1,
+     "nota": ""
+    },
+    {
+     "cod": "N.16",
+     "desc": "Aspirazione localizzata e filtri per le stampanti 3D",
+     "um": "corpo",
+     "qta": 1,
+     "incl": 1,
+     "nota": "Locale senza finestre: da dimensionare col termotecnico"
+    },
+    {
+     "cod": "N.17",
+     "desc": "Stampante 3D FDM",
+     "um": "n",
+     "qta": 5,
+     "incl": 0,
+     "nota": "Escluso: attrezzatura didattica, come i computer"
+    },
+    {
+     "cod": "N.18",
+     "desc": "Computer per postazioni PC",
+     "um": "n",
+     "qta": 10,
+     "incl": 0,
+     "nota": "Escluso: di solito a carico del cliente"
+    }
+   ]
+  }
+ ],
+ "stato": "Dal rilievo 3D risultano muri perimetrali, pilastri, blocco servizi e facciate con le vetrine esterne, che restano. Aule e uffici oggi non esistono: quasi tutte le partizioni interne sono nuove.",
+ "lavori": [
+  "Rimozioni, due nuove aperture e due chiusure di varchi",
+  "Pareti nuove e pareti vetrate con profili neri sottili",
+  "Gres di grande formato, pilastri laccati e marmo verde",
+  "Controsoffitti con velette, gole LED e anello in reception",
+  "Laboratorio di formazione nella zona 17,17 x 4,90 m, con controsoffitto semplice",
+  "Impianti elettrici, luci, clima, aria e sicurezza",
+  "Arredi di reception, aule, uffici, sale riunioni e laboratorio"
+ ],
+ "basi": [
+  "Planimetria EPT Rev01, rilievo 3D e modello di progetto.",
+  "Quantità ricavate dal modello 3D e dalla planimetria.",
+  "Impianti stimati a parametro, da dimensionare con i progettisti.",
+  "Materiali mostrati nelle immagini, da scegliere insieme."
+ ],
+ "esclusi": [
+  "Vetrine esterne, che esistono già.",
+  "Computer, stampanti 3D e dispositivi: indicati, ma fuori dai lavori.",
+  "Diritti, oneri comunali, allacci e utenze.",
+  "Opere strutturali e lavori condominiali.",
+  "Traslochi e materiali di consumo."
+ ],
+ "definire": [
+  "Stato attuale della zona 17,17 x 4,90 m a quota -1,30 e aria per il laboratorio, che non ha finestre.",
+  "Permanenza del portone d'ingresso esistente, oggi conteggiato come nuovo.",
+  "Finiture, impianti e altezze nette, con sopralluogo.",
+  "Requisiti antincendio e di agibilità per l'uso come aule."
+ ],
+ "nota": "Capitolato preliminare: elenco dei lavori e delle forniture previsti finora, con quantità da confermare. I costi verranno indicati a parte."
+}
