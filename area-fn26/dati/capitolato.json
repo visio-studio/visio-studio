@@ -94,7 +94,7 @@
      "cod": "C.01",
      "desc": "Tramezzo in cartongesso a doppia lastra con isolamento acustico",
      "um": "m²",
-     "qta": 98.1,
+     "qta": 105.8,
      "incl": 1,
      "nota": "Sono muri nuovi: gli uffici oggi non esistono"
     },
@@ -188,7 +188,7 @@
      "cod": "D.07",
      "desc": "Battiscopa in gres o alluminio",
      "um": "m",
-     "qta": 545.3199999999999,
+     "qta": 545.4499999999999,
      "incl": 1,
      "nota": ""
     },
@@ -226,7 +226,7 @@
      "cod": "E.02",
      "desc": "Pareti vetrate interne, profili neri 40 mm, vetro stratificato",
      "um": "m²",
-     "qta": 116.99799999999999,
+     "qta": 116.60149999999999,
      "incl": 1,
      "nota": ""
     },
@@ -236,10 +236,18 @@
      "um": "n",
      "qta": 9.0,
      "incl": 1,
-     "nota": ""
+     "nota": "Porte P01-P09, vedi abaco vetrate in elaborati/06_vetrate"
     },
     {
      "cod": "E.04",
+     "desc": "Parete mobile manovrabile a pannelli impacchettabili, Rw almeno 45 dB, binario a soffitto",
+     "um": "m²",
+     "qta": 12.15,
+     "incl": 1,
+     "nota": "Aula 11 / Sala riunioni, 4,00 x 3,04 m, al posto della vetrata"
+    },
+    {
+     "cod": "E.05",
      "desc": "Porta interna tamburata laccata",
      "um": "n",
      "qta": 6.0,
@@ -247,7 +255,7 @@
      "nota": ""
     },
     {
-     "cod": "E.05",
+     "cod": "E.06",
      "desc": "Porta di uscita con maniglione antipanico",
      "um": "n",
      "qta": 3.0,
@@ -310,7 +318,7 @@
      "cod": "G.01",
      "desc": "Tinteggiatura pareti, due mani lavabile opaca, rasatura compresa",
      "um": "m²",
-     "qta": 1358.8959999999997,
+     "qta": 1359.2599999999998,
      "incl": 1,
      "nota": ""
     },
@@ -534,7 +542,7 @@
      "cod": "M.02",
      "desc": "Sedia con ribaltina per aula",
      "um": "n",
-     "qta": 93,
+     "qta": 98,
      "incl": 1,
      "nota": "Quelle del laboratorio sono nella categoria N"
     },
@@ -542,7 +550,7 @@
      "cod": "M.03",
      "desc": "Sedia operativa",
      "um": "n",
-     "qta": 24,
+     "qta": 32,
      "incl": 1,
      "nota": "Docenti, uffici e sale riunioni"
     },
@@ -622,12 +630,44 @@
      "cod": "M.13",
      "desc": "Mobile basso 90x45",
      "um": "n",
-     "qta": 2,
+     "qta": 4,
      "incl": 1,
      "nota": ""
     },
     {
      "cod": "M.14",
+     "desc": "Postazione di lavoro: scrivania 120x75 rovere e telaio nero, canalina e presa",
+     "um": "n",
+     "qta": 8,
+     "incl": 1,
+     "nota": "Aule 3 e 6, Uffici 5 e 7; quelle del laboratorio sono nella categoria N"
+    },
+    {
+     "cod": "M.15",
+     "desc": "Pannello divisorio fonoassorbente in feltro, 120 cm",
+     "um": "n",
+     "qta": 2,
+     "incl": 1,
+     "nota": "Isola PC dell'Aula 3"
+    },
+    {
+     "cod": "M.16",
+     "desc": "Libreria 120x35x200, telaio nero e ripiani in rovere",
+     "um": "n",
+     "qta": 6,
+     "incl": 1,
+     "nota": "Aule 3 e 6, Ufficio 7, Sala riunioni"
+    },
+    {
+     "cod": "M.17",
+     "desc": "Scaffale archivio metallico 100x40x180",
+     "um": "n",
+     "qta": 2,
+     "incl": 1,
+     "nota": "Aula 6 e Ufficio 5"
+    },
+    {
+     "cod": "M.18",
      "desc": "Lavagna interattiva LIM 86 pollici",
      "um": "n",
      "qta": 7,
@@ -635,18 +675,18 @@
      "nota": "5 a parete e 2 su carrello"
     },
     {
-     "cod": "M.15",
+     "cod": "M.19",
      "desc": "Piante e vasi",
      "um": "n",
-     "qta": 4,
+     "qta": 10,
      "incl": 1,
      "nota": ""
     },
     {
-     "cod": "M.16",
+     "cod": "M.20",
      "desc": "Computer e monitor",
      "um": "n",
-     "qta": 4,
+     "qta": 12,
      "incl": 0,
      "nota": "Escluso: di solito a carico del cliente"
     }
@@ -660,7 +700,7 @@
      "cod": "N.01",
      "desc": "Scrivania PC 120x75, piano rovere, telaio nero, canalina e presa",
      "um": "n",
-     "qta": 10,
+     "qta": 18,
      "incl": 1,
      "nota": "Postazioni affiancate a coppie"
     },
@@ -668,7 +708,7 @@
      "cod": "N.02",
      "desc": "Pannello divisorio fonoassorbente in feltro, 120 cm",
      "um": "n",
-     "qta": 5,
+     "qta": 7,
      "incl": 1,
      "nota": ""
     },
@@ -796,7 +836,7 @@
      "cod": "N.18",
      "desc": "Computer per postazioni PC",
      "um": "n",
-     "qta": 10,
+     "qta": 18,
      "incl": 0,
      "nota": "Escluso: di solito a carico del cliente"
     }

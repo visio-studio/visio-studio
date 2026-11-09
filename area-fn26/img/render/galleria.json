@@ -1,9 +1,10 @@
 {
  "ambienti": [
   "Laboratorio",
+  "Aule",
+  "Uffici e sala riunioni",
   "Reception e ingresso",
-  "Corridoio",
-  "Aule e uffici"
+  "Corridoio"
  ],
  "render": [
   {
@@ -12,7 +13,7 @@
    "titolo": "Vista generale",
    "desc": "Il laboratorio dall'ingresso: tavolo di montaggio, postazioni PC e zona lezione sul fondo",
    "tipo": "modello",
-   "nuovo": true,
+   "nuovo": false,
    "w": 1920,
    "h": 1080
   },
@@ -22,7 +23,7 @@
    "titolo": "Zona stampa 3D",
    "desc": "Banchi con le stampanti 3D, mensola delle bobine di filamento e scaffali",
    "tipo": "modello",
-   "nuovo": true,
+   "nuovo": false,
    "w": 1920,
    "h": 1080
   },
@@ -32,7 +33,7 @@
    "titolo": "Postazioni PC",
    "desc": "Dieci postazioni PC affiancate con pannelli divisori in feltro e lampade sospese",
    "tipo": "modello",
-   "nuovo": true,
+   "nuovo": false,
    "w": 1920,
    "h": 1080
   },
@@ -41,6 +42,186 @@
    "ambiente": "Laboratorio",
    "titolo": "Zona lezione",
    "desc": "Sedie con ribaltina davanti alla lavagna a parete e alla lavagna mobile",
+   "tipo": "modello",
+   "nuovo": false,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "aula3-foto",
+   "ambiente": "Aule",
+   "titolo": "Aula 3",
+   "desc": "Isola di quattro postazioni PC dietro il pilastro e lezione rivolta alla lavagna interattiva",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "aula3",
+   "ambiente": "Aule",
+   "titolo": "Aula 3 · dal modello",
+   "desc": "Isola di quattro postazioni PC dietro il pilastro e lezione rivolta alla lavagna interattiva",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "aula1-foto",
+   "ambiente": "Aule",
+   "titolo": "Aula 1",
+   "desc": "Aula con sedie con ribaltina, cattedra e lavagna interattiva a parete",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "aula1",
+   "ambiente": "Aule",
+   "titolo": "Aula 1 · dal modello",
+   "desc": "Aula con sedie con ribaltina, cattedra e lavagna interattiva a parete",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "aula6-foto",
+   "ambiente": "Aule",
+   "titolo": "Aula 6",
+   "desc": "Aula con due postazioni PC sul lato della vetrata, libreria e scaffale",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "aula6",
+   "ambiente": "Aule",
+   "titolo": "Aula 6 · dal modello",
+   "desc": "Aula con due postazioni PC sul lato della vetrata, libreria e scaffale",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "aula9-foto",
+   "ambiente": "Aule",
+   "titolo": "Aula 9",
+   "desc": "Aula sul lato sud con lavagna interattiva su carrello davanti alla vetrata",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "aula9",
+   "ambiente": "Aule",
+   "titolo": "Aula 9 · dal modello",
+   "desc": "Aula sul lato sud con lavagna interattiva su carrello davanti alla vetrata",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "aula10-foto",
+   "ambiente": "Aule",
+   "titolo": "Aula 10",
+   "desc": "Aula con la lavagna interattiva su carrello davanti alle sedie",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "aula10",
+   "ambiente": "Aule",
+   "titolo": "Aula 10 · dal modello",
+   "desc": "Aula con la lavagna interattiva su carrello davanti alle sedie",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "aula11-foto",
+   "ambiente": "Aule",
+   "titolo": "Aula 11",
+   "desc": "Aula con due file di sedie rivolte alla lavagna e cattedra accanto",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "aula11",
+   "ambiente": "Aule",
+   "titolo": "Aula 11 · dal modello",
+   "desc": "Aula con due file di sedie rivolte alla lavagna e cattedra accanto",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "sala-riunioni-foto",
+   "ambiente": "Uffici e sala riunioni",
+   "titolo": "Sala riunioni",
+   "desc": "Tavolo per dodici e parete mobile a pannelli verso l'Aula 11",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "sala-riunioni",
+   "ambiente": "Uffici e sala riunioni",
+   "titolo": "Sala riunioni · dal modello",
+   "desc": "Tavolo per dodici e parete mobile a pannelli verso l'Aula 11",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "ufficio7-foto",
+   "ambiente": "Uffici e sala riunioni",
+   "titolo": "Ufficio 7",
+   "desc": "Tavolo riunioni, librerie e postazioni di lavoro a quota -1,30",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "ufficio7",
+   "ambiente": "Uffici e sala riunioni",
+   "titolo": "Ufficio 7 · dal modello",
+   "desc": "Tavolo riunioni, librerie e postazioni di lavoro a quota -1,30",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "corridoio-porte-foto",
+   "ambiente": "Corridoio",
+   "titolo": "Porte in vetro",
+   "desc": "Corridoio delle aule con le nuove porte in vetro e profili neri",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "corridoio-porte",
+   "ambiente": "Corridoio",
+   "titolo": "Porte in vetro · dal modello",
+   "desc": "Corridoio delle aule con le nuove porte in vetro e profili neri",
    "tipo": "modello",
    "nuovo": true,
    "w": 1920,
@@ -88,8 +269,8 @@
   },
   {
    "id": "sala-corsi",
-   "ambiente": "Aule e uffici",
-   "titolo": "Sala corsi",
+   "ambiente": "Aule",
+   "titolo": "Sala corsi · prima versione",
    "desc": "Sala corsi con lavagna interattiva, cattedra, sedie con ribaltina e parete in marmo verde",
    "tipo": "studio",
    "nuovo": false,
@@ -98,7 +279,7 @@
   },
   {
    "id": "ufficio",
-   "ambiente": "Aule e uffici",
+   "ambiente": "Uffici e sala riunioni",
    "titolo": "Ufficio direzionale",
    "desc": "Ufficio direzionale con grande tavolo in noce, sedute in rete e vetrate alte sul corridoio",
    "tipo": "studio",
