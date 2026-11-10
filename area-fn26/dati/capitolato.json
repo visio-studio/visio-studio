@@ -94,7 +94,7 @@
      "cod": "C.01",
      "desc": "Tramezzo in cartongesso a doppia lastra con isolamento acustico",
      "um": "m²",
-     "qta": 105.8,
+     "qta": 109.3,
      "incl": 1,
      "nota": "Sono muri nuovi: gli uffici oggi non esistono"
     },
@@ -188,7 +188,7 @@
      "cod": "D.07",
      "desc": "Battiscopa in gres o alluminio",
      "um": "m",
-     "qta": 545.4499999999999,
+     "qta": 546.5,
      "incl": 1,
      "nota": ""
     },
@@ -226,7 +226,7 @@
      "cod": "E.02",
      "desc": "Pareti vetrate interne, profili neri 40 mm, vetro stratificato",
      "um": "m²",
-     "qta": 116.60149999999999,
+     "qta": 113.39899999999999,
      "incl": 1,
      "nota": ""
     },
@@ -272,7 +272,7 @@
      "cod": "F.01",
      "desc": "Controsoffitto in cartongesso su orditura metallica, piano",
      "um": "m²",
-     "qta": 400.9,
+     "qta": 264.0,
      "incl": 1,
      "nota": ""
     },
@@ -288,7 +288,7 @@
      "cod": "F.03",
      "desc": "Velette perimetrali in cartongesso con gola per LED",
      "um": "m²",
-     "qta": 202.1,
+     "qta": 187.0,
      "incl": 1,
      "nota": ""
     },
@@ -296,7 +296,7 @@
      "cod": "F.04",
      "desc": "Chiusure verticali in cartongesso",
      "um": "m²",
-     "qta": 150.7,
+     "qta": 117.2,
      "incl": 1,
      "nota": ""
     },
@@ -318,7 +318,7 @@
      "cod": "G.01",
      "desc": "Tinteggiatura pareti, due mani lavabile opaca, rasatura compresa",
      "um": "m²",
-     "qta": 1359.2599999999998,
+     "qta": 1362.1999999999998,
      "incl": 1,
      "nota": ""
     },
@@ -326,7 +326,7 @@
      "cod": "G.02",
      "desc": "Tinteggiatura controsoffitti",
      "um": "m²",
-     "qta": 850.4330000000001,
+     "qta": 664.9330000000001,
      "incl": 1,
      "nota": ""
     },
@@ -442,7 +442,7 @@
      "cod": "I.01",
      "desc": "Faretto LED da incasso D90 3000K, fornitura e posa",
      "um": "n",
-     "qta": 328.0,
+     "qta": 230.0,
      "incl": 1,
      "nota": ""
     },
@@ -450,7 +450,7 @@
      "cod": "I.02",
      "desc": "Strip LED 3000K in gola con profilo e alimentatori",
      "um": "m",
-     "qta": 436.6153846153846,
+     "qta": 297.30769230769226,
      "incl": 1,
      "nota": ""
     },
