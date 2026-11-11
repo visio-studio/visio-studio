@@ -128,22 +128,22 @@
    "h": 1080
   },
   {
-   "id": "aula10-foto",
-   "ambiente": "Aule",
-   "titolo": "Aula 10",
-   "desc": "Aula con la lavagna interattiva su carrello davanti alle sedie",
-   "tipo": "studio",
-   "nuovo": true,
-   "w": 1376,
-   "h": 768
-  },
-  {
    "id": "aula10",
    "ambiente": "Aule",
    "titolo": "Aula 10 · dal modello",
-   "desc": "Aula con la lavagna interattiva su carrello davanti alle sedie",
+   "desc": "Quattro file di sedie rivolte alla lavagna interattiva su carrello, davanti alla vetrata",
    "tipo": "modello",
    "nuovo": true,
+   "w": 1920,
+   "h": 1080
+  },
+  {
+   "id": "aula10-b",
+   "ambiente": "Aule",
+   "titolo": "Aula 10 · dalla lavagna",
+   "desc": "Le file viste dalla lavagna, con il passaggio verso la porta",
+   "tipo": "modello",
+   "nuovo": false,
    "w": 1920,
    "h": 1080
   },
