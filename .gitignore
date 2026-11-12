@@ -2,3 +2,5 @@
 .claude/
 visio-journey-scrub.original.mp4
 img/_originali/
+.env.local
+.env*.local
