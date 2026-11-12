@@ -92,6 +92,7 @@ import { EffectComposer } from './lib/postprocessing/EffectComposer.js';
 import { RenderPass } from './lib/postprocessing/RenderPass.js';
 import { GTAOPass } from './lib/postprocessing/GTAOPass.js';
 import { UnrealBloomPass } from './lib/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from './lib/postprocessing/ShaderPass.js';
 import { OutputPass } from './lib/postprocessing/OutputPass.js';
 
 const q = new URLSearchParams(location.search);
@@ -126,6 +127,11 @@ ao.updatePdMaterial({ radius:6, rings:2, samples:12 });
 ao.blendIntensity = 0.85;
 ao.enabled = !touch;  // sui telefoni costa troppo
 composer.addPass(ao);
+// rete di sicurezza: un pixel NaN o infinito non deve arrivare al bagliore (lo allargherebbe a tutta l'immagine)
+composer.addPass(new ShaderPass({ uniforms:{ tDiffuse:{ value:null } },
+  vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+  fragmentShader:'uniform sampler2D tDiffuse;varying vec2 vUv;void main(){vec4 c=texture2D(tDiffuse,vUv);'+
+    'bool bad=any(isnan(c))||any(isinf(c))||c.r!=c.r||c.g!=c.g||c.b!=c.b;gl_FragColor=bad?vec4(0.,0.,0.,1.):min(c,vec4(64.));}' }));
 const bagliore = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.45, 0.3, 1.7);
 composer.addPass(bagliore);
 composer.addPass(new OutputPass());
@@ -193,9 +199,29 @@ function geometria(L, buf) {
   const u = new Int16Array(buf, L.ou, L.v * 2), uv = new Float32Array(L.v * 2);
   for (let i = 0; i < L.v; i++) for (let k = 0; k < 2; k++) uv[i*2+k] = L.ulo[k] + (u[i*2+k] + 32768) * L.us[k];
   g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  g.setAttribute('normal', new THREE.BufferAttribute(new Int8Array(buf, L.on, L.v * 3), 3, true));
+  const nr = new Int8Array(buf, L.on, L.v * 3);
+  const idx = L.i32 ? new Uint32Array(buf, L.oi, L.i) : new Uint16Array(buf, L.oi, L.i);
+  // alcune facce degli arredi arrivano con normale nulla: nello shader diventa NaN e il bagliore
+  // la spalma su tutto lo schermo (il modello "lampeggia"). Le sostituisco con la normale della faccia.
+  let nulle = false;
+  for (let i = 0; i < L.v && !nulle; i++) if (!nr[i*3] && !nr[i*3+1] && !nr[i*3+2]) nulle = true;
+  if (nulle) {
+    const nf = new Float32Array(L.v * 3);
+    for (let i = 0; i < L.v * 3; i++) nf[i] = Math.max(nr[i] / 127, -1);
+    const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3();
+    for (let t = 0; t < idx.length; t += 3) {
+      const v = [idx[t], idx[t+1], idx[t+2]];
+      if (!v.some(j => !nf[j*3] && !nf[j*3+1] && !nf[j*3+2])) continue;
+      A.fromArray(pos, v[0]*3); B.fromArray(pos, v[1]*3); C.fromArray(pos, v[2]*3);
+      C.sub(B); A.sub(B); C.cross(A);
+      if (C.lengthSq() < 1e-20) C.set(0, 0, 1); else C.normalize();
+      v.forEach(j => { if (!nf[j*3] && !nf[j*3+1] && !nf[j*3+2]) C.toArray(nf, j*3); });
+    }
+    for (let i = 0; i < L.v; i++) if (!nf[i*3] && !nf[i*3+1] && !nf[i*3+2]) nf[i*3+2] = 1;
+    g.setAttribute('normal', new THREE.BufferAttribute(nf, 3));
+  } else g.setAttribute('normal', new THREE.BufferAttribute(nr, 3, true));
   g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
-  g.setIndex(new THREE.BufferAttribute(L.i32 ? new Uint32Array(buf, L.oi, L.i) : new Uint16Array(buf, L.oi, L.i), 1));
+  g.setIndex(new THREE.BufferAttribute(idx, 1));
   return g;
 }
 
