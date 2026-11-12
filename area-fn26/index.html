@@ -140,6 +140,39 @@ body.lbon { overflow:hidden; }
 .pvgrid figcaption { font-size:11px;line-height:1.6;color:rgba(255,255,255,.62); }
 #prove ul { margin:22px 0 0 18px;font-size:12px;line-height:1.85;color:rgba(255,255,255,.62); }
 
+/* configuratore finiture */
+#config { background:var(--dark3); }
+.cfgbox { display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;margin-top:36px;align-items:start; }
+.cfgimg { position:relative;aspect-ratio:16/9;background:#191816;overflow:hidden; }
+.cfgimg img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s ease; }
+.cfgimg img.via { opacity:0; }
+.cfgimg .cfgtag { position:absolute;left:14px;bottom:14px;background:rgba(10,10,10,.75);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 12px;color:rgba(255,255,255,.85); }
+.cfgviste { display:flex;gap:6px;margin-top:10px; }
+.cfgviste button, .cfgrow button, #ttools button { background:none;border:.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.8);font:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 14px;cursor:pointer; }
+.cfgviste button[aria-pressed=true], #ttools button[aria-pressed=true] { background:var(--gold);border-color:var(--gold);color:var(--dark); }
+.cfgrow { margin-bottom:22px; }
+.cfgrow h4 { font-size:9px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px; }
+.cfgrow .op { display:grid;grid-template-columns:repeat(3,1fr);gap:8px; }
+.cfgrow .op button { padding:0;border:0;text-align:left;letter-spacing:0;text-transform:none;font-size:11px;line-height:1.35;color:rgba(255,255,255,.7); }
+.cfgrow .op i { display:block;aspect-ratio:1;background-size:cover;background-position:center;border:2px solid transparent;outline:.5px solid rgba(255,255,255,.2);margin-bottom:6px; }
+.cfgrow .op button[aria-pressed=true] { color:#fff; }
+.cfgrow .op button[aria-pressed=true] i { border-color:var(--gold); }
+.cfgrow .op small { display:block;font-size:9.5px;color:rgba(255,255,255,.45); }
+.cfgrow .op button[disabled] { opacity:.3;cursor:not-allowed; }
+.cfgnota { font-size:11px;color:rgba(255,255,255,.5);line-height:1.7;margin-top:12px; }
+
+/* tour 360 interattivo */
+#ttools { display:flex;gap:6px;flex-wrap:wrap;margin-top:28px;align-items:center; }
+#ttools .sep { width:1px;height:26px;background:rgba(255,255,255,.18);margin:0 6px; }
+#pano .porta { position:absolute;inset:0;display:flex;pointer-events:none;z-index:3; }
+#pano .porta i { flex:1;background:linear-gradient(90deg,rgba(20,20,22,.96),rgba(40,40,44,.96));border:1px solid rgba(0,0,0,.6);transition:transform .55s cubic-bezier(.6,0,.3,1); }
+#pano .porta i:first-child { transform:translateX(-101%);border-right:3px solid #111; }
+#pano .porta i:last-child { transform:translateX(101%);border-left:3px solid #111; }
+#pano .porta.chiusa i { transform:none; }
+#pano #tmappa { position:absolute;right:12px;top:12px;width:190px;height:auto;background:rgba(10,10,10,.72);border:.5px solid rgba(255,255,255,.16);z-index:2;cursor:pointer; }
+#tnome { position:absolute;left:14px;top:12px;z-index:2;font-family:'Cormorant Garamond',serif;font-size:24px;text-shadow:0 1px 8px rgba(0,0,0,.6); }
+#pano:fullscreen { height:100vh; }
+
 /* scelte d'arredo — sezione chiara */
 #arredo { background:var(--light);color:var(--text); }
 #arredo .slab { color:#7a5f30; }
@@ -199,6 +232,8 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   #lb .lbp, #lb .lbn { top:auto;bottom:10px;margin:0;width:42px;height:42px; }
   #m3box { margin:36px -20px 0;height:72vh; }
   .pvgrid { grid-template-columns:1fr; }
+  .cfgbox { grid-template-columns:1fr; }
+  #pano #tmappa { width:120px; }
   .pgrid { grid-template-columns:1fr; }
   .ptab thead { display:none; }
   .ptab tr { display:grid;grid-template-columns:auto 1fr auto;gap:2px 8px;border-top:.5px solid rgba(255,255,255,.08);padding:10px 0; }
@@ -251,9 +286,9 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     <p class="sd">Questa pagina raccoglie i materiali del progetto e si aggiorna a ogni revisione: modello 3D, tavole, mappe, render e capitolato dei lavori.</p>
     <div class="dgrid">
       <div class="dcell"><b>674</b><span>Metri quadri</span></div>
-      <div class="dcell"><b>114</b><span>Posti aula</span></div>
+      <div class="dcell"><b>147</b><span>Posti aula</span></div>
       <div class="dcell"><b>328</b><span>Faretti LED</span></div>
-      <div class="dcell"><b>18</b><span>Postazioni PC</span></div>
+      <div class="dcell"><b>22</b><span>Postazioni PC</span></div>
     </div>
   </div>
 </section>
@@ -292,7 +327,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     <div class="tgrid">
       <figure class="tcard"><a href="tavole/Nomentana_D01_reception_01.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D01_reception_01.jpg" alt="Tavola D01 · Reception" loading="lazy"><figcaption>D01 · Reception</figcaption></a></figure>
       <figure class="tcard"><a href="tavole/Nomentana_D02_aule_02.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D02_aule_02.jpg" alt="Tavola D02 · Aule 9, 10 e 11" loading="lazy"><figcaption>D02 · Aule 9, 10 e 11</figcaption></a></figure>
-      <figure class="tcard"><a href="tavole/Nomentana_D03_sala_03.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D03_sala_03.jpg" alt="Tavola D03 · Sala riunioni" loading="lazy"><figcaption>D03 · Sala riunioni</figcaption></a></figure>
+      <figure class="tcard"><a href="tavole/Nomentana_D03_aula_03.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D03_aula_03.jpg" alt="Tavola D03 · Aula 12" loading="lazy"><figcaption>D03 · Aula 12, unibile all'Aula 11</figcaption></a></figure>
       <figure class="tcard"><a href="tavole/Nomentana_D04_aula_04.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D04_aula_04.jpg" alt="Tavola D04 · Aula 6 e Ufficio 7" loading="lazy"><figcaption>D04 · Aula 6 e Ufficio 7</figcaption></a></figure>
       <figure class="tcard"><a href="tavole/Nomentana_D05_aula_05.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D05_aula_05.jpg" alt="Tavola D05 · Aula 3 e one to one" loading="lazy"><figcaption>D05 · Aula 3 e one to one</figcaption></a></figure>
       <figure class="tcard"><a href="tavole/Nomentana_D06_aula_06.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_D06_aula_06.jpg" alt="Tavola D06 · Aula 1 e one to one" loading="lazy"><figcaption>D06 · Aula 1 e one to one</figcaption></a></figure>
@@ -350,24 +385,38 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="lbcap"><b id="lbt"></b><p id="lbd"></p></div>
 </div>
 
+<section id="config">
+  <div class="wrap">
+    <p class="slab">Configuratore finiture</p>
+    <h2 class="st">Scegli i materiali, <em>guarda la reception cambiare</em>.</h2>
+    <p class="sd">Rivestimento dei pilastri, pavimento, marmo della parete e del bancone, luce del giorno o della sera. Ogni combinazione è un render vero dal modello 3D, con ceramiche Florim reali.</p>
+    <div class="cfgbox">
+      <div>
+        <div class="cfgimg" id="cfgimg"><img alt="" id="cfgA"><img alt="" id="cfgB" class="via"><span class="cfgtag" id="cfgtag"></span></div>
+        <div class="cfgviste" id="cfgviste" role="group" aria-label="Punto di vista"></div>
+      </div>
+      <div id="cfgop"></div>
+    </div>
+    <p class="cfgnota">Le immagini dei campioni vengono dalle schede prodotto Florim. Colori e venature sullo schermo sono indicativi: la scelta finale si fa sui campioni veri.</p>
+  </div>
+</section>
+
 <section id="prove">
   <div class="wrap">
     <p class="slab">Tour 360</p>
-    <h2 class="st">Dentro il laboratorio, <em>a 360°</em>.</h2>
-    <p class="sd">Panoramiche Blender dal modello aggiornato. Trascina per guardarti intorno, tocca un cerchio sul pavimento per spostarti, oppure scegli un punto qui sotto. In fondo alla lista ci sono le prove della reception.</p>
-    <div id="pano" tabindex="0" role="application" aria-label="Panoramica 360: trascina per guardarti intorno"></div>
-    <div id="pvtour" role="group" aria-label="Postazioni della visita"></div>
-    <h3 class="tg">Prove di resa della reception</h3>
-    <div class="pvgrid">
-      <figure><img id="pvb" alt="Render del bancone curvo con parete in marmo verde e scritta FUTURA retroilluminata"><figcaption>Render Cycles del bancone.</figcaption></figure>
-      <figure><img id="pvc" alt="Vista in tempo reale della reception con la luce calcolata"><figcaption>Camminata con luce calcolata: schermata della prova.</figcaption></figure>
-      <figure><img id="pvd" alt="Vista ravvicinata verso le vetrine con auto parcheggiata e strada"><figcaption>Vista ravvicinata delle vetrine: qui si nota il limite di risoluzione dello sfondo.</figcaption></figure>
+    <h2 class="st">Dentro la nuova sede, <em>a 360°</em>.</h2>
+    <p class="sd">Trascina per guardarti intorno. Tocca i cerchi sul pavimento o la mappa per spostarti: attraversi le porte come dal vero. Accendi e spegni le luci, passa alla sera, cambia il marmo della reception.</p>
+    <div id="ttools" role="group" aria-label="Comandi del tour">
+      <button type="button" id="tLuci" aria-pressed="true">Luci accese</button>
+      <button type="button" id="tSera" aria-pressed="false">Sera</button>
+      <span class="sep"></span>
+      <span id="tMarmi" style="display:contents"></span>
+      <span class="sep"></span>
+      <button type="button" id="tAuto" aria-pressed="false">Visita automatica</button>
+      <button type="button" id="tFull">Schermo intero</button>
     </div>
-    <ul>
-      <li>Sfondo sfocato da vicino e con il marchio Google nel 360°.</li>
-      <li>Zona azzurrina in basso nel vetro verso la strada laterale.</li>
-      <li>Sfondo da Street View: da sostituire con foto proprie prima di mostrarlo al cliente.</li>
-    </ul>
+    <div id="pano" tabindex="0" role="application" aria-label="Panoramica 360: trascina per guardarti intorno"><span id="tnome"></span><canvas id="tmappa" aria-label="Mappa del tour: tocca un punto per andarci"></canvas><div class="porta"><i></i><i></i></div></div>
+    <div id="pvtour" role="group" aria-label="Postazioni della visita"></div>
   </div>
 </section>
 
@@ -379,13 +428,13 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     <div class="agrid">
       <div class="aitem">
         <h3>Reception</h3>
-        <p>Bancone curvo con doghe nere, marmo verde e pietra chiara. Parete curva in marmo verde con scritta retroilluminata.</p>
-        <div class="asw"><i style="background:#4F6B55"></i><i style="background:#1A1A1A"></i><i style="background:#D8CFC0"></i></div>
+        <p>Bancone curvo con doghe tortora, gres effetto marmo Florim Heritage Emerald e lastra continua in pietra chiara. Parete curva nello stesso marmo, con scritta retroilluminata. Varianti blu nel configuratore.</p>
+        <div class="asw"><i style="background:#4E5235"></i><i style="background:#8A847A"></i><i style="background:#D8CFC0"></i></div>
       </div>
       <div class="aitem">
         <h3>Spazi comuni</h3>
-        <p>Pavimento in gres antracite di grande formato, pilastri in pannelli laccati sabbia, pareti vetrate con profili neri sottili.</p>
-        <div class="asw"><i style="background:#3A3C3E"></i><i style="background:#B9A98F"></i><i style="background:#1A1A1A"></i></div>
+        <p>Pavimento in gres effetto pietra chiara 120 x 120, pilastri in pannelli laccati tortora, pareti vetrate con profili neri sottili. Alternative Florim nel configuratore.</p>
+        <div class="asw"><i style="background:#CFC6B8"></i><i style="background:#7C756B"></i><i style="background:#1A1A1A"></i></div>
       </div>
       <div class="aitem">
         <h3>Aule e uffici</h3>
@@ -524,61 +573,112 @@ function mostra(p){
   pv.append(el('p','pnote',p.nota));
   pv.hidden=false;
 }
-// postazioni del tour: stesse direzioni in tutte le panoramiche; b = direzione del passaggio in gradi da +Y di pianta
-const TOUR=[{f:'prove/lab-lezione.jpg',v:80,nome:'Laboratorio · lezione',link:[{va:1,b:76,e:-13}]},
-  {f:'prove/lab-pc.jpg',v:100,nome:'Laboratorio · postazioni PC',link:[{va:0,b:256,e:-13},{va:2,b:113,e:-21}]},
-  {f:'prove/lab-lavoro.jpg',v:105,nome:'Laboratorio · lavoro',link:[{va:1,b:293,e:-21},{va:3,b:105,e:-25}]},
-  {f:'prove/lab-stampa.jpg',v:60,nome:'Laboratorio · stampa 3D',link:[{va:2,b:285,e:-25}]},
-  {f:'prove/a.jpg',nome:'Reception · ingresso',link:[{va:5,b:346,e:-20}]},
-  {f:'prove/e.jpg',nome:'Reception · zona attesa',link:[{va:4,b:140,e:-20}]}];
+// ---- configuratore: immagini in config/<vista>/<P><V><M><L>.jpg, scritte da 40_sito_esperienze.py
+async function configuratore(){
+  const C=await (await fetch('config/config.json')).json(),q=i=>document.getElementById(i);
+  const K=['pilastri','pavimento','marmo','luce'],T={pilastri:'Pilastri',pavimento:'Pavimento',marmo:'Marmo della reception',luce:'Luce'};
+  const sel={pilastri:0,pavimento:0,marmo:0,luce:0};let vista=C.viste[0].id,a=q('cfgA'),b=q('cfgB');
+  const cod=()=>K.map(k=>sel[k]).join('');
+  const pronta=c=>C.pronte[vista].includes(c);
+  function mostra(){
+    let c=cod();
+    if(!pronta(c)){const alt=C.pronte[vista].find(x=>x.slice(2)===c.slice(2))||C.pronte[vista][0];if(!alt)return;c=alt;}
+    const u='config/'+vista+'/'+c+'.jpg';
+    b.onload=()=>{b.classList.remove('via');a.classList.add('via');[a,b]=[b,a];};
+    b.src=u;b.alt='Reception con '+K.map(k=>C.opzioni[k][+c[K.indexOf(k)]].n).join(', ');
+    q('cfgtag').textContent=K.slice(0,3).map(k=>C.opzioni[k][sel[k]].n).join(' · ');
+    q('cfgop').querySelectorAll('button[data-k]').forEach(x=>x.setAttribute('aria-pressed',sel[x.dataset.k]==x.dataset.i));
+  }
+  K.forEach(k=>{
+    const r=document.createElement('div');r.className='cfgrow';const h=document.createElement('h4');h.textContent=T[k];const o=document.createElement('div');o.className='op';
+    C.opzioni[k].forEach((x,i)=>{const bt=document.createElement('button');bt.type='button';bt.dataset.k=k;bt.dataset.i=i;
+      const sw=document.createElement('i');if(x.sw)sw.style.backgroundImage='url(config/'+x.sw+')';else if(x.col)sw.style.background=x.col;else sw.style.background=['linear-gradient(135deg,#f6e7c8,#d9c4a0)','linear-gradient(135deg,#9a9a96,#6a6a68)','linear-gradient(135deg,#1c2235,#3a3020)'][i];
+      const sm=document.createElement('small');sm.textContent=x.s;bt.append(sw,x.n,sm);bt.onclick=()=>{sel[k]=i;mostra();};o.append(bt);});
+    r.append(h,o);q('cfgop').append(r);
+  });
+  C.viste.forEach(v=>{const bt=document.createElement('button');bt.type='button';bt.textContent=v.nome;bt.onclick=()=>{vista=v.id;q('cfgviste').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===bt));mostra();};q('cfgviste').append(bt);});
+  q('cfgviste').firstChild.setAttribute('aria-pressed','true');
+  mostra();
+}
+// ---- tour 360 interattivo: tour/tour.json e tour/<punto>_<P><V><M><L>.jpg (40_sito_esperienze.py). Tutte le panoramiche guardano verso +Y.
 async function prove(){
-  const [b,c,d]=['b','c','d'].map(n=>'prove/'+n+'.jpg');
-  const q=i=>document.getElementById(i), url=TOUR.map(p=>p.f);
-  q('pvb').src=b;q('pvc').src=c;q('pvd').src=d;q('prove').hidden=false;
+  const TOUR=await (await fetch('tour/tour.json')).json();
+  if(!TOUR.length)return;
+  const q=i=>document.getElementById(i);
   const T=await import('./3d/lib/three.module.js');
   const box=q('pano'),r=new T.WebGLRenderer({antialias:true});
-  r.setPixelRatio(Math.min(devicePixelRatio||1,2));box.append(r.domElement);
+  r.setPixelRatio(Math.min(devicePixelRatio||1,2));box.prepend(r.domElement);
   const sc=new T.Scene(),cam=new T.PerspectiveCamera(72,1,.1,100),g=new T.SphereGeometry(40,64,40);g.scale(-1,1,1);
   const globo=new T.Mesh(g,new T.MeshBasicMaterial());sc.add(globo);
-  const cv=document.createElement('canvas');cv.width=cv.height=128;
-  const x=cv.getContext('2d');x.strokeStyle='#C9A96E';x.lineWidth=9;x.fillStyle='rgba(10,10,10,.55)';x.beginPath();x.arc(64,64,50,0,7);x.fill();x.stroke();
-  x.strokeStyle='#fff';x.lineWidth=10;x.lineCap='round';x.lineJoin='round';x.beginPath();x.moveTo(40,76);x.lineTo(64,50);x.lineTo(88,76);x.stroke();
-  const segno=new T.CanvasTexture(cv),punti=[0,1,2].map(()=>{const s=new T.Sprite(new T.SpriteMaterial({map:segno,depthTest:false,transparent:true}));s.scale.set(4.6,4.6,1);s.visible=false;sc.add(s);return s;});
+  const icona=porta=>{const cv=document.createElement('canvas');cv.width=cv.height=128;const x=cv.getContext('2d');
+    x.strokeStyle='#C9A96E';x.lineWidth=9;x.fillStyle='rgba(10,10,10,.55)';x.beginPath();x.arc(64,64,50,0,7);x.fill();x.stroke();
+    x.strokeStyle='#fff';x.lineWidth=porta?7:10;x.lineCap='round';x.lineJoin='round';x.beginPath();
+    if(porta){x.strokeRect(46,36,36,56);x.moveTo(74,66);x.lineTo(74,62);}else{x.moveTo(40,76);x.lineTo(64,50);x.lineTo(88,76);}x.stroke();return new T.CanvasTexture(cv);};
+  const IC=[icona(false),icona(true)];
+  const punti=[0,1,2,3].map(()=>{const s=new T.Sprite(new T.SpriteMaterial({map:IC[0],depthTest:false,transparent:true}));s.scale.set(4.6,4.6,1);s.visible=false;sc.add(s);return s;});
   const dir=(bb,ee)=>{const y=(bb-90)*Math.PI/180,p=ee*Math.PI/180,k=Math.cos(p);return new T.Vector3(Math.sin(y)*k,Math.sin(p),-Math.cos(y)*k);};
-  let yaw=-Math.PI/2,pitch=-.05,drag=null,ora=-1;
+  let yaw=-Math.PI/2,pitch=-.05,drag=null,ora=-1,auto=null;
+  const st={luci:true,sera:false,marmo:0};
   const draw=()=>{const k=Math.cos(pitch);cam.lookAt(Math.sin(yaw)*k,Math.sin(pitch),-Math.cos(yaw)*k);r.render(sc,cam);};
   const size=()=>{const w=box.clientWidth,h=box.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();draw();};
-  const tex=new T.TextureLoader(),cache=[];
-  const carica=i=>cache[i]||(cache[i]=new Promise(ok=>tex.load(url[i],t=>{t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;ok(t);})));
-  const vai=async i=>{
-    if(i===ora)return;
-    box.classList.add('passa');
-    const [t]=await Promise.all([carica(i),new Promise(ok=>setTimeout(ok,ora<0?0:220))]);
-    globo.material.map=t;globo.material.needsUpdate=true;ora=i;
-    if(TOUR[i].v!=null){yaw=(TOUR[i].v-90)*Math.PI/180;pitch=-.12;}
-    punti.forEach((s,n)=>{const l=TOUR[i].link[n];s.visible=!!l;if(l)s.position.copy(dir(l.b,l.e).multiplyScalar(30));});
-    q('pvtour').querySelectorAll('button').forEach((x,n)=>x.setAttribute('aria-pressed',n===i));
-    size();box.classList.remove('passa');
-    TOUR[i].link.forEach(l=>carica(l.va));
-  };
-  TOUR.forEach((p,i)=>{const n=document.createElement('button');n.type='button';n.textContent=p.nome;n.addEventListener('click',()=>vai(i));q('pvtour').append(n);});
+  const tex=new T.TextureLoader(),cache={};
+  const file=(i)=>{const p=TOUR[i],l=st.sera?2:(st.luci?0:1),m=p.marmi?st.marmo:0;let c='00'+m+l;if(!p.stati.includes(c))c=p.stati.find(x=>x[3]==l)||p.stati[0];return 'tour/'+p.id+'_'+c+'.jpg';};
+  const carica=u=>cache[u]||(cache[u]=new Promise(ok=>tex.load(u,t=>{t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;ok(t);})));
+  const porta=box.querySelector('.porta');
+  async function mostra(i,conPorta){
+    const u=file(i);
+    if(conPorta){porta.classList.add('chiusa');await new Promise(ok=>setTimeout(ok,560));}
+    const t=await carica(u);
+    globo.material.map=t;globo.material.needsUpdate=true;
+    if(i!==ora){ora=i;yaw=-Math.PI/2;pitch=-.1;
+      const p=TOUR[i];punti.forEach((s,n)=>{const l=p.link[n];s.visible=!!l;if(l){s.position.copy(dir(l.b,l.e).multiplyScalar(30));s.material.map=IC[l.porta?1:0];}});
+      const b0=p.vista!=null?p.vista:(p.link[0]&&p.link[0].b);if(b0!=null)yaw=(b0-90)*Math.PI/180;
+      q('tnome').textContent=p.nome;q('pvtour').querySelectorAll('button').forEach((x,n)=>x.setAttribute('aria-pressed',n===i));
+      p.link.forEach(l=>carica(file(l.va)));}
+    q('tMarmi').querySelectorAll('button').forEach(b=>{b.disabled=!TOUR[ora].marmi;});
+    size();mappa();
+    if(conPorta){await new Promise(ok=>setTimeout(ok,60));porta.classList.remove('chiusa');}
+  }
+  const vai=(i,conPorta)=>{if(i!==ora)mostra(i,conPorta);};
+  // mini mappa con i punti in pianta
+  const mp=q('tmappa'),xs=TOUR.map(p=>p.x),ys=TOUR.map(p=>p.y),x0=Math.min(...xs)-2,x1=Math.max(...xs)+2,y0=Math.min(...ys)-2,y1=Math.max(...ys)+2;
+  mp.width=380;mp.height=Math.round(380*(y1-y0)/(x1-x0));
+  const pm=p=>[(p.x-x0)/(x1-x0)*mp.width,(1-(p.y-y0)/(y1-y0))*mp.height];
+  function mappa(){const c=mp.getContext('2d');c.clearRect(0,0,mp.width,mp.height);
+    TOUR.forEach(p=>p.link.forEach(l=>{const [a,b]=pm(p),[e,f]=pm(TOUR[l.va]);c.strokeStyle='rgba(201,169,110,.35)';c.lineWidth=3;c.beginPath();c.moveTo(a,b);c.lineTo(e,f);c.stroke();}));
+    TOUR.forEach((p,i)=>{const [a,b]=pm(p);c.fillStyle=i===ora?'#C9A96E':'rgba(255,255,255,.75)';c.beginPath();c.arc(a,b,i===ora?11:7,0,7);c.fill();
+      if(i===ora){c.strokeStyle='#C9A96E';c.lineWidth=4;c.beginPath();c.moveTo(a,b);c.lineTo(a+Math.cos(yaw-Math.PI/2)*30,b+Math.sin(yaw-Math.PI/2)*30);c.stroke();}});}
+  mp.addEventListener('pointerdown',e=>{e.stopPropagation();const w=mp.getBoundingClientRect(),u=(e.clientX-w.left)/w.width*mp.width,v=(e.clientY-w.top)/w.height*mp.height;
+    let m=-1,d=1e9;TOUR.forEach((p,i)=>{const [a,b]=pm(p),k=Math.hypot(a-u,b-v);if(k<d){d=k;m=i;}});if(m>=0)vai(m,true);});
+  // comandi
+  const premi=(b,v)=>b.setAttribute('aria-pressed',v);
+  q('tLuci').onclick=()=>{st.luci=!st.luci;if(!st.luci)st.sera=false;premi(q('tLuci'),st.luci);q('tLuci').textContent=st.luci?'Luci accese':'Luci spente';premi(q('tSera'),st.sera);mostra(ora);};
+  q('tSera').onclick=()=>{st.sera=!st.sera;if(st.sera){st.luci=true;premi(q('tLuci'),true);q('tLuci').textContent='Luci accese';}premi(q('tSera'),st.sera);mostra(ora);};
+  ['Emerald','Azure','Beryl'].forEach((n,i)=>{const b=document.createElement('button');b.type='button';b.textContent='Marmo '+n;b.setAttribute('aria-pressed',i===0);b.onclick=()=>{st.marmo=i;q('tMarmi').querySelectorAll('button').forEach((x,k)=>premi(x,k===i));mostra(ora);};q('tMarmi').append(b);});
+  q('tFull').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else box.requestFullscreen&&box.requestFullscreen();};
+  document.addEventListener('fullscreenchange',()=>setTimeout(size,80));
+  q('tAuto').onclick=()=>{if(auto){cancelAnimationFrame(auto.f);clearInterval(auto.t);auto=null;premi(q('tAuto'),false);return;}
+    premi(q('tAuto'),true);auto={f:0,t:setInterval(()=>{const l=TOUR[ora].link;if(l.length){const k=l[Math.floor(Math.random()*l.length)];vai(k.va,k.porta);}},9000)};
+    let mapT=0;const gira=()=>{if(!auto)return;yaw+=.0022;draw();const t=performance.now();if(t-mapT>150){mapT=t;mappa();}auto.f=requestAnimationFrame(gira);};auto.f=requestAnimationFrame(gira);};
+  TOUR.forEach((p,i)=>{const n=document.createElement('button');n.type='button';n.textContent=p.nome;n.addEventListener('click',()=>vai(i,true));q('pvtour').append(n);});
   const clic=e=>{
     const w=box.getBoundingClientRect(),v=new T.Vector3((e.clientX-w.left)/w.width*2-1,-(e.clientY-w.top)/w.height*2+1,.5).unproject(cam).normalize();
-    TOUR[ora].link.forEach((l,n)=>{if(v.angleTo(punti[n].position.clone().normalize())<.1)vai(l.va);});
+    TOUR[ora].link.forEach((l,n)=>{if(v.angleTo(punti[n].position.clone().normalize())<.1)vai(l.va,l.porta);});
   };
   box.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,0];box.setPointerCapture(e.pointerId);});
   box.addEventListener('pointermove',e=>{if(!drag)return;drag[2]+=Math.abs(e.clientX-drag[0])+Math.abs(e.clientY-drag[1]);yaw-=(e.clientX-drag[0])*.004;pitch=Math.max(-1.45,Math.min(1.45,pitch+(e.clientY-drag[1])*.004));drag[0]=e.clientX;drag[1]=e.clientY;draw();});
-  box.addEventListener('pointerup',e=>{if(drag&&drag[2]<8)clic(e);drag=null;});
+  box.addEventListener('pointerup',e=>{if(drag&&drag[2]<8)clic(e);drag=null;mappa();});
   box.addEventListener('pointercancel',()=>{drag=null;});
   box.addEventListener('wheel',e=>{e.preventDefault();cam.fov=Math.max(35,Math.min(95,cam.fov+e.deltaY*.03));cam.updateProjectionMatrix();draw();},{passive:false});
-  box.addEventListener('keydown',e=>{const v={ArrowLeft:[-.08,0],ArrowRight:[.08,0],ArrowUp:[0,.08],ArrowDown:[0,-.08]}[e.key];if(!v)return;e.preventDefault();yaw+=v[0];pitch=Math.max(-1.45,Math.min(1.45,pitch+v[1]));draw();});
+  box.addEventListener('keydown',e=>{const v={ArrowLeft:[-.08,0],ArrowRight:[.08,0],ArrowUp:[0,.08],ArrowDown:[0,-.08]}[e.key];if(!v)return;e.preventDefault();yaw+=v[0];pitch=Math.max(-1.45,Math.min(1.45,pitch+v[1]));draw();mappa();});
   addEventListener('resize',size);size();
-  await vai(0);
+  await mostra(0);
 }
 // il codice arriva nell'indirizzo dal menu del sito: lo tolgo dalla barra, non serve per aprire nulla
 if(location.hash.includes('k='))history.replaceState(null,'',location.pathname);
 fetch('dati/capitolato.json').then(r=>r.json()).then(mostra).catch(e=>console.error(e));
 prove().catch(e=>console.error(e));
+configuratore().catch(e=>console.error(e));
 </script>
 
 </body>

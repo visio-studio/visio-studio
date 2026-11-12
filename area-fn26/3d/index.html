@@ -43,6 +43,22 @@ button:focus-visible,a:focus-visible { outline:2px solid var(--gold);outline-off
   .seg button,.seg a { padding:10px 10px;font-size:9px;letter-spacing:1.5px; }
 }
 #bStanze { display:none; }
+#cantiere { position:fixed;left:50%;bottom:14px;transform:translateX(-50%);width:min(760px,calc(100% - 28px));background:rgba(10,10,10,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:.5px solid rgba(255,255,255,.16);z-index:6;padding:14px 16px 12px;display:none; }
+#cantiere.ap { display:block; }
+#cantiere .ti { display:flex;align-items:baseline;gap:12px;margin-bottom:10px; }
+#cantiere .ti b { font-family:'Cormorant Garamond',serif;font-weight:300;font-size:22px; }
+#cantiere .ti span { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold); }
+#cantiere .ti button { margin-left:auto;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:.5px solid rgba(255,255,255,.3);padding:7px 12px; }
+#gantt { display:grid;grid-template-columns:repeat(17,1fr);gap:2px;margin-bottom:8px; }
+#gantt i { height:7px;background:rgba(255,255,255,.1);font-style:normal; }
+#gantt i.on { background:var(--gold); }
+#gantt i.ora { background:#fff; }
+#fasi { display:grid;grid-template-columns:repeat(8,1fr);gap:4px; }
+#fasi button { font-size:9.5px;line-height:1.25;text-align:left;padding:6px 6px;color:rgba(255,255,255,.55);border-top:2px solid rgba(255,255,255,.15); }
+#fasi button.on { color:#fff;border-top-color:var(--gold); }
+#cantiere input { width:100%;accent-color:var(--gold);margin:4px 0 8px; }
+#cantiere small { display:block;font-size:10px;color:rgba(255,255,255,.5);margin-top:8px; }
+@media(max-width:760px){ #fasi { grid-template-columns:repeat(4,1fr); } #cantiere { bottom:150px; } }
 </style>
 <script type="importmap">{"imports":{"three":"./lib/three.module.js"}}</script>
 </head>
@@ -51,12 +67,20 @@ button:focus-visible,a:focus-visible { outline:2px solid var(--gold);outline-off
 <div id="bar">
   <div class="seg"><button id="bGiro" aria-pressed="true">Modello</button><button id="bCammina" aria-pressed="false">Cammina</button></div>
   <div class="seg"><button id="bSoff" aria-pressed="false">Soffitti</button><button id="bArr" aria-pressed="true">Arredi</button><button id="bStanze" aria-expanded="false">Locali</button></div>
+  <div class="seg"><button id="bLuci" aria-pressed="true">Luci</button><button id="bSera" aria-pressed="false">Sera</button><button id="bCant" aria-pressed="false">Cantiere</button></div>
   <span class="sp"></span>
   <div class="seg"><a id="bFull" href="./" target="_top">Schermo intero</a></div>
 </div>
 <nav id="stanze" aria-label="Vai a un locale"></nav>
 <canvas id="mappa" aria-label="Mappa: clicca per spostarti"></canvas>
 <div id="aiuto"></div>
+<section id="cantiere" aria-label="Cantiere 4D">
+  <div class="ti"><b id="cFase">Stato di fatto</b><span id="cSett">settimane 1-2</span><button id="cPlay">Riproduci</button></div>
+  <div id="gantt"></div>
+  <input id="cSl" type="range" min="0" max="7" step="1" value="7" aria-label="Fase del cantiere">
+  <div id="fasi"></div>
+  <small>Cronoprogramma indicativo di 17 settimane. Ogni fase mostra il locale come sarà alla fine di quella fase.</small>
+</section>
 <div id="joy"><i></i></div>
 <div id="load"><h1>Circonvallazione Nomentana</h1><div><s id="pb"></s></div><p id="lt">Caricamento del modello</p></div>
 
@@ -64,6 +88,11 @@ button:focus-visible,a:focus-visible { outline:2px solid var(--gold);outline-off
 import * as THREE from 'three';
 import { OrbitControls } from './lib/OrbitControls.js';
 import { RoomEnvironment } from './lib/RoomEnvironment.js';
+import { EffectComposer } from './lib/postprocessing/EffectComposer.js';
+import { RenderPass } from './lib/postprocessing/RenderPass.js';
+import { GTAOPass } from './lib/postprocessing/GTAOPass.js';
+import { UnrealBloomPass } from './lib/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from './lib/postprocessing/OutputPass.js';
 
 const q = new URLSearchParams(location.search);
 const cattura = q.has('cattura');
@@ -71,7 +100,7 @@ const incorporato = window.self !== window.top;
 const $ = i => document.getElementById(i);
 const touch = matchMedia('(pointer:coarse)').matches;
 const EYE = 1.6, PASSO = 0.35;
-const LOCALI = [['Reception',12500,7500],['Aule lato sud',21700,5000],['Sala riunioni',31500,8000],['Aula 6',16500,14000],['Aula 3',6500,20500],['Aula 1',9000,29500],['Bagni',13500,29500],['Ufficio 7',21000,12500],['Laboratorio',14000,23250],['Corridoio -1,30',27000,27000],['Soppalco',14500,30000,1]];
+const LOCALI = [['Reception',12500,7500],['Aule lato sud',21700,5000],['Aula 12',31500,8000],['Aula 6',16500,14000],['Aula 3',6500,20500],['Aula 1',9000,29500],['Bagni',13500,29500],['Ufficio 7',21000,12500],['Laboratorio',14000,23250],['Corridoio -1,30',27000,27000],['Soppalco',14500,30000,1]];
 
 const canvas = $('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance', preserveDrawingBuffer:cattura });
@@ -83,11 +112,23 @@ scene.background = new THREE.Color(0x121212);
 const pm = new THREE.PMREMGenerator(renderer);
 scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
 scene.environmentIntensity = 0.42;
-scene.add(new THREE.HemisphereLight(0xfff4e6, 0x8d8378, 0.8));
+const emi = new THREE.HemisphereLight(0xfff4e6, 0x8d8378, 0.8);
+scene.add(emi);
 const sole = new THREE.DirectionalLight(0xfff0dd, 0.55);
 sole.position.set(-20, 40, 30);
 scene.add(sole);
 const cam = new THREE.PerspectiveCamera(50, 1, 0.05, 400);
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, cam));
+const ao = new GTAOPass(scene, cam, 2, 2);
+ao.updateGtaoMaterial({ radius:0.45, distanceExponent:1.4, thickness:1.2, scale:1.15, samples:12 });
+ao.updatePdMaterial({ radius:6, rings:2, samples:12 });
+ao.blendIntensity = 0.85;
+ao.enabled = !touch;  // sui telefoni costa troppo
+composer.addPass(ao);
+const bagliore = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.45, 0.3, 1.7);
+composer.addPass(bagliore);
+composer.addPass(new OutputPass());
 const orbit = new OrbitControls(cam, canvas);
 orbit.enableDamping = true;
 orbit.dampingFactor = 0.08;
@@ -96,6 +137,8 @@ orbit.minDistance = 4;
 orbit.maxDistance = 110;
 
 const gruppi = [new THREE.Group(), new THREE.Group(), new THREE.Group()];
+const luciMat = [];  // materiali delle gole LED e dei faretti: si accendono e spengono
+const pezzi = [];    // tutte le mesh, con la fase di cantiere in userData.f
 gruppi.forEach(g => scene.add(g));
 
 async function scarica(url, peso, avanzamento) {
@@ -119,9 +162,13 @@ const carTex = new THREE.TextureLoader();
 function materiale(m) {
   const n = m.n || '', a = m.a ?? 1;
   const o = { side:THREE.DoubleSide, roughness:0.72, metalness:0 };
-  if (/LED|Luce/i.test(n)) {
+  if (/LED|Luce|__faretto/i.test(n)) {
     const c = new THREE.Color().setRGB(m.c[0]/255, m.c[1]/255, m.c[2]/255, THREE.SRGBColorSpace);
-    return new THREE.MeshBasicMaterial({ color:c.multiplyScalar(1.6), side:THREE.DoubleSide, toneMapped:false });
+    const forte = n === '__faretto' ? 4.5 : 2.6;  // sopra 1: il bagliore le fa brillare
+    const mt = new THREE.MeshBasicMaterial({ color:c.clone().multiplyScalar(forte), side:THREE.DoubleSide, toneMapped:false });
+    mt.userData = { acceso:c.clone().multiplyScalar(forte), spento:c.clone().multiplyScalar(n === '__faretto' ? 0.55 : 0.75) };
+    luciMat.push(mt);
+    return mt;
   }
   if (/Specchio/i.test(n)) { o.metalness = 1; o.roughness = 0.05; }
   if (/Materiale5|Materiale87|marmo|Pavimento|Materiale3$/i.test(n)) o.roughness = 0.32;
@@ -268,6 +315,55 @@ function vista() {
   orbit.update();
 }
 
+// ---- luci e sera
+const scena = { luci:true, sera:false };
+function aggiornaLuce() {
+  for (const m of luciMat) m.color.copy(scena.luci ? m.userData.acceso : m.userData.spento);
+  const s = scena.sera;
+  scene.background.set(s ? 0x05070c : 0x121212);
+  emi.intensity = s ? (scena.luci ? 0.32 : 0.06) : (scena.luci ? 0.8 : 0.62);
+  sole.intensity = s ? 0 : 0.55;
+  scene.environmentIntensity = s ? (scena.luci ? 0.2 : 0.03) : 0.42;
+  bagliore.strength = scena.luci ? (s ? 0.8 : 0.45) : 0;
+  renderer.toneMappingExposure = s ? 1.25 : 1.05;
+  premi($('bLuci'), scena.luci); premi($('bSera'), s);
+}
+$('bLuci').onclick = () => { scena.luci = !scena.luci; aggiornaLuce(); };
+$('bSera').onclick = () => { scena.sera = !scena.sera; aggiornaLuce(); };
+
+// ---- cantiere 4D
+const FASI = [['Stato di fatto e demolizioni', 0, 2], ['Murature nuove e impianti', 2, 3], ['Pilastri e rivestimenti', 5, 2], ['Vetrate e infissi', 7, 2],
+  ['Controsoffitti e luci', 9, 3], ['Pavimenti', 12, 2], ['Reception su misura', 14, 2], ['Arredi e consegna', 16, 1]];
+let fase = 7, play = null;
+for (let i = 0; i < 17; i++) $('gantt').append(document.createElement('i'));
+FASI.forEach(([n], i) => { const b = document.createElement('button'); b.textContent = n; b.onclick = () => vaiFase(i, true); $('fasi').append(b); });
+function fermaPlay() { if (play) { clearInterval(play); play = null; } $('cPlay').textContent = 'Riproduci'; }
+function vaiFase(i, ferma) {
+  if (ferma) fermaPlay();
+  fase = i;
+  $('cSl').value = i;
+  // dall'alto i soffitti coprirebbero tutto: si vedono solo nella fase dei controsoffitti
+  for (const o of pezzi) o.visible = o.parent === gruppi[1] ? (fase === 4 && o.userData.f === 4) : o.userData.f <= fase;
+  const [n, a, d] = FASI[i];
+  $('cFase').textContent = n;
+  $('cSett').textContent = d > 1 ? `settimane ${a + 1}-${a + d}` : `settimana ${a + 1}`;
+  [...$('gantt').children].forEach((g, k) => g.className = k < a ? 'on' : k < a + d ? 'ora' : '');
+  [...$('fasi').children].forEach((b, k) => b.classList.toggle('on', k <= i));
+}
+$('cSl').oninput = e => vaiFase(+e.target.value, true);
+$('cPlay').onclick = () => {
+  if (play) { fermaPlay(); return; }
+  $('cPlay').textContent = 'Pausa';
+  vaiFase(0);
+  play = setInterval(() => { if (fase >= 7) { fermaPlay(); return; } vaiFase(fase + 1); }, 1600);
+};
+$('bCant').onclick = () => {
+  const ap = $('cantiere').classList.toggle('ap');
+  premi($('bCant'), ap);
+  if (ap) { if (stato.modo !== 'giro') modo('giro'); soffitti(true); $('cPlay').click(); }
+  else { fermaPlay(); vaiFase(7); for (const o of pezzi) o.visible = true; soffitti(false); }
+};
+
 $('bGiro').onclick = () => modo('giro');
 $('bCammina').onclick = () => { if (stato.modo !== 'cammina') { modo('cammina'); canvas.focus(); } };
 $('bSoff').onclick = () => soffitti(!gruppi[1].visible);
@@ -351,13 +447,15 @@ function ciclo(t) {
     cam.rotation.set(stato.pitch, stato.yaw, 0, 'YXZ');
     if (t - mappaT > 80) { mappaT = t; disegnaMappa(); }
   } else orbit.update();
-  renderer.render(scene, cam);
+  composer.render();
   requestAnimationFrame(ciclo);
 }
 function misura() {
   cam.aspect = innerWidth / innerHeight;
   cam.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight, false);
+  composer.setPixelRatio(renderer.getPixelRatio());
+  composer.setSize(innerWidth, innerHeight);
 }
 addEventListener('resize', misura);
 
@@ -383,6 +481,8 @@ addEventListener('resize', misura);
         o.frustumCulled = false;
       } else o = new THREE.Mesh(g, m);
       if (m.transparent) o.renderOrder = 2;
+      o.userData.f = L.f ?? 0;
+      pezzi.push(o);
       gruppi[L.c].add(o);
     }
     mappa();
@@ -394,7 +494,7 @@ addEventListener('resize', misura);
     $('pb').style.width = '100%';
     $('load').style.opacity = 0;
     setTimeout(() => $('load').remove(), 500);
-    if (cattura) window.__v = { stato, cam, vaiA, piano, modo, soffitti, renderer, orbit, gruppi, render:() => renderer.render(scene, cam) };
+    if (cattura) window.__v = { stato, cam, vaiA, piano, modo, soffitti, renderer, orbit, gruppi, render:() => composer.render(), aggiornaLuce, scena, vaiFase };
     requestAnimationFrame(ciclo);
   } catch (e) {
     console.error(e);

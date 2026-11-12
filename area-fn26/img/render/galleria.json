@@ -2,7 +2,7 @@
  "ambienti": [
   "Laboratorio",
   "Aule",
-  "Uffici e sala riunioni",
+  "Uffici",
   "Reception e ingresso",
   "Corridoio"
  ],
@@ -168,20 +168,20 @@
    "h": 1080
   },
   {
-   "id": "sala-riunioni-foto",
-   "ambiente": "Uffici e sala riunioni",
-   "titolo": "Sala riunioni",
-   "desc": "Tavolo per dodici e parete mobile a pannelli verso l'Aula 11",
-   "tipo": "studio",
+   "id": "aula12",
+   "ambiente": "Aule",
+   "titolo": "Aula 12 · dal modello",
+   "desc": "Ex sala riunioni: file di sedie rivolte alla lavagna interattiva e postazioni PC lungo il muro",
+   "tipo": "modello",
    "nuovo": true,
-   "w": 1376,
-   "h": 768
+   "w": 1920,
+   "h": 1080
   },
   {
-   "id": "sala-riunioni",
-   "ambiente": "Uffici e sala riunioni",
-   "titolo": "Sala riunioni · dal modello",
-   "desc": "Tavolo per dodici e parete mobile a pannelli verso l'Aula 11",
+   "id": "aula12-b",
+   "ambiente": "Aule",
+   "titolo": "Aula 12 · verso l'Aula 11",
+   "desc": "La parete mobile a sinistra: aperta, unisce l'Aula 12 all'Aula 11",
    "tipo": "modello",
    "nuovo": true,
    "w": 1920,
@@ -189,7 +189,7 @@
   },
   {
    "id": "ufficio7-foto",
-   "ambiente": "Uffici e sala riunioni",
+   "ambiente": "Uffici",
    "titolo": "Ufficio 7",
    "desc": "Tavolo riunioni, librerie e postazioni di lavoro a quota -1,30",
    "tipo": "studio",
@@ -199,7 +199,7 @@
   },
   {
    "id": "ufficio7",
-   "ambiente": "Uffici e sala riunioni",
+   "ambiente": "Uffici",
    "titolo": "Ufficio 7 · dal modello",
    "desc": "Tavolo riunioni, librerie e postazioni di lavoro a quota -1,30",
    "tipo": "modello",
@@ -228,9 +228,49 @@
    "h": 1080
   },
   {
-   "id": "reception",
+   "id": "reception-scena27-foto",
+   "ambiente": "Reception e ingresso",
+   "titolo": "Reception dal pilastro",
+   "desc": "Il pilastro laccato isolato, il corridoio vetrato e il bancone curvo in marmo Florim Heritage Emerald",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "reception-scena27",
+   "ambiente": "Reception e ingresso",
+   "titolo": "Reception dal pilastro · dal modello",
+   "desc": "La stessa vista dal modello 3D, inquadratura della scena 27",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1600,
+   "h": 900
+  },
+  {
+   "id": "reception-florim-foto",
    "ambiente": "Reception e ingresso",
    "titolo": "Reception",
+   "desc": "Bancone curvo e parete in gres effetto marmo Florim Heritage Emerald, scritta FUTURA retroilluminata",
+   "tipo": "studio",
+   "nuovo": true,
+   "w": 1376,
+   "h": 768
+  },
+  {
+   "id": "reception-florim",
+   "ambiente": "Reception e ingresso",
+   "titolo": "Reception · dal modello",
+   "desc": "La stessa vista dal modello 3D: marmo Heritage Emerald, gres effetto pietra, pilastri laccati",
+   "tipo": "modello",
+   "nuovo": true,
+   "w": 1600,
+   "h": 900
+  },
+  {
+   "id": "reception",
+   "ambiente": "Reception e ingresso",
+   "titolo": "Reception · prima versione",
    "desc": "Reception vista dall'ingresso con bancone curvo e marmo verde",
    "tipo": "studio",
    "nuovo": false,
@@ -279,7 +319,7 @@
   },
   {
    "id": "ufficio",
-   "ambiente": "Uffici e sala riunioni",
+   "ambiente": "Uffici",
    "titolo": "Ufficio direzionale",
    "desc": "Ufficio direzionale con grande tavolo in noce, sedute in rete e vetrate alte sul corridoio",
    "tipo": "studio",

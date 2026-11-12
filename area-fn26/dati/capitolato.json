@@ -1,5 +1,5 @@
 {
- "revisione": "Revisione del 9 novembre 2026",
+ "revisione": "Revisione dell'11 novembre 2026",
  "mq": 674,
  "categorie": [
   {
@@ -94,7 +94,7 @@
      "cod": "C.01",
      "desc": "Tramezzo in cartongesso a doppia lastra con isolamento acustico",
      "um": "m²",
-     "qta": 109.3,
+     "qta": 105.8,
      "incl": 1,
      "nota": "Sono muri nuovi: gli uffici oggi non esistono"
     },
@@ -188,7 +188,7 @@
      "cod": "D.07",
      "desc": "Battiscopa in gres o alluminio",
      "um": "m",
-     "qta": 546.5,
+     "qta": 547.83,
      "incl": 1,
      "nota": ""
     },
@@ -244,7 +244,7 @@
      "um": "m²",
      "qta": 12.15,
      "incl": 1,
-     "nota": "Aula 11 / Sala riunioni, 4,00 x 3,04 m, al posto della vetrata"
+     "nota": "Aula 11 / Aula 12, 4,00 x 3,04 m, al posto della vetrata"
     },
     {
      "cod": "E.05",
@@ -318,7 +318,7 @@
      "cod": "G.01",
      "desc": "Tinteggiatura pareti, due mani lavabile opaca, rasatura compresa",
      "um": "m²",
-     "qta": 1362.1999999999998,
+     "qta": 1365.924,
      "incl": 1,
      "nota": ""
     },
@@ -396,7 +396,7 @@
      "cod": "H.03",
      "desc": "Punto presa",
      "um": "n",
-     "qta": 152.0,
+     "qta": 154.0,
      "incl": 1,
      "nota": ""
     },
@@ -498,7 +498,7 @@
      "um": "m²",
      "qta": 674.3,
      "incl": 1,
-     "nota": "Necessaria per aule e sala riunioni"
+     "nota": "Necessaria per le aule"
     },
     {
      "cod": "L.03",
@@ -542,7 +542,7 @@
      "cod": "M.02",
      "desc": "Sedia con ribaltina per aula",
      "um": "n",
-     "qta": 98,
+     "qta": 131,
      "incl": 1,
      "nota": "Quelle del laboratorio sono nella categoria N"
     },
@@ -550,9 +550,9 @@
      "cod": "M.03",
      "desc": "Sedia operativa",
      "um": "n",
-     "qta": 32,
+     "qta": 27,
      "incl": 1,
-     "nota": "Docenti, uffici e sale riunioni"
+     "nota": "Docenti, uffici e postazioni PC"
     },
     {
      "cod": "M.04",
@@ -582,7 +582,7 @@
      "cod": "M.07",
      "desc": "Cattedra 160x80",
      "um": "n",
-     "qta": 5,
+     "qta": 6,
      "incl": 1,
      "nota": ""
     },
@@ -604,14 +604,6 @@
     },
     {
      "cod": "M.10",
-     "desc": "Tavolo riunioni 360x120",
-     "um": "n",
-     "qta": 1,
-     "incl": 1,
-     "nota": ""
-    },
-    {
-     "cod": "M.11",
      "desc": "Tavolo riunioni 240x100",
      "um": "n",
      "qta": 1,
@@ -619,7 +611,7 @@
      "nota": ""
     },
     {
-     "cod": "M.12",
+     "cod": "M.11",
      "desc": "Armadio 100x45x180",
      "um": "n",
      "qta": 2,
@@ -627,7 +619,7 @@
      "nota": ""
     },
     {
-     "cod": "M.13",
+     "cod": "M.12",
      "desc": "Mobile basso 90x45",
      "um": "n",
      "qta": 4,
@@ -635,15 +627,15 @@
      "nota": ""
     },
     {
-     "cod": "M.14",
+     "cod": "M.13",
      "desc": "Postazione di lavoro: scrivania 120x75 rovere e telaio nero, canalina e presa",
      "um": "n",
-     "qta": 8,
+     "qta": 11,
      "incl": 1,
      "nota": "Aule 3 e 6, Uffici 5 e 7; quelle del laboratorio sono nella categoria N"
     },
     {
-     "cod": "M.15",
+     "cod": "M.14",
      "desc": "Pannello divisorio fonoassorbente in feltro, 120 cm",
      "um": "n",
      "qta": 2,
@@ -651,31 +643,31 @@
      "nota": "Isola PC dell'Aula 3"
     },
     {
-     "cod": "M.16",
+     "cod": "M.15",
      "desc": "Libreria 120x35x200, telaio nero e ripiani in rovere",
      "um": "n",
      "qta": 6,
      "incl": 1,
-     "nota": "Aule 3 e 6, Ufficio 7, Sala riunioni"
+     "nota": "Aule 3 e 6, Ufficio 7"
     },
     {
-     "cod": "M.17",
+     "cod": "M.16",
      "desc": "Scaffale archivio metallico 100x40x180",
      "um": "n",
-     "qta": 2,
+     "qta": 3,
      "incl": 1,
      "nota": "Aula 6 e Ufficio 5"
     },
     {
-     "cod": "M.18",
+     "cod": "M.17",
      "desc": "Lavagna interattiva LIM 86 pollici",
      "um": "n",
-     "qta": 7,
+     "qta": 8,
      "incl": 1,
      "nota": "5 a parete e 2 su carrello"
     },
     {
-     "cod": "M.19",
+     "cod": "M.18",
      "desc": "Piante e vasi",
      "um": "n",
      "qta": 10,
@@ -683,10 +675,10 @@
      "nota": ""
     },
     {
-     "cod": "M.20",
+     "cod": "M.19",
      "desc": "Computer e monitor",
      "um": "n",
-     "qta": 12,
+     "qta": 15,
      "incl": 0,
      "nota": "Escluso: di solito a carico del cliente"
     }
@@ -700,7 +692,7 @@
      "cod": "N.01",
      "desc": "Scrivania PC 120x75, piano rovere, telaio nero, canalina e presa",
      "um": "n",
-     "qta": 18,
+     "qta": 21,
      "incl": 1,
      "nota": "Postazioni affiancate a coppie"
     },
@@ -836,7 +828,7 @@
      "cod": "N.18",
      "desc": "Computer per postazioni PC",
      "um": "n",
-     "qta": 18,
+     "qta": 21,
      "incl": 0,
      "nota": "Escluso: di solito a carico del cliente"
     }
@@ -851,7 +843,7 @@
   "Controsoffitti con velette, gole LED e anello in reception",
   "Laboratorio di formazione nella zona 17,17 x 4,90 m, con controsoffitto semplice",
   "Impianti elettrici, luci, clima, aria e sicurezza",
-  "Arredi di reception, aule, uffici, sale riunioni e laboratorio"
+  "Arredi di reception, aule, uffici e laboratorio"
  ],
  "basi": [
   "Planimetria EPT Rev01, rilievo 3D e modello di progetto.",

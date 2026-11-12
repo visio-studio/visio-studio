@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Caso studio Futura — VISIO Studio</title>
+<meta name="description" content="Caso studio interno: la nuova sede di Futura Formazione Lavoro in Circonvallazione Nomentana, dal rilievo al tour 360.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+@font-face { font-family:'Outfit'; src:url(font/outfit-latin.woff2) format('woff2'); font-weight:300 700; font-display:swap; }
+:root { --gold:#C9A96E; --dark:#0A0A0A; --dark2:#0F0F0F; --dark3:#141414; --light:#FAFAF8; --text:#1A1A1A; --border:#E0DDD8;
+  --fblu:#005B8E; --frosso:#EA4B2B; --fnotte:#003366; --fgiallo:#FFCC00; --fcarta:#F4F1EC; }
+* { margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased; }
+html { scroll-behavior:smooth;overflow-x:clip; }
+body { background:var(--dark);color:#fff;font-family:'Inter',sans-serif;font-weight:300;overflow-x:clip; }
+a { color:inherit;text-decoration:none; }
+img { display:block;max-width:100%; }
+a:focus-visible,button:focus-visible { outline:2px solid var(--gold);outline-offset:3px; }
+.serif { font-family:'Cormorant Garamond',serif; }
+section { padding:110px 40px; }
+.wrap { max-width:1120px;margin:0 auto; }
+.slab { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px; }
+h2.st { font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4.6vw,52px);font-weight:300;line-height:1.08;margin-bottom:20px; }
+h2.st em { font-style:italic;color:var(--gold); }
+p.sd { font-size:14px;color:rgba(255,255,255,.66);line-height:1.95;max-width:620px; }
+.chiaro { background:var(--light);color:var(--text); }
+.chiaro .slab, .chiaro h2.st em { color:#7a5f30; }
+.chiaro p.sd { color:#5f5f5f; }
+
+/* testata */
+#pnav { position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 40px;background:rgba(10,10,10,.78);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:.5px solid rgba(255,255,255,.07);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.6); }
+#pnav img { height:24px;width:auto; }
+#hero { position:relative;height:100vh;min-height:560px;display:flex;align-items:flex-end;overflow:hidden; }
+#hero > img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+#hero::after { content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.35),rgba(10,10,10,.1) 40%,rgba(10,10,10,.92)); }
+.hin { position:relative;z-index:2;padding:0 40px 80px;max-width:1200px;margin:0 auto;width:100%; }
+.hin p.k { font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px; }
+.hin h1 { font-family:'Cormorant Garamond',serif;font-size:clamp(46px,8vw,104px);font-weight:300;line-height:.98; }
+.hin h1 em { font-style:italic;color:var(--gold); }
+.hin p.s { font-size:14px;color:rgba(255,255,255,.75);margin-top:20px;max-width:560px;line-height:1.8; }
+
+/* numeri */
+.num { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:44px; }
+.num div { background:var(--light);padding:30px 24px; }
+.num b { display:block;font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:400;line-height:1;margin-bottom:8px; }
+.num span { font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6a6a6a; }
+
+/* metodo */
+.passi { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:48px; }
+.passo { background:var(--dark3);position:relative; }
+.passo img { width:100%;aspect-ratio:16/10;object-fit:cover;opacity:.92; }
+.passo div { padding:20px 20px 24px; }
+.passo b { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold); }
+.passo h3 { font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:400;margin:6px 0 8px; }
+.passo p { font-size:12px;line-height:1.8;color:rgba(255,255,255,.62); }
+
+/* confronto a cursore */
+.cmp { position:relative;margin-top:40px;overflow:hidden;background:#fff;user-select:none;touch-action:pan-y;cursor:ew-resize; }
+.cmp img { width:100%;display:block; }
+.cmp .sopra { position:absolute;inset:0;clip-path:inset(0 0 0 50%); }
+.cmp .sopra img { width:100%;height:100%;object-fit:cover; }
+.cmp .linea { position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--gold);transform:translateX(-1px); }
+.cmp .linea::after { content:'⟷';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:var(--dark);border:1px solid var(--gold);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:18px; }
+.cmp .et { position:absolute;top:14px;background:rgba(10,10,10,.75);color:#fff;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:7px 11px; }
+.cmp .et.s { left:14px; } .cmp .et.d { right:14px; }
+
+/* esperienze */
+.esp { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:44px; }
+.esp a { position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:#151515; }
+.esp img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s ease;opacity:.85; }
+.esp a:hover img { transform:scale(1.05); }
+.esp div { position:absolute;left:0;right:0;bottom:0;padding:70px 22px 24px;background:linear-gradient(180deg,transparent,rgba(10,10,10,.92)); }
+.esp b { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold); }
+.esp h3 { font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;margin:6px 0; }
+.esp p { font-size:12px;color:rgba(255,255,255,.7);line-height:1.7; }
+
+/* luce */
+.luce { display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:40px; }
+.luce figure { background:#111; }
+.luce figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 12px;color:rgba(255,255,255,.7); }
+.luce2 { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3px; }
+.legenda { display:flex;height:12px;margin-top:14px;max-width:520px;background:linear-gradient(90deg,#000,#1a0b5e,#1b47c9,#2fa8e0,#5fd37a,#a9e35a,#f3e34b,#f39a2e,#e8402a,#fff); }
+.legenda + p { display:flex;justify-content:space-between;max-width:520px;font-size:10px;color:rgba(255,255,255,.55);margin-top:6px; }
+.vuoto { aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.8);border:.5px solid rgba(255,255,255,.1); }
+
+/* immagine coordinata Futura */
+#brand { background:var(--fcarta);color:#14202b; }
+#brand .slab { color:var(--fblu); }
+#brand h2.st { font-family:'Outfit',sans-serif;font-weight:300;letter-spacing:-.5px; }
+#brand h2.st em { font-style:normal;color:var(--frosso);font-weight:500; }
+#brand p.sd { color:#4b5560; }
+.pal { display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:40px; }
+.pal div { border-radius:2px;overflow:hidden;background:#fff; }
+.pal i { display:block;height:90px; }
+.pal span { display:block;padding:10px 12px;font-size:11px;line-height:1.5;color:#3a4652; }
+.pal span b { display:block;font-family:'Outfit',sans-serif;font-weight:500;font-size:13px;color:#14202b; }
+.tipi { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px; }
+.tipi div { background:#fff;padding:22px 24px; }
+.tipi .o { font-family:'Outfit',sans-serif;font-size:42px;font-weight:300;line-height:1;color:var(--fnotte); }
+.tipi .o b { font-weight:700; }
+.tipi .i { font-family:'Inter',sans-serif;font-size:30px;font-weight:300;color:var(--fnotte); }
+.tipi small { display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#7b8590;margin-top:10px; }
+.mock { display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:40px; }
+.mk { background:#fff;padding:0;overflow:hidden; }
+.mk .tela { position:relative;aspect-ratio:16/10;overflow:hidden; }
+.mk h3 { font-family:'Outfit',sans-serif;font-weight:500;font-size:17px;padding:16px 18px 4px;color:#14202b; }
+.mk p { font-size:12px;line-height:1.7;color:#55606b;padding:0 18px 18px; }
+/* 1 vetrina su strada */
+.vetrina { background:linear-gradient(180deg,#c9d3d8,#9fb0b8 55%,#6b7c84);display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:16px 16px 0; }
+.vetrina > div { position:relative;background:linear-gradient(115deg,rgba(255,255,255,.35),rgba(255,255,255,.05) 40%,rgba(255,255,255,.18) 60%,rgba(255,255,255,.04)),linear-gradient(180deg,#3e4a52,#2a3238);border:5px solid #18191b;border-bottom:0; }
+.vetrina .ins { position:absolute;left:12%;right:12%;top:12%;text-align:center; }
+.vetrina .ins img { width:100%;filter:brightness(0) invert(1); }
+.vetrina .claim { position:absolute;left:8%;right:8%;top:40%;line-height:1.2;font-family:'Outfit',sans-serif;color:#fff;font-size:clamp(11px,1.7vw,19px);font-weight:300;text-align:center; }
+.vetrina .claim b { color:var(--fgiallo);font-weight:500; }
+.vetrina .fasc { position:absolute;left:0;right:0;bottom:22%;height:22%;background:rgba(240,244,246,.55);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:clamp(6px,.75vw,9px);letter-spacing:1.5px;text-transform:uppercase;color:var(--fnotte);white-space:nowrap; }
+.vetrina .ora { position:absolute;left:12%;right:12%;bottom:5%;font-size:clamp(7px,.85vw,9px);color:rgba(255,255,255,.8);text-align:center;line-height:1.5; }
+.vetrina .dot { position:absolute;width:10%;aspect-ratio:1;border-radius:50%;background:var(--frosso);left:45%;top:10%; }
+/* 2 vetrofania aule */
+.vetro { background:linear-gradient(180deg,#e9ecea,#d9dedc);padding:18px 18px 0;display:flex;gap:8px; }
+.vetro > div { flex:1;position:relative;border:4px solid #1d1e20;border-bottom:0;background:linear-gradient(110deg,rgba(255,255,255,.55),rgba(210,224,228,.35) 45%,rgba(255,255,255,.45));min-height:100%; }
+.vetro .banda { position:absolute;left:0;right:0;top:38%;height:30%;background-color:rgba(255,255,255,.72);background-image:radial-gradient(circle at 8px 8px,rgba(0,91,142,.22) 2px,transparent 2.5px);background-size:16px 16px; }
+.vetro .nome { position:absolute;left:10%;top:44%;font-family:'Outfit',sans-serif;color:var(--fnotte);font-size:clamp(12px,1.9vw,22px);font-weight:500; }
+.vetro .nome small { display:block;font-weight:300;font-size:.5em;letter-spacing:1.5px;text-transform:uppercase;color:var(--fblu);margin-top:4px; }
+.vetro .rosso { position:absolute;right:10%;top:47%;width:9%;aspect-ratio:1;border-radius:50%;background:var(--frosso); }
+.vetro .mani { position:absolute;left:46%;top:64%;width:8%;height:18%;border:2px solid #1d1e20;border-radius:2px;background:#bfc6c8; }
+/* 3 targhe */
+.targhe { background:#e6e2db;display:flex;align-items:center;justify-content:center;gap:5%; }
+.targa { width:30%;aspect-ratio:1;background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.18);position:relative;padding:8%; }
+.targa img { width:28%; }
+.targa b { display:block;font-family:'Outfit',sans-serif;font-size:clamp(14px,2.3vw,26px);font-weight:500;color:var(--fnotte);margin-top:12%;line-height:1; }
+.targa span { display:block;font-size:clamp(7px,.8vw,9px);letter-spacing:1.5px;text-transform:uppercase;color:#6b7680;margin-top:8%;line-height:1.5; }
+.targa i { position:absolute;left:8%;right:8%;bottom:8%;height:4px;background:linear-gradient(90deg,var(--fblu) 70%,var(--frosso) 70%); }
+.targa.scura { background:var(--fnotte); }
+.targa.scura b { color:#fff; } .targa.scura span { color:rgba(255,255,255,.7); }
+/* 4 totem */
+.totem { background:linear-gradient(180deg,#eceae6,#d8d4cc);display:flex;align-items:flex-end;justify-content:center;gap:9%;padding-top:5%; }
+.tot { width:24%;height:88%;background:var(--fnotte);position:relative;padding:9% 8%;box-shadow:12px 0 22px rgba(0,0,0,.15); }
+.tot img { width:80%;filter:brightness(0) invert(1); }
+.tot ul { list-style:none;margin-top:16%; }
+.tot li { display:flex;justify-content:space-between;font-family:'Outfit',sans-serif;font-size:clamp(7px,.95vw,11px);color:#fff;padding:6% 0;border-bottom:1px solid rgba(255,255,255,.18); }
+.tot li i { font-style:normal;color:var(--fgiallo); }
+.tot .piede { position:absolute;left:0;right:0;bottom:0;height:5%;background:var(--frosso); }
+.parete { width:46%;height:70%;background:#fff;position:relative;display:flex;flex-direction:column;justify-content:center;padding:0 7%;box-shadow:0 10px 20px rgba(0,0,0,.08); }
+.parete p { font-family:'Outfit',sans-serif;font-weight:300;font-size:clamp(15px,2.6vw,30px);line-height:1.05;color:var(--fnotte);padding:0; }
+.parete p b { font-weight:600;color:var(--fblu); }
+.parete p i { font-style:normal;color:var(--frosso); }
+.parete small { font-size:clamp(7px,.8vw,9px);letter-spacing:2px;text-transform:uppercase;color:#7b8590;margin-top:8%; }
+/* 5 accoglienza */
+.acc { background:#14202b;display:grid;grid-template-columns:1fr 1fr;gap:6%;padding:7%;align-items:center; }
+.badge { background:#fff;aspect-ratio:3/4.4;border-radius:6px;position:relative;padding:12%;box-shadow:0 10px 30px rgba(0,0,0,.4); }
+.badge::before { content:'';position:absolute;left:42%;right:42%;top:-6%;height:8%;border-radius:3px;background:#2a2f36; }
+.badge img { width:72%; }
+.badge b { display:block;font-family:'Outfit',sans-serif;font-weight:500;font-size:clamp(11px,1.6vw,18px);color:var(--fnotte);margin-top:22%; }
+.badge span { display:block;font-size:clamp(7px,.75vw,9px);letter-spacing:1.5px;text-transform:uppercase;color:#6b7680;margin-top:6%; }
+.badge i { position:absolute;left:0;right:0;bottom:0;height:9%;background:var(--fblu);border-radius:0 0 6px 6px; }
+.cart { background:var(--fblu);aspect-ratio:1/1.3;position:relative;padding:12%;box-shadow:0 10px 30px rgba(0,0,0,.4); }
+.cart p { font-family:'Outfit',sans-serif;font-weight:300;font-size:clamp(14px,2.2vw,26px);line-height:1.05;color:#fff; }
+.cart p b { font-weight:600; }
+.cart small { position:absolute;left:12%;bottom:10%;font-size:clamp(7px,.75vw,9px);letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.75); }
+.cart i { position:absolute;right:12%;bottom:9%;width:10%;aspect-ratio:1;border-radius:50%;background:var(--frosso); }
+/* 6 social */
+.soc { background:#e9e6e0;display:flex;align-items:center;justify-content:center;gap:4%; }
+.post { width:28%;aspect-ratio:4/5;position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.15); }
+.post img { width:100%;height:100%;object-fit:cover; }
+.post div { position:absolute;left:0;right:0;bottom:0;padding:9%;background:linear-gradient(180deg,transparent,rgba(0,51,102,.92)); }
+.post p { font-family:'Outfit',sans-serif;color:#fff;font-size:clamp(8px,1.15vw,13px);line-height:1.15;padding:0;font-weight:300; }
+.post p b { font-weight:600; }
+.post .tag { position:absolute;left:8%;top:7%;background:var(--fgiallo);color:var(--fnotte);font-family:'Outfit',sans-serif;font-weight:600;font-size:clamp(6px,.75vw,9px);padding:3% 5%;text-transform:uppercase;letter-spacing:1px; }
+
+/* servizi */
+.serv { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.08);margin-top:44px; }
+.serv div { background:var(--dark);padding:28px 26px 30px; }
+.serv b { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold); }
+.serv h3 { font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:400;margin:8px 0; }
+.serv p { font-size:12px;line-height:1.8;color:rgba(255,255,255,.6); }
+.serv .qui { color:#fff; }
+.serv .qui::after { content:' · in questo progetto';color:var(--gold);font-size:10px;letter-spacing:1px; }
+
+#fine { text-align:center;border-top:.5px solid rgba(255,255,255,.08); }
+#fine p { font-size:13px;color:rgba(255,255,255,.62);line-height:1.9;max-width:520px;margin:0 auto 28px; }
+.btn { display:inline-block;border:.5px solid var(--gold);color:var(--gold);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:15px 30px;margin:4px;transition:background .3s,color .3s; }
+.btn:hover { background:var(--gold);color:var(--dark); }
+footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.5); }
+
+@media(max-width:900px){
+  section { padding:70px 20px; }
+  #pnav { padding:12px 20px; }
+  .hin { padding:0 20px 60px; }
+  .num { grid-template-columns:1fr 1fr; }
+  .passi, .esp, .serv { grid-template-columns:1fr; }
+  .esp a { aspect-ratio:16/10; }
+  .luce { grid-template-columns:1fr 1fr; }
+  .luce2, .mock, .tipi { grid-template-columns:1fr; }
+  .pal { grid-template-columns:1fr 1fr; }
+  footer { justify-content:center;text-align:center; }
+}
+</style>
+</head>
+<body>
+<nav id="pnav"><img src="logo_futura_bianco.png" alt="Futura Formazione Lavoro" width="560" height="111"><span>Caso studio · presentazione interna VISIO</span></nav>
+<main>
+<header id="hero">
+  <img src="../img/render/reception-scena27-foto.jpg" alt="La nuova reception di Futura con il bancone curvo in marmo Heritage Emerald e la scritta FUTURA retroilluminata">
+  <div class="hin">
+    <p class="k">Caso studio · Futura Formazione Lavoro · Roma</p>
+    <h1>Da qui <em>si sale</em>.</h1>
+    <p class="s">La nuova sede di Futura in Circonvallazione Nomentana: 674 m² di aule, reception, uffici e laboratorio, progettati, misurati e fatti vivere prima di aprire il cantiere.</p>
+  </div>
+</header>
+
+<section class="chiaro">
+  <div class="wrap">
+    <p class="slab">La sfida</p>
+    <h2 class="st">Un open space vuoto, <em>una scuola da costruire</em>.</h2>
+    <p class="sd">Futura forma persone per il lavoro: OSS, scuola, digitale e AI, percorsi GOL. Serviva una sede con quasi 150 posti aula, con aule che si uniscono, un laboratorio senza finestre e una reception che parlasse del marchio. Il locale era un guscio con pilastri, vetrine su strada e un piano a due quote. Abbiamo consegnato tutto in un solo link: progetto, numeri e un modo per entrarci dentro.</p>
+    <div class="num">
+      <div><b>674</b><span>m² di intervento</span></div>
+      <div><b>147</b><span>posti aula</span></div>
+      <div><b>22</b><span>postazioni PC</span></div>
+      <div><b>328</b><span>faretti LED</span></div>
+      <div><b>17</b><span>settimane di cantiere</span></div>
+      <div><b>23</b><span>tavole tecniche</span></div>
+      <div><b>95</b><span>voci di capitolato</span></div>
+      <div><b>162</b><span>combinazioni di finiture</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="slab">Il metodo VISIO</p>
+    <h2 class="st">Dal rilievo alla visita, <em>un solo modello</em>.</h2>
+    <p class="sd">Ogni elaborato nasce dallo stesso modello 3D: se sposti una sedia, cambiano la tavola, il conteggio dei posti, il capitolato e il render.</p>
+    <div class="passi">
+      <div class="passo"><img src="../mappe/mappa-dall-alto.jpg" alt="Il locale visto dall'alto" loading="lazy"><div><b>01 · Rilievo</b><h3>Scansione 3D</h3><p>Muri, pilastri, quote e vetrine dal rilievo laser, allineati alla planimetria.</p></div></div>
+      <div class="passo"><img src="../mappe/mappa-assonometria-sud-ovest.jpg" alt="Modello 3D del progetto senza soffitti" loading="lazy"><div><b>02 · Progetto</b><h3>Modello 3D</h3><p>Aule, uffici, reception, controsoffitti e arredi in un unico modello SketchUp.</p></div></div>
+      <div class="passo"><img src="../tavole/Nomentana_post_operam_A2.jpg" alt="Tavola di progetto" loading="lazy" style="background:#fff;object-fit:contain"><div><b>03 · Carte</b><h3>Tavole e DWG</h3><p>Piante, dettagli, sezioni, vetrate e controsoffitti, generati dal modello.</p></div></div>
+      <div class="passo"><img src="../img/render/aula12.jpg" alt="Render dell'Aula 12" loading="lazy"><div><b>04 · Immagini</b><h3>Render dal modello</h3><p>Luce fisica in Blender: ogni immagine è il progetto vero, non un'illustrazione.</p></div></div>
+      <div class="passo"><img src="../img/render/reception-florim-foto.jpg" alt="Versione fotografica della reception" loading="lazy"><div><b>05 · Fotografia</b><h3>Resa iperrealistica</h3><p>Il render diventa una fotografia, controllata elemento per elemento sul modello.</p></div></div>
+      <div class="passo"><img src="../mappe/mappa-assonometria-sud-est.jpg" alt="Modello navigabile" loading="lazy"><div><b>06 · Esperienza</b><h3>Sito del cliente</h3><p>Modello da camminare, cantiere 4D, tour 360, configuratore e capitolato in un link.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="chiaro">
+  <div class="wrap">
+    <p class="slab">Prima e dopo</p>
+    <h2 class="st">Trascina e guarda <em>cosa cambia</em>.</h2>
+    <p class="sd">A sinistra lo stato di fatto dal rilievo, a destra il progetto con aule, uffici, laboratorio e reception.</p>
+    <div class="cmp" data-cmp><img src="../img/pianta-ante-operam.jpg" alt="Pianta dello stato di fatto"><div class="sopra"><img src="../img/pianta-post-operam.jpg" alt="Pianta di progetto"></div><span class="linea"></span><span class="et s">Stato di fatto</span><span class="et d">Progetto</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="slab">Dal modello alla fotografia</p>
+    <h2 class="st">Stessa vista, <em>due letture</em>.</h2>
+    <p class="sd">A sinistra il render fisico dal modello, con le ceramiche Florim reali. A destra la stessa inquadratura resa fotografica: luce, riflessi e materiali come li vedrà chi entra.</p>
+    <div class="cmp" data-cmp style="aspect-ratio:16/9"><img src="../img/render/reception-scena27.jpg" alt="Render della reception dal modello 3D" style="height:100%;object-fit:cover"><div class="sopra"><img src="../img/render/reception-scena27-foto.jpg" alt="Reception in versione fotografica"></div><span class="linea"></span><span class="et s">Modello 3D</span><span class="et d">Fotografia</span></div>
+  </div>
+</section>
+
+<section style="background:var(--dark2)">
+  <div class="wrap">
+    <p class="slab">Esperienze</p>
+    <h2 class="st">Il cliente non guarda il progetto, <em>ci entra</em>.</h2>
+    <div class="esp">
+      <a href="../#config"><img src="../config/reception/0010.jpg" alt="Reception con il marmo blu Heritage Azure" loading="lazy"><div><b>Configuratore</b><h3>Scegli le finiture</h3><p>Pilastri, pavimento, marmo e luce: 162 combinazioni renderizzate con ceramiche Florim vere.</p></div></a>
+      <a href="../#prove"><img src="../img/render/laboratorio-generale.jpg" alt="Laboratorio" loading="lazy"><div><b>Tour 360</b><h3>Cammina e accendi</h3><p>Porte da attraversare, luci da accendere, giorno e sera, marmo da cambiare.</p></div></a>
+      <a href="../3d/"><img src="../mappe/mappa-assonometria-nord-ovest.jpg" alt="Modello 3D" loading="lazy"><div><b>Modello 3D e cantiere 4D</b><h3>Guarda costruire</h3><p>Il modello in tempo reale con luci, sera e otto fasi di cantiere su 17 settimane.</p></div></a>
+    </div>
+  </div>
+</section>
+
+<section id="luce">
+  <div class="wrap">
+    <p class="slab">Studio della luce</p>
+    <h2 class="st">La luce, <em>ora per ora</em>.</h2>
+    <p class="sd">La reception alle 9, alle 13, alle 17 e la sera, con il sole calcolato sull'orientamento vero del locale. Sotto, la luce sul piano di lavoro: le superfici diventano bianche e i colori dicono dove la luce è poca o tanta.</p>
+    <div class="luce" id="ore"></div>
+    <div class="luce2" id="falsi"></div>
+    <div class="legenda"></div><p><span>poca luce</span><span>media</span><span>molta luce</span></p>
+  </div>
+</section>
+
+<section id="brand">
+  <div class="wrap">
+    <p class="slab">Immagine coordinata</p>
+    <h2 class="st">Il marchio Futura <em>dentro la sede</em>.</h2>
+    <p class="sd">Dal logo e dal sito di Futura: il blu del marchio, il punto rosso, il titolo in Outfit e la frase che li rappresenta, «Da qui si sale.». Lo spazio diventa riconoscibile da fuori, nei corridoi e nelle aule.</p>
+    <div class="pal">
+      <div><i style="background:var(--fblu)"></i><span><b>Blu Futura</b>#005B8E · logo</span></div>
+      <div><i style="background:var(--fnotte)"></i><span><b>Blu notte</b>#003366 · titoli</span></div>
+      <div><i style="background:var(--frosso)"></i><span><b>Punto rosso</b>#EA4B2B · accento</span></div>
+      <div><i style="background:var(--fgiallo)"></i><span><b>Giallo</b>#FFCC00 · evidenze</span></div>
+      <div><i style="background:var(--fcarta);border-bottom:1px solid #ddd"></i><span><b>Carta</b>#F4F1EC · fondi</span></div>
+    </div>
+    <div class="tipi">
+      <div><span class="o">Da qui <b>si sale.</b></span><small>Outfit · titoli, insegne, segnaletica</small></div>
+      <div><span class="i">Aula 12 · unibile all'Aula 11</span><small>Inter · testi e indicazioni</small></div>
+    </div>
+    <div class="mock">
+      <div class="mk"><div class="tela vetrina">
+          <div><span class="ins"><img src="logo_futura_colore.png" alt=""></span><span class="claim">Da qui <b>si sale.</b></span><span class="fasc">Formazione · Lavoro</span></div>
+          <div><span class="dot"></span><span class="claim" style="top:22%">Corsi <b>100% gratis</b><br>con il programma GOL</span><span class="fasc">Sanità · Scuola</span></div>
+          <div><span class="claim" style="top:14%">63 corsi<br><b>certificati</b><br>Regione Lazio</span><span class="fasc">Digitale e AI</span><span class="ora">Lun–Ven 9–19 · futurafl.it</span></div>
+        </div><h3>Vetrine su strada</h3><p>Logo in vinile bianco sulla prima vetrina, messaggi del sito sulle altre, fascia satinata ad altezza occhi: dentro c'è privacy, da fuori si legge l'offerta.</p></div>
+      <div class="mk"><div class="tela vetro">
+          <div><span class="banda"></span><span class="nome">Aula 11<small>Unibile all'Aula 12</small></span><span class="rosso"></span></div>
+          <div><span class="banda"></span><span class="mani"></span></div>
+          <div><span class="banda"></span><span class="nome">Aula 12<small>LIM · postazioni PC</small></span><span class="rosso"></span></div>
+        </div><h3>Vetrofanie delle pareti vetrate</h3><p>Fascia satinata a puntini blu all'altezza degli occhi: protegge le lezioni, segnala il vetro e porta il nome dell'aula con il punto rosso del marchio.</p></div>
+      <div class="mk"><div class="tela targhe">
+          <div class="targa"><img src="logo_futura_icona.png" alt=""><b>Aula 10</b><span>LIM · lezione</span><i></i></div>
+          <div class="targa scura"><img src="logo_futura_icona.png" alt="" style="filter:brightness(0) invert(1)"><b>Lab</b><span>PC · stampa 3D<br>Futura Factory</span><i></i></div>
+          <div class="targa"><img src="logo_futura_icona.png" alt=""><b>Uff. 7</b><span>Orientamento<br>NOAH</span><i></i></div>
+        </div><h3>Targhe delle stanze</h3><p>20 x 20 cm in alluminio laccato, accanto alle porte: nome grande, cosa c'è dentro, la barra blu e rossa del logo.</p></div>
+      <div class="mk"><div class="tela totem">
+          <div class="tot"><img src="logo_futura_bianco.png" alt=""><ul><li>Reception <i>●</i></li><li>Aule 9–12 <i>→</i></li><li>Aule 1–6 <i>←</i></li><li>Laboratorio <i>↓</i></li><li>Uffici <i>←</i></li></ul><span class="piede"></span></div>
+          <div class="parete"><p>Da qui <b>si sale</b><i>.</i></p><small>41 persone assunte nel 2026</small></div>
+        </div><h3>Totem e parete di corridoio</h3><p>Totem direzionale all'ingresso e la frase del marchio sulla parete lunga del corridoio, con i numeri del sito che cambiano ogni anno.</p></div>
+      <div class="mk"><div class="tela acc">
+          <div class="badge"><img src="logo_futura_colore.png" alt=""><b>Corso OSS</b><span>Allievo · 2026<br>Sede Nomentana</span><i></i></div>
+          <div class="cart"><p>Voglio<br><b>formarmi.</b></p><small>Cartellina allievi</small><i></i></div>
+        </div><h3>Accoglienza</h3><p>Badge per gli allievi e cartellina con le tre porte d'ingresso del sito: cerco lavoro, voglio formarmi, sono un'azienda.</p></div>
+      <div class="mk"><div class="tela soc">
+          <div class="post"><img src="../img/render/reception-florim-foto.jpg" alt=""><span class="tag">Nuova sede</span><div><p>Da qui <b>si sale.</b><br>Ti aspettiamo in Circonvallazione Nomentana.</p></div></div>
+          <div class="post"><img src="../img/render/laboratorio-generale.jpg" alt=""><span class="tag">Futura Factory</span><div><p>Il nuovo <b>laboratorio</b> digitale e stampa 3D.</p></div></div>
+          <div class="post"><img src="../img/render/aula12.jpg" alt=""><span class="tag">Corsi GOL</span><div><p><b>147 posti</b> aula. Corsi 100% gratis con GOL.</p></div></div>
+        </div><h3>Lancio sui social</h3><p>I render diventano i post dell'apertura, con il giallo delle evidenze e il blu del marchio.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="slab">Servizi VISIO</p>
+    <h2 class="st">Cosa possiamo fare <em>per ogni progetto</em>.</h2>
+    <p class="sd">In evidenza i servizi usati per Futura.</p>
+    <div class="serv">
+      <div><b>Rilievo</b><h3 class="qui">Scansione 3D e modello</h3><p>Rilievo laser, modello dello stato di fatto, piante e quote affidabili.</p></div>
+      <div><b>Progetto</b><h3 class="qui">Tavole, DWG e capitolato</h3><p>Piante, dettagli, sezioni, vetrate e controsoffitti; capitolato con quantità dal modello.</p></div>
+      <div><b>Immagini</b><h3 class="qui">Render e fotografia</h3><p>Render fisici dal modello e versioni iperrealistiche controllate sul progetto.</p></div>
+      <div><b>Interattivo</b><h3 class="qui">Configuratore di finiture</h3><p>Il cliente sceglie materiali reali di catalogo e vede ogni combinazione renderizzata.</p></div>
+      <div><b>Interattivo</b><h3 class="qui">Tour 360 con luci e porte</h3><p>Panoramiche collegate, giorno e sera, varianti di materiale, mappa e visita automatica.</p></div>
+      <div><b>Interattivo</b><h3 class="qui">Modello 3D da camminare</h3><p>Il progetto nel browser, anche da telefono, con luci accese, sera e soffitti.</p></div>
+      <div><b>Tempo</b><h3 class="qui">Cantiere 4D</h3><p>Le fasi dei lavori sul modello, con il cronoprogramma settimana per settimana.</p></div>
+      <div><b>Luce</b><h3 class="qui">Studio della luce</h3><p>Sole ora per ora, sera, mappe della luce sul piano di lavoro.</p></div>
+      <div><b>Marchio</b><h3 class="qui">Immagine coordinata nello spazio</h3><p>Vetrine, vetrofanie, targhe, totem e accoglienza dal marchio del cliente.</p></div>
+      <div><b>Consegna</b><h3 class="qui">Sito dedicato al cliente</h3><p>Un link riservato con tutto il progetto, aggiornato a ogni revisione.</p></div>
+      <div><b>Video</b><h3>Video di presentazione</h3><p>Camminata animata dal modello, orizzontale per il sito e verticale per i social.</p></div>
+      <div><b>Realtà aumentata</b><h3>Arredi sul tavolo</h3><p>Dal QR, il pezzo d'arredo o il modello in scala sul tavolo del cliente, senza app.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="fine">
+  <div class="wrap">
+    <h2 class="st">Il progetto Futura, <em>tutto in un link</em>.</h2>
+    <p>Presentazione interna VISIO. La pagina del cliente resta riservata.</p>
+    <a class="btn" href="../">Pagina del cliente</a><a class="btn" href="../3d/">Modello 3D</a><a class="btn" href="../#config">Configuratore</a>
+  </div>
+</section>
+</main>
+<footer><span>VISIO Studio · Michelessi Corporation Srl</span><span>Caso studio interno · novembre 2026</span></footer>
+<script>
+// confronto a cursore
+document.querySelectorAll('[data-cmp]').forEach(c=>{
+  const s=c.querySelector('.sopra'),l=c.querySelector('.linea');let su=false;
+  const muovi=x=>{const r=c.getBoundingClientRect(),p=Math.max(0,Math.min(1,(x-r.left)/r.width))*100;s.style.clipPath=`inset(0 0 0 ${p}%)`;l.style.left=p+'%';};
+  c.addEventListener('pointerdown',e=>{su=true;c.setPointerCapture(e.pointerId);muovi(e.clientX);});
+  c.addEventListener('pointermove',e=>{if(su)muovi(e.clientX);});
+  c.addEventListener('pointerup',()=>{su=false;});
+});
+// studio della luce: immagini scritte da 40_sito_esperienze.py (se ci sono)
+fetch('luce/luce.json').then(r=>r.json()).then(L=>{
+  const fig=(f,t)=>{const g=document.createElement('figure'),i=document.createElement('img');i.src='luce/'+f;i.alt=t;i.loading='lazy';const c=document.createElement('figcaption');c.textContent=t;g.append(i,c);return g;};
+  L.ore.forEach(([f,t])=>document.getElementById('ore').append(fig(f,t)));
+  L.falsi.forEach(([f,t])=>document.getElementById('falsi').append(fig(f,t)));
+}).catch(()=>{['ore','falsi'].forEach(i=>{const d=document.createElement('div');d.className='vuoto';d.textContent='In calcolo';document.getElementById(i).append(d);});});
+</script>
+</body>
+</html>
