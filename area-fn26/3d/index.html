@@ -43,22 +43,6 @@ button:focus-visible,a:focus-visible { outline:2px solid var(--gold);outline-off
   .seg button,.seg a { padding:10px 10px;font-size:9px;letter-spacing:1.5px; }
 }
 #bStanze { display:none; }
-#cantiere { position:fixed;left:50%;bottom:14px;transform:translateX(-50%);width:min(760px,calc(100% - 28px));background:rgba(10,10,10,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:.5px solid rgba(255,255,255,.16);z-index:6;padding:14px 16px 12px;display:none; }
-#cantiere.ap { display:block; }
-#cantiere .ti { display:flex;align-items:baseline;gap:12px;margin-bottom:10px; }
-#cantiere .ti b { font-family:'Cormorant Garamond',serif;font-weight:300;font-size:22px; }
-#cantiere .ti span { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold); }
-#cantiere .ti button { margin-left:auto;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:.5px solid rgba(255,255,255,.3);padding:7px 12px; }
-#gantt { display:grid;grid-template-columns:repeat(17,1fr);gap:2px;margin-bottom:8px; }
-#gantt i { height:7px;background:rgba(255,255,255,.1);font-style:normal; }
-#gantt i.on { background:var(--gold); }
-#gantt i.ora { background:#fff; }
-#fasi { display:grid;grid-template-columns:repeat(8,1fr);gap:4px; }
-#fasi button { font-size:9.5px;line-height:1.25;text-align:left;padding:6px 6px;color:rgba(255,255,255,.55);border-top:2px solid rgba(255,255,255,.15); }
-#fasi button.on { color:#fff;border-top-color:var(--gold); }
-#cantiere input { width:100%;accent-color:var(--gold);margin:4px 0 8px; }
-#cantiere small { display:block;font-size:10px;color:rgba(255,255,255,.5);margin-top:8px; }
-@media(max-width:760px){ #fasi { grid-template-columns:repeat(4,1fr); } #cantiere { bottom:150px; } }
 </style>
 <script type="importmap">{"imports":{"three":"./lib/three.module.js"}}</script>
 </head>
@@ -67,20 +51,13 @@ button:focus-visible,a:focus-visible { outline:2px solid var(--gold);outline-off
 <div id="bar">
   <div class="seg"><button id="bGiro" aria-pressed="true">Modello</button><button id="bCammina" aria-pressed="false">Cammina</button></div>
   <div class="seg"><button id="bSoff" aria-pressed="false">Soffitti</button><button id="bArr" aria-pressed="true">Arredi</button><button id="bStanze" aria-expanded="false">Locali</button></div>
-  <div class="seg"><button id="bLuci" aria-pressed="true">Luci</button><button id="bSera" aria-pressed="false">Sera</button><button id="bCant" aria-pressed="false">Cantiere</button></div>
+  <div class="seg"><button id="bLuci" aria-pressed="true">Luci</button><button id="bSera" aria-pressed="false">Sera</button><a href="../#cantiere" target="_top">Cantiere</a></div>
   <span class="sp"></span>
   <div class="seg"><a id="bFull" href="./" target="_top">Schermo intero</a></div>
 </div>
 <nav id="stanze" aria-label="Vai a un locale"></nav>
 <canvas id="mappa" aria-label="Mappa: clicca per spostarti"></canvas>
 <div id="aiuto"></div>
-<section id="cantiere" aria-label="Cantiere 4D">
-  <div class="ti"><b id="cFase">Stato di fatto</b><span id="cSett">settimane 1-2</span><button id="cPlay">Riproduci</button></div>
-  <div id="gantt"></div>
-  <input id="cSl" type="range" min="0" max="7" step="1" value="7" aria-label="Fase del cantiere">
-  <div id="fasi"></div>
-  <small>Cronoprogramma indicativo di 17 settimane. Ogni fase mostra il locale come sarà alla fine di quella fase.</small>
-</section>
 <div id="joy"><i></i></div>
 <div id="load"><h1>Circonvallazione Nomentana</h1><div><s id="pb"></s></div><p id="lt">Caricamento del modello</p></div>
 
@@ -360,39 +337,6 @@ function aggiornaLuce() {
 $('bLuci').onclick = () => { scena.luci = !scena.luci; aggiornaLuce(); };
 $('bSera').onclick = () => { scena.sera = !scena.sera; aggiornaLuce(); };
 
-// ---- cantiere 4D
-const FASI = [['Stato di fatto e demolizioni', 0, 2], ['Murature nuove e impianti', 2, 3], ['Pilastri e rivestimenti', 5, 2], ['Vetrate e infissi', 7, 2],
-  ['Controsoffitti e luci', 9, 3], ['Pavimenti', 12, 2], ['Reception su misura', 14, 2], ['Arredi e consegna', 16, 1]];
-let fase = 7, play = null;
-for (let i = 0; i < 17; i++) $('gantt').append(document.createElement('i'));
-FASI.forEach(([n], i) => { const b = document.createElement('button'); b.textContent = n; b.onclick = () => vaiFase(i, true); $('fasi').append(b); });
-function fermaPlay() { if (play) { clearInterval(play); play = null; } $('cPlay').textContent = 'Riproduci'; }
-function vaiFase(i, ferma) {
-  if (ferma) fermaPlay();
-  fase = i;
-  $('cSl').value = i;
-  // dall'alto i soffitti coprirebbero tutto: si vedono solo nella fase dei controsoffitti
-  for (const o of pezzi) o.visible = o.parent === gruppi[1] ? (fase === 4 && o.userData.f === 4) : o.userData.f <= fase;
-  const [n, a, d] = FASI[i];
-  $('cFase').textContent = n;
-  $('cSett').textContent = d > 1 ? `settimane ${a + 1}-${a + d}` : `settimana ${a + 1}`;
-  [...$('gantt').children].forEach((g, k) => g.className = k < a ? 'on' : k < a + d ? 'ora' : '');
-  [...$('fasi').children].forEach((b, k) => b.classList.toggle('on', k <= i));
-}
-$('cSl').oninput = e => vaiFase(+e.target.value, true);
-$('cPlay').onclick = () => {
-  if (play) { fermaPlay(); return; }
-  $('cPlay').textContent = 'Pausa';
-  vaiFase(0);
-  play = setInterval(() => { if (fase >= 7) { fermaPlay(); return; } vaiFase(fase + 1); }, 1600);
-};
-$('bCant').onclick = () => {
-  const ap = $('cantiere').classList.toggle('ap');
-  premi($('bCant'), ap);
-  if (ap) { if (stato.modo !== 'giro') modo('giro'); soffitti(true); $('cPlay').click(); }
-  else { fermaPlay(); vaiFase(7); for (const o of pezzi) o.visible = true; soffitti(false); }
-};
-
 $('bGiro').onclick = () => modo('giro');
 $('bCammina').onclick = () => { if (stato.modo !== 'cammina') { modo('cammina'); canvas.focus(); } };
 $('bSoff').onclick = () => soffitti(!gruppi[1].visible);
@@ -523,7 +467,7 @@ addEventListener('resize', misura);
     $('pb').style.width = '100%';
     $('load').style.opacity = 0;
     setTimeout(() => $('load').remove(), 500);
-    if (cattura) window.__v = { stato, cam, vaiA, piano, modo, soffitti, renderer, orbit, gruppi, render:() => composer.render(), aggiornaLuce, scena, vaiFase };
+    if (cattura) window.__v = { stato, cam, vaiA, piano, modo, soffitti, renderer, orbit, gruppi, render:() => composer.render(), aggiornaLuce, scena };
     requestAnimationFrame(ciclo);
   } catch (e) {
     console.error(e);

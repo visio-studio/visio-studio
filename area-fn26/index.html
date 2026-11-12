@@ -78,6 +78,12 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 .m3cta button { background:rgba(10,10,10,.72);border:.5px solid var(--gold);color:var(--gold);font:inherit;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:15px 26px;cursor:pointer;transition:background .3s,color .3s; }
 .m3cta button:hover { background:var(--gold);color:var(--dark); }
 .m3cta p { font-size:11px;color:rgba(255,255,255,.8);text-align:center;padding:0 20px; }
+/* cantiere 4D: fascia lunga, la scena resta ferma sullo schermo e lo scroll monta (o smonta) l'edificio */
+#cantiere { background:#0d0d0d;padding-bottom:0; }
+#cbox { position:relative;height:1050vh;margin:44px -40px 0; }
+#cfix { position:sticky;top:0;height:100vh;overflow:hidden;background:#0d0d0d; }
+#cfix iframe { position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none; }
+#cfix .att { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55); }
 
 /* elenchi di tavole */
 h3.tg { font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin:52px 0 0; }
@@ -231,6 +237,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   #lb .lbimg { padding:0; }
   #lb .lbp, #lb .lbn { top:auto;bottom:10px;margin:0;width:42px;height:42px; }
   #m3box { margin:36px -20px 0;height:72vh; }
+  #cbox { margin:36px -20px 0;height:950vh; }
   .pvgrid { grid-template-columns:1fr; }
   .cfgbox { grid-template-columns:1fr; }
   #pano #tmappa { width:120px; }
@@ -306,6 +313,15 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       <p>Circa 9 MB, si caricano solo quando apri il modello.</p>
     </div>
   </div>
+</section>
+
+<section id="cantiere">
+  <div class="wrap">
+    <p class="slab">Cantiere 4D</p>
+    <h2 class="st">Guarda la sede <em>costruirsi</em>.</h2>
+    <p class="sd">Diciassette settimane di lavori, una fase alla volta. Continua a scorrere: le pareti crescono, arrivano rivestimenti, vetrate, controsoffitti, pavimenti e arredi, fino a entrare in reception. Torna su e il cantiere si smonta.</p>
+  </div>
+  <div id="cbox"><div id="cfix"><p class="att">Il cantiere si prepara</p></div></div>
 </section>
 
 <section id="tavole">
@@ -532,6 +548,27 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 })().catch(e=>console.error(e));
 const m3=document.getElementById('m3box');
 m3.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const f=document.createElement('iframe');f.title='Modello 3D navigabile';f.allow='fullscreen';f.src='3d/?modo='+b.dataset.m;m3.replaceChildren(f);f.focus();}));
+// cantiere 4D: la scena (cantiere/?fascia=1) si carica quando la fascia si avvicina; lo scroll della pagina le dice a che punto e'
+(()=>{
+  const cb=document.getElementById('cbox'),cf=document.getElementById('cfix');
+  if(!cb)return;
+  let fr=null,vicino=false;
+  const N=9;
+  const invia=()=>{
+    if(!fr||!fr.contentWindow)return;
+    const r=cb.getBoundingClientRect(),corsa=Math.max(1,r.height-innerHeight);
+    const p=Math.max(0,Math.min(1,-r.top/corsa));
+    fr.contentWindow.postMessage({cantiere:p*N,vivo:r.bottom>0&&r.top<innerHeight},location.origin);
+  };
+  new IntersectionObserver(es=>{
+    vicino=es[0].isIntersecting;
+    if(vicino&&!fr){fr=document.createElement('iframe');fr.title='Cantiere 4D: il modello della sede che si assembla scorrendo la pagina';fr.tabIndex=-1;fr.src='cantiere/?fascia=1';fr.addEventListener('load',()=>{invia();setTimeout(invia,400);});cf.append(fr);}
+    invia();
+  },{rootMargin:'120% 0px'}).observe(cb);
+  addEventListener('scroll',()=>{if(vicino)invia();},{passive:true});
+  addEventListener('resize',invia);
+  setInterval(()=>{if(vicino)invia();},500);  // il modello finisce di caricarsi dopo il load: riallinea
+})();
 const pv=document.getElementById('pv');
 const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
 const pt=x=>x.replace(/\B(?=(\d{3})+(?!\d))/g,'.');

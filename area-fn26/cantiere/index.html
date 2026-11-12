@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Il cantiere — Circonvallazione Nomentana · VISIO Studio</title>
+<meta name="robots" content="noindex, follow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+:root { --gold:#C9A96E; --dark:#0A0A0A; }
+* { margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased; }
+html { background:#0d0d0d; }
+body { background:#0d0d0d;color:#fff;font-family:'Inter',sans-serif;font-weight:300; }
+canvas#c { position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0; }
+a { color:inherit; }
+a:focus-visible,button:focus-visible { outline:2px solid var(--gold);outline-offset:2px; }
+#bar { position:fixed;top:14px;left:14px;right:14px;display:flex;gap:8px;align-items:center;z-index:5;pointer-events:none; }
+#bar > * { pointer-events:auto; }
+.seg { display:flex;background:rgba(10,10,10,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:.5px solid rgba(255,255,255,.16); }
+.seg a { font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 14px;color:rgba(255,255,255,.75);text-decoration:none;white-space:nowrap; }
+.seg a:hover { color:var(--gold); }
+.sp { flex:1; }
+/* lo scroll guida l'assemblaggio: ogni passo e' un tratto di pagina */
+#scorri { position:relative;z-index:1;pointer-events:none; }
+#scorri section { height:130vh; }
+#scorri section:first-child { height:100vh; }
+#scorri section:last-child { height:190vh; }
+#intro { position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:2;pointer-events:none;padding:24px;background:radial-gradient(ellipse at center,rgba(10,10,10,.15),rgba(10,10,10,.65));transition:opacity .4s; }
+#intro p.k { font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:18px; }
+#intro h1 { font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(38px,6vw,78px);line-height:1.02; }
+#intro h1 em { color:var(--gold); }
+#intro p.s { margin-top:20px;font-size:14px;color:rgba(255,255,255,.75);max-width:520px;line-height:1.7; }
+#intro .giu { margin-top:34px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.7); }
+#intro .giu i { display:block;width:1px;height:46px;background:linear-gradient(var(--gold),transparent);margin:12px auto 0;animation:sc 1.8s ease-in-out infinite; }
+@keyframes sc { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+#scheda { position:fixed;left:clamp(16px,4vw,56px);bottom:clamp(90px,12vh,120px);width:min(400px,calc(100% - 32px));z-index:3;pointer-events:none;transition:opacity .35s,transform .35s; }
+#scheda.via { opacity:0;transform:translateY(14px); }
+#scheda .n { font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold); }
+#scheda h2 { font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(30px,3.6vw,46px);line-height:1.05;margin:10px 0 12px;text-shadow:0 2px 18px rgba(0,0,0,.6); }
+#scheda p:not(.n) { font-size:14px;line-height:1.7;color:rgba(255,255,255,.86);background:rgba(10,10,10,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:12px 14px;border-left:2px solid var(--gold); }
+#crono { position:fixed;left:50%;bottom:16px;transform:translateX(-50%);width:min(720px,calc(100% - 32px));z-index:3;background:rgba(10,10,10,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:.5px solid rgba(255,255,255,.14);padding:10px 14px 9px;transition:opacity .4s; }
+#crono .t { display:flex;justify-content:space-between;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:7px; }
+#crono .t b { color:#fff;font-weight:400; }
+#sett { display:grid;grid-template-columns:repeat(17,1fr);gap:2px; }
+#sett i { height:6px;background:rgba(255,255,255,.1);transition:background .3s; }
+#sett i.on { background:var(--gold); }
+#sett i.ora { background:#fff; }
+#passi { position:fixed;right:clamp(12px,2.4vw,30px);top:50%;transform:translateY(-50%);z-index:3;display:flex;flex-direction:column;gap:6px; }
+#passi button { display:flex;align-items:center;justify-content:flex-end;gap:10px;background:none;border:0;color:rgba(255,255,255,.5);font:inherit;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:4px 0; }
+#passi button i { width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,.55);flex:none;transition:all .3s; }
+#passi button span { opacity:0;transition:opacity .3s; }
+#passi:hover button span,#passi button.ora span { opacity:1; }
+#passi button.fatto i { background:rgba(201,169,110,.55);border-color:var(--gold); }
+#passi button.ora { color:#fff; }
+#passi button.ora i { background:var(--gold);border-color:var(--gold);transform:scale(1.35); }
+#load { position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0A0A0A;z-index:10;text-align:center;padding:24px;transition:opacity .5s; }
+#load h1 { font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;margin-bottom:18px; }
+#load div { width:220px;height:2px;background:rgba(255,255,255,.12); }
+#load s { display:block;height:100%;width:0;background:var(--gold);transition:width .2s; }
+#load p { font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:14px; }
+/* fascia: la pagina e' dentro l'area privata, il progresso arriva dallo scroll della pagina che la contiene */
+html.fascia,html.fascia body { overflow:hidden;height:100%; }
+html.fascia #bar,html.fascia #intro,html.fascia #scorri,html.fascia #passi { display:none; }
+html.fascia #scheda { bottom:84px; }
+@media(max-width:760px){
+  #passi { display:none; }
+  #scheda { bottom:84px; }
+  #scheda p:not(.n) { font-size:13px; }
+  .seg a { padding:10px 10px;font-size:9px;letter-spacing:1.5px; }
+}
+</style>
+<script type="importmap">{"imports":{"three":"../3d/lib/three.module.js"}}</script>
+</head>
+<body>
+<canvas id="c" aria-label="Il modello 3D della nuova sede che si assembla fase per fase mentre scorri la pagina"></canvas>
+<div id="bar">
+  <div class="seg"><a href="../">Il progetto</a></div>
+  <span class="sp"></span>
+  <div class="seg"><a href="../3d/">Modello 3D</a></div>
+</div>
+<div id="intro">
+  <p class="k">Cantiere 4D · Circonvallazione Nomentana</p>
+  <h1>Guarda la sede<br><em>costruirsi.</em></h1>
+  <p class="s">Diciassette settimane di lavori in una pagina. Scorri: ogni movimento aggiunge un pezzo, dal grezzo fino alla reception accesa. Scorri indietro e il cantiere torna indietro.</p>
+  <p class="giu">Scorri<i></i></p>
+</div>
+<div id="scheda" class="via"><p class="n" id="sN"></p><h2 id="sT"></h2><p id="sD"></p></div>
+<nav id="passi" aria-label="Fasi del cantiere"></nav>
+<div id="crono" style="opacity:0"><div class="t"><span>Cronoprogramma</span><b id="cS">settimana 1</b></div><div id="sett"></div></div>
+<main id="scorri"></main>
+<div id="load"><h1>Il cantiere</h1><div><s id="pb"></s></div><p id="lt">Caricamento del modello</p></div>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from '../3d/lib/RoomEnvironment.js';
+import { EffectComposer } from '../3d/lib/postprocessing/EffectComposer.js';
+import { RenderPass } from '../3d/lib/postprocessing/RenderPass.js';
+import { GTAOPass } from '../3d/lib/postprocessing/GTAOPass.js';
+import { UnrealBloomPass } from '../3d/lib/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from '../3d/lib/postprocessing/ShaderPass.js';
+import { OutputPass } from '../3d/lib/postprocessing/OutputPass.js';
+
+const $ = i => document.getElementById(i);
+const q = new URLSearchParams(location.search);
+const cattura = q.has('cattura');
+const touch = matchMedia('(pointer:coarse)').matches;
+const D3 = '../3d/';
+const fascia = q.has('fascia');
+if (fascia) document.documentElement.classList.add('fascia');
+let daFuori = 0, vivo = true;
+addEventListener('message', e => {
+  if (e.origin !== location.origin || !e.data || typeof e.data.cantiere !== 'number') return;
+  daFuori = e.data.cantiere; vivo = e.data.vivo !== false;
+});
+
+// ---- passi dello scroll. f = fase dei pezzi nel modello (26_web_modello.py); c1 = controsoffitti e soffitti
+// come: cresce (dal pavimento in su), alto, basso, lato, cade (arredi uno per uno)
+const PASSI = [
+  { n:'Oggi', t:'Il cantiere grezzo', d:'Il locale com\'è oggi: muri perimetrali, pilastri in cemento, scale e soppalco. Da qui parte tutto.', s:[1, 2] },
+  { n:'Fase 1', t:'Murature nuove', d:'Le nuove pareti crescono dal solaio e disegnano aule, uffici, laboratorio e reception.', s:[3, 5], f:1, come:'cresce' },
+  { n:'Fase 2', t:'Rivestimento dei pilastri', d:'I pilastri ci sono già: dall\'alto scendono i rivestimenti che li vestono.', s:[6, 7], f:2, come:'alto' },
+  { n:'Fase 3', t:'Vetrate e infissi', d:'Pareti vetrate, porte e vetrine arrivano di lato e chiudono i locali senza togliere luce.', s:[8, 9], f:3, come:'lato' },
+  { n:'Fase 4', t:'Controsoffitti e luci', d:'Velette, gole LED e faretti calano dall\'alto e si accendono. Poi li rendiamo trasparenti per guardare sotto.', s:[10, 12], c1:true, come:'alto' },
+  { n:'Fase 5', t:'Pavimenti', d:'Il gres sale da sotto, campo dopo campo, su tutta la superficie.', s:[13, 14], f:5, come:'basso' },
+  { n:'Fase 6', t:'Reception su misura', d:'Bancone curvo, parete in marmo e scritta FUTURA retroilluminata.', s:[15, 16], f:6, come:'alto' },
+  { n:'Fase 7', t:'Arredi', d:'Sedie, banchi, postazioni PC e stampanti 3D: ogni pezzo al suo posto.', s:[17, 17], f:7, come:'cade' },
+  { n:'Consegna', t:'Benvenuti in Futura', d:'I controsoffitti tornano al loro posto e si entra dalla vetrina, dritti in reception.', s:[17, 17], fine:true },
+];
+const N = PASSI.length;
+
+// ---- render
+const canvas = $('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance', preserveDrawingBuffer:cattura });
+renderer.setPixelRatio(Math.min(devicePixelRatio, touch ? 1.5 : 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0d0d0d);
+scene.fog = new THREE.Fog(0x0d0d0d, 90, 190);
+const pm = new THREE.PMREMGenerator(renderer);
+scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.42;
+scene.add(new THREE.HemisphereLight(0xfff4e6, 0x8d8378, 0.8));
+const sole = new THREE.DirectionalLight(0xfff0dd, 0.55);
+sole.position.set(-20, 40, 30);
+scene.add(sole);
+const cam = new THREE.PerspectiveCamera(40, 1, 0.05, 400);
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, cam));
+const ao = new GTAOPass(scene, cam, 2, 2);
+ao.updateGtaoMaterial({ radius:0.45, distanceExponent:1.4, thickness:1.2, scale:1.15, samples:12 });
+ao.updatePdMaterial({ radius:6, rings:2, samples:12 });
+ao.blendIntensity = 0.8;
+ao.enabled = !touch;
+composer.addPass(ao);
+composer.addPass(new ShaderPass({ uniforms:{ tDiffuse:{ value:null } },
+  vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+  fragmentShader:'uniform sampler2D tDiffuse;varying vec2 vUv;void main(){vec4 c=texture2D(tDiffuse,vUv);'+
+    'bool bad=any(isnan(c))||any(isinf(c))||c.r!=c.r||c.g!=c.g||c.b!=c.b;gl_FragColor=bad?vec4(0.,0.,0.,1.):min(c,vec4(64.));}' }));
+const bagliore = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.5, 0.3, 1.7);
+composer.addPass(bagliore);
+composer.addPass(new OutputPass());
+
+// ---- caricamento (stesso formato del visore 3D)
+async function scarica(url, peso, avanzamento) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(url);
+  const rd = r.body.getReader(), parti = [];
+  let n = 0;
+  for (;;) {
+    const { done, value } = await rd.read();
+    if (done) break;
+    parti.push(value); n += value.length;
+    if (avanzamento && peso) avanzamento(Math.min(1, n / peso));
+  }
+  const b = new Blob(parti);
+  const testa = new Uint8Array(await b.slice(0, 2).arrayBuffer());
+  if (testa[0] === 0x1f && testa[1] === 0x8b) return new Response(b.stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+  return b.arrayBuffer();
+}
+const carTex = new THREE.TextureLoader();
+const luciMat = [];
+function materiale(m) {
+  const n = m.n || '', a = m.a ?? 1;
+  const o = { side:THREE.DoubleSide, roughness:0.72, metalness:0 };
+  if (/LED|Luce|__faretto/i.test(n)) {
+    const c = new THREE.Color().setRGB(m.c[0]/255, m.c[1]/255, m.c[2]/255, THREE.SRGBColorSpace);
+    const forte = n === '__faretto' ? 4.5 : 1.25;
+    const mt = new THREE.MeshBasicMaterial({ color:c.clone().multiplyScalar(0.6), side:THREE.DoubleSide, toneMapped:false,
+      polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-2 });
+    mt.userData = { acceso:c.clone().multiplyScalar(forte), spento:c.clone().multiplyScalar(0.6) };
+    return mt;
+  }
+  if (/Specchio/i.test(n)) { o.metalness = 1; o.roughness = 0.05; }
+  if (/Materiale5|Materiale87|marmo|Pavimento|Materiale3$/i.test(n)) o.roughness = 0.32;
+  if (/Profilo|Obsidian|casters|CP_C|ALUM/i.test(n)) { o.roughness = 0.42; o.metalness = 0.35; }
+  if (a < 1) { o.transparent = true; o.opacity = Math.max(a, 0.16); o.depthWrite = false; o.roughness = 0.08; }
+  const mt = new THREE.MeshStandardMaterial(o);
+  if (m.tex) {
+    const t = carTex.load(D3 + 'tex/' + m.tex);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.anisotropy = 8;
+    mt.map = t;
+    if (m.ta) mt.alphaTest = 0.5;
+  } else mt.color.setRGB(m.c[0]/255, m.c[1]/255, m.c[2]/255, THREE.SRGBColorSpace);
+  return mt;
+}
+function geometria(L, buf) {
+  const g = new THREE.BufferGeometry();
+  const p = new Int16Array(buf, L.op, L.v * 3), pos = new Float32Array(L.v * 3);
+  for (let i = 0; i < L.v; i++) for (let k = 0; k < 3; k++) pos[i*3+k] = L.lo[k] + (p[i*3+k] + 32768) * L.sc[k];
+  const u = new Int16Array(buf, L.ou, L.v * 2), uv = new Float32Array(L.v * 2);
+  for (let i = 0; i < L.v; i++) for (let k = 0; k < 2; k++) uv[i*2+k] = L.ulo[k] + (u[i*2+k] + 32768) * L.us[k];
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const nr = new Int8Array(buf, L.on, L.v * 3);
+  const idx = L.i32 ? new Uint32Array(buf, L.oi, L.i) : new Uint16Array(buf, L.oi, L.i);
+  // normali nulle (alcuni arredi): diventerebbero NaN nello shader -> normale della faccia
+  let nulle = false;
+  for (let i = 0; i < L.v && !nulle; i++) if (!nr[i*3] && !nr[i*3+1] && !nr[i*3+2]) nulle = true;
+  if (nulle) {
+    const nf = new Float32Array(L.v * 3);
+    for (let i = 0; i < L.v * 3; i++) nf[i] = Math.max(nr[i] / 127, -1);
+    const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3();
+    for (let t = 0; t < idx.length; t += 3) {
+      const v = [idx[t], idx[t+1], idx[t+2]];
+      if (!v.some(j => !nf[j*3] && !nf[j*3+1] && !nf[j*3+2])) continue;
+      A.fromArray(pos, v[0]*3); B.fromArray(pos, v[1]*3); C.fromArray(pos, v[2]*3);
+      C.sub(B); A.sub(B); C.cross(A);
+      if (C.lengthSq() < 1e-20) C.set(0, 0, 1); else C.normalize();
+      v.forEach(j => { if (!nf[j*3] && !nf[j*3+1] && !nf[j*3+2]) C.toArray(nf, j*3); });
+    }
+    for (let i = 0; i < L.v; i++) if (!nf[i*3] && !nf[i*3+1] && !nf[i*3+2]) nf[i*3+2] = 1;
+    g.setAttribute('normal', new THREE.BufferAttribute(nf, 3));
+  } else g.setAttribute('normal', new THREE.BufferAttribute(nr, 3, true));
+  g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+  g.setIndex(new THREE.BufferAttribute(idx, 1));
+  return g;
+}
+// un lotto fuso (tutti i pezzi di un materiale in una fase) diventa tante tessere di 4 m:
+// arrivano una dopo l'altra, cosi' l'edificio si compone a onde invece che a blocchi
+const TESSERA = 4;
+function tessere(g) {
+  const pos = g.attributes.position.array, idx = g.index.array, sec = new Map();
+  for (let t = 0; t < idx.length; t += 3) {
+    const a = idx[t] * 3, b = idx[t+1] * 3, c = idx[t+2] * 3;
+    const k = Math.floor((pos[a] + pos[b] + pos[c]) / 3 / TESSERA) + ',' + Math.floor((pos[a+2] + pos[b+2] + pos[c+2]) / 3 / TESSERA);
+    let s = sec.get(k);
+    if (!s) sec.set(k, s = []);
+    s.push(idx[t], idx[t+1], idx[t+2]);
+  }
+  const out = [];
+  for (const s of sec.values()) {
+    const ng = new THREE.BufferGeometry();
+    for (const n in g.attributes) ng.setAttribute(n, g.attributes[n]);
+    ng.setIndex(new THREE.BufferAttribute(new Uint32Array(s), 1));
+    let mx = 0, mz = 0, my = 1e9, MY = -1e9;
+    for (const i of s) { mx += pos[i*3]; mz += pos[i*3+2]; my = Math.min(my, pos[i*3+1]); MY = Math.max(MY, pos[i*3+1]); }
+    ng.computeBoundingSphere();
+    out.push({ g:ng, x:mx / s.length, z:mz / s.length, y0:my, y1:MY });
+  }
+  return out;
+}
+
+// ---- pezzi animati: {o, passo, ritardo, come, x, z, y0} ; per le istanze una voce per istanza
+const anim = [];
+const istanze = [];  // {o, base, voci:[{i, ritardo}], come, passo}
+const soffittiMat = new Map();
+let centro = new THREE.Vector3(20, 0, -16);
+
+function passoDi(L) {
+  if (L.c === 1) return 4;
+  const f = L.f ?? 0;
+  if (!f) return 0;
+  return PASSI.findIndex(p => p.f === f);
+}
+
+// ---- telecamera: in alto che gira piano; all'ultimo passo scende fuori dalla vetrina ed entra in reception
+const ALTO = { r:50, h:48 };
+function posaAlto(P, out, guarda) {
+  const a = -0.95 + P * 0.16, h = ALTO.h - Math.min(P, 7) * 1.6;
+  out.set(centro.x + Math.cos(a) * ALTO.r, h, centro.z + Math.sin(a) * ALTO.r);
+  guarda.copy(centro);
+}
+const FUORI = [new THREE.Vector3(9.6, 1.65, 7.5), new THREE.Vector3(13.4, 1.9, -6.2)];
+const DENTRO = [new THREE.Vector3(11.3, 1.58, -4.0), new THREE.Vector3(14.2, 2.25, -7.6)];
+const _p = new THREE.Vector3(), _g = new THREE.Vector3(), _p2 = new THREE.Vector3(), _g2 = new THREE.Vector3();
+const liscia = t => t * t * (3 - 2 * t);
+function telecamera(P) {
+  if (P <= N - 1) {
+    posaAlto(P, _p, _g);
+  } else {
+    const u = Math.min(1, P - (N - 1));
+    posaAlto(N - 1, _p, _g);
+    if (u < 0.6) {
+      const k = liscia(u / 0.6);
+      _p.lerp(FUORI[0], k); _g.lerp(FUORI[1], k);
+      cam.fov = 40 + k * 14;
+    } else {
+      const k = liscia((u - 0.6) / 0.4);
+      _p.copy(FUORI[0]).lerp(DENTRO[0], k); _g.copy(FUORI[1]).lerp(DENTRO[1], k);
+      cam.fov = 54 + k * 8;
+    }
+  }
+  if (P <= N - 1) cam.fov = 40;
+  cam.near = P > N - 1.6 ? 0.05 : 0.5;
+  cam.updateProjectionMatrix();
+  cam.position.copy(_p);
+  cam.lookAt(_g);
+}
+
+// ---- stato in funzione del progresso P (0..N): tutto si calcola da P, quindi tornando su si smonta
+const esce = t => 1 - Math.pow(1 - t, 3);
+const DUR = 0.42;  // durata del volo di ogni pezzo, in frazione di passo
+function locale(P, passo, ritardo) {
+  return Math.max(0, Math.min(1, (P - passo - ritardo) / DUR));
+}
+const _m = new THREE.Matrix4();
+function applica(P) {
+  for (const a of anim) {
+    const t = locale(P, a.passo, a.ritardo), o = a.o;
+    o.visible = t > 0;
+    if (t <= 0 || t >= 1) { o.position.set(0, 0, 0); o.scale.set(1, 1, 1); continue; }
+    const e = esce(t);
+    if (a.come === 'cresce') {  // scala in altezza attorno alla base del pezzo
+      const s = Math.max(0.001, e);
+      o.scale.set(1, s, 1);
+      o.position.set(0, a.y0 * (1 - s), 0);
+    } else if (a.come === 'alto') { o.scale.set(1, 1, 1); o.position.set(0, (1 - e) * 9, 0); }
+    else if (a.come === 'basso') { o.scale.set(1, 1, 1); o.position.set(0, -(1 - e) * 3, 0); }
+    else if (a.come === 'lato') { o.scale.set(1, 1, 1); o.position.set(a.dx * (1 - e) * 14, 0, a.dz * (1 - e) * 14); }
+  }
+  for (const s of istanze) {
+    const arr = s.o.instanceMatrix.array;
+    let vis = false;
+    for (const v of s.voci) {
+      const t = locale(P, s.passo, v.ritardo), b = v.i * 16;
+      if (t <= 0) { for (let k = 0; k < 16; k++) arr[b + k] = 0; continue; }  // non ancora arrivato: matrice nulla, invisibile
+      vis = true;
+      for (let k = 0; k < 16; k++) arr[b + k] = s.base[b + k];
+      if (t < 1) {
+        const e = esce(t);
+        if (s.come === 'lato') { arr[b + 12] += v.dx * (1 - e) * 14; arr[b + 14] += v.dz * (1 - e) * 14; }
+        else arr[b + 13] += (s.come === 'basso' ? -3 : s.come === 'cade' ? 5 : 9) * (1 - e);
+      }
+    }
+    s.o.visible = vis;
+    s.o.instanceMatrix.needsUpdate = true;
+  }
+  // controsoffitti: arrivano pieni, poi diventano trasparenti per lasciar vedere sotto; alla consegna tornano pieni
+  const p4 = P - 4;
+  let op = 1;
+  if (p4 > 0.72 && P < N - 1) op = 1 - 0.86 * Math.min(1, (p4 - 0.72) / 0.28);
+  // alla consegna i controsoffitti tornano pieni solo quando la telecamera e' gia' scesa davanti alla vetrina
+  if (P >= N - 1) op = 0.14 + 0.86 * Math.max(0, Math.min(1, (P - (N - 1) - 0.42) / 0.2));
+  for (const m of soffittiMat.values()) {
+    const base = m.userData.op ?? 1;
+    m.opacity = base * op;
+    m.depthWrite = op > 0.99 && base >= 1;
+  }
+  // luci: si accendono a meta' della fase dei controsoffitti
+  const acc = Math.max(0, Math.min(1, (p4 - 0.45) / 0.25));
+  for (const m of luciMat) m.color.copy(m.userData.spento).lerp(m.userData.acceso, acc);
+  bagliore.strength = 0.5 * acc * (op > 0.5 ? 1 : 0.5);
+  telecamera(P);
+}
+
+// ---- interfaccia
+const main = $('scorri');
+PASSI.forEach((p, i) => {
+  const s = document.createElement('section');
+  s.setAttribute('aria-label', p.t);
+  main.append(s);
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.innerHTML = `<span>${p.t}</span><i></i>`;
+  b.onclick = () => vaiPasso(i);
+  $('passi').append(b);
+});
+for (let i = 0; i < 17; i++) $('sett').append(document.createElement('i'));
+function vaiPasso(i) {
+  const s = main.children[i];
+  scrollTo({ top:s.offsetTop + (i ? s.offsetHeight * 0.55 : 0), behavior:'smooth' });
+}
+// progresso: ogni sezione vale un passo; l'ultima porta da N-1 a N (l'ingresso in reception)
+function bersaglio() {
+  const y = scrollY + innerHeight * 0.5, S = main.children;
+  for (let i = 0; i < S.length; i++) {
+    const a = S[i].offsetTop, h = S[i].offsetHeight;
+    if (y < a + h || i === S.length - 1) {
+      const t = Math.max(0, Math.min(1, (y - a) / h));
+      if (i === S.length - 1) return N - 1 + Math.min(1, (scrollY + innerHeight - a) / (h - 0)) ;
+      return i + t;
+    }
+  }
+  return 0;
+}
+let passoMostrato = -1;
+function interfaccia(P) {
+  const i = Math.min(N - 1, Math.floor(P + 0.25));
+  const soglia = fascia ? -1 : 0.35;
+  if (!fascia) $('intro').style.opacity = Math.max(0, 1 - P * 2.2);
+  $('crono').style.opacity = P > soglia ? 1 : 0;
+  if (i !== passoMostrato) {
+    passoMostrato = i;
+    const sc = $('scheda'), p = PASSI[i];
+    sc.classList.add('via');
+    clearTimeout(interfaccia.t);
+    interfaccia.t = setTimeout(() => {
+      $('sN').textContent = p.n + ' · ' + (p.s[0] === p.s[1] ? 'settimana ' + p.s[0] : `settimane ${p.s[0]}-${p.s[1]}`);
+      $('sT').textContent = p.t;
+      $('sD').textContent = p.d;
+      if (P > soglia || i > 0) sc.classList.remove('via');
+    }, 260);
+    $('cS').textContent = p.s[0] === p.s[1] ? 'settimana ' + p.s[0] : `settimane ${p.s[0]}-${p.s[1]}`;
+    [...$('sett').children].forEach((g, k) => g.className = k + 1 < p.s[0] ? 'on' : k + 1 <= p.s[1] ? 'ora' : '');
+    [...$('passi').children].forEach((b, k) => { b.className = k < i ? 'fatto' : k === i ? 'ora' : ''; });
+  }
+  if (i === 0 && !fascia) $('scheda').classList.toggle('via', P < 0.35);
+}
+
+let P = 0, tPrima = performance.now(), fermo = false;
+function ciclo(t) {
+  const dt = Math.min(0.05, (t - tPrima) / 1000);
+  tPrima = t;
+  if (fascia && !vivo) { requestAnimationFrame(ciclo); return; }  // fascia fuori schermo: niente render
+  if (!fermo) {
+    const b = fascia ? daFuori : bersaglio();
+    P += (b - P) * Math.min(1, dt * 5.5);
+    if (Math.abs(b - P) < 0.0005) P = b;
+  }
+  applica(P);
+  interfaccia(P);
+  composer.render();
+  requestAnimationFrame(ciclo);
+}
+function misura() {
+  cam.aspect = innerWidth / innerHeight;
+  cam.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight, false);
+  composer.setPixelRatio(renderer.getPixelRatio());
+  composer.setSize(innerWidth, innerHeight);
+  ALTO.r = innerWidth < innerHeight ? 62 : 50;
+  ALTO.h = innerWidth < innerHeight ? 60 : 48;
+}
+addEventListener('resize', misura);
+
+(async () => {
+  try {
+    if (!('DecompressionStream' in window)) throw new Error('browser');
+    const J = await (await fetch(D3 + 'modello.json')).json();
+    const buf = await scarica(D3 + 'modello.dat', J.peso, p => { $('pb').style.width = (p * 90) + '%'; });
+    $('lt').textContent = 'Preparazione del cantiere';
+    await new Promise(r => setTimeout(r, 20));
+    const mats = J.mat.map(materiale);
+    const mats1 = new Map();  // copie per i controsoffitti: diventano trasparenti senza toccare gli stessi materiali altrove
+    const mat1 = i => {
+      if (!mats1.has(i)) {
+        const m = mats[i].clone();
+        m.userData = { ...mats[i].userData, op:mats[i].opacity };
+        m.transparent = true;
+        mats1.set(i, m);
+        soffittiMat.set(i, m);
+        if (m.isMeshBasicMaterial && m.userData.acceso) luciMat.push(m);
+      }
+      return mats1.get(i);
+    };
+    for (const m of mats) if (m.isMeshBasicMaterial && m.userData.acceso) luciMat.push(m);
+    const box = new THREE.Box3();
+    const grezzo = [];
+    for (const L of J.lotti) {
+      const passo = passoDi(L);
+      const g = geometria(L, buf), m = L.c === 1 ? mat1(L.m) : mats[L.m];
+      if (L.n) {
+        const o = new THREE.InstancedMesh(g, m, L.n);
+        const base = new Float32Array(buf.slice(L.om, L.om + L.n * 64));
+        o.instanceMatrix = new THREE.InstancedBufferAttribute(base.slice(), 16);
+        o.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        o.frustumCulled = false;
+        if (m.transparent) o.renderOrder = 2;
+        scene.add(o);
+        if (passo > 0) istanze.push({ o, base, passo, come:PASSI[passo].come, voci:[...Array(L.n).keys()].map(i => ({ i, x:base[i*16+12], z:base[i*16+14] })) });
+        continue;
+      }
+      if (passo <= 0) {
+        const o = new THREE.Mesh(g, m);
+        if (m.transparent) o.renderOrder = 2;
+        scene.add(o);
+        g.computeBoundingBox(); box.union(g.boundingBox);
+        grezzo.push(o);
+        continue;
+      }
+      for (const s of tessere(g)) {
+        const o = new THREE.Mesh(s.g, m);
+        o.matrixAutoUpdate = true;
+        if (m.transparent) o.renderOrder = 2;
+        scene.add(o);
+        anim.push({ o, passo, come:PASSI[passo].come, x:s.x, z:s.z, y0:s.y0 });
+      }
+    }
+    if (!box.isEmpty()) box.getCenter(centro); centro.y = 0;
+    // ritardi: ogni fase scorre sull'edificio da un lato all'altro (direzione diversa per fase), gli arredi in ordine sparso
+    const DIR = [[0, 0], [1, 0.35], [0.3, 1], [-1, 0.2], [0.6, -1], [1, 1], [0, 1], [1, -0.3], [0, 0]];
+    for (let k = 1; k < N; k++) {
+      const [ux, uz] = DIR[k];
+      const voci = anim.filter(a => a.passo === k).map(a => ({ a, v:a.x * ux + a.z * uz }));
+      for (const s of istanze.filter(s => s.passo === k)) for (const w of s.voci) voci.push({ a:w, v:w.x * ux + w.z * uz + (PASSI[k].come === 'cade' ? Math.sin(w.x * 12.9898 + w.z * 78.233) * 6 : 0) });
+      if (!voci.length) continue;
+      const lo = Math.min(...voci.map(v => v.v)), hi = Math.max(...voci.map(v => v.v)) || 1;
+      for (const { a, v } of voci) a.ritardo = (v - lo) / Math.max(1e-6, hi - lo) * (1 - DUR - 0.08);
+    }
+    // direzione di arrivo laterale: dal lato dell'edificio piu' vicino
+    for (const a of anim) { const dx = a.x - centro.x, dz = a.z - centro.z, l = Math.hypot(dx, dz) || 1; a.dx = dx / l; a.dz = dz / l; }
+    for (const s of istanze) for (const v of s.voci) { const dx = v.x - centro.x, dz = v.z - centro.z, l = Math.hypot(dx, dz) || 1; v.dx = dx / l; v.dz = dz / l; }
+    misura();
+    applica(0);
+    $('pb').style.width = '100%';
+    $('load').style.opacity = 0;
+    setTimeout(() => $('load').remove(), 500);
+    if (cattura) window.__c = { vai:p => { fermo = true; P = p; applica(P); interfaccia(P); composer.render(); }, render:() => composer.render(), anim, istanze };
+    requestAnimationFrame(ciclo);
+  } catch (e) {
+    console.error(e);
+    $('lt').textContent = 'Il cantiere 3D non si apre su questo browser. Aggiorna il browser o prova da computer.';
+  }
+})();
+</script>
+</body>
+</html>
