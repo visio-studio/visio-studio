@@ -170,8 +170,11 @@ function materiale(m) {
   const o = { side:THREE.DoubleSide, roughness:0.72, metalness:0 };
   if (/LED|Luce|__faretto/i.test(n)) {
     const c = new THREE.Color().setRGB(m.c[0]/255, m.c[1]/255, m.c[2]/255, THREE.SRGBColorSpace);
-    const forte = n === '__faretto' ? 4.5 : 2.6;  // sopra 1: il bagliore le fa brillare
-    const mt = new THREE.MeshBasicMaterial({ color:c.clone().multiplyScalar(forte), side:THREE.DoubleSide, toneMapped:false });
+    // faretti sopra la soglia del bagliore (1.7): brillano. Gole LED sotto soglia: linea di luce pulita,
+    // senza le chiazze che il bagliore faceva lungo le velette curve
+    const forte = n === '__faretto' ? 4.5 : 1.25;
+    const mt = new THREE.MeshBasicMaterial({ color:c.clone().multiplyScalar(forte), side:THREE.DoubleSide, toneMapped:false,
+      polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-2 });  // davanti al soffitto su cui poggiano: niente sfarfallio
     mt.userData = { acceso:c.clone().multiplyScalar(forte), spento:c.clone().multiplyScalar(n === '__faretto' ? 0.55 : 0.75) };
     luciMat.push(mt);
     return mt;
