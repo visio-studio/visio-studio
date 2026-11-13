@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Realtà aumentata — Circonvallazione Nomentana · VISIO Studio</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+:root { --gold:#C9A96E; --dark:#0A0A0A; }
+* { margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased; }
+html,body { background:#0d0d0d;color:#fff;font-family:'Inter',sans-serif;font-weight:300; }
+a { color:var(--gold); }
+header { display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:.5px solid rgba(255,255,255,.1); }
+header a { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.75);text-decoration:none; }
+main { max-width:980px;margin:0 auto;padding:40px 20px 70px; }
+.k { font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold); }
+h1 { font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(36px,6vw,60px);line-height:1.05;margin:14px 0 16px; }
+h1 em { color:var(--gold); }
+p.s { font-size:15px;line-height:1.75;color:rgba(255,255,255,.8);max-width:620px; }
+model-viewer { display:block;width:100%;height:min(62vh,560px);margin:30px 0 0;background:#141414;--poster-color:#141414; }
+#vai { display:block;width:100%;margin-top:14px;padding:18px;background:var(--gold);color:var(--dark);border:0;font:inherit;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;cursor:pointer; }
+#vai[hidden] { display:none; }
+#pc { margin-top:14px;padding:16px;border:.5px solid rgba(255,255,255,.2);font-size:13px;line-height:1.7;color:rgba(255,255,255,.8); }
+#pc b { color:#fff;font-weight:400;word-break:break-all; }
+ol { margin:40px 0 0;padding:0;list-style:none;counter-reset:p;display:grid;gap:14px; }
+ol li { counter-increment:p;display:grid;grid-template-columns:40px 1fr;gap:12px;font-size:14px;line-height:1.7;color:rgba(255,255,255,.82); }
+ol li::before { content:counter(p,decimal-leading-zero);font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold);line-height:1; }
+ol li b { color:#fff;font-weight:400; }
+.nota { margin-top:30px;font-size:12px;line-height:1.7;color:rgba(255,255,255,.55);border-top:.5px solid rgba(255,255,255,.12);padding-top:16px; }
+</style>
+<script type="module" src="lib/model-viewer.min.js"></script>
+</head>
+<body>
+<header><a href="../">← Il progetto</a><a href="../3d/">Modello 3D</a></header>
+<main>
+  <p class="k">Realtà aumentata · Reception</p>
+  <h1>Il progetto, <em>nella stanza vera</em>.</h1>
+  <p class="s">Apri questa pagina dal telefono dentro la sede: la nuova reception compare in scala reale sopra il locale vuoto. Bancone, parete in marmo, controsoffitto con le luci, rivestimenti dei pilastri, vetrate e arredi. Muri e pilastri esistenti non ci sono nel modello: li vedi veri.</p>
+
+  <model-viewer id="mv" src="reception.glb" ios-src="reception.usdz" alt="La nuova reception di Futura in 3D"
+    ar ar-modes="quick-look scene-viewer webxr" ar-scale="fixed" ar-placement="floor"
+    camera-controls touch-action="pan-y" camera-orbit="-25deg 72deg 9m" field-of-view="45deg"
+    shadow-intensity="0.6" exposure="1.05" environment-image="neutral" loading="eager">
+    <button slot="ar-button" id="vai">Vedi nella stanza</button>
+  </model-viewer>
+  <div id="pc" hidden>Sei da computer: qui puoi ruotare il modello. Per la realtà aumentata apri questo indirizzo dall'iPhone o da un telefono Android:<br><b id="url"></b></div>
+
+  <ol>
+    <li><span><b>Mettiti in reception</b>, vicino all'ingresso, con il bancone davanti a te. Tocca «Vedi nella stanza».</span></li>
+    <li><span><b>Inquadra il pavimento</b> e muovi piano il telefono: su iPhone Pro il sensore LiDAR trova il pavimento in un attimo e il modello si appoggia a terra.</span></li>
+    <li><span><b>Allinealo ai pilastri veri.</b> Trascina con un dito per spostarlo, ruota con due dita: i rivestimenti in legno devono abbracciare i pilastri in cemento della stanza. Quando combaciano, il resto è al suo posto.</span></li>
+    <li><span><b>Cammina dentro.</b> Avvicinati al bancone, guarda il controsoffitto, gira attorno ai pilastri: le persone che passano davanti coprono il modello come farebbero gli oggetti veri.</span></li>
+  </ol>
+  <p class="nota">La scala è fissa 1:1 e non si può ingrandire per sbaglio. Luci e riflessi in realtà aumentata sono quelli del telefono, più semplici dei render: materiali e colori sono indicativi. Precisione dell'allineamento manuale: qualche centimetro.</p>
+</main>
+<script>
+const mv = document.getElementById('mv');
+document.getElementById('url').textContent = location.href;
+mv.addEventListener('load', () => {
+  // canActivateAR e' falso sui computer: al posto del pulsante l'indirizzo da aprire sul telefono
+  if (!mv.canActivateAR) { document.getElementById('pc').hidden = false; }
+});
+</script>
+</body>
+</html>

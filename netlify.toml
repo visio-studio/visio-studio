@@ -55,3 +55,14 @@
   for = "/esempio/*"
   [headers.values]
     X-Robots-Tag = "noindex"
+
+# ── Realtà aumentata: iPhone apre AR Quick Look solo se il file USDZ arriva con il suo tipo (con nosniff non lo indovina)
+[[headers]]
+  for = "/*.usdz"
+  [headers.values]
+    Content-Type = "model/vnd.usdz+zip"
+
+[[headers]]
+  for = "/*.glb"
+  [headers.values]
+    Content-Type = "model/gltf-binary"
