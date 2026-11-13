@@ -79,6 +79,19 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 .m3cta button:hover { background:var(--gold);color:var(--dark); }
 .m3cta p { font-size:11px;color:rgba(255,255,255,.8);text-align:center;padding:0 20px; }
 /* cantiere 4D: fascia lunga, la scena resta ferma sullo schermo e lo scroll monta (o smonta) l'edificio */
+/* realta' aumentata: anteprima, passi, pulsante (su iPhone apre direttamente AR Quick Look) e QR per chi e' al computer */
+#ar { background:var(--dark); }
+.arg { display:grid;grid-template-columns:1.25fr 1fr;gap:44px;align-items:center;margin-top:44px; }
+.arg .im { position:relative;display:block; }
+.arg .im img { display:block;width:100%;height:auto; }
+.arg .im span { position:absolute;left:14px;top:14px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;background:rgba(10,10,10,.72);padding:7px 10px;color:var(--gold); }
+.arp { list-style:none;counter-reset:a;display:grid;gap:12px;margin:0 0 26px;padding:0; }
+.arp li { counter-increment:a;display:grid;grid-template-columns:34px 1fr;font-size:14px;line-height:1.65;color:rgba(255,255,255,.8); }
+.arp li::before { content:counter(a,decimal-leading-zero);font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);line-height:1.1; }
+.arb { display:inline-block;background:var(--gold);color:var(--dark);text-decoration:none;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;padding:16px 26px; }
+.arq { display:flex;gap:16px;align-items:center;margin-top:24px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.65); }
+.arq img { width:104px;height:104px;background:#fff;padding:6px;flex:none; }
+.arq[hidden] { display:none; }
 #cantiere { background:#0d0d0d;padding-bottom:0; }
 #cbox { position:relative;height:1050vh;margin:44px -40px 0; }
 #cfix { position:sticky;top:0;height:100vh;overflow:hidden;background:#0d0d0d; }
@@ -238,6 +251,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   #lb .lbp, #lb .lbn { top:auto;bottom:10px;margin:0;width:42px;height:42px; }
   #m3box { margin:36px -20px 0;height:72vh; }
   #cbox { margin:36px -20px 0;height:950vh; }
+  .arg { grid-template-columns:1fr;gap:28px; }
   .pvgrid { grid-template-columns:1fr; }
   .cfgbox { grid-template-columns:1fr; }
   #pano #tmappa { width:120px; }
@@ -322,6 +336,26 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     <p class="sd">Diciassette settimane di lavori, una fase alla volta. Continua a scorrere: le pareti crescono, arrivano rivestimenti, vetrate, controsoffitti, pavimenti e arredi, fino a entrare in reception. Torna su e il cantiere si smonta.</p>
   </div>
   <div id="cbox"><div id="cfix"><p class="att">Il cantiere si prepara</p></div></div>
+</section>
+
+<section id="ar">
+  <div class="wrap">
+    <p class="slab">Realtà aumentata</p>
+    <h2 class="st">Il progetto, <em>nella stanza vera</em>.</h2>
+    <p class="sd">Dentro la sede vuota, inquadra il pavimento con il telefono: la nuova reception compare in scala reale sopra il locale. Bancone, parete in marmo, controsoffitto con le luci, rivestimenti dei pilastri, vetrate e arredi; muri e pilastri esistenti li vedi veri.</p>
+    <div class="arg">
+      <a class="im" id="arImg" href="ar/"><img src="ar/anteprima.jpg" alt="Il modello della nuova reception visto da dentro, come appare in realtà aumentata" loading="lazy" width="1400" height="900"><span>Reception · scala 1:1</span></a>
+      <div>
+        <ol class="arp">
+          <li><span>Mettiti in reception, con il bancone davanti, e tocca «Vedi nella stanza».</span></li>
+          <li><span>Inquadra il pavimento: su iPhone Pro il LiDAR lo trova subito e il modello si appoggia a terra.</span></li>
+          <li><span>Trascina e ruota finché i rivestimenti in legno abbracciano i pilastri veri, poi cammina dentro.</span></li>
+        </ol>
+        <a class="arb" id="arVai" href="ar/">Vedi nella stanza</a>
+        <div class="arq" id="arQr" hidden><img src="ar/qr.svg" alt="Codice QR della pagina di realtà aumentata"><span>Sei al computer? Inquadra il codice con la fotocamera dell'iPhone o di un telefono Android per aprire la realtà aumentata.</span></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="tavole">
@@ -548,6 +582,20 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 })().catch(e=>console.error(e));
 const m3=document.getElementById('m3box');
 m3.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const f=document.createElement('iframe');f.title='Modello 3D navigabile';f.allow='fullscreen';f.src='3d/?modo='+b.dataset.m;m3.replaceChildren(f);f.focus();}));
+// realta' aumentata: su iPhone/iPad il pulsante apre direttamente AR Quick Look (rel="ar" sul file USDZ);
+// sugli altri telefoni porta alla pagina ar/ (Scene Viewer su Android); al computer compare il QR
+(()=>{
+  const a=document.createElement('a'),ios=a.relList&&a.relList.supports&&a.relList.supports('ar');
+  const tel=matchMedia('(pointer:coarse)').matches;
+  if(ios){
+    // Quick Look vuole un link rel="ar" con dentro solo un'immagine: e' l'anteprima; il pulsante col testo la aziona
+    const im=document.getElementById('arImg'),vai=document.getElementById('arVai');
+    im.querySelector('span').remove();
+    im.rel='ar';im.href='ar/reception.usdz#allowsContentScaling=0';
+    vai.addEventListener('click',e=>{e.preventDefault();im.click();});
+  }
+  if(!tel){const q=document.getElementById('arQr');if(q)q.hidden=false;}
+})();
 // cantiere 4D: la scena (cantiere/?fascia=1) si carica quando la fascia si avvicina; lo scroll della pagina le dice a che punto e'
 (()=>{
   const cb=document.getElementById('cbox'),cf=document.getElementById('cfix');
