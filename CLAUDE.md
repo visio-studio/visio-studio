@@ -55,6 +55,7 @@ L'ordine segue una logica narrativa voluta: aggancio → panoramica servizi → 
 6. **Sezione LiDAR** (`#lidar-section` + `#lidar-after`) — nuvola di punti 3D animata (canvas `#lidar-cv`) e il render finale
 7. **VR scroll** (`#vr-scroll`) — zoom nel visore fino a entrare nella stanza 360° navigabile: rendering WebGL con proiezione prospettica, panorama `img/room-360-tour.jpg`
 8. **VR/AR** (`#vrar`) — demo interattiva telefono-mirino sulla stanza (vuota/arredata)
+   - **QR di cantiere** (`#qr-cantiere`, dopo `#vrar`) — il cartello QR in cantiere apre il modello AR agganciato allo spazio: illustrazione SVG animata (cantiere fuori dal telefono, progetto dentro), 4 passi, un QR per mestiere. Non ha una card in `#intro-servizi` (la griglia resta 3×3).
 9. **Documenti** (`#documenti`) — documentazione tecnica completa: planimetrie quotate, modello 3D, schemi impianti, computo metrico, render alta risoluzione, video
 10. **Arredo** (`#arredo`) — montaggio della madia in 3D (canvas WebGL `#madia-cv` in `#esploso-wrap`, modello `madia-3d.json`) legato allo scroll, con le quattro finiture + i tre modi di servizio (fornitori, scheda tecnico-esecutiva, chiavi in mano) e il confronto prima/dopo render-realtà
 11. **Esterni** (`#esterni`) — progettazione area esterna, timelapse allo scroll (`img/esterni-2`, caricato in differita poco prima di servire)

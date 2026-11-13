@@ -9,6 +9,7 @@ VISIO Studio realizza render fotorealistici, scansioni LiDAR, tour VR/AR e siti 
 - Render fotorealistici di interni ed esterni
 - Scansione LiDAR e rilievo 3D ad alta precisione (accuratezza millimetrica nelle condizioni operative previste)
 - Tour virtuali VR/AR e stanze navigabili a 360°
+- QR di cantiere: un cartello con codice QR in cantiere apre il modello 3D in realtà aumentata agganciato allo spazio, in scala reale, con versioni per ogni mestiere (cartongessista, elettricista, serramentista, arredatore)
 - Siti web dedicati per presentare un singolo progetto immobiliare
 - Progettazione arredo su misura: schede tecnico-esecutive per il falegname del cliente, oppure realizzazione chiavi in mano (progettazione, produzione e installazione)
 - Progettazione di aree esterne, giardini e illuminotecnica

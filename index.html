@@ -39,6 +39,7 @@
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Render fotorealistici di interni ed esterni" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Scansione LiDAR e rilievo 3D di precisione" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Tour virtuali VR/AR e stanze navigabili a 360°" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "QR di cantiere: il modello 3D in realtà aumentata agganciato allo spazio per le maestranze" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sito web dedicato al progetto immobiliare" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Progettazione arredo su misura" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Progettazione area esterna e illuminotecnica" } },
@@ -442,6 +443,51 @@ body.mnav-open #mm-acc > :not(.mm-ln) { opacity:1;transition-delay:1.2s; }
 .ar-feat { background:var(--dark3);padding:26px 24px; }
 .ar-feat .tag { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:10px; }
 .ar-feat p { font-size:11px;color:rgba(255,255,255,.45);line-height:1.85; }
+/* ── QR DI CANTIERE: il cartello in cantiere apre il progetto agganciato allo spazio ── */
+#qr-cantiere { background:var(--dark);padding:96px 48px;border-top:.5px solid rgba(255,255,255,.06); }
+.qc-intro { text-align:center;max-width:700px;margin:0 auto 50px; }
+.qc-intro h2 { font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;line-height:1.1;margin-bottom:16px; }
+.qc-intro h2 em { font-style:italic;color:var(--gold); }
+.qc-intro p { font-size:12px;color:rgba(255,255,255,.55);line-height:1.95; }
+.qc-ill { max-width:980px;margin:0 auto; }
+.qc-ill svg { display:block;width:100%;height:auto; }
+.qc-cap { text-align:center;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:14px; }
+/* disegno del progetto: le linee si tracciano quando la scena compare */
+.qc-ill .qd { stroke-dasharray:420;stroke-dashoffset:420;transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1); }
+.qc-ill.in .qd { stroke-dashoffset:0; }
+.qc-ill .qd2 { transition-delay:.5s; } .qc-ill .qd3 { transition-delay:.9s; } .qc-ill .qd4 { transition-delay:1.3s; }
+.qc-ill .qf { opacity:0;transition:opacity 1s ease 1.6s; }
+.qc-ill.in .qf { opacity:1; }
+.qc-ill .qa { animation:qcPulse 2.2s ease-in-out infinite;transform-origin:400px 252px;transform-box:view-box; }
+.qc-ill .qs { animation:qcScan 3.2s linear infinite; }
+@keyframes qcPulse { 0%,100%{opacity:.55;transform:scale(1)} 50%{opacity:1;transform:scale(1.06)} }
+@keyframes qcScan { 0%{transform:translateY(0);opacity:0} 8%{opacity:.9} 92%{opacity:.9} 100%{transform:translateY(330px);opacity:0} }
+.qc-passi { display:grid;grid-template-columns:repeat(4,1fr);gap:3px;max-width:1000px;margin:56px auto 0;counter-reset:qc; }
+.qc-passo { background:var(--dark3);padding:28px 24px 26px;counter-increment:qc; }
+.qc-passo svg { width:56px;height:56px;display:block;margin-bottom:18px;stroke:var(--gold);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round; }
+.qc-passo .n::before { content:counter(qc,decimal-leading-zero) ' · ';color:var(--gold); }
+.qc-passo .n { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:10px; }
+.qc-passo p { font-size:11px;color:rgba(255,255,255,.5);line-height:1.85; }
+.qc-mest { max-width:1000px;margin:56px auto 0; }
+.qc-mest h3 { font-family:'Cormorant Garamond',serif;font-weight:300;font-size:32px;text-align:center;margin-bottom:8px; }
+.qc-mest h3 em { font-style:italic;color:var(--gold); }
+.qc-mest > p { text-align:center;font-size:12px;color:rgba(255,255,255,.5);line-height:1.9;max-width:620px;margin:0 auto 26px; }
+.qc-mg { display:grid;grid-template-columns:repeat(4,1fr);gap:3px; }
+.qc-m { border:.5px solid rgba(201,169,110,.28);padding:22px 20px; }
+.qc-m .tag { font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:10px; }
+.qc-m p { font-size:11px;color:rgba(255,255,255,.55);line-height:1.8; }
+.qc-nota { max-width:760px;margin:34px auto 0;text-align:center;font-size:10.5px;color:rgba(255,255,255,.38);line-height:1.9; }
+@media(max-width:900px){
+  #qr-cantiere { padding:72px 20px; }
+  .qc-intro h2 { font-size:36px; }
+  .qc-passi,.qc-mg { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:560px){
+  .qc-passi,.qc-mg { grid-template-columns:1fr; }
+  .qc-intro h2 { font-size:32px; }
+}
+@media (prefers-reduced-motion:reduce){ .qc-ill .qa,.qc-ill .qs { animation:none; } .qc-ill .qd { transition:none;stroke-dashoffset:0; } .qc-ill .qf { transition:none;opacity:1; } }
+
 .vrar-card svg { margin-top:24px; }
 
 /* ── DOCUMENTI SECTION (light) ── */
@@ -1703,6 +1749,106 @@ ancora non esiste.</p>
       <p>Il link funziona su qualsiasi iPhone o Android recente &mdash; nessuna app, nessuna installazione.</p>
     </div>
   </div>
+</section>
+
+<!-- ══ QR DI CANTIERE ══ -->
+<section id="qr-cantiere">
+  <div class="qc-intro rev">
+    <p class="slabel" style="text-align:center;margin-bottom:16px;">QR di cantiere</p>
+    <h2>Il progetto,<br><em>appeso in cantiere.</em></h2>
+    <p>Mettiamo in cantiere un cartello con un codice QR, in un punto misurato. Chi lavora lo inquadra con il telefono e il modello 3D si apre già al suo posto, in scala reale, agganciato allo spazio: pareti, velette, faretti, porte e arredi esattamente dove andranno costruiti. Niente app, niente tavole da interpretare.</p>
+  </div>
+
+  <div class="qc-ill rev" role="img" aria-label="Illustrazione: un cantiere vuoto con un pilastro e un cartello QR; dentro lo schermo di un telefono lo stesso spazio mostra il progetto agganciato al cartello, con parete nuova, rivestimento del pilastro, veletta con luce LED e faretti">
+    <svg viewBox="0 0 800 460" aria-hidden="true">
+      <defs>
+        <clipPath id="qcSchermo"><rect x="308" y="70" width="204" height="360" rx="16"/></clipPath>
+        <g id="qcStanza">
+          <rect x="250" y="140" width="300" height="180" fill="none" stroke="rgba(255,255,255,.14)"/>
+          <path d="M0 0L250 140M800 0L550 140M0 460L250 320M800 460L550 320" stroke="rgba(255,255,255,.1)" fill="none"/>
+          <rect x="372" y="96" width="56" height="276" fill="#1b1b1b" stroke="rgba(255,255,255,.2)"/>
+          <rect x="120" y="40" width="70" height="384" fill="#181818" stroke="rgba(255,255,255,.18)"/>
+          <rect x="138" y="226" width="34" height="34" fill="#f4f1ec"/>
+          <g fill="#0a0a0a"><rect x="140" y="228" width="9" height="9"/><rect x="161" y="228" width="9" height="9"/><rect x="140" y="249" width="9" height="9"/><rect x="152" y="231" width="4" height="4"/><rect x="153" y="241" width="5" height="3"/><rect x="160" y="246" width="4" height="4"/><rect x="164" y="252" width="5" height="5"/><rect x="153" y="252" width="3" height="5"/></g>
+          <rect x="626" y="70" width="52" height="330" fill="#181818" stroke="rgba(255,255,255,.16)"/>
+          <rect x="384" y="236" width="32" height="32" fill="#f4f1ec"/>
+          <g fill="#0a0a0a">
+            <rect x="386" y="238" width="9" height="9"/><rect x="405" y="238" width="9" height="9"/><rect x="386" y="257" width="9" height="9"/>
+            <rect x="397" y="240" width="3" height="3"/><rect x="398" y="247" width="4" height="3"/><rect x="397" y="253" width="3" height="5"/>
+            <rect x="404" y="251" width="3" height="3"/><rect x="409" y="255" width="4" height="4"/><rect x="401" y="261" width="3" height="4"/>
+            <rect x="407" y="262" width="3" height="3"/><rect x="389" y="249" width="3" height="3"/>
+          </g>
+          <g fill="none" stroke="#f4f1ec" stroke-width="1"><rect x="388" y="240" width="5" height="5"/><rect x="407" y="240" width="5" height="5"/><rect x="388" y="259" width="5" height="5"/></g>
+        </g>
+      </defs>
+      <!-- il cantiere com'e' -->
+      <use href="#qcStanza"/>
+      <text x="40" y="430" fill="rgba(255,255,255,.35)" font-size="10" letter-spacing="2" font-family="Inter,sans-serif">IL CANTIERE, OGGI</text>
+      <text x="760" y="430" fill="rgba(201,169,110,.8)" font-size="10" letter-spacing="2" text-anchor="end" font-family="Inter,sans-serif">NEL TELEFONO, IL PROGETTO</text>
+      <!-- telefono -->
+      <rect x="296" y="52" width="228" height="396" rx="26" fill="#0d0d0d" stroke="rgba(201,169,110,.55)"/>
+      <rect x="388" y="58" width="44" height="6" rx="3" fill="#222"/>
+      <g clip-path="url(#qcSchermo)">
+        <rect x="308" y="70" width="204" height="360" fill="#141414"/>
+        <use href="#qcStanza"/>
+        <!-- il progetto agganciato al cartello -->
+        <polygon class="qf" points="434,150 512,138 512,370 434,358" fill="rgba(201,169,110,.08)"/>
+        <polygon class="qd qd2" points="434,150 512,138 512,370 434,358" fill="none" stroke="#C9A96E" stroke-width="1.4"/>
+        <rect class="qd" x="366" y="96" width="68" height="276" fill="none" stroke="#C9A96E" stroke-width="1.4"/>
+        <path class="qf" d="M308,128 Q410,152 512,120" fill="none" stroke="#C9A96E" stroke-width="7" opacity=".25"/>
+        <path class="qd qd3" d="M308,128 Q410,152 512,120" fill="none" stroke="#E8D3A6" stroke-width="2"/>
+        <g class="qf" fill="#fff2d6"><circle cx="340" cy="106" r="4"/><circle cx="470" cy="104" r="4"/><circle cx="406" cy="112" r="3"/></g>
+        <path class="qd qd4" d="M360,252 V372 M354,252 H366 M354,372 H366" stroke="rgba(255,255,255,.75)" fill="none"/>
+        <text class="qf" x="354" y="318" fill="#fff" font-size="9" text-anchor="end" font-family="Inter,sans-serif">1,20 m</text>
+        <g class="qf" font-family="Inter,sans-serif" font-size="8" letter-spacing="1.2" fill="#C9A96E">
+          <text x="446" y="184">PARETE</text><text x="446" y="195">NUOVA</text>
+          <text x="316" y="162">VELETTA</text>
+          <text x="384" y="226" transform="rotate(-90 384 226)">RIVESTIMENTO</text>
+        </g>
+        <path class="qa" d="M376,238 V230 H384 M416,230 H424 V238 M424,266 V274 H416 M384,274 H376 V266" fill="none" stroke="#C9A96E" stroke-width="2"/>
+        <rect class="qs" x="308" y="70" width="204" height="2" fill="#C9A96E" opacity=".8"/>
+        <text x="322" y="92" fill="rgba(255,255,255,.6)" font-size="7" letter-spacing="2" font-family="Inter,sans-serif">VISIO · CANTIERE</text>
+        <rect x="330" y="398" width="160" height="20" rx="10" fill="rgba(10,10,10,.8)" stroke="rgba(201,169,110,.6)"/>
+        <text x="410" y="411" fill="#C9A96E" font-size="7.5" letter-spacing="1.2" text-anchor="middle" font-family="Inter,sans-serif">AGGANCIATO AL QR · SCALA 1:1</text>
+      </g>
+    </svg>
+    <p class="qc-cap">Fuori dal telefono il cantiere com'è · dentro, il progetto agganciato al cartello</p>
+  </div>
+
+  <div class="qc-passi">
+    <div class="qc-passo rev">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="22" y="4" width="18" height="56"/><rect x="25" y="26" width="12" height="12"/><path d="M48 58V32M45 32h6M45 58h6"/></svg>
+      <p class="n">Il cartello</p>
+      <p>Lo fissiamo in un punto misurato del modello, per esempio su un pilastro a 1,20 m da terra. Nelle stanze grandi i cartelli sono più d'uno, uno per zona.</p>
+    </div>
+    <div class="qc-passo rev">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="18" y="6" width="28" height="52" rx="5"/><rect x="25" y="22" width="14" height="14"/><path d="M25 27h5v-5M39 31h-5v5M28 50h8"/></svg>
+      <p class="n">Inquadra</p>
+      <p>Muratore, elettricista o cartongessista apre la fotocamera del telefono e inquadra il codice. Si apre il progetto: nessuna app da installare.</p>
+    </div>
+    <div class="qc-passo rev">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="26" y="44" width="12" height="12"/><path d="M20 14l12-7 12 7v14l-12 7-12-7z" stroke-dasharray="3 3"/><path d="M20 14l12 7 12-7M32 21v14"/><path d="M32 37v5M29 40l3 3 3-3"/></svg>
+      <p class="n">Si aggancia</p>
+      <p>Il telefono riconosce il cartello e ci appoggia sopra il modello 3D in scala reale, nella posizione giusta. Si cammina dentro e lo si guarda da ogni lato.</p>
+    </div>
+    <div class="qc-passo rev">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 20l24-10 24 10-24 10z"/><path d="M8 32l24 10 24-10"/><path d="M8 44l24 10 24-10"/></svg>
+      <p class="n">Il tuo lavoro</p>
+      <p>Ogni mestiere vede solo quello che gli serve: tracce, quote e posizioni esatte, senza perdersi tra gli strati del progetto.</p>
+    </div>
+  </div>
+
+  <div class="qc-mest">
+    <h3 class="rev">Un QR per <em>ogni mestiere</em>.</h3>
+    <p class="rev">Lo stesso cantiere, letto da chi lo costruisce. Ogni cartello apre la versione del modello che serve a quella squadra.</p>
+    <div class="qc-mg">
+      <div class="qc-m rev"><p class="tag">Cartongessista</p><p>Pareti nuove, velette e controsoffitti, con quote e altezze.</p></div>
+      <div class="qc-m rev"><p class="tag">Elettricista</p><p>Faretti, gole LED, punti luce, prese e interruttori.</p></div>
+      <div class="qc-m rev"><p class="tag">Serramentista</p><p>Vetrate, porte e infissi con aperture e ingombri.</p></div>
+      <div class="qc-m rev"><p class="tag">Arredatore</p><p>Bancone, arredi e attrezzature, ognuno al suo posto.</p></div>
+    </div>
+  </div>
+  <p class="qc-nota rev">Funziona con la fotocamera di iPhone e Android recenti. Sugli iPhone Pro il sensore LiDAR rende l'aggancio più stabile. Il cartello si stampa e si sostituisce a ogni revisione del progetto.</p>
 </section>
 
 <!-- ══ DOCUMENTAZIONE TECNICA ══ -->
