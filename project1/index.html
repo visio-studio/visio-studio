@@ -195,11 +195,9 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 #varianti { background:var(--dark3); }
 .cwrap { overflow-x:auto;margin-top:40px; }
 .ctab { width:100%;border-collapse:collapse;font-size:13px;min-width:560px; }
-.ctab th,.ctab td { padding:10px 12px;border-bottom:.5px solid rgba(255,255,255,.1);text-align:right;white-space:nowrap; }
+.ctab th,.ctab td { padding:10px 12px;border-bottom:.5px solid rgba(255,255,255,.1);text-align:left;vertical-align:top; }
 .ctab th:first-child,.ctab td:first-child { text-align:left;white-space:normal; }
 .ctab th { font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#7e7e7e;font-weight:400; }
-.ctab tr.sub td { color:#fff;font-weight:500;border-top:.5px solid rgba(255,255,255,.3); }
-.ctab tr.tot td { color:var(--gold);font-size:15px;font-weight:500;border-top:.5px solid var(--gold); }
 .ctab td { color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums; }
 .cnum { display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px; }
 .cnum div { border-top:.5px solid rgba(255,255,255,.15);padding-top:14px; }
@@ -371,7 +369,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     </div>
     <div class="vista">
       <div class="vh"><span class="vn">3</span><div><h3>Soggiorno con cucina · unità B</h3><p>Dal lato sud verso la strada: portafinestra sul giardino a sinistra, tavolo al centro, cucina tortora a destra.</p><a href="3d/?cam=-0.3,1.5,5.7&amp;tgt=-5.0,0.9,2.8&amp;cut=3.4&amp;cop&amp;fov=62">Apri il 3D da questa camera →</a></div></div>
-      <div class="vimg"><figure><img src="render/soggiorno-b.jpg" alt="Render del soggiorno dell'unità B: portafinestra sul giardino a sinistra, tavolo in rovere al centro, cucina tortora a destra, divano avorio" loading="lazy"><figcaption>Render</figcaption></figure><figure><img src="render/modello-b.jpg" alt="Vista del modello 3D del soggiorno B dalla stessa camera del render" loading="lazy"><figcaption>Modello 3D · stessa camera</figcaption></figure></div>
+      <div class="vimg"><figure><img src="render/soggiorno-b.jpg" alt="Render del soggiorno dell'unità B: controsoffitto piatto con faretti e gola LED lungo le finestre, portafinestra sul giardino a sinistra, tavolo in rovere al centro, cucina tortora a destra, divano avorio" loading="lazy"><figcaption>Render</figcaption></figure><figure><img src="render/modello-b.jpg" alt="Vista del modello 3D del soggiorno B dalla stessa camera del render" loading="lazy"><figcaption>Modello 3D · stessa camera</figcaption></figure></div>
     </div>
     <div class="mat">
       <div><b>Pavimento</b><span>Gres effetto resina chiaro, neutro freddo, lastre 120 × 60 con fuga 2 mm, uguale in tutta la casa.</span></div>
@@ -399,41 +397,16 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 <section id="computo">
   <div class="wrap">
     <p class="slab">Computo metrico</p>
-    <h2 class="st">Quanto <em>costa</em>.</h2>
-    <p class="sd">Quantità ricavate dal modello di progetto, prezzi indicativi Lazio 2026, da confermare con le offerte delle ditte. Arredi esclusi. Il file Excel ha le 62 voci con le formule, le leve di risparmio e il conto economico.</p>
-    <div class="cnum">
-      <div><b>306.600 €</b><span>costo dell'intervento con il capitolato completo, IVA e tecnici compresi</span></div>
-      <div><b>204.000 €</b><span>con le 15 leve di risparmio già selezionate nel foglio “Ottimizzazione”</span></div>
-      <div><b class="neg">−29.800 €</b><span>margine dell'operazione dopo le leve, con l'acquisto a 135.000 €</span></div>
-      <div><b>2.233 €/m²</b><span>prezzo di vendita di pareggio su 160 m² commerciali</span></div>
-    </div>
+    <h2 class="st">Le quantità per le <em>imprese</em>.</h2>
+    <p class="sd">Tutte le lavorazioni del progetto con le quantità ricavate dal modello, senza prezzi: il file Excel si manda alle imprese, che compilano solo la colonna del prezzo unitario. Importi, totali per categoria e riepilogo si calcolano da soli, così le offerte arrivano confrontabili voce per voce. Arredi esclusi.</p>
     <div class="cwrap">
       <table class="ctab">
-        <thead><tr><th>Voce</th><th>Unità A €</th><th>Unità B €</th><th>Totale €</th></tr></thead>
-        <tbody>
-          <tr><td>01 Demolizioni, rimozioni e sgombero</td><td>7.544</td><td>6.097</td><td>13.641</td></tr>
-          <tr><td>02 Opere strutturali</td><td>6.800</td><td>27.000</td><td>33.800</td></tr>
-          <tr><td>03 Seminterrato: risanamento e abitabilità</td><td>0</td><td>7.455</td><td>7.455</td></tr>
-          <tr><td>04 Opere edili e finiture</td><td>22.949</td><td>33.341</td><td>56.290</td></tr>
-          <tr><td>05 Serramenti</td><td>9.358</td><td>15.180</td><td>24.538</td></tr>
-          <tr><td>06 Impianto elettrico e illuminazione</td><td>10.748</td><td>14.225</td><td>24.973</td></tr>
-          <tr><td>07 Impianto idrico-sanitario</td><td>7.880</td><td>13.390</td><td>21.270</td></tr>
-          <tr><td>08 Riscaldamento, raffrescamento e ACS</td><td>14.184</td><td>17.234</td><td>31.417</td></tr>
-          <tr><td>09 Esterni e parti comuni (quota)</td><td>1.250</td><td>2.450</td><td>3.700</td></tr>
-          <tr class="sub"><td>Totale lavori</td><td>80.713</td><td>136.372</td><td>217.084</td></tr>
-          <tr><td>Assistenze murarie agli impianti (8%)</td><td>2.625</td><td>3.588</td><td>6.213</td></tr>
-          <tr><td>Oneri della sicurezza (3%)</td><td>2.421</td><td>4.091</td><td>6.513</td></tr>
-          <tr><td>Imprevisti (8%)</td><td>6.667</td><td>11.197</td><td>17.864</td></tr>
-          <tr><td>IVA sui lavori (10%)</td><td>9.243</td><td>15.525</td><td>24.767</td></tr>
-          <tr><td>Spese tecniche (9% + cassa + IVA)</td><td>10.554</td><td>17.728</td><td>28.282</td></tr>
-          <tr><td>Catasto, frazionamento, APE</td><td>1.200</td><td>1.200</td><td>2.400</td></tr>
-          <tr><td>Contributo per il cambio d'uso (stima)</td><td>0</td><td>3.500</td><td>3.500</td></tr>
-          <tr class="tot"><td>Totale costo intervento</td><td>113.423</td><td>193.200</td><td>306.623</td></tr>
-        </tbody>
+        <thead><tr><th>Categoria</th><th>Voci</th><th>Per esempio</th></tr></thead>
+        <tbody><tr><td>01 Demolizioni, rimozioni e sgombero</td><td>7</td><td>Demolizione di tramezzi in laterizio fino a 12 cm, compreso calo e acc…</td></tr><tr><td>02 Opere strutturali</td><td>6</td><td>Apertura di varco di 2,00 m nel muro di spina con cerchiatura in accia…</td></tr><tr><td>03 Seminterrato: risanamento e abitabilità</td><td>3</td><td>Vespaio aerato con casseri a perdere h 40 cm, rete e getto di completa…</td></tr><tr><td>04 Opere edili e finiture</td><td>11</td><td>Tramezzi in laterizio forato 8 cm, intonacati sulle due facce</td></tr><tr><td>05 Serramenti</td><td>4</td><td>Infissi esterni in PVC o alluminio a taglio termico, vetrocamera basso…</td></tr><tr><td>06 Impianto elettrico e illuminazione</td><td>15</td><td>Quadro elettrico d&#x27;appartamento con differenziali e linee separate</td></tr><tr><td>07 Impianto idrico-sanitario</td><td>9</td><td>Collettore sanitario con valvole di intercettazione</td></tr><tr><td>08 Riscaldamento, raffrescamento e ACS</td><td>5</td><td>Pompa di calore aria-acqua monoblocco con accumulo ACS, installata e c…</td></tr><tr><td>09 Esterni e parti comuni (quota)</td><td>2</td><td>Divisione della corte: recinzione e cancello pedonale</td></tr><tr><td>10 Variante bagni con finestra (opzionale, tavola 11)</td><td>5</td><td>Nuova finestra del bagno A sul prospetto posteriore, circa 0,90 × 0,90…</td></tr></tbody>
       </table>
     </div>
-    <p class="cnote">Le leve più pesanti: climatizzazione a split invece del radiante (−27.200 €), controsoffitti solo dove servono (−12.900 €), nessun nuovo varco nel muro di spina dell'unità A (−9.600 €), spese tecniche al 6% con progetto e render fatti da VISIO (−9.400 €). Restano da valutare l'acquisto diretto dei materiali, gli imprevisti al 5% dopo i saggi e l'operazione tramite società.</p>
-    <div class="tdown"><a class="btn" href="scarica/Project1_computo_metrico.xlsx" download>Computo completo · Excel</a></div>
+    <p class="cnote">Da allegare alla richiesta: le tavole 01–11 (PDF) e, se serve, il modello SketchUp. Le quantità vanno confermate in sopralluogo; la categoria 10 è la variante dei bagni con finestra, da quotare a parte.</p>
+    <div class="tdown"><a class="btn" href="scarica/Project1_computo_per_offerta.xlsx" download>Computo per offerta · Excel</a></div>
   </div>
 </section>
 
@@ -446,7 +419,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       <figure><a href="tavole/tav11.jpg" target="_blank" rel="noopener"><img src="tavole/tav11.jpg" alt="Tavola 11: piano terra e seminterrato in variante, con le due finestre nuove dei bagni cerchiate in rosso" loading="lazy" style="aspect-ratio:auto;background:#fff"></a><figcaption>Tavola 11 · in rosso le aperture nuove</figcaption></figure>
     </div>
     <div class="mat">
-      <div><b>Bagno unità A</b><span>Lineare lungo il muro di spina, 3,1 m², con finestra nuova sul retro. La camera singola prende il posto del vecchio bagno e arriva a 9,2 m².</span></div>
+      <div><b>Bagno unità A</b><span>Lungo il muro di spina, largo 1,82 m (5,6 m²), con finestra nuova sul retro. La stanza accanto scende a 5,9 m²: sotto i 9 m² minimi non è più una camera ma uno studio, con la finestra spostata più a nord.</span></div>
       <div><b>Bagno seminterrato B</b><span>Finestra alta nel muro nord, con il davanzale a 1,50 m dal pavimento e ben sopra il giardino.</span></div>
       <div><b>Bagno piano terra B</b><span>Ha già la finestra sul retro: resta com'è.</span></div>
       <div><b>Pratica</b><span>Finestre nuove o allargate cambiano la facciata: SCIA o permesso di costruire, insieme al cambio d'uso del seminterrato (L.R. Lazio 12/2025, art. 25). Da avvisare l'amministratore del condominio.</span></div>
@@ -495,7 +468,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
         <a href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener"><b>Tavole A3</b><span>PDF · 10 tavole + variante</span></a>
         <a href="scarica/Project1_modello_v3.skp" download><b>Modello SketchUp v3</b><span>SKP · millimetri · arredi, serramenti, controsoffitti</span></a>
         <a href="scarica/Project1_variante_bagni.pdf" target="_blank" rel="noopener"><b>Variante bagni con finestra</b><span>PDF · tavola 11</span></a>
-        <a href="scarica/Project1_computo_metrico.xlsx" download><b>Computo metrico</b><span>Excel · voci, leve, conto economico</span></a>
+        <a href="scarica/Project1_computo_per_offerta.xlsx" download><b>Computo per offerta</b><span>Excel · voci e quantità, prezzi da compilare</span></a>
         <a href="scarica/Project1_modello_disegnato.dae" download><b>Modello 3D disegnato</b><span>DAE · per SketchUp</span></a>
         <a href="3d/"><b>Modello 3D nel browser</b><span>con rilievo Polycam</span></a>
         <p>Il file SketchUp v3 ha un tag per ogni parte (stato attuale, progetto, arredi, serramenti, controsoffitti e LED, esterni) e cinque scene pronte; pavimento in resina 120 × 60 con texture, pareti greige, cucine tortora. Gli arredi vengono da 3D Warehouse e sono esclusi dal computo.</p>
