@@ -1,13 +1,13 @@
 /* ---------------------------------------------------------------------------
    Invio dei moduli del sito (contatti in home e preventivo.html) per email.
 
-   I due moduli fanno POST multipart su /api/modulo. Questa funzione di
-   Cloudflare Pages controlla i campi, scarta lo spam (campo trappola
+   I due moduli fanno POST multipart su /api/modulo. Questa funzione del
+   Worker Cloudflare (chiamata da worker/index.js) controlla i campi, scarta lo spam (campo trappola
    «bot-field» e provenienza) e inoltra la richiesta con Resend
    (https://resend.com) all'indirizzo dello studio, con «Rispondi a» impostato
    sull'email di chi ha scritto e l'eventuale allegato (max 8 MB).
 
-   Variabili del progetto Cloudflare (Settings → Variables and secrets):
+   Variabili del Worker visio-studio (Cloudflare → Workers & Pages → visio-studio → Settings → Variables and secrets):
      RESEND_API_KEY  segreto, chiave dell'account Resend          (obbligatoria)
      MAIL_TO         destinatario     (predefinito info@visiorender.it)
      MAIL_FROM       mittente sul dominio verificato in Resend
@@ -33,7 +33,7 @@ function base64(buf) {
   return btoa(s);
 }
 
-export async function onRequestPost({ request, env }) {
+export async function inviaModulo(request, env) {
   const origine = request.headers.get('Origin') || '';
   if (origine && !ORIGINI.test(origine)) return json({ ok: false, errore: 'provenienza non ammessa' }, 403);
   if (!env.RESEND_API_KEY) return json({ ok: false, errore: 'invio non configurato' }, 503);
@@ -83,4 +83,4 @@ export async function onRequestPost({ request, env }) {
   return json({ ok: true });
 }
 
-export const onRequest = () => json({ ok: false, errore: 'usa POST' }, 405);
+

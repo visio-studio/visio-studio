@@ -1,0 +1,15 @@
+// Configurazione del Worker "visio-studio" che pubblica visiorender.it.
+// Cloudflare (Workers Builds) esegue "npx wrangler deploy" a ogni push su main.
+// Le pagine sono asset statici della cartella del repo; il codice in worker/ gestisce solo /api/*.
+{
+  "name": "visio-studio",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-01",
+  "keep_vars": true,
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": { "enabled": true }
+}

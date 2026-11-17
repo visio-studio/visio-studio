@@ -1,0 +1,12 @@
+# File del repo da NON pubblicare come pagine del sito
+.git
+.gitignore
+.assetsignore
+wrangler.jsonc
+worker
+node_modules
+.wrangler
+.claude
+netlify.toml
+CLAUDE.md
+NOTE-DI-LAVORO.md
