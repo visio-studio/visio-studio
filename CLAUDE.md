@@ -4,7 +4,8 @@ Sito vetrina one-page di **VISIO Studio**, studio di rendering architettonico a 
 
 - Repository GitHub: https://github.com/visio-studio/visio-studio
 - **Sito live (GitHub Pages): https://visio-studio.github.io/visio-studio/** — ogni push su `main` aggiorna il sito pubblico dopo 1-2 minuti.
-- **Hosting principale: Netlify — https://visiorender.it** (dominio Aruba puntato su Netlify dal 25 agosto 2026, certificato HTTPS dal 26; `visiorender.netlify.app` resta l'indirizzo tecnico). Netlify è collegato al repo GitHub: deploy automatico a ogni push su `main`. Il form contatti (`#ct-form`) usa Netlify Forms (`data-netlify="true"`, invio AJAX via fetch, honeypot `bot-field`, allegato max 8 MB) — funzionante, richieste nella tab "Forms" del pannello Netlify + notifica email. Il form NON funziona su GitHub Pages né in locale (mostra il messaggio d'errore con i contatti alternativi). GitHub Pages è da considerare deprecato: il sito di riferimento è quello su Netlify.
+- **Hosting principale: Cloudflare Pages — https://visiorender.it** (da novembre 2026; prima Netlify, abbandonato perché il piano Free esauriva i crediti di build). Cloudflare è collegato al repo GitHub: deploy automatico a ogni push su `main`. Intestazioni e cache stanno in `_headers`. `netlify.toml` resta solo come storico.
+- **Moduli (contatti `#ct-form` in home e `#pv-form` in `preventivo.html`)**: POST multipart su `/api/modulo`, cioè la funzione Cloudflare `functions/api/modulo.js`, che inoltra via **Resend** a `info@visiorender.it` con «Rispondi a» sull'email del visitatore (honeypot `bot-field`, allegato max 8 MB, solo da origine visiorender.it). Serve il segreto `RESEND_API_KEY` nel progetto Cloudflare (Settings → Variables and secrets; facoltativi `MAIL_TO` e `MAIL_FROM`) e il dominio verificato in Resend. Senza chiave la funzione risponde 503 e la pagina mostra l'errore con WhatsApp ed email. I moduli NON funzionano su GitHub Pages né in locale. GitHub Pages è deprecato.
 
 ## Prima di iniziare
 
@@ -34,7 +35,9 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - `backup/esploso-madia-svg.html` — vecchia versione vettoriale dell'esploso madia, sostituita prima dai fotogrammi e ora dal modello 3D.
 - `.nojekyll` — necessario per il deploy su GitHub Pages, non rimuoverlo.
 - `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` — icona del sito (la V dorata su tessera scura), collegata nel `<head>` di tutte le pagine. Se si rigenera, tenere gli stessi nomi: Google e i browser si aspettano indirizzi stabili.
-- `netlify.toml` — configurazione del deploy su Netlify: cartella da pubblicare (la radice, nessun build step), cache lunga e `immutable` sulle sequenze di fotogrammi (`img/journey-2`, `img/esterni-2`) e intestazioni di sicurezza. Se si aggiunge o rigenera una sequenza, aggiornare la regola qui.
+- `_headers` — intestazioni di Cloudflare Pages: sicurezza, cache lunga e `immutable` su sequenze di fotogrammi e font, tipi USDZ/GLB. Se si aggiunge o rigenera una sequenza, aggiornare la regola qui.
+- `functions/api/modulo.js` — funzione Cloudflare che invia i moduli per email (vedi sopra).
+- `netlify.toml` — vecchia configurazione Netlify, non più usata.
 - `robots.txt`, `sitemap.xml`, `llms.txt` — file per l'indicizzazione da parte di motori di ricerca e crawler AI (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, ecc.). Se cambia l'URL del sito o l'elenco dei servizi, aggiornali insieme a `index.html`.
 
 ## SEO / ottimizzazione per motori AI (GEO)

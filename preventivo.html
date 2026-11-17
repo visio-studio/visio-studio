@@ -394,7 +394,7 @@ footer p{color:#6a6a6a}
       <h2 class="serif" style="font-size:clamp(26px,3.4vw,38px);font-weight:300;line-height:1.1;">Mandacela, e ti<br>rispondiamo con i numeri veri.</h2>
       <p class="step-d" style="margin-top:14px;">Riceviamo la tua bozza con tutte le scelte che hai fatto. Ti rispondiamo con il preventivo definitivo, i tempi reali e le fasi di consegna &mdash; <b id="promo-p2">con lo sconto riservato</b> a chi arriva fin qui.</p>
 
-      <form id="pv-form" name="preventivo" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <form id="pv-form" name="preventivo" method="POST" action="/api/modulo" enctype="multipart/form-data">
         <input type="hidden" name="form-name" value="preventivo">
         <input type="hidden" name="bozza" id="f-bozza">
         <input type="hidden" name="stima" id="f-stima">
@@ -771,7 +771,7 @@ $('#pv-form').addEventListener('submit',async e=>{
   $('#f-stima').value=`${eur(a)} - ${eur(b)} (IVA esclusa) · precisione ${Math.round(prec*100)}% · sconto promesso ${SCONTO}%`;
   const btn=$('#inv-send'); btn.disabled=true; btn.textContent='Invio in corso…';
   try{
-    const res=await fetch('/',{method:'POST',body:new FormData(e.target)});
+    const res=await fetch('/api/modulo',{method:'POST',body:new FormData(e.target)});
     if(!res.ok) throw 0;
     mostra('ok','Ricevuta. Ti rispondiamo con il preventivo definitivo e lo sconto del '+SCONTO+'% applicato. Di solito entro un paio di giorni lavorativi.');
     e.target.reset(); try{ localStorage.removeItem('visio-preventivo'); }catch(_){}

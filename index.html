@@ -2865,7 +2865,7 @@ ancora non esiste.</p>
     </a>
     <div class="ct-addr">Studio VISIO · Roma, Italia<br>info@visiorender.it<br>+39 342 668 4232</div>
   </div>
-  <form class="rev" id="ct-form" name="contatti" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+  <form class="rev" id="ct-form" name="contatti" method="POST" action="/api/modulo" enctype="multipart/form-data">
     <p class="ct-flabel">Richiedi informazioni &mdash; rispondiamo entro 24 ore</p>
     <input type="hidden" name="form-name" value="contatti">
     <div style="display:none;"><label>Non compilare questo campo: <input name="bot-field"></label></div>
@@ -3924,7 +3924,7 @@ document.querySelectorAll('.modo-cta[data-serv]').forEach(a=>{
   });
 });
 
-// ── FORM CONTATTI: invio a Netlify Forms senza ricaricare la pagina
+// ── FORM CONTATTI: invio alla funzione Cloudflare /api/modulo senza ricaricare la pagina
 (function(){
   const f=document.getElementById('ct-form');
   if(!f) return;
@@ -3942,7 +3942,7 @@ document.querySelectorAll('.modo-cta[data-serv]').forEach(a=>{
     st.textContent='';
     st.className='';
     try{
-      const res=await fetch('/',{method:'POST',body:new FormData(f)});
+      const res=await fetch('/api/modulo',{method:'POST',body:new FormData(f)});
       if(!res.ok) throw new Error(res.status);
       f.reset();
       st.textContent='Richiesta inviata. Ti risponderemo entro 24 ore.';
