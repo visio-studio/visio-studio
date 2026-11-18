@@ -60,6 +60,23 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 #m3d { background:var(--dark);padding-bottom:0; }
 #m3box { position:relative;margin-top:44px;max-height:640px;overflow:hidden;border-top:.5px solid rgba(255,255,255,.08); }
 #m3box img { width:100%;height:100%;max-height:640px;object-fit:cover; }
+#m3box.live { height:min(720px,78vh);height:min(720px,78svh);max-height:none; }
+#m3box.live > img { position:absolute;inset:0;max-height:none; }
+#m3f { position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#121212; }
+#m3tap { position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:22%;background:transparent;border:0;cursor:pointer;font:inherit; }
+#m3tap span { font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,10,.82);border:.5px solid var(--gold);padding:13px 22px; }
+#m3fine { position:absolute;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:2;font:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,10,.85);border:.5px solid var(--gold);padding:10px 14px;cursor:pointer; }
+.m3bar { display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px;font-size:11px;color:rgba(255,255,255,.55); }
+.m3bar a { color:var(--gold); }
+#leggi { background:var(--dark2);padding-bottom:0; }
+.ptabs { display:flex;gap:8px;flex-wrap:wrap;margin-top:32px; }
+.ptabs button { font:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 16px;border:.5px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.8);cursor:pointer; }
+.ptabs.sm button { font-size:11px;letter-spacing:.5px;text-transform:none;padding:8px 12px; }
+.ptabs button[aria-pressed="true"] { background:var(--gold);border-color:var(--gold);color:var(--dark); }
+.ptabs button:focus-visible,#m3tap:focus-visible,#m3fine:focus-visible { outline:2px solid var(--gold);outline-offset:2px; }
+.plab { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.45);margin:22px 0 0; }
+#pbox { position:relative;margin-top:28px;height:min(860px,82vh);height:min(860px,82svh);border-top:.5px solid rgba(255,255,255,.08); }
+#pdff { position:absolute;inset:0;width:100%;height:100%;border:0;background:#0A0A0A; }
 .m3cta { position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(10,10,10,.1),rgba(10,10,10,.6)); }
 .m3cta p { font-size:11px;color:rgba(255,255,255,.8);text-align:center;padding:0 20px; }
 
@@ -289,14 +306,17 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <div class="wrap">
     <p class="slab">Modello 3D</p>
     <h2 class="st">Sopra e sotto, <em>nello stesso modello</em>.</h2>
-    <p class="sd">Piano terra e seminterrato con lo stato attuale e il progetto: arredi reali da 3D Warehouse, porte e finestre, controsoffitti con LED (pulsante Controsoffitti), pavimento in resina, vano scala condominiale e corte. Puoi sovrapporre il rilievo Polycam e separare i piani con la vista esplosa.</p>
+    <p class="sd">Il modello v5 del progetto, da girare qui sotto: piano terra e seminterrato, arredi, controsoffitti con LED e vano scala condominiale. Gli strati si accendono uno alla volta: elettrico, acqua, scarichi, radiante, massetti e le due varianti, elettrico a pavimento e clima ad aria canalizzata con VMC. Puoi anche vedere lo stato attuale, le demolizioni, il rilievo Polycam e la vista esplosa.</p>
   </div>
   <div id="m3box">
     <img src="img/modello-progetto.jpg" alt="Modello 3D di progetto dall'alto, con i pavimenti colorati per unità e gli arredi" loading="lazy">
     <div class="m3cta">
       <a class="btn" href="3d/">Apri il modello 3D</a>
-      <p>Circa 7 MB, si caricano solo quando apri il modello.</p>
+      <p>Il modello si carica qui quando arrivi a questa sezione.</p>
     </div>
+  </div>
+  <div class="wrap">
+    <p class="m3bar">Strati, varianti degli impianti, livelli e viste sono nel pannello «Strati e viste» del modello. <a href="3d/">Apri a schermo intero ↗</a></p>
   </div>
   <div class="wrap">
     <div class="vgrid">
@@ -477,6 +497,31 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   </div>
 </section>
 
+<section id="leggi">
+  <div class="wrap">
+    <p class="slab">Documenti</p>
+    <h2 class="st">Tutti i PDF, <em>da sfogliare qui</em>.</h2>
+    <p class="sd">Le tavole e i fascicoli per le maestranze si leggono direttamente nella pagina. Con + e − ingrandisci, con «Scarica» salvi il file.</p>
+    <div class="ptabs" id="ptabs">
+      <button data-f="Project1_tavole.pdf" aria-pressed="true">Tavole 1–10</button>
+      <button data-f="Project1_variante_bagni.pdf" aria-pressed="false">Variante bagni · 11</button>
+      <button data-f="Project1_impianti_prospetti_dettagli.pdf" aria-pressed="false">Impianti, prospetti e dettagli · 12–21</button>
+      <button data-f="Project1_fascicoli_maestranze.pdf" aria-pressed="false">Fascicoli maestranze · tutti</button>
+    </div>
+    <p class="plab">Un fascicolo per volta</p>
+    <div class="ptabs sm" id="ptabs2">
+      <button data-f="maestranze/01_Muratore_e_demolizioni.pdf" aria-pressed="false">Muratore</button>
+      <button data-f="maestranze/02_Cartongessista_e_pittore.pdf" aria-pressed="false">Cartongessista e pittore</button>
+      <button data-f="maestranze/03_Pavimentista_e_rivestimenti.pdf" aria-pressed="false">Pavimentista</button>
+      <button data-f="maestranze/04_Idraulico.pdf" aria-pressed="false">Idraulico</button>
+      <button data-f="maestranze/05_Elettricista.pdf" aria-pressed="false">Elettricista</button>
+      <button data-f="maestranze/06_Termotecnico.pdf" aria-pressed="false">Termotecnico</button>
+      <button data-f="maestranze/07_Serramentista.pdf" aria-pressed="false">Serramentista</button>
+    </div>
+  </div>
+  <div id="pbox"><iframe id="pdff" title="Lettore dei PDF del progetto" loading="lazy"></iframe></div>
+</section>
+
 <section id="doc">
   <div class="wrap">
     <p class="slab">Prossimi passi</p>
@@ -492,7 +537,8 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       </ol>
       <div class="files">
         <h3 class="sub">File del progetto</h3>
-        <a href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener"><b>Tavole A3</b><span>PDF · 10 tavole + variante</span></a>
+        <a href="#leggi"><b>Leggi i PDF nella pagina</b><span>tavole 1–21 e fascicoli per le maestranze</span></a>
+        <a href="scarica/Project1_tavole.pdf" target="_blank" rel="noopener"><b>Tavole A3</b><span>PDF · tavole 1–10</span></a>
         <a href="scarica/Project1_modello_v5.zip" download><b>Modello SketchUp v5</b><span>ZIP con SKP · ante e post operam, arredi, impianti, varianti, note per le maestranze</span></a>
         <a href="scarica/Project1_impianti_prospetti_dettagli.pdf" target="_blank" rel="noopener"><b>Impianti, prospetti e dettagli</b><span>PDF · tavole 12–21</span></a>
         <a href="scarica/Project1_fascicoli_maestranze.pdf" target="_blank" rel="noopener"><b>Fascicoli per le maestranze</b><span>PDF · muratore, cartongessista, pavimentista, idraulico, elettricista, termotecnico, serramentista</span></a>
@@ -521,6 +567,25 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   <span>info@visiorender.it · +39 342 668 4232</span>
 </footer>
 
+<script>
+// Modello 3D in pagina: si carica quando la sezione si avvicina. Sugli schermi touch un velo trasparente
+// lascia scorrere la pagina finché non si tocca «Esplora il modello»; «Fine» lo rimette.
+(function(){const box=document.getElementById('m3box');if(!box||!('IntersectionObserver' in window))return;
+ const touch=matchMedia('(pointer:coarse)').matches;
+ const io=new IntersectionObserver(es=>{if(!es.some(e=>e.isIntersecting||e.boundingClientRect.top<0))return;io.disconnect();
+  box.classList.add('live');const cta=box.querySelector('.m3cta');if(cta)cta.remove();
+  const f=document.createElement('iframe');f.id='m3f';f.title='Modello 3D navigabile di Project1';f.src='3d/?emb';f.allow='fullscreen';
+  f.addEventListener('load',()=>{const im=box.querySelector('img');if(im)im.remove();});box.append(f);
+  if(touch){const tap=document.createElement('button');tap.id='m3tap';tap.innerHTML='<span>Tocca per esplorare il modello</span>';
+   const fine=document.createElement('button');fine.id='m3fine';fine.textContent='Fine';fine.hidden=true;
+   tap.onclick=()=>{tap.hidden=true;fine.hidden=false;};fine.onclick=()=>{tap.hidden=false;fine.hidden=true;};box.append(tap,fine);}
+ },{rootMargin:'300px 0px'});io.observe(box);})();
+// Lettore PDF: le schede cambiano il documento nell'iframe, caricato solo vicino alla sezione
+(function(){const fr=document.getElementById('pdff');if(!fr)return;const bs=[...document.querySelectorAll('#ptabs button,#ptabs2 button')];
+ const vai=f=>{fr.src='pdf/?emb&f='+encodeURIComponent(f);bs.forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===f));};
+ bs.forEach(b=>b.onclick=()=>vai(b.dataset.f));
+ const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting||e.boundingClientRect.top<0)){io.disconnect();vai('Project1_tavole.pdf');}},{rootMargin:'400px 0px'});io.observe(fr);})();
+</script>
 <script>
 (function(){const r=document.getElementById('ba-r'),t=document.getElementById('ba-top'),l=document.getElementById('ba-line');
  function set(v){t.style.clipPath='inset(0 0 0 '+v+'%)';l.style.left=v+'%';}
