@@ -65,6 +65,7 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 #m3f { position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#121212; }
 #m3tap { position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:22%;background:transparent;border:0;cursor:pointer;font:inherit; }
 #m3tap span { font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,10,.82);border:.5px solid var(--gold);padding:13px 22px; }
+#m3tap[hidden],#m3fine[hidden] { display:none; }
 #m3fine { position:absolute;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:2;font:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,10,.85);border:.5px solid var(--gold);padding:10px 14px;cursor:pointer; }
 .m3bar { display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px;font-size:11px;color:rgba(255,255,255,.55); }
 .m3bar a { color:var(--gold); }
@@ -570,16 +571,19 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 <script>
 // Modello 3D in pagina: si carica quando la sezione si avvicina. Sugli schermi touch un velo trasparente
 // lascia scorrere la pagina finché non si tocca «Esplora il modello»; «Fine» lo rimette.
-(function(){const box=document.getElementById('m3box');if(!box||!('IntersectionObserver' in window))return;
- const touch=matchMedia('(pointer:coarse)').matches;
- const io=new IntersectionObserver(es=>{if(!es.some(e=>e.isIntersecting||e.boundingClientRect.top<0))return;io.disconnect();
+(function(){const box=document.getElementById('m3box');if(!box)return;
+ const touch=matchMedia('(pointer:coarse)').matches;let fatto=false,io=null;
+ function avvia(){if(fatto)return;fatto=true;if(io)io.disconnect();removeEventListener('scroll',vicino);
   box.classList.add('live');const cta=box.querySelector('.m3cta');if(cta)cta.remove();
   const f=document.createElement('iframe');f.id='m3f';f.title='Modello 3D navigabile di Project1';f.src='3d/?emb';f.allow='fullscreen';
   f.addEventListener('load',()=>{const im=box.querySelector('img');if(im)im.remove();});box.append(f);
-  if(touch){const tap=document.createElement('button');tap.id='m3tap';tap.innerHTML='<span>Tocca per esplorare il modello</span>';
-   const fine=document.createElement('button');fine.id='m3fine';fine.textContent='Fine';fine.hidden=true;
-   tap.onclick=()=>{tap.hidden=true;fine.hidden=false;};fine.onclick=()=>{tap.hidden=false;fine.hidden=true;};box.append(tap,fine);}
- },{rootMargin:'300px 0px'});io.observe(box);})();
+  if(touch){const tap=document.createElement('button');tap.type='button';tap.id='m3tap';tap.innerHTML='<span>Tocca per esplorare il modello</span>';
+   const fine=document.createElement('button');fine.type='button';fine.id='m3fine';fine.textContent='Fine';fine.style.display='none';
+   tap.onclick=()=>{tap.style.display='none';fine.style.display='block';};fine.onclick=()=>{tap.style.display='';fine.style.display='none';};box.append(tap,fine);}}
+ function vicino(){if(box.getBoundingClientRect().top<innerHeight+300)avvia();}
+ if('IntersectionObserver' in window){io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting||e.boundingClientRect.top<0))avvia();},{rootMargin:'300px 0px'});io.observe(box);}
+ addEventListener('scroll',vicino,{passive:true});vicino();
+ const a=box.querySelector('.m3cta a');if(a)a.addEventListener('click',e=>{if(innerWidth>640){e.preventDefault();avvia();}});})();
 // Lettore PDF: le schede cambiano il documento nell'iframe, caricato solo vicino alla sezione
 (function(){const fr=document.getElementById('pdff');if(!fr)return;const bs=[...document.querySelectorAll('#ptabs button,#ptabs2 button')];
  const vai=f=>{fr.src='pdf/?emb&f='+encodeURIComponent(f);bs.forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===f));};
