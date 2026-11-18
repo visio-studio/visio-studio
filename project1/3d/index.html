@@ -42,12 +42,15 @@ a.back{color:var(--accent);text-decoration:none;font-size:12px}
   <a class="back" href="../">← Torna al progetto</a>
   <p class="k">Project1 · Aprilia</p>
   <h1>Modello 3D</h1>
-  <p class="sub">Piano terra dal rilievo Polycam, seminterrato dalla planimetria. Altezze del seminterrato e del giardino da verificare.</p>
-  <div class="grp"><span>Stato</span><div class="seg"><button id="sA" aria-pressed="false">Attuale</button><button id="sP" aria-pressed="true">Progetto</button></div></div>
+  <p class="sub">Progetto aggiornato (modello v4): bagno A con finestra, matrimoniale con armadio in nicchia, impianti. Quote da verificare in sopralluogo.</p>
+  <div class="grp"><span>Stato</span><div class="seg"><button id="sA" aria-pressed="false">Attuale</button><button id="sD" aria-pressed="false">Demolizioni e costruzioni</button><button id="sP" aria-pressed="true">Progetto</button></div></div>
+  <div class="grp"><span>Strati del progetto</span><div class="seg"><button id="kARR" aria-pressed="true">Arredi</button><button id="kELE" aria-pressed="false">Elettrico</button><button id="kIDR" aria-pressed="false">Acqua</button><button id="kSCA" aria-pressed="false">Scarichi</button><button id="kRAD" aria-pressed="false">Radiante</button><button id="kSTR" aria-pressed="false">Massetti</button></div></div>
+  <div class="grp"><span>Varianti degli impianti</span><div class="seg"><button id="kVELE" aria-pressed="false">Elettrico a pavimento</button><button id="kVCLI" aria-pressed="false">Clima ad aria canalizzata</button></div></div>
   <div class="grp"><span>Livelli</span><div class="seg"><button id="lPT" aria-pressed="true">Piano terra</button><button id="lS" aria-pressed="true">Seminterrato</button><button id="lPC" aria-pressed="false">Rilievo Polycam</button></div></div>
   <div class="grp"><span>Vista</span><div class="seg"><button id="v3" aria-pressed="true">3D</button><button id="vEx" aria-pressed="false">Esploso</button><button id="vT" aria-pressed="false">Dall'alto</button><button id="vG" aria-pressed="false">Giardino</button><button id="vCS" aria-pressed="false">Controsoffitti</button></div></div>
   <div class="grp"><span>Taglio piano terra: <b id="cutv">1,60</b> m</span><input id="cut" type="range" min="0.3" max="3.4" step="0.05" value="1.6" aria-label="Altezza del taglio del piano terra"></div>
-  <div class="lg"><span><i style="background:#9cc0e6"></i>Unità A</span><span><i style="background:#f0b98a"></i>Unità B</span><span><i style="background:#cfcfcf"></i>Comune</span><span><i style="background:#d0281e"></i>Foro solaio</span></div>
+  <div class="lg" id="lgB"><span><i style="background:#f2c200"></i>Da demolire</span><span><i style="background:#d0281e"></i>Da costruire</span><span><i style="background:#d0281e;opacity:.5"></i>Foro solaio</span></div>
+  <div class="lg" id="lgI" hidden><span><i style="background:#e0a400"></i>Luce</span><span><i style="background:#2e7d32"></i>Prese</span><span><i style="background:#c62828"></i>Linee dedicate</span><span><i style="background:#6a1b9a"></i>Dati e TV</span><span><i style="background:#1565c0"></i>Acqua fredda</span><span><i style="background:#d84315"></i>Acqua calda</span><span><i style="background:#6d4c2f"></i>Scarichi</span><span><i style="background:#e57373"></i>Radiante</span><span><i style="background:#00838f"></i>Mandata aria</span><span><i style="background:#9e9d24"></i>Estrazione VMC</span></div>
 </div>
 <div id="info"><div id="msg">Trascina per ruotare · rotella per lo zoom · tasto destro per spostare</div></div>
 <script type="importmap">{"imports":{"three":"./lib/three.module.js"}}</script>
@@ -55,6 +58,7 @@ a.back{color:var(--accent);text-decoration:none;font-size:12px}
 import * as THREE from 'three';
 import {OrbitControls} from './lib/OrbitControls.js';
 import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
+import {mergeGeometries} from './lib/utils/BufferGeometryUtils.js';
 const $=id=>document.getElementById(id);
 const cv=$('c');const r=new THREE.WebGLRenderer({canvas:cv,antialias:true});
 r.setPixelRatio(Math.min(devicePixelRatio,2));r.localClippingEnabled=true;
@@ -65,59 +69,68 @@ const cam=new THREE.PerspectiveCamera(40,1,0.05,300);cam.position.set(13,11,17);
 const ctl=new OrbitControls(cam,cv);ctl.target.set(0,-0.6,0);ctl.enableDamping=true;ctl.update();
 scene.add(new THREE.HemisphereLight(0xffffff,0x8a8070,1.6));scene.add(new THREE.AmbientLight(0xffffff,0.9));const sun=new THREE.DirectionalLight(0xffffff,1.6);sun.position.set(-8,14,6);scene.add(sun);
 const clipPT=new THREE.Plane(new THREE.Vector3(0,-1,0),1.6);
-const L={CS:new THREE.Group(),PT:new THREE.Group(),S:new THREE.Group(),SL:new THREE.Group(),PC:new THREE.Group(),COP:new THREE.Group(),TER:new THREE.Group(),SC:new THREE.Group()};
+const L={PT:new THREE.Group(),S:new THREE.Group(),PC:new THREE.Group(),COP:new THREE.Group(),TER:new THREE.Group(),SC:new THREE.Group(),SL:new THREE.Group()};
 for(const g of Object.values(L))scene.add(g);
-let stato='P';const byState={A:[],P:[]};
+let stato='P';const ON={ARR:true,ELE:false,IDR:false,SCA:false,RAD:false,STR:false,CS:false,PAV:true,VELE:false,VCLI:false};
+const OBJ=[];   // ogni mesh: userData {st:'A'|'D'|'P'|'*', k}
 function boxesGeo(boxes){const n=boxes.length,P=new Float32Array(n*72),N=new Float32Array(n*72),UV=new Float32Array(n*48),I=new Uint32Array(n*36);
  const F=[[[0,0,1],[[0,0,1],[1,0,1],[1,1,1],[0,1,1]]],[[0,0,-1],[[1,0,0],[0,0,0],[0,1,0],[1,1,0]]],[[1,0,0],[[1,0,1],[1,0,0],[1,1,0],[1,1,1]]],[[-1,0,0],[[0,0,0],[0,0,1],[0,1,1],[0,1,0]]],[[0,1,0],[[0,1,1],[1,1,1],[1,1,0],[0,1,0]]],[[0,-1,0],[[0,0,0],[1,0,0],[1,0,1],[0,0,1]]]];
  boxes.forEach((b,k)=>{const [x0,x1,z0,z1,y0,y1]=b;F.forEach(([nn,vs],f)=>{const base=k*24+f*4;vs.forEach(([a,c,e],v)=>{const o=(base+v)*3;P[o]=a?x1:x0;P[o+1]=c?y1:y0;P[o+2]=e?z1:z0;const uo=(base+v)*2;UV[uo]=P[o]/1.2;UV[uo+1]=P[o+2]/1.2;N[o]=nn[0];N[o+1]=nn[1];N[o+2]=nn[2];});const io=k*36+f*6;I.set([base,base+1,base+2,base,base+2,base+3],io);});});
  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(P,3));g.setAttribute('normal',new THREE.BufferAttribute(N,3));g.setAttribute('uv',new THREE.BufferAttribute(UV,2));g.setIndex(new THREE.BufferAttribute(I,1));return g;}
 const mat=(c,o={})=>new THREE.MeshLambertMaterial({color:c,...o});
-function addGroup(name,color,boxes){
- const st=name.includes('attuale')?'A':(name.includes('progetto')||name.startsWith('Pavimenti')||name.includes('interna B')||name.startsWith('Arredi')||/^(Infissi|Vetri|Porte|Portoncini|Controsoffitti|LED|Faretti)/.test(name))?'P':'*';
- const lvl=b=>b[5]<=-0.29?'S':(b[4]>=-0.31&&b[5]<=0.01&&name.startsWith('Solaio'))?'SL':'PT';
- const parts={};for(const b of boxes){let k=/^(Controsoffitti|LED|Faretti)/.test(name)?'CS':/^(Terreno|Esterni|Recinzioni|Cancelli)/.test(name)?'TER':name.includes('primo piano')?'COP':name.includes('interna B')||name.startsWith('Scala cond')?'SC':lvl(b);(parts[k]=parts[k]||[]).push(b);}
- for(const [k,bs] of Object.entries(parts)){let M;if(/^(LED|Faretti)/.test(name))M=new THREE.MeshBasicMaterial({color:0xfff1cc});else if(name==='Vetri')M=mat(color,{transparent:true,opacity:.28,depthWrite:false});else if(/^Pavimenti unità/.test(name))M=new THREE.MeshLambertMaterial({map:GRES});else M=mat(color,name.startsWith('Terreno')?{transparent:true,opacity:.55}:k==='SL'?{transparent:true,opacity:.92}:{});const m=new THREE.Mesh(boxesGeo(bs),M);
-  if(k==='PT')m.material.clippingPlanes=[clipPT];m.userData.st=st;L[k].add(m);if(st!=='*')byState[st].push(m);}}
+const lvl=y=>y<=-1.0?'S':'PT';
+function reg(m,st,k,parent,clip){m.userData.st=st;m.userData.k=k;if(clip)m.material.clippingPlanes=[clipPT];parent.add(m);OBJ.push(m);}
+function addGroup(g){const fixed={TER:L.TER,COP:L.COP,SC:L.SC,SL:L.SL}[g.k];
+ const M=()=>{if(/^(LED|Faretti|Gole LED)/.test(g.n))return new THREE.MeshBasicMaterial({color:0xfff1cc});if(/^Pavimento gres/.test(g.n))return new THREE.MeshLambertMaterial({map:GRES});return mat(g.c,g.a<1?{transparent:true,opacity:g.a,depthWrite:g.a>0.6}:{});};
+ if(fixed){const m=new THREE.Mesh(boxesGeo(g.b),M());reg(m,g.st,g.k,fixed,g.k==='SC'||g.k==='SL'?false:false);return;}
+ const parts={PT:[],S:[]};for(const b of g.b)parts[lvl(b[5]<=-1.0?b[5]:b[4]>=-1.0?b[4]:(b[4]+b[5])/2)].push(b);
+ for(const [lv,bs] of Object.entries(parts)){if(!bs.length)continue;const m=new THREE.Mesh(boxesGeo(bs),M());reg(m,g.st,g.k==='LIV'?'LIV':g.k,L[lv],lv==='PT'&&g.k!=='PAV'&&g.k!=='STR');}}
+// tubi: segmenti cilindrici uniti per disciplina, colore e livello
+function addTubi(T){const acc={};const up=new THREE.Vector3(0,1,0);
+ for(const t of T){for(let i=1;i<t.p.length;i++){const a=new THREE.Vector3(...t.p[i-1]),b=new THREE.Vector3(...t.p[i]);const L0=a.distanceTo(b);if(L0<0.005)continue;
+  const g=new THREE.CylinderGeometry(t.d/2,t.d/2,L0,t.d>0.03?8:6,1,false);const mid=a.clone().add(b).multiplyScalar(0.5);
+  const q=new THREE.Quaternion().setFromUnitVectors(up,b.clone().sub(a).normalize());g.applyMatrix4(new THREE.Matrix4().compose(mid,q,new THREE.Vector3(1,1,1)));
+  g.deleteAttribute('uv');const key=t.k+'|'+t.c+'|'+lvl(mid.y);(acc[key]=acc[key]||[]).push(g);}}
+ for(const [key,gs] of Object.entries(acc)){const [k,c,lv]=key.split('|');const m=new THREE.Mesh(mergeGeometries(gs,false),mat(c));reg(m,'P',k,L[lv],false);}}
+function applica(){for(const m of OBJ){const st=m.userData.st,k=m.userData.k;
+  const okS=st==='*'||(st==='A'&&(stato==='A'||stato==='D'))||(st==='D'&&stato==='D')||(st==='P'&&stato==='P');
+  const okK=k==='LIV'||k==='TER'||k==='COP'||k==='SC'||k==='SL'||(k==='PAV'?ON.PAV&&!(ON.IDR||ON.SCA||ON.RAD||ON.STR):ON[k]!==false&&(ON[k]===undefined||ON[k]));
+  m.visible=okS&&okK;}
+ for(const w of ARRL)w.visible=stato==='P'&&ON.ARR;
+ foroMesh.visible=stato==='P'&&L.SL.visible;
+ for(const id of ['sA','sD','sP'])$(id).setAttribute('aria-pressed',$(id).id==='s'+stato);
+ const imp=ON.ELE||ON.IDR||ON.SCA||ON.RAD||ON.VELE||ON.VCLI;$('lgI').hidden=!imp;$('lgB').hidden=imp;}
+const ARRL=[];
 const foroMesh=new THREE.Group();scene.add(foroMesh);
-function applica(){for(const m of byState.A)m.visible=stato==='A';for(const m of byState.P)m.visible=stato==='P';foroMesh.visible=stato==='P'&&L.SL.visible;
- $('sA').setAttribute('aria-pressed',stato==='A');$('sP').setAttribute('aria-pressed',stato==='P');}
 const base=new URL('.',location.href);
 const GRES=new THREE.TextureLoader().load('gres120.jpg');GRES.wrapS=GRES.wrapT=THREE.RepeatWrapping;if('colorSpace' in GRES)GRES.colorSpace=THREE.SRGBColorSpace;
 async function carica(){
  const J=await (await fetch('progetto.json')).json();
- for(const g of J.gruppi)addGroup(g.n,g.c,g.b);
+ for(const g of J.gruppi)addGroup(g);if(J.tubi)addTubi(J.tubi);
  const [x0,x1,z0,z1]=J.foro;const fb=new THREE.Mesh(boxesGeo([[x0,x1,z0,z1,-0.32,0.02]]),new THREE.MeshBasicMaterial({color:0xd0281e,transparent:true,opacity:.35,depthWrite:false}));
  const fe=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(x1-x0,0.34,z1-z0)),new THREE.LineBasicMaterial({color:0xd0281e}));fe.position.set((x0+x1)/2,-0.15,(z0+z1)/2);foroMesh.add(fb,fe);
- L.COP.visible=false;L.TER.visible=false;L.CS.visible=false;applica();$('load').remove();
+ L.COP.visible=false;L.TER.visible=false;applica();$('load').remove();
  caricaPolycam().catch(e=>{$('lPC').disabled=true;$('lPC').title='Rilievo non disponibile';});
  caricaArredi().catch(e=>console.warn('arredi',e));
 }
 
-// ---- arredi reali da 3D Warehouse (GLB), stessa logica di posa del file SketchUp
-const LUNGO_L=new Set(['divano','armadio','tv','doccia','lavabo','poltrona','tavolo','lettoM']),LUNGO_P=new Set(['lettoS','wc','bidet']),STIRA=new Set(['armadio','isola','doccia']);
-const VIA=n=>n==='Bryce'||n==='Sang'||/^Mod Mid Rise/.test(n);
+// ---- arredi da 3D Warehouse (GLB): dimensioni volute [L,H,P], rotazione r (0 = fronte verso +z), base di correzione per modello
+// finiture coerenti con la palette (minimal caldo: bouclé avorio, rovere, lino, greige)
+const TINTA={divano:[0xe6dfd3,0.25],tavolo:[0xa8845b,1],tenda:[0xf3efe8,1],tappeto:[0xd8cdbb,1],letto:[0xcfc5b6,0.6],poltrona:[0xd9cfc0,0.35]};
+const BASE={tv:90,tenda:0,divano:0,letto:0,letto2:0,lavabo:0,doccia:0,sgabelli:0,scaldasalviette:90};
 async function caricaArredi(){
- const P=await (await fetch('arredi.json')).json();const gl=new GLTFLoader();let B64=null;
- if('file'==='b64')B64=await (await fetch('arredi-b64.json')).json();
- const cache={};
- const get=k=>cache[k]||(cache[k]=new Promise((ok,ko)=>{if(B64){const s=atob(B64[k]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);gl.parse(u.buffer,'',g=>ok(g.scene),ko);}else gl.load('arredi/'+k+'.glb',g=>ok(g.scene),undefined,ko);}).then(sc=>{
-   const rm=[];let pol=0;sc.traverse(o=>{if(o.name&&VIA(o.name))rm.push(o);if(k==='poltrona'&&o.name==='Component#11'){pol++;if(pol>1)rm.push(o);}});rm.forEach(o=>o.parent&&o.parent.remove(o));
-   sc.traverse(o=>{if(o.isMesh&&o.material){const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>{m.side=THREE.DoubleSide;});}});
-   sc.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(sc);return {sc,size:b.getSize(new THREE.Vector3())};}));
- const grp=new THREE.Group();grp.name='arredi';
- for(const p of P){let m;try{m=await get(p.k);}catch(e){continue;}
-  const o=m.sc.clone(true);
-  const CM={divano:0xe9e2d7,poltrona:0x2a2826,tavolino:0xa8845b,tavolo:0x8a6748,lettoM:0xcdb89a,lettoS:0xcdb89a,comodino:0xa8845b,armadio:0xebe7e1,sgabello:0x1f1f1f,isola:0x8c7f72};
-  if(CM[p.k]!==undefined){const mm=new THREE.MeshLambertMaterial({color:CM[p.k],side:THREE.DoubleSide});o.traverse(q=>{if(q.isMesh)q.material=mm;});}const sx=m.size.x,sz=m.size.z;let a=0,s=[1,1,1];
-  if(STIRA.has(p.k)){a=p.r;s=[p.fw/sx,(p.k==='armadio'&&p.h>0)?p.h/m.size.y:1,p.fd/sz];}
-  else{let base=0;const lx=sx>=sz;if((LUNGO_L.has(p.k)&&!lx)||(LUNGO_P.has(p.k)&&lx))base=90;a=base+p.r+(p.k==='lettoM'?180:0);const mw=base?sz:sx,md=base?sx:sz;
-   let f=Math.min(p.fw/mw,p.fd/md);if(p.k==='tv'){f=Math.min(1.1/mw,1);}f=Math.max(0.6,Math.min(1.15,f));if(p.k==='tv')f=Math.min(1.1/mw,1.15);s=[f,f,f];}
-  o.scale.set(...s);o.rotation.y=a*Math.PI/180;
-  const w=new THREE.Group();w.add(o);w.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(w);
-  const c=bb.getCenter(new THREE.Vector3());o.position.set(p.x-c.x,(p.y+(p.k==='tv'?p.h:0))-bb.min.y,p.z-c.z);
-  w.userData.st='P';byState.P.push(w);w.visible=stato==='P';(p.y<-1?L.S:L.PT).add(w);
-  w.traverse(q=>{if(q.isMesh){const ms=Array.isArray(q.material)?q.material:[q.material];ms.forEach(mm=>{if(p.y>=-1){mm.clippingPlanes=[clipPT];}});}});}
+ const P=await (await fetch('arredi.json')).json();const gl=new GLTFLoader();const cache={};
+ const get=k=>cache[k]||(cache[k]=new Promise((ok,ko)=>gl.load('arredi/'+k+'.glb',g=>ok(g.scene),undefined,ko)).then(sc=>{sc.traverse(o=>{if(o.isMesh&&o.material){const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>{m.side=THREE.DoubleSide;});}});return sc;}));
+ for(const p of P){let sc;try{sc=await get(p.k);}catch(e){continue;}
+  const o=sc.clone(true);if(TINTA[p.k]){const [col,soglia]=TINTA[p.k];o.traverse(q=>{if(!q.isMesh)return;const m0=Array.isArray(q.material)?q.material[0]:q.material;const c=m0&&m0.color?m0.color:null;const lum=c?(c.r+c.g+c.b)/3:1;if(lum<0.08&&soglia<1)return;q.material=new THREE.MeshLambertMaterial({color:col,side:THREE.DoubleSide,transparent:p.k==='tenda',opacity:p.k==='tenda'?0.88:1});});}
+  const g1=new THREE.Group();g1.add(o);g1.rotation.y=(BASE[p.k]||0)*Math.PI/180;g1.updateMatrixWorld(true);
+  let bb=new THREE.Box3().setFromObject(g1);const sz=bb.getSize(new THREE.Vector3());const [dL,dH,dD]=p.dim;
+  const g2=new THREE.Group();g2.add(g1);
+  if(p.modo==='fit')g2.scale.set(dL/Math.max(sz.x,1e-3),dH/Math.max(sz.y,1e-3),dD/Math.max(sz.z,1e-3));else{const f=dL/Math.max(sz.x,1e-3);g2.scale.set(f,f,f);}
+  const w=new THREE.Group();w.add(g2);w.rotation.y=p.r*Math.PI/180;w.updateMatrixWorld(true);
+  bb=new THREE.Box3().setFromObject(w);const c=bb.getCenter(new THREE.Vector3());w.position.set(p.x-c.x,p.y-bb.min.y,p.z-c.z);
+  ARRL.push(w);w.visible=stato==='P'&&ON.ARR;(p.y<-1?L.S:L.PT).add(w);
+  w.traverse(q=>{if(q.isMesh){const ms=Array.isArray(q.material)?q.material:[q.material];ms.forEach(mm=>{if(p.y>=-1)mm.clippingPlanes=[clipPT];});}});}
 }
 async function caricaPolycam(){
  const M=await (await fetch('polycam.json')).json();let buf;
@@ -137,17 +150,22 @@ async function caricaPolycam(){
  if(qs.get('cam')){const c=qs.get('cam').split(',').map(Number);cam.position.set(c[0],c[1],c[2]);ctl.update();}
  if(qs.get('tgt')){const t=qs.get('tgt').split(',').map(Number);ctl.target.set(t[0],t[1],t[2]);ctl.update();}
  if(qs.get('cut')){cut.value=qs.get('cut');cut.oninput();}
- if(qs.has('cop')){L.COP.visible=true;L.CS.visible=true;}
+ if(qs.has('cop')){L.COP.visible=true;ON.CS=true;applica();}
+ if(qs.get('stato')){stato=qs.get('stato');applica();}
+ if(qs.get('lay'))for(const k of qs.get('lay').split(','))if($('k'+k))$('k'+k).click();
  if(qs.get('fov')){cam.fov=+qs.get('fov');cam.updateProjectionMatrix();}
 }
 function resize(){const w=innerWidth,h=innerHeight;r.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();}
 addEventListener('resize',resize);resize();
 const tog=(id,fn)=>$(id).onclick=()=>{const on=$(id).getAttribute('aria-pressed')!=='true';$(id).setAttribute('aria-pressed',on);fn(on);};
-$('sA').onclick=()=>{stato='A';applica();};$('sP').onclick=()=>{stato='P';applica();};
-tog('lPT',on=>{L.PT.visible=on;L.PC.visible=on&&$('lPC').getAttribute('aria-pressed')==='true';L.SL.visible=on;foroMesh.visible=on&&stato==='P';});
+$('sA').onclick=()=>{stato='A';applica();};$('sD').onclick=()=>{stato='D';applica();};$('sP').onclick=()=>{stato='P';applica();};
+for(const k of ['ARR','ELE','IDR','SCA','RAD','STR','VELE','VCLI'])tog('k'+k,on=>{ON[k]=on;if(on&&stato!=='P')stato='P';
+ const off=x=>{ON[x]=false;$('k'+x).setAttribute('aria-pressed','false');};
+ if(on&&k==='VELE')off('ELE');if(on&&k==='ELE')off('VELE');if(on&&k==='VCLI')off('RAD');if(on&&k==='RAD')off('VCLI');applica();});
+tog('lPT',on=>{L.PT.visible=on;L.PC.visible=on&&$('lPC').getAttribute('aria-pressed')==='true';L.SL.visible=on;applica();});
 tog('lS',on=>{L.S.visible=on;});
 tog('lPC',on=>{L.PC.visible=on&&L.PT.visible;$('msg').textContent=on?'Rilievo Polycam sovrapposto al modello disegnato':'Trascina per ruotare · rotella per lo zoom · tasto destro per spostare';});
-tog('vG',on=>{L.TER.visible=on;});tog('vCS',on=>{L.CS.visible=on;});
+tog('vG',on=>{L.TER.visible=on;});tog('vCS',on=>{ON.CS=on;applica();});
 let ex=0;tog('vEx',on=>{ex=on?3.2:0;for(const k of ['PT','PC','SL','COP'])L[k].position.y=ex;foroMesh.position.y=ex;clipPT.constant=+cut.value+ex;});
 $('v3').onclick=()=>{anim([13,11,17],[0,-0.6,0]);};
 tog('vT',on=>{if(on)anim([0.01,24,0.6],[0,-1,0]);else anim([13,11,17],[0,-0.6,0]);});
