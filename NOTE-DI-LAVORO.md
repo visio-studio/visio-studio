@@ -527,7 +527,13 @@ calcolatore «Componi l'offerta» (B e C si tolgono, F si aggiunge, A-D-E fissi;
 le voci stanno nell'array `G` in fondo alla pagina). In `_headers` c'è
 `X-Robots-Tag: noindex` su tutta la cartella, perché il PDF ha nomi e prezzi.
 I DAE di Polycam si convertono con `strumenti/polycam/converti.py`.
-Da fare: modello SketchUp «traversa definitivo», render nuovi della cucina.
+Il modello SketchUp «TRAVERSA DEFINITIVO» (83 MB, sorgenti sul ramo orfano
+`traversa-sorgenti`, che non va pubblicato) è in pagina come `area-ct26/3d/progetto.glb`
+(18 MB): convertito con OpenSKP, a cui va corretta in locale la classe `EdgeFlagStore`
+(array denso → Map, altrimenti chiede 32 GB), poi tolte normali e uv dei materiali senza
+texture e passato in `gltf-transform optimize --compress meshopt --texture-compress webp
+--texture-size 1024 --simplify-ratio 0.3`. Cloudflare non accetta file oltre 25 MB.
+Da fare: render nuovi della cucina (specchio fumé anticato al posto del pannello azzurro).
 
 Codice pubblico di esempio: **`visio`** → `/esempio` (Villa Ferrara), suggerito
 in chiaro nel menu stesso.

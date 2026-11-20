@@ -245,19 +245,19 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 
 <section id="rilievo">
   <div class="wrap">
-    <p class="slab">Rilievo 3D · stato attuale</p>
-    <h2 class="st">La casa <em>com'è oggi</em>, da girare.</h2>
-    <p class="sd">Tre scansioni Polycam fatte in casa il 6 ottobre: il piano terra con la zona giorno, la scala a doppia altezza e il piano camere con i due bagni. Si girano, si guardano dall'alto e si tagliano in altezza per vedere la pianta. Sono la base del progetto: le misure definitive si confermano al rilievo.</p>
+    <p class="slab">Modello 3D · progetto e rilievo</p>
+    <h2 class="st">La casa <em>in 3D</em>, com'è oggi e come sarà.</h2>
+    <p class="sd">Si apre sul modello SketchUp del progetto, con i due piani, la cucina, gli arredi e le camere: si gira, si guarda dall'alto e si taglia al piano terra. Nello stesso pannello ci sono le tre scansioni Polycam fatte in casa il 6 ottobre, cioè la casa com'è oggi: piano terra, scala a doppia altezza e piano camere. Le misure definitive si confermano al rilievo.</p>
   </div>
   <div id="m3box">
-    <img src="img/rilievo-pt.jpg" alt="Rilievo Polycam del piano terra visto dall'alto in prospettiva" loading="lazy">
+    <img src="img/modello-progetto.jpg" alt="Il modello 3D del progetto visto dall'alto: i due piani con le camere, la scala e la zona giorno" loading="lazy">
     <div class="m3cta">
-      <a class="btn" href="3d/">Apri il rilievo 3D</a>
-      <p>Il rilievo si carica qui quando arrivi a questa sezione.</p>
+      <a class="btn" href="3d/">Apri il modello 3D</a>
+      <p>Il modello si carica qui quando arrivi a questa sezione (circa 18 MB).</p>
     </div>
   </div>
   <div class="wrap">
-    <p class="m3bar">Piano terra, scala e piano camere si scelgono nel pannello del rilievo. <a href="3d/">Apri a schermo intero ↗</a></p>
+    <p class="m3bar">Progetto, piani e rilievo di oggi si scelgono nel pannello del modello. <a href="3d/">Apri a schermo intero ↗</a></p>
     <div class="vgrid">
       <figure><a href="3d/?s=pt&amp;top"><img src="img/rilievo-pt-alto.jpg" alt="Pianta del piano terra ricavata dal rilievo Polycam, tagliata a 2,2 m" loading="lazy"></a><figcaption>Piano terra, dall'alto</figcaption></figure>
       <figure><a href="3d/?s=sc"><img src="img/rilievo-scala.jpg" alt="Rilievo Polycam della scala a doppia altezza" loading="lazy"></a><figcaption>La scala a doppia altezza</figcaption></figure>
@@ -426,9 +426,9 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       <div class="files">
         <h3 class="sub">File del progetto</h3>
         <a href="scarica/Casa_Traversa_preventivo.pdf" target="_blank" rel="noopener"><b>Preventivo e proposta di progetto</b><span>PDF · 29 pagine · 6 MB</span></a>
-        <a href="3d/"><b>Rilievo 3D nel browser</b><span>Polycam · piano terra, scala, piano camere</span></a>
+        <a href="3d/"><b>Modello 3D nel browser</b><span>progetto SketchUp e rilievo Polycam</span></a>
         <a href="#offerta"><b>Componi l'offerta</b><span>voci da togliere e da aggiungere</span></a>
-        <p>Il modello SketchUp del progetto arriverà qui, da girare nel browser insieme al rilievo.</p>
+        <p>Il modello in pagina è alleggerito per il browser; il file SketchUp completo (circa 80 MB) ve lo mandiamo a parte.</p>
       </div>
     </div>
     <div class="pay">
@@ -461,9 +461,9 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 (function(){const box=document.getElementById('m3box');const touch=matchMedia('(pointer:coarse)').matches;let fatto=false,io=null;
  function avvia(){if(fatto)return;fatto=true;if(io)io.disconnect();removeEventListener('scroll',vicino);
   const cta=box.querySelector('.m3cta');if(cta)cta.remove();
-  const f=document.createElement('iframe');f.id='m3f';f.title='Rilievo 3D navigabile di Casa Traversa';f.src='3d/?emb';f.allow='fullscreen';
+  const f=document.createElement('iframe');f.id='m3f';f.title='Modello 3D navigabile di Casa Traversa';f.src='3d/?emb';f.allow='fullscreen';
   f.addEventListener('load',()=>{const im=box.querySelector('img');if(im)setTimeout(()=>im.remove(),1500);});box.append(f);
-  if(touch){const tap=document.createElement('button');tap.type='button';tap.id='m3tap';tap.innerHTML='<span>Tocca per esplorare il rilievo</span>';
+  if(touch){const tap=document.createElement('button');tap.type='button';tap.id='m3tap';tap.innerHTML='<span>Tocca per esplorare il modello</span>';
    const fine=document.createElement('button');fine.type='button';fine.id='m3fine';fine.textContent='Fine';fine.style.display='none';
    tap.onclick=()=>{tap.style.display='none';fine.style.display='block';};fine.onclick=()=>{tap.style.display='';fine.style.display='none';};box.append(tap,fine);}}
  function vicino(){if(box.getBoundingClientRect().top<innerHeight+300)avvia();}
