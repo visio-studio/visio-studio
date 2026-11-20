@@ -533,6 +533,14 @@ Il modello SketchUp «TRAVERSA DEFINITIVO» (83 MB, sorgenti sul ramo orfano
 (array denso → Map, altrimenti chiede 32 GB), poi tolte normali e uv dei materiali senza
 texture e passato in `gltf-transform optimize --compress meshopt --texture-compress webp
 --texture-size 1024 --simplify-ratio 0.3`. Cloudflare non accetta file oltre 25 MB.
+Rilievo allineato al modello: `area-ct26/3d/allineamento.json` (una matrice per
+scansione), calcolato con `strumenti/polycam/allinea.py` sui muri in pianta (rotazione
+per correlazione, poi ICP 2D; 66-77 % dei muri entro 15 cm). Nel rilievo il piano camere
+è a circa 3,20 m dal piano terra, nel modello a 3,58 m: il rilievo del piano camere è
+messo sul pavimento del modello. Tour 360: `area-ct26/3d/tour.html`, punti di vista
+nell'array `PUNTI` (coordinate del modello; il modello è ruotato di 180° rispetto alle
+piante del preventivo). Nel modello ci sono scritte 3D di SketchUp («cappotti», «LAV ASC»)
+che si vedono nel tour: vanno tolte in SketchUp e il GLB rigenerato.
 Da fare: render nuovi della cucina (specchio fumé anticato al posto del pannello azzurro).
 
 Codice pubblico di esempio: **`visio`** → `/esempio` (Villa Ferrara), suggerito
