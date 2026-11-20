@@ -535,9 +535,9 @@ texture e passato in `gltf-transform optimize --compress meshopt --texture-compr
 --texture-size 1024 --simplify-ratio 0.3`. Cloudflare non accetta file oltre 25 MB.
 Rilievo allineato al modello: `area-ct26/3d/allineamento.json` (una matrice per
 scansione), calcolato con `strumenti/polycam/allinea.py` sui muri in pianta (rotazione
-per correlazione, poi ICP 2D; 66-77 % dei muri entro 15 cm). Nel rilievo il piano camere
-è a circa 3,20 m dal piano terra, nel modello a 3,58 m: il rilievo del piano camere è
-messo sul pavimento del modello. Tour 360: `area-ct26/3d/tour.html`, punti di vista
+per correlazione, poi ICP 2D; 66-77 % dei muri entro 15 cm). Nel modello il pavimento del
+piano terra è a 0,588 m (sotto c'è il terreno) e quello del piano camere a 3,588 m: 3,00 m
+fra i pavimenti contro i circa 3,20 m del rilievo. Il rilievo è messo sui pavimenti del modello. Tour 360: `area-ct26/3d/tour.html`, punti di vista
 nell'array `PUNTI` (coordinate del modello; il modello è ruotato di 180° rispetto alle
 piante del preventivo). Nel modello ci sono scritte 3D di SketchUp («cappotti», «LAV ASC»)
 che si vedono nel tour: vanno tolte in SketchUp e il GLB rigenerato.

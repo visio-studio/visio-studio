@@ -7,7 +7,7 @@
   0,
   1,
   0,
-  0.0,
+  0.588,
   -0.99975,
   0,
   0.02229,
@@ -25,7 +25,7 @@
   0,
   1,
   0,
-  0.0,
+  0.588,
   0.99598,
   0,
   -0.08956,
@@ -43,7 +43,7 @@
   0,
   1,
   0,
-  2.88,
+  2.888,
   -0.01794,
   0,
   0.99984,
@@ -53,5 +53,5 @@
   0,
   1
  ],
- "nota": "matrici riga per riga (THREE.Matrix4.set): coordinate delle scansioni (pt/sc/p1.json) -> coordinate originali del modello progetto.glb; calcolate con strumenti/polycam/allinea.py"
+ "nota": "matrici riga per riga (THREE.Matrix4.set): coordinate delle scansioni (pt/sc/p1.json) -> coordinate originali del modello progetto.glb; calcolate con strumenti/polycam/allinea.py; pavimento del piano terra del modello a 0,588 m, del piano camere a 3,588 m"
 }

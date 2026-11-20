@@ -10,7 +10,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="/font/visio.css">
 <style>
-/* Tour a 360° dentro il modello di progetto: ci si guarda intorno trascinando, ci si sposta coi cerchi a terra o con l'elenco delle stanze */
+/* Tour a 360°: un panorama renderizzato per stanza; ci si guarda intorno trascinando, ci si sposta coi cerchi a terra o con l'elenco */
 :root{--bg:#0A0A0A;--panel:rgba(14,14,14,.82);--ink:#fff;--muted:#9a9a9a;--accent:#C9A96E;--on-accent:#0A0A0A;--line:rgba(255,255,255,.14);--sans:'Inter',sans-serif;color-scheme:dark}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans);overflow:hidden}
 [hidden]{display:none!important}
@@ -22,6 +22,7 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:14px/1
 .tit a{color:var(--accent);text-decoration:none;font-size:12px}
 .tit p{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin:4px 0 2px}
 .tit h1{font:300 24px/1.1 'Cormorant Garamond',serif;margin:0}
+.nota{font-size:11px;color:var(--muted);max-width:300px;margin-top:6px}
 .stanze{position:fixed;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:6px;overflow-x:auto;padding:0 calc(16px + env(safe-area-inset-left,0px));scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .stanze::-webkit-scrollbar{display:none}
 .stanze span{flex:none;align-self:center;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:0 4px 0 8px}
@@ -29,108 +30,109 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:14px/1
 .stanze button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 #hint{position:fixed;left:50%;bottom:calc(66px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--panel);border:1px solid var(--line);padding:7px 12px;font-size:12px;color:#ddd;white-space:nowrap;transition:opacity .6s;pointer-events:none}
-#load{position:fixed;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:20px}
+#load{position:fixed;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:20px;background:var(--bg);transition:opacity .5s}
 #load b{display:block;font:300 28px/1.2 'Cormorant Garamond',serif;color:#fff;margin-bottom:8px}
-.nota{font-size:11px;color:var(--muted);max-width:300px;margin-top:6px}
-@media (max-width:640px){.tit h1{font-size:19px}.nota{display:none}#hint{font-size:11px}}
+#spin{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));top:calc(16px + env(safe-area-inset-top,0px));background:var(--panel);border:1px solid var(--line);padding:7px 11px;font-size:12px;color:#ddd}
+.et{position:fixed;left:0;top:0;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:rgba(10,10,10,.72);border:1px solid rgba(201,169,110,.6);padding:4px 8px;white-space:nowrap;pointer-events:none;transition:opacity .2s}
+@media (max-width:640px){.tit h1{font-size:19px}.nota{display:none}#hint{font-size:11px}.et{font-size:10px}}
 </style>
 </head>
 <body>
 <main>
-<canvas id="c" tabindex="0" aria-label="Tour a 360 gradi dentro il progetto: trascina per guardarti intorno"></canvas>
-<div id="load"><div><b>Casa Traversa</b>Carico il tour del progetto (circa 18 MB)…</div></div>
+<canvas id="c" tabindex="0" aria-label="Tour a 360 gradi del progetto: trascina per guardarti intorno"></canvas>
 <div class="top">
   <div class="tit"><a class="back" href="../">← Torna al progetto</a>
     <p>Tour 360 · progetto</p><h1 id="dove">Soggiorno</h1>
-    <div class="nota">Vista dentro il modello di progetto: forme, arredi e colori; luci e materiali sono indicativi, i render restano il riferimento.</div></div>
+    <div class="nota">Render del modello di progetto: forme, arredi e materiali del progetto, luce simulata. Tessili e oggetti sono indicativi.</div></div>
 </div>
+<div id="spin" hidden>Carico…</div>
+<div id="etichette"></div>
 <div class="stanze" id="stanze" role="toolbar" aria-label="Stanze del tour"></div>
 <div id="hint">Trascina per guardarti intorno · tocca i cerchi a terra per spostarti</div>
+<div id="load"><div><b>Casa Traversa</b>Carico il tour…</div></div>
 <script type="importmap">{"imports":{"three":"./lib/three.module.js"}}</script>
 <script type="module">
 import * as THREE from 'three';
-import {GLTFLoader} from './lib/loaders/GLTFLoader.js';
-import {MeshoptDecoder} from './lib/libs/meshopt_decoder.module.js';
-import {toCreasedNormals} from './lib/utils/BufferGeometryUtils.js';
-import {RoomEnvironment} from './lib/RoomEnvironment.js';
 const $=id=>document.getElementById(id);const qs=new URLSearchParams(location.search);const TOUCH=matchMedia('(pointer:coarse)').matches;
 if(qs.has('emb')){const b=document.querySelector('.back');b.textContent='Apri a schermo intero ↗';b.href=location.pathname;b.target='_top';}
 $('hint').textContent=TOUCH?'Trascina per guardarti intorno · tocca i cerchi a terra per spostarti':'Trascina per guardarti intorno · rotella per lo zoom · clic sui cerchi a terra per spostarti';
-// punti di vista in coordinate del modello (metri, y in alto): piano terra a 0, piano camere a 3,58
-const T=0,C=3.58,OC=1.55;
-// x,z = dove si sta; tx,tz = dove si guarda all'arrivo. Il modello è ruotato di 180° rispetto alle piante del preventivo
-const PUNTI=[
- {id:'sog',n:'Soggiorno',p:'terra',x:12.9,z:-4.2,y:T,tx:9.3,tz:-6.6},
- {id:'pra',n:'Pranzo',p:'terra',x:17.0,z:-6.6,y:T,tx:13.5,tz:-5.0},
- {id:'cuc',n:'Cucina',p:'terra',x:15.0,z:-4.3,y:T,tx:18.5,tz:-2.0},
- {id:'ing',n:'Ingresso',p:'terra',x:8.6,z:-3.6,y:T,tx:10.5,tz:-7.0},
- {id:'cA',n:'Camera A',p:'camere',x:8.2,z:-4.9,y:C,tx:10.0,tz:-6.8},
- {id:'cB',n:'Camera B',p:'camere',x:14.4,z:-5.5,y:C,tx:16.5,tz:-7.2},
- {id:'cC',n:'Camera C',p:'camere',x:15.0,z:-3.9,y:C,tx:17.0,tz:-1.2},
- {id:'dis',n:'Disimpegno',p:'camere',x:12.3,z:-3.4,y:C,tx:12.6,tz:-0.6},
- {id:'b1',n:'Bagno in travertino',p:'camere',x:12.0,z:-5.0,y:C,tx:12.0,tz:-7.2},
- {id:'b2',n:'Bagno della camera',p:'camere',x:8.6,z:-2.6,y:C,tx:8.6,tz:-0.8}];
-for(const q of PUNTI)q.yaw=Math.atan2(-(q.tx-q.x),-(q.tz-q.z))*180/Math.PI;
-const cv=$('c');const r=new THREE.WebGLRenderer({canvas:cv,antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,2));
-r.outputColorSpace=THREE.SRGBColorSpace;r.toneMapping=THREE.ACESFilmicToneMapping;r.toneMappingExposure=0.82;
-const sc=new THREE.Scene();sc.background=new THREE.Color(0xe9e4dc);
-const pm=new THREE.PMREMGenerator(r);sc.environment=pm.fromScene(new RoomEnvironment(),0.04).texture;sc.environmentIntensity=0.55;
-sc.add(new THREE.HemisphereLight(0xfff6ea,0x6f665c,0.55));const sole=new THREE.DirectionalLight(0xfff1dc,0.9);sole.position.set(-4,9,6);sc.add(sole);
-const cam=new THREE.PerspectiveCamera(72,1,0.03,200);cam.rotation.order='YXZ';
+// punti di vista (coordinate del modello, metri) e chi vede chi: generati insieme ai panorami.
+// Al piano camere le porte del modello sono chiuse: camere e bagni si collegano comunque al disimpegno
+const [PUNTI,VIS]=await Promise.all([fetch('tour/punti.json').then(r=>r.json()),fetch('tour/visibili.json').then(r=>r.json())]);
+const PORTE=[['dis','cA'],['dis','cB'],['dis','cC'],['dis','b1'],['dis','b2']];
+for(const [a,b] of PORTE){(VIS[a]=VIS[a]||[]).includes(b)||VIS[a].push(b);(VIS[b]=VIS[b]||[]).includes(a)||VIS[b].push(a);}
+const OCCHI=1.55;
+const cv=$('c');const r=new THREE.WebGLRenderer({canvas:cv,antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,2));r.outputColorSpace=THREE.SRGBColorSpace;
+const sc=new THREE.Scene();const cam=new THREE.PerspectiveCamera(75,1,0.1,100);cam.rotation.order='YXZ';
 let dirty=true;const kick=()=>dirty=true;
-function size(){r.setSize(innerWidth,innerHeight,false);cam.aspect=innerWidth/innerHeight;cam.fov=cam.aspect<1?82:72;cam.updateProjectionMatrix();kick();}addEventListener('resize',size);size();
-// modello
-const g=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('progetto.glb');
-g.scene.traverse(o=>{if(!o.isMesh)return;if(!o.geometry.attributes.normal)o.geometry=toCreasedNormals(o.geometry,Math.PI/6);
- (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{m.side=THREE.DoubleSide;if('roughness' in m)m.roughness=Math.max(m.roughness,0.55);if('metalness' in m)m.metalness=Math.min(m.metalness,0.2);});});
-sc.add(g.scene);
-// il modello non ha il tetto: al piano camere si chiude con un soffitto bianco all'altezza del muro
-const bb=new THREE.Box3().setFromObject(g.scene);
-const tetto=new THREE.Mesh(new THREE.PlaneGeometry(bb.max.x-bb.min.x+2,bb.max.z-bb.min.z+2),new THREE.MeshStandardMaterial({color:0xf3f0ea,roughness:.9,side:THREE.DoubleSide}));
-tetto.rotation.x=-Math.PI/2;tetto.position.set((bb.min.x+bb.max.x)/2,bb.max.y-0.02,(bb.min.z+bb.max.z)/2);sc.add(tetto);
-// cerchi a terra per spostarsi
-const anelli=[];const geoA=new THREE.RingGeometry(0.22,0.3,48);const geoD=new THREE.CircleGeometry(0.22,48);
-for(const q of PUNTI){const gr=new THREE.Group();gr.position.set(q.x,q.y+0.03,q.z);gr.rotation.x=-Math.PI/2;
- const a=new THREE.Mesh(geoA,new THREE.MeshBasicMaterial({color:0xC9A96E,transparent:true,opacity:.95,depthTest:false}));
- const d=new THREE.Mesh(geoD,new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.18,depthTest:false}));a.renderOrder=d.renderOrder=10;
- gr.add(d,a);gr.userData.q=q;sc.add(gr);anelli.push(gr);}
-// pulsanti delle stanze
-const box=$('stanze');let pianoPrec='';
-for(const q of PUNTI){if(q.p!==pianoPrec){const s=document.createElement('span');s.textContent=q.p==='terra'?'Piano terra':'Piano camere';box.append(s);pianoPrec=q.p;}
+const fovBase=()=>cam.aspect<1?88:75;
+function size(){r.setSize(innerWidth,innerHeight,false);cam.aspect=innerWidth/innerHeight;cam.fov=fovBase();cam.updateProjectionMatrix();kick();}addEventListener('resize',size);size();
+// due sfere per la dissolvenza fra un panorama e il successivo; il centro dell'immagine guarda verso -X
+const geo=new THREE.SphereGeometry(50,96,64);geo.scale(-1,1,1);
+const sfere=[0,1].map(i=>{const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({transparent:true,opacity:i?0:1,depthWrite:false}));m.renderOrder=i;sc.add(m);return m;});
+let davanti=0;
+const tl=new THREE.TextureLoader();const cache={};
+function tex(id){return cache[id]||(cache[id]=new Promise((res,rej)=>tl.load('tour/'+id+'.jpg',t=>{t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=r.capabilities.getMaxAnisotropy();res(t);},undefined,rej)));}
+// cerchi a terra verso le stanze collegate
+const anelli=new THREE.Group();sc.add(anelli);
+const gA=new THREE.RingGeometry(0.2,0.27,48),gD=new THREE.CircleGeometry(0.2,48);
+const etBox=$('etichette');let etich=[];
+function dirModello(q,dx,dz){// da direzione nel piano del modello a direzione nel panorama (centro immagine = verso il punto guardato)
+ const fx=q.tx-q.x,fz=q.tz-q.z,fl=Math.hypot(fx,fz);const f=[fx/fl,fz/fl],rt=[-f[1],f[0]];
+ const a=dx*f[0]+dz*f[1],b=dx*rt[0]+dz*rt[1];return new THREE.Vector3(-a,0,-b);}
+function anelliPer(q){anelli.clear();etBox.textContent='';etich=[];
+ for(const id of VIS[q.id]||[]){const t=PUNTI.find(p=>p.id===id);if(!t)continue;let d=dirModello(q,t.x-q.x,t.z-q.z);const dist=d.length();if(dist<0.6)continue;
+  if(dist>6)d.multiplyScalar(6/dist);
+  const g=new THREE.Group();g.position.set(d.x,-OCCHI+0.02,d.z);g.rotation.x=-Math.PI/2;
+  const a=new THREE.Mesh(gA,new THREE.MeshBasicMaterial({color:0xC9A96E,transparent:true,opacity:.95,depthTest:false}));
+  const c=new THREE.Mesh(gD,new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.22,depthTest:false}));a.renderOrder=c.renderOrder=5;
+  g.add(c,a);g.userData.q=t;anelli.add(g);
+  const e=document.createElement('div');e.className='et';e.textContent=t.n;etBox.append(e);etich.push([e,g]);}}
+// stanze
+const box=$('stanze');let pp='';
+for(const q of PUNTI){if(q.p!==pp){const s=document.createElement('span');s.textContent=q.p==='terra'?'Piano terra':'Piano camere';box.append(s);pp=q.p;}
  const b=document.createElement('button');b.type='button';b.textContent=q.n;b.dataset.id=q.id;b.setAttribute('aria-pressed','false');b.onclick=()=>vai(q,true);box.append(b);}
-// sguardo
-let yaw=0,pitch=-0.05,cur=null,anim=null;
+let yaw=Math.PI/2,pitch=-0.08,cur=null,fade=null;
 function vista(){cam.rotation.set(pitch,yaw,0);kick();}
-function vai(q,salto){const da=cam.position.clone(),a=new THREE.Vector3(q.x,q.y+OC,q.z);cur=q;
- $('dove').textContent=q.n;box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.id===q.id));
+async function vai(q,daElenco){if(cur&&cur.id===q.id)return;
+ $('spin').hidden=false;let t;try{t=await tex(q.id);}catch(e){$('spin').textContent='Panorama non disponibile';return;}$('spin').hidden=true;
+ // camminando si arriva guardando nella direzione del passo; dall'elenco si arriva verso il punto scelto dal progetto
+ let nuovoYaw=Math.PI/2;
+ if(cur&&!daElenco&&cur.p===q.p){const d=dirModello(q,q.x-cur.x,q.z-cur.z);if(d.length()>0.1)nuovoYaw=Math.atan2(-d.x,-d.z);}
+ const prec=cur;cur=q;$('dove').textContent=q.n;
+ box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.id===q.id));
  const bt=box.querySelector(`[data-id="${q.id}"]`);if(bt)bt.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
- for(const n of anelli)n.visible=n.userData.q!==q&&n.userData.q.p===q.p;
- const lungo=salto||da.distanceTo(a)>9||!anim&&da.lengthSq()===0;
- if(lungo){cam.position.copy(a);if(salto||da.lengthSq()===0){yaw=THREE.MathUtils.degToRad(q.yaw);pitch=-0.05;}vista();return;}
- const t0=performance.now(),D=700;anim=t=>{const k=Math.min(1,(t-t0)/D),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;cam.position.lerpVectors(da,a,e);kick();if(k>=1)anim=null;};}
-// trascinamento: si gira la testa; sui touch due dita fanno lo zoom
-const pts=new Map();let mosso=0,dist0=0,fov0=72;
+ const dietro=sfere[1-davanti],avanti=sfere[davanti];dietro.material.map=t;dietro.material.needsUpdate=true;
+ if(!prec){avanti.material.map=t;avanti.material.needsUpdate=true;yaw=nuovoYaw;pitch=-0.08;anelliPer(q);vista();for(const id of VIS[q.id]||[])tex(id);return;}
+ anelli.visible=false;etich.forEach(([e])=>e.style.opacity=0);
+ const t0=performance.now(),D=650;dietro.material.opacity=0;dietro.renderOrder=1;avanti.renderOrder=0;
+ fade=now=>{const k=Math.min(1,(now-t0)/D);dietro.material.opacity=k;cam.fov=fovBase()-6*Math.sin(k*Math.PI);cam.updateProjectionMatrix();
+  if(k>=1){fade=null;avanti.material.opacity=0;davanti=1-davanti;sfere[davanti].material.opacity=1;yaw=nuovoYaw;pitch=-0.08;
+   size();anelliPer(q);anelli.visible=true;vista();for(const id of VIS[q.id]||[])tex(id);}};}
+// trascinamento e zoom
+const pts=new Map();let mosso=0,dist0=0,fov0=75;
 cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);mosso=0;cv.classList.add('giu');
- if(pts.size===2){const [p,q]=[...pts.values()];dist0=Math.hypot(p[0]-q[0],p[1]-q[1]);fov0=cam.fov;}nascondiHint();});
+ if(pts.size===2){const [p,q]=[...pts.values()];dist0=Math.hypot(p[0]-q[0],p[1]-q[1]);fov0=cam.fov;}nascondi();});
 cv.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const pr=pts.get(e.pointerId);const dx=e.clientX-pr[0],dy=e.clientY-pr[1];pts.set(e.pointerId,[e.clientX,e.clientY]);
- if(pts.size===2){const [p,q]=[...pts.values()];const d=Math.hypot(p[0]-q[0],p[1]-q[1]);if(dist0>0){cam.fov=THREE.MathUtils.clamp(fov0*dist0/d,35,95);cam.updateProjectionMatrix();kick();}mosso=99;return;}
- mosso+=Math.abs(dx)+Math.abs(dy);const k=cam.fov/innerHeight*Math.PI/180;yaw+=dx*k;pitch=THREE.MathUtils.clamp(pitch+dy*k,-1.3,1.3);vista();});
+ if(pts.size===2){const [p,q]=[...pts.values()];const d=Math.hypot(p[0]-q[0],p[1]-q[1]);if(dist0>0){cam.fov=THREE.MathUtils.clamp(fov0*dist0/d,30,100);cam.updateProjectionMatrix();kick();}mosso=99;return;}
+ mosso+=Math.abs(dx)+Math.abs(dy);const k=cam.fov/innerHeight*Math.PI/180;yaw+=dx*k;pitch=THREE.MathUtils.clamp(pitch+dy*k,-1.4,1.4);vista();});
 const su=e=>{if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);cv.classList.remove('giu');if(mosso<6&&pts.size===0)clic(e);};
 cv.addEventListener('pointerup',su);cv.addEventListener('pointercancel',e=>{pts.delete(e.pointerId);cv.classList.remove('giu');});
-cv.addEventListener('wheel',e=>{e.preventDefault();cam.fov=THREE.MathUtils.clamp(cam.fov+e.deltaY*0.04,35,95);cam.updateProjectionMatrix();kick();},{passive:false});
-// tastiera: frecce per girarsi, numeri per le stanze
-cv.addEventListener('keydown',e=>{const k={ArrowLeft:[.08,0],ArrowRight:[-.08,0],ArrowUp:[0,.06],ArrowDown:[0,-.06]}[e.key];if(k){yaw+=k[0];pitch=THREE.MathUtils.clamp(pitch+k[1],-1.3,1.3);vista();e.preventDefault();}});
-// clic su un cerchio: ci si sposta lì
+cv.addEventListener('wheel',e=>{e.preventDefault();cam.fov=THREE.MathUtils.clamp(cam.fov+e.deltaY*0.04,30,100);cam.updateProjectionMatrix();kick();},{passive:false});
+cv.addEventListener('keydown',e=>{const k={ArrowLeft:[.08,0],ArrowRight:[-.08,0],ArrowUp:[0,.06],ArrowDown:[0,-.06]}[e.key];if(k){yaw+=k[0];pitch=THREE.MathUtils.clamp(pitch+k[1],-1.4,1.4);vista();e.preventDefault();}});
 const rc=new THREE.Raycaster();
 function clic(e){const m=new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);rc.setFromCamera(m,cam);
- const h=rc.intersectObjects(anelli.filter(a=>a.visible),true)[0];if(h){let o=h.object;while(o&&!o.userData.q)o=o.parent;if(o)vai(o.userData.q,false);}}
-let hintT=setTimeout(nascondiHint,7000);function nascondiHint(){clearTimeout(hintT);$('hint').style.opacity=0;}
-(function loop(t){requestAnimationFrame(loop);if(anim)anim(t);if(dirty){r.render(sc,cam);dirty=false;}})(0);
-$('load').remove();
-const p0=PUNTI.find(q=>q.id===qs.get('p'))||PUNTI[0];vai(p0,true);
-if(qs.get('yaw')){yaw=THREE.MathUtils.degToRad(+qs.get('yaw'));vista();}
-if(qs.has('nui')){for(const e of document.querySelectorAll('.top,.stanze,#hint'))e.hidden=true;}
-window.PRONTO=true;
+ const h=rc.intersectObjects(anelli.children,true)[0];if(h){let o=h.object;while(o&&!o.userData.q)o=o.parent;if(o)vai(o.userData.q,false);}}
+let hintT=setTimeout(nascondi,7000);function nascondi(){clearTimeout(hintT);$('hint').style.opacity=0;}
+const v=new THREE.Vector3();
+(function loop(t){requestAnimationFrame(loop);if(fade){fade(t);dirty=true;}
+ if(dirty){r.render(sc,cam);dirty=false;
+  for(const [e,g] of etich){g.getWorldPosition(v);v.y+=0.25;v.project(cam);const vis=v.z<1&&Math.abs(v.x)<1.1&&Math.abs(v.y)<1.1&&anelli.visible;
+   e.style.opacity=vis?1:0;if(vis)e.style.transform=`translate(${(v.x+1)/2*innerWidth}px,${(1-v.y)/2*innerHeight}px) translate(-50%,-100%)`;}}})(0);
+const p0=PUNTI.find(q=>q.id===qs.get('p'))||PUNTI[0];await vai(p0,true);
+if(qs.get('yaw')){yaw=Math.PI/2+THREE.MathUtils.degToRad(+qs.get('yaw'));vista();}
+if(qs.has('nui'))for(const e of document.querySelectorAll('.top,.stanze,#hint,#etichette'))e.hidden=true;
+$('load').style.opacity=0;setTimeout(()=>$('load').remove(),600);window.PRONTO=true;
 </script>
 </main>
 </body>
