@@ -1,1 +1,1 @@
-{"sog": ["pra"], "pra": ["sog"]}
+{"sog": ["pra", "cuc", "ing"], "pra": ["sog", "cuc", "ing"], "cuc": ["sog", "pra", "ing"], "ing": ["sog", "pra", "cuc"], "cA": [], "cB": [], "cC": [], "dis": [], "b1": []}
