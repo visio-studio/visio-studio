@@ -96,6 +96,16 @@ figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rg
 .ba-l,.ba-r { position:absolute;top:14px;font-size:9px;letter-spacing:3px;text-transform:uppercase;background:rgba(10,10,10,.7);padding:7px 12px;pointer-events:none; }
 .ba-l { left:14px; } .ba-r { right:14px;color:var(--gold); }
 
+.vtit { font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-top:72px; }
+.vtit em { font-style:italic;color:var(--gold); }
+.lgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:22px; }
+.lgrid img { width:100%;aspect-ratio:16/9;object-fit:cover; }
+.lgrid .wide { grid-column:span 2; }
+.lgrid .wide img { height:100%; }
+.bimg { display:grid;grid-template-columns:1.6fr 1fr;gap:3px;margin-bottom:18px; }
+.bimg img { width:100%;height:100%;aspect-ratio:auto;object-fit:cover;margin:0; }
+.bgrid > div > img { aspect-ratio:3/2; }
+@media(max-width:900px){ .lgrid { grid-template-columns:1fr; } .lgrid .wide { grid-column:auto; } }
 /* materiali */
 .mat { display:flex;flex-wrap:wrap;gap:3px;margin-top:40px; }
 .mat span { flex:1 1 120px;height:84px;display:flex;align-items:flex-end;padding:10px;font-size:9px;letter-spacing:2px;text-transform:uppercase; }
@@ -298,6 +308,18 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       <span style="background:#6b2a35;color:#fff">Bordeaux</span>
       <span style="background:#f2c879;color:#3a2a0a">Luce calda</span>
     </div>
+
+    <h3 class="vtit">Le versioni di agosto, <em>con il parquet</em></h3>
+    <p class="cnote">I primi render della zona giorno, con il parquet scuro a spina di pesce o a doghe. Il preventivo di ottobre segue il pavimento effetto marmo (A.2); il parquet, se vi piace di più, si quota a parte.</p>
+    <div class="lgrid">
+      <figure class="wide"><img src="render/legno-dall-alto.jpg" alt="La zona giorno dall'alto con il parquet a doghe, il divano bordeaux e il tavolo ovale bianco" loading="lazy"><figcaption>Dall'alto, parquet a doghe</figcaption></figure>
+      <figure><img src="render/legno-vuota.jpg" alt="La zona giorno vuota con il parquet scuro a spina di pesce" loading="lazy"><figcaption>Vuota, parquet a spina</figcaption></figure>
+      <figure><img src="render/legno-cucina.jpg" alt="La cucina con l'isola in marmo e il parquet a spina di pesce" loading="lazy"><figcaption>Cucina, parquet a spina</figcaption></figure>
+      <figure><img src="render/legno-pranzo-bordeaux.jpg" alt="Pranzo, cucina e soggiorno con il divano bordeaux, parquet a spina di pesce" loading="lazy"><figcaption>Pranzo e soggiorno</figcaption></figure>
+      <figure><img src="render/legno-pranzo.jpg" alt="Pranzo e soggiorno con il divano grigio, parquet a spina di pesce" loading="lazy"><figcaption>Con il divano grigio</figcaption></figure>
+      <figure><img src="render/legno-soggiorno-ingresso.jpg" alt="Il soggiorno verso l'ingresso con il parquet a doghe" loading="lazy"><figcaption>Soggiorno verso l'ingresso</figcaption></figure>
+      <figure class="wide"><img src="render/legno-soggiorno.jpg" alt="Il divano bordeaux con il pranzo e la libreria sullo sfondo, parquet a doghe" loading="lazy"><figcaption>Soggiorno e pranzo, parquet a doghe</figcaption></figure>
+    </div>
   </div>
 </section>
 
@@ -326,6 +348,12 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       <div><h3 class="serif">Camera C</h3><p class="tot">13.000 € + IVA</p><p>Specchio, bordeaux e grigio su fondo chiaro, con il soffitto scuro.</p>
         <ul class="ll"><li><span>C.11 Controsoffitto con gola</span><span>1.900 €</span></li><li><span>C.12 Armadio a tutta altezza</span><span>4.900 €</span></li><li><span>C.13 Letto con testiera</span><span>1.600 €</span></li><li><span>C.14 Specchio a semicerchio</span><span>1.600 €</span></li><li><span>C.15 Mensole e comodino</span><span>1.400 €</span></li><li><span>C.16 Scrivania curva</span><span>1.600 €</span></li></ul></div>
     </div>
+
+    <h3 class="vtit">Una camera, <em>di giorno e di sera</em></h3>
+    <div class="lgrid" style="grid-template-columns:1fr 1fr">
+      <figure><img src="render/camera-testata-giorno.jpg" alt="Camera con la testata curva retroilluminata, carta da parati floreale e scrivania curva, di giorno" loading="lazy"><figcaption>Testata curva e scrivania · di giorno</figcaption></figure>
+      <figure><img src="render/camera-testata-sera.jpg" alt="La stessa camera di sera, con le luci accese e i toni scuri" loading="lazy"><figcaption>La stessa camera · di sera</figcaption></figure>
+    </div>
   </div>
 </section>
 
@@ -335,7 +363,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     <h2 class="st">Travertino, pietra grigia <em>e legno</em>.</h2>
     <p class="sd">Due bagni rifatti: demolizione di pavimenti e massetti (D.3, 600 €), pavimento nuovo in gres effetto legno, circa 12 m² (D.4, 780 €); impianti, pendenze e guaina sono nelle voci E.5 ed E.6.</p>
     <div class="bgrid">
-      <div><img src="render/bagno-travertino.jpg" alt="Bagno in finitura travertino con doccia a filo pavimento, lavabo in pietra su mobile in legno e doghe con luce LED" loading="lazy">
+      <div><div class="bimg"><img src="render/bagno-travertino-doccia.jpg" alt="Bagno in finitura travertino visto dall'alto: doccia a filo pavimento con la mensola, doghe con la luce LED, colonna in legno a giorno" loading="lazy"><img src="render/bagno-travertino-lavabo.jpg" alt="Lavabo in travertino su mobile in legno, doghe retroilluminate, parete in travertino e sanitari" loading="lazy"></div>
         <h3 class="serif">Bagno in finitura travertino</h3><p class="tot">D.1 · 11.000 € + IVA</p>
         <p>Rivestimenti in finitura travertino, doccia a filo pavimento con parete in vetro (dove gli scarichi lo permettono, si verifica al rilievo), lavabo in pietra su mobile in legno, rubinetteria nera nella doccia, specchio e doghe con luce LED.</p></div>
       <div><img src="render/bagno-camera.jpg" alt="Bagno della camera con doccia in box vetro a profili neri, lavabo bianco su mobile sospeso e specchio sagomato retroilluminato" loading="lazy">
