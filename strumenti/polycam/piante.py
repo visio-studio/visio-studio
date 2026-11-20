@@ -39,7 +39,7 @@ def sez_scan(n,T,hs):
 if __name__=='__main__':
     S=json.load(open('sez-modello.json'));T=json.load(open('/home/user/visio-studio/area-ct26/3d/allineamento.json'))
     res={}
-    for piano,h1,h2,scans in (('terra','1.2','2',['pt','sc']),('camere','4.78','5.6',['p1','sc'])):
+    for piano,h1,h2,scans in (('terra','1.788','2.588',['pt','sc']),('camere','4.788','5.6',['p1','sc'])):
         L1=raster(S[h1]['muri']+S[h1]['arredi']);L2=raster(S[h2]['muri']+S[h2]['arredi'])
         post=pulisci(campate(L1)&ndimage.binary_dilation(campate(L2),iterations=3))
         hh=float(h1);sg={1.2:[],2.0:[]}

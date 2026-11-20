@@ -11,18 +11,19 @@ const W=Math.round((X1-X0)*PX),H=Math.round((Z1-Z0)*PX);
 const r=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});r.setPixelRatio(1);r.setSize(W,H);document.body.appendChild(r.domElement);r.localClippingEnabled=true;r.outputColorSpace=THREE.SRGBColorSpace;
 const sc=new THREE.Scene();sc.background=new THREE.Color(0xffffff);
 sc.add(new THREE.HemisphereLight(0xffffff,0x888888,2.2));const d=new THREE.DirectionalLight(0xffffff,1);d.position.set(3,10,2);sc.add(d);
-const pianoY=q.get('piano')==='camere'?3.58:0;const cut=new THREE.Plane(new THREE.Vector3(0,-1,0),pianoY+1.2);
-const clips=[cut];if(pianoY)clips.push(new THREE.Plane(new THREE.Vector3(0,1,0),-(pianoY-0.15)));
+const pianoY=q.get('piano')==='camere'?3.588:0.588;const cut=new THREE.Plane(new THREE.Vector3(0,-1,0),pianoY+1.2);
+const clips=[cut];if(q.get('piano')==='camere')clips.push(new THREE.Plane(new THREE.Vector3(0,1,0),-(pianoY-0.15)));
 if(q.get('src')==='mod'){const g=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('d3/progetto.glb');
  g.scene.traverse(o=>{if(o.isMesh){if(!o.geometry.attributes.normal)o.geometry=toCreasedNormals(o.geometry,Math.PI/6);(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{m.side=THREE.DoubleSide;m.clippingPlanes=clips;});}});sc.add(g.scene);}
 else{const T=await (await fetch('d3/allineamento.json')).json();const tl=new THREE.TextureLoader();
- for(const n of (pianoY?['p1','sc']:['pt','sc'])){const m=await (await fetch('d3/'+n+'.json')).json();const buf=await (await fetch('d3/'+m.bin)).arrayBuffer();const gr=new THREE.Group();
+ for(const n of (q.get('piano')==='camere'?['p1','sc']:['pt','sc'])){const m=await (await fetch('d3/'+n+'.json')).json();const buf=await (await fetch('d3/'+m.bin)).arrayBuffer();const gr=new THREE.Group();
   for(const e of m.mesh){const qq=new Uint16Array(buf,e.pos,e.nv*3),u=new Uint16Array(buf,e.uv,e.nv*2),idx=new Uint16Array(buf,e.idx,e.ni);
    const P=new Float32Array(e.nv*3);for(let k=0;k<P.length;k++){const a=k%3;P[k]=e.min[a]+qq[k]/65535*(e.max[a]-e.min[a]);}
    const U=new Float32Array(e.nv*2);for(let k=0;k<U.length;k++)U[k]=u[k]/65535;
    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(P,3));g.setAttribute('uv',new THREE.BufferAttribute(U,2));g.setIndex(new THREE.BufferAttribute(idx,1));
    const t=await tl.loadAsync('d3/'+e.tex);t.colorSpace=THREE.SRGBColorSpace;t.flipY=false;gr.add(new THREE.Mesh(g,new THREE.MeshBasicMaterial({map:t,side:THREE.DoubleSide,clippingPlanes:clips})));}
-  gr.matrixAutoUpdate=false;gr.matrix.set(...T[n]);sc.add(gr);}}
+  gr.matrixAutoUpdate=false;gr.matrix.set(...T[n]);gr.name=n;sc.add(gr);}}
+sc.updateMatrixWorld(true);window.BOX=sc.children.filter(o=>o.name).map(o=>{const b=new THREE.Box3().setFromObject(o);return [o.name,b.min.toArray().map(v=>+v.toFixed(2)),b.max.toArray().map(v=>+v.toFixed(2))]});
 const cam=new THREE.OrthographicCamera(X0,X1,-Z0,-Z1,0.1,100);cam.position.set(0,40,0);cam.up.set(0,0,-1);cam.lookAt(0,0,0);
 // con up=(0,0,-1) guardando giù: x a destra, z verso il basso dello schermo -> left=X0,right=X1, top=-Z0? verificato sotto
 r.render(sc,cam);document.title='ok';

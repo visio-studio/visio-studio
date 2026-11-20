@@ -18,7 +18,7 @@ def linee(segs,col,w,base):
 def fine(im,nome):ImageOps.flip(ImageOps.mirror(im)).save(f'{OUT}/{nome}.png',optimize=True)
 T=json.load(open('/home/user/visio-studio/area-ct26/3d/allineamento.json'))
 info={}
-for piano,h,scans in (('terra',1.2,['pt','sc']),('camere',4.78,['p1','sc'])):
+for piano,h,scans in (('terra',1.788,['pt','sc']),('camere',4.788,['p1','sc'])):
     m=np.load(f'maschere-{piano}.npz');c=np.load(f'confronto-{piano}.npz')
     # ante operam: solo rilievo, misure vere
     g=sfondo(f'../o-ril-{piano}.png',0.28);im=Image.fromarray(np.stack([g]*3,-1).astype(np.uint8))
@@ -27,7 +27,7 @@ for piano,h,scans in (('terra',1.2,['pt','sc']),('camere',4.78,['p1','sc'])):
     info[piano+'_ante']=dict(larg=round(x1-x0,2),prof=round(z1-z0,2),bbox=[x0,x1,z0,z1])
     # post operam: muri del modello pieni, arredi in grigio chiaro
     post=maschera(m['post']);g=sfondo(f'../o-mod-{piano}.png',0.32);im=Image.fromarray(np.stack([g]*3,-1).astype(np.uint8))
-    SM=json.load(open('sez-modello.json'))[str(h) if str(h)!='1.2' else '1.2'];linee(SM['muri']+SM['arredi'],(60,60,60),3,im)
+    SM=json.load(open('sez-modello.json'))[str(h)];linee(SM['muri']+SM['arredi'],(60,60,60),3,im)
     a=np.asarray(im).copy();a[post]=(25,25,25);im=Image.fromarray(a);fine(im,f'post-{piano}')
     ys,xs=np.nonzero(post);info[piano]=dict(larg=round((xs.max()-xs.min())/S,2),prof=round((ys.max()-ys.min())/S,2),bbox=[X0+xs.min()/S,X0+xs.max()/S,Z0+ys.min()/S,Z0+ys.max()/S])
     # confronto: esistenti grigio, demoliti giallo, nuovi rosso
