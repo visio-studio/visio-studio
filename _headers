@@ -21,3 +21,7 @@
 
 /*.glb
   Content-Type: model/gltf-binary
+
+# Area cliente Casa Traversa: preventivo e rilievo fuori dai motori di ricerca, anche i PDF e i file del 3D
+/area-ct26/*
+  X-Robots-Tag: noindex, nofollow

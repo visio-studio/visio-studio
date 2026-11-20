@@ -520,6 +520,15 @@ chi arriva sull'indirizzo lo apre comunque. Le pagine cliente hanno `noindex`
 per non finire su Google. Per una protezione vera serve una password lato
 server, quindi il piano Netlify a pagamento.
 
+**Casa Traversa** (novembre 2026) → `/area-ct26`, codice **`traversa26`**. Pagina con
+rilievo Polycam navigabile (tre scansioni separate: piano terra, scala, piano camere,
+non allineate fra loro), render, piante, preventivo Michelessi da sfogliare e
+calcolatore «Componi l'offerta» (B e C si tolgono, F si aggiunge, A-D-E fissi;
+le voci stanno nell'array `G` in fondo alla pagina). In `_headers` c'è
+`X-Robots-Tag: noindex` su tutta la cartella, perché il PDF ha nomi e prezzi.
+I DAE di Polycam si convertono con `strumenti/polycam/converti.py`.
+Da fare: modello SketchUp «traversa definitivo», render nuovi della cucina.
+
 Codice pubblico di esempio: **`visio`** → `/esempio` (Villa Ferrara), suggerito
 in chiaro nel menu stesso.
 

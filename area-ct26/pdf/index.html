@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Documenti — Casa Traversa · VISIO Studio</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+/* Lettore PDF di Casa Traversa: pagine disegnate con pdf.js una sotto l'altra, caricate mentre si scorre */
+:root{--bg:#0A0A0A;--panel:rgba(14,14,14,.92);--ink:#fff;--muted:#8a8a8a;--accent:#C9A96E;--on-accent:#0A0A0A;--line:rgba(255,255,255,.12);--sans:'Inter',sans-serif;color-scheme:dark}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans)}
+[hidden]{display:none!important}
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px max(12px,env(safe-area-inset-right,0px)) 8px max(12px,env(safe-area-inset-left,0px));background:var(--panel);border-bottom:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.bar b{font-weight:500;font-size:13px;flex:1 1 160px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar span{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.bar button,.bar a{font:inherit;font-size:12.5px;padding:6px 10px;border:1px solid var(--line);border-radius:0;background:transparent;color:var(--ink);cursor:pointer;text-decoration:none;line-height:1.2}
+.bar a.pr{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.bar button:focus-visible,.bar a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#pg{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:12px 0 40px}
+.pp{margin:0 auto 12px;background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.5);position:relative}
+.pp canvas{display:block;width:100%;height:100%}
+.pp i{position:absolute;inset:0;display:grid;place-items:center;color:#999;font-style:normal;font-size:12px}
+#msg{padding:40px 16px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="bar">
+  <b id="tit">Documento</b>
+  <span id="cnt"></span>
+  <button id="zm" aria-label="Rimpicciolisci">−</button><button id="zp" aria-label="Ingrandisci">+</button>
+  <a id="full" href="#" target="_top" hidden>Schermo intero ↗</a>
+  <a id="dl" class="pr" href="#" download>Scarica</a>
+</div>
+<div id="msg">Caricamento del documento…</div>
+<div id="pg"></div>
+<script src="lib/pdf.min.js"></script>
+<script>
+// Solo i documenti del progetto: il nome arriva da ?f= e deve stare in questo elenco
+const DOC={
+ 'Casa_Traversa_preventivo.pdf':'Preventivo e proposta di progetto'};
+const $=id=>document.getElementById(id);
+const qs=new URLSearchParams(location.search);let f=qs.get('f');if(!DOC[f])f='Casa_Traversa_preventivo.pdf';
+const url='../scarica/'+f;$('tit').textContent=DOC[f];$('dl').href=url;document.title=DOC[f]+' — Casa Traversa';
+if(qs.has('emb')){$('full').hidden=false;$('full').href=location.pathname+'?f='+encodeURIComponent(f);}
+pdfjsLib.GlobalWorkerOptions.workerSrc='lib/pdf.worker.min.js';
+let doc,zoom=1;const pages=[];
+const largh=()=>Math.min(1400,document.documentElement.clientWidth-24)*zoom;
+function layout(){for(const p of pages){const w=largh();p.el.style.width=w+'px';p.el.style.height=(w*p.r)+'px';p.done=0;}vedi();}
+async function disegna(p){if(p.busy||p.done===zoom)return;p.busy=1;
+ const pg=await doc.getPage(p.n);const w=largh(),v0=pg.getViewport({scale:1});const s=w/v0.width*Math.min(devicePixelRatio||1,2.5);
+ const vp=pg.getViewport({scale:s});const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;
+ await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;p.el.replaceChildren(c);p.done=zoom;p.busy=0;}
+const io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting)disegna(e.target._p);},{rootMargin:'600px 0px'});
+function vedi(){for(const p of pages){io.unobserve(p.el);io.observe(p.el);}}
+function conta(){const y=innerHeight/2;let k=1;for(const p of pages){const b=p.el.getBoundingClientRect();if(b.top<y)k=p.n;}$('cnt').textContent=k+' / '+pages.length;}
+pdfjsLib.getDocument(url).promise.then(async d=>{doc=d;$('msg').remove();
+ for(let n=1;n<=d.numPages;n++){const pg=await d.getPage(n);const v=pg.getViewport({scale:1});const el=document.createElement('div');el.className='pp';el.innerHTML='<i>Pagina '+n+'</i>';const p={n,el,r:v.height/v.width,done:0};el._p=p;pages.push(p);$('pg').append(el);}
+ layout();conta();}).catch(e=>{$('msg').textContent='Il documento non si è caricato. Usa «Scarica».';console.error(e);});
+$('zp').onclick=()=>{zoom=Math.min(3,zoom*1.5);layout();};$('zm').onclick=()=>{zoom=Math.max(1,zoom/1.5);layout();};
+addEventListener('scroll',conta,{passive:true});
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(layout,200);});
+</script>
+</body>
+</html>
