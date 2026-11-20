@@ -21,3 +21,10 @@
 
 /*.glb
   Content-Type: model/gltf-binary
+
+# Demo per pizzerie (/pizza/): fuori dai motori di ricerca; i font non cambiano mai
+/pizza/*
+  X-Robots-Tag: noindex, nofollow
+
+/pizza/font/*
+  Cache-Control: public, max-age=31536000, immutable

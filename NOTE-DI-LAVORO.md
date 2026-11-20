@@ -688,3 +688,31 @@ posti — piede delle pagine, informativa, JSON-LD (`legalName`, `vatID`,
 - I servizi pubblici di OSM hanno limiti d'uso pensati per traffico leggero. Se lo
   strumento comincia a girare molto, passare a un fornitore (MapTiler, Stadia,
   Geoapify) cambiando gli URL in `src/ground.js`, `src/geo.js`, `src/buildings.js`.
+
+---
+
+## Demo per pizzerie — `/pizza/` (20 novembre 2026)
+
+Prova reale per un cliente pizzeria, **non è un servizio di VISIO** e non è
+collegata al sito: niente link, `noindex` (meta e `X-Robots-Tag` in `_headers`),
+fuori da sitemap e `llms.txt`.
+
+- **Cosa fa**: il QR sul tavolo apre `visiorender.it/pizza/#tavolo-N`; il cliente
+  compone la pizza (che si disegna dal vivo), la invia e ne segue lo stato.
+  `#cucina` mostra le comande (da preparare / in forno / pronte), `#gestione` la
+  sala, le analisi e i cartellini QR in PDF. `/pizza/` senza hash è l'indice.
+- **Dati**: un Durable Object con SQLite (`worker/pizza.js`, classe `Pizzeria`,
+  binding `PIZZERIA` e migrazione `pizza-v1` in `wrangler.jsonc`). Le pagine
+  leggono `/api/pizza/stato` ogni 2,5 secondi. Il prezzo lo ricalcola il server:
+  **il listino sta in due posti** (`worker/pizza.js` e il blocco LISTINO in
+  `pizza/index.html`) e va cambiato in entrambi.
+- **PIN del personale**: se nel Worker c'è il segreto `PIZZA_PIN` (Cloudflare →
+  visio-studio → Settings → Variables and secrets), cucina e gestione lo chiedono.
+  Senza segreto sono aperte a chi conosce l'indirizzo: va bene per la prova, non
+  per l'uso vero.
+- **Immagini**: base e ingredienti sono rese procedurali (`strumenti/pizza-render.py`),
+  non foto. Font, libreria QR e jsPDF stanno in `pizza/` (nessuna richiesta a terzi).
+- **Per toglierla**: cancellare `pizza/`, `worker/pizza.js`, le righe in
+  `worker/index.js` e, in `wrangler.jsonc`, il binding; la migrazione resta e se ne
+  aggiunge una con `deleted_classes: ["Pizzeria"]`.
+
