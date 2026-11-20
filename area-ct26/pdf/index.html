@@ -40,7 +40,8 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sa
 <script>
 // Solo i documenti del progetto: il nome arriva da ?f= e deve stare in questo elenco
 const DOC={
- 'Casa_Traversa_preventivo.pdf':'Preventivo e proposta di progetto'};
+ 'Casa_Traversa_preventivo.pdf':'Preventivo e proposta di progetto',
+ 'Casa_Traversa_piante_ante_post.pdf':'Piante ante e post operam'};
 const $=id=>document.getElementById(id);
 const qs=new URLSearchParams(location.search);let f=qs.get('f');if(!DOC[f])f='Casa_Traversa_preventivo.pdf';
 const url='../scarica/'+f;$('tit').textContent=DOC[f];$('dl').href=url;document.title=DOC[f]+' — Casa Traversa';

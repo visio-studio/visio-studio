@@ -541,6 +541,12 @@ messo sul pavimento del modello. Tour 360: `area-ct26/3d/tour.html`, punti di vi
 nell'array `PUNTI` (coordinate del modello; il modello è ruotato di 180° rispetto alle
 piante del preventivo). Nel modello ci sono scritte 3D di SketchUp («cappotti», «LAV ASC»)
 che si vedono nel tour: vanno tolte in SketchUp e il GLB rigenerato.
+Piante ante e post operam (6 tavole A3 1:50, `scarica/Casa_Traversa_piante_ante_post.pdf`,
+anteprime in `area-ct26/tavole/`): ante dalla sezione del rilievo a 1,20 m, post dalla sezione
+del modello (muri riconosciuti come coppie di linee a 5-46 cm che proseguono a 2 m, perché
+nel modello i tag sono tutti vuoti), confronto col rilievo riscalato. Strumenti in
+`strumenti/polycam/` (orto.html, sezione.mjs, piante.py, tavole.py, fogli.py, pdf.js).
+Il modello è circa il 4-5 % più grande del rilievo: segnalato al cliente sulla pagina.
 Da fare: render nuovi della cucina (specchio fumé anticato al posto del pannello azzurro).
 
 Codice pubblico di esempio: **`visio`** → `/esempio` (Villa Ferrara), suggerito

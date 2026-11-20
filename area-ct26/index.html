@@ -146,6 +146,16 @@ ul.ll li span:last-child { white-space:nowrap;color:rgba(255,255,255,.55); }
 .pgrid figure { background:#fff;border:1px solid var(--border);padding:16px; }
 .pgrid img { width:100%;height:auto; }
 
+/* tavole ante e post operam */
+.tgr { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:40px; }
+.tgr a { display:block;background:#fff;border:1px solid var(--border);transition:border-color .3s; }
+.tgr a:hover { border-color:#7a5f30; }
+.tgr img { width:100%;aspect-ratio:420/297;object-fit:cover; }
+.tgr span { display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#5f5f5f;padding:10px 12px;border-top:1px solid var(--border); }
+.tnote { font-size:12px;color:#5f5f5f;line-height:1.8;margin-top:22px;max-width:760px; }
+.tnote b { color:var(--text);font-weight:500; }
+.tdl { display:inline-block;margin-top:18px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#7a5f30;border-bottom:1px solid #7a5f30;padding-bottom:3px; }
+@media(max-width:900px){ .tgr { grid-template-columns:1fr 1fr; } }
 /* offerta */
 #offerta { background:var(--dark2); }
 .otot { display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px; }
@@ -169,6 +179,9 @@ ul.ll li span:last-child { white-space:nowrap;color:rgba(255,255,255,.55); }
 
 /* PDF */
 #leggi { background:var(--dark3);padding-bottom:0; }
+.ptabs { display:flex;gap:8px;flex-wrap:wrap;margin-top:28px; }
+.ptabs button { font:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 16px;border:.5px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.8);cursor:pointer; }
+.ptabs button[aria-pressed="true"] { background:var(--gold);border-color:var(--gold);color:var(--dark); }
 #pbox { position:relative;margin-top:36px;height:min(860px,82vh);height:min(860px,82svh);border-top:.5px solid rgba(255,255,255,.08); }
 #pdff { position:absolute;inset:0;width:100%;height:100%;border:0;background:#0A0A0A; }
 
@@ -400,12 +413,24 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 <section id="piante" class="chiara">
   <div class="wrap">
     <p class="slab">Le piante</p>
-    <h2 class="st">Ogni voce <em>al suo posto</em>.</h2>
+    <h2 class="st">Le piante, <em>prima e dopo</em>.</h2>
     <p class="sd">Schemi ricavati dal modello di progetto, non in scala. Nel preventivo (pagina 3) le stesse piante portano le sigle di ogni voce.</p>
     <div class="pgrid">
       <figure><img src="img/pianta-terra.png" alt="Pianta del piano terra: ingresso, soggiorno, pranzo, cucina e scala" loading="lazy" width="1570" height="890"><figcaption>Piano terra · zona giorno</figcaption></figure>
       <figure><img src="img/pianta-camere.png" alt="Pianta del piano camere: camere A, B e C, i due bagni e la scala" loading="lazy" width="1180" height="910"><figcaption>Piano camere</figcaption></figure>
     </div>
+
+    <h3 class="vtit" style="color:var(--text)">Ante e post operam, <em style="color:#7a5f30">in scala 1:50</em></h3>
+    <p class="tnote">Sei tavole A3: la casa di oggi ricavata dal rilievo Polycam, il progetto ricavato dal modello SketchUp e il confronto fra i due, con le demolizioni in giallo e le nuove costruzioni in rosso. Al piano camere i muri restano quelli di oggi. <b>Da verificare:</b> nel modello le misure risultano circa il 4-5 % maggiori di quelle del rilievo (al piano terra 15,18 m contro 14,56 m di lunghezza interna rilevata), e il piano camere è a 3,58 m invece dei circa 3,20 m misurati; si confermano al rilievo, prima dei disegni esecutivi.</p>
+    <div class="tgr">
+      <a href="pdf/?f=Casa_Traversa_piante_ante_post.pdf"><img src="tavole/p01-terra-ante.jpg" alt="Tavola P01: piano terra, stato attuale dal rilievo" loading="lazy"><span>P01 · Piano terra, ante operam</span></a>
+      <a href="pdf/?f=Casa_Traversa_piante_ante_post.pdf"><img src="tavole/p02-terra-post.jpg" alt="Tavola P02: piano terra, progetto" loading="lazy"><span>P02 · Piano terra, post operam</span></a>
+      <a href="pdf/?f=Casa_Traversa_piante_ante_post.pdf"><img src="tavole/p03-terra-confronto.jpg" alt="Tavola P03: piano terra, demolizioni in giallo e nuove costruzioni in rosso" loading="lazy"><span>P03 · Piano terra, demolizioni e costruzioni</span></a>
+      <a href="pdf/?f=Casa_Traversa_piante_ante_post.pdf"><img src="tavole/p04-camere-ante.jpg" alt="Tavola P04: piano camere, stato attuale dal rilievo" loading="lazy"><span>P04 · Piano camere, ante operam</span></a>
+      <a href="pdf/?f=Casa_Traversa_piante_ante_post.pdf"><img src="tavole/p05-camere-post.jpg" alt="Tavola P05: piano camere, progetto con le camere A, B e C e i due bagni" loading="lazy"><span>P05 · Piano camere, post operam</span></a>
+      <a href="pdf/?f=Casa_Traversa_piante_ante_post.pdf"><img src="tavole/p06-camere-confronto.jpg" alt="Tavola P06: piano camere, confronto fra rilievo e progetto" loading="lazy"><span>P06 · Piano camere, confronto</span></a>
+    </div>
+    <a class="tdl" href="scarica/Casa_Traversa_piante_ante_post.pdf" target="_blank" rel="noopener">Scarica le tavole in PDF (A3, 5 MB)</a>
   </div>
 </section>
 
@@ -431,7 +456,8 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     <h2 class="st">Il preventivo, <em>da sfogliare qui</em>.</h2>
     <p class="sd">Ventinove pagine: la lettera, le piante con le voci, le tavole dei materiali, il computo voce per voce, il riepilogo e le condizioni da firmare.</p>
   </div>
-  <div id="pbox"><iframe id="pdff" title="Preventivo di Casa Traversa" loading="lazy"></iframe></div>
+  <div class="wrap"><div class="ptabs" id="ptabs"><button type="button" data-f="Casa_Traversa_preventivo.pdf" aria-pressed="true">Preventivo</button><button type="button" data-f="Casa_Traversa_piante_ante_post.pdf" aria-pressed="false">Piante ante e post operam</button></div></div>
+  <div id="pbox"><iframe id="pdff" title="Documenti di Casa Traversa" loading="lazy"></iframe></div>
 </section>
 
 <section id="doc">
@@ -450,6 +476,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       <div class="files">
         <h3 class="sub">File del progetto</h3>
         <a href="scarica/Casa_Traversa_preventivo.pdf" target="_blank" rel="noopener"><b>Preventivo e proposta di progetto</b><span>PDF · 29 pagine · 6 MB</span></a>
+        <a href="scarica/Casa_Traversa_piante_ante_post.pdf" target="_blank" rel="noopener"><b>Piante ante e post operam</b><span>PDF · 6 tavole A3 in scala 1:50</span></a>
         <a href="3d/"><b>Modello 3D nel browser</b><span>progetto SketchUp e rilievo Polycam</span></a>
         <a href="3d/tour.html"><b>Tour 360</b><span>dentro il progetto, stanza per stanza</span></a>
         <a href="#offerta"><b>Componi l'offerta</b><span>voci da togliere e da aggiungere</span></a>
@@ -496,7 +523,9 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
  addEventListener('scroll',vicino,{passive:true});
  box.querySelector('.m3cta a').addEventListener('click',e=>{if(innerWidth>640){e.preventDefault();avvia();}});})();
 // Lettore PDF: caricato solo vicino alla sezione
-(function(){const fr=document.getElementById('pdff');const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting||e.boundingClientRect.top<0)){io.disconnect();fr.src='pdf/?emb&f=Casa_Traversa_preventivo.pdf';}},{rootMargin:'400px 0px'});io.observe(fr);})();
+(function(){const fr=document.getElementById('pdff');const bs=[...document.querySelectorAll('#ptabs button')];
+ const vai=f=>{fr.src='pdf/?emb&f='+encodeURIComponent(f);bs.forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===f));};bs.forEach(b=>b.onclick=()=>vai(b.dataset.f));
+ const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting||e.boundingClientRect.top<0)){io.disconnect();vai('Casa_Traversa_preventivo.pdf');}},{rootMargin:'400px 0px'});io.observe(fr);})();
 // Confronto bordeaux / verde
 (function(){const r=document.getElementById('ba-r'),t=document.getElementById('ba-top'),l=document.getElementById('ba-line');
  function set(v){t.style.clipPath='inset(0 '+(100-v)+'% 0 0)';l.style.left=v+'%';}r.addEventListener('input',()=>set(r.value));set(r.value);})();
