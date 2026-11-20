@@ -11,5 +11,9 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/*"]
   },
+  // Demo per pizzerie (/pizza/): un Durable Object con SQLite tiene ordini e chiamate.
+  // Le classi SQLite sono comprese nel piano gratuito; la migrazione la applica "wrangler deploy".
+  "durable_objects": { "bindings": [ { "name": "PIZZERIA", "class_name": "Pizzeria" } ] },
+  "migrations": [ { "tag": "pizza-v1", "new_sqlite_classes": ["Pizzeria"] } ],
   "observability": { "enabled": true }
 }

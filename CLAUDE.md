@@ -38,6 +38,7 @@ Aggiornalo quando cambia qualcosa di strutturale.
 - `_headers` — intestazioni degli asset Cloudflare: sicurezza, cache lunga e `immutable` su sequenze di fotogrammi e font, tipi USDZ/GLB. Se si aggiunge o rigenera una sequenza, aggiornare la regola qui.
 - `wrangler.jsonc`, `.assetsignore`, `worker/index.js`, `worker/modulo.js` — configurazione del Worker, file esclusi dalla pubblicazione, instradamento di `/api/*` e invio dei moduli per email (vedi sopra).
 - `netlify.toml` — vecchia configurazione Netlify, non più usata.
+- `pizza/` + `worker/pizza.js` — demo di ordini dal tavolo per un cliente pizzeria (`visiorender.it/pizza/`, `noindex`, non collegata al sito). Ordini in un Durable Object (`PIZZERIA` in `wrangler.jsonc`); dettagli in `NOTE-DI-LAVORO.md`, ultima sezione.
 - `robots.txt`, `sitemap.xml`, `llms.txt` — file per l'indicizzazione da parte di motori di ricerca e crawler AI (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, ecc.). Se cambia l'URL del sito o l'elenco dei servizi, aggiornali insieme a `index.html`.
 
 ## SEO / ottimizzazione per motori AI (GEO)
