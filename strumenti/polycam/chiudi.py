@@ -36,3 +36,39 @@ def chiudi(sc,lati=4,log=print):
         bm.free()
     log('facce richiuse',tot)
     return tot
+
+# scritte 3D di SketchUp (etichette dei mobili) che nel render si vedono come lettere in rilievo
+ETICHETTE={'anta tecnic','appenderia cappo','cappotti','carr estr','estr','ANT','CASS','ASSE  STIRO','CESTONI  PANNI','LAV ASC','PANNI SPORCHI','ribalta','ribalta#1'}
+def etichette(sc,log=print):
+    via=[o for o in sc.objects if o.name.split('.')[0] in ETICHETTE]
+    for o in via:bpy.data.objects.remove(o,do_unlink=True)
+    log('etichette tolte',len(via))
+
+# scala del piano terra: ogni gradino è un blocco con la faccia di sopra rovesciata e triangolata male (triangoli
+# sovrapposti = pedate nere, buchi = si vede il cielo). Si rifà la pedata: un poligono pulito per gradino, verso l'alto,
+# nella pietra del pavimento
+def scala(sc,log=print):
+    import collections
+    from mathutils.geometry import convex_hull_2d
+    ob=bpy.data.objects.get('Gruppo#15')
+    if not ob:return
+    me=ob.data;M=ob.matrix_world;Mi=M.inverted()
+    mat=bpy.data.materials.get('Material_119')
+    if mat.name not in [s.material.name for s in ob.material_slots if s.material]:me.materials.append(mat)
+    mi=[s.material.name if s.material else '' for s in ob.material_slots].index(mat.name)
+    bm=bmesh.new();bm.from_mesh(me);bm.faces.ensure_lookup_table()
+    G=collections.defaultdict(list)
+    for f in bm.faces:
+        c=M@f.calc_center_median();n=(M.to_3x3()@f.normal).normalized()
+        if 12.2<c.x<13.545 and -3.4<-c.y<-0.85 and 0.65<c.z<1.5 and n.z<-0.99:G[round(c.z,3)].append(f)
+    via=[];nuove=0
+    for h,fs in sorted(G.items()):
+        pts=[(M@v.co) for f in fs for v in f.verts];pts=[p for p in pts if p.x<13.545]
+        p2=[(p.x,p.y) for p in pts];idx=convex_hull_2d(p2)
+        if len(idx)<3:continue
+        vs=[bm.verts.new(Mi@Vector((p2[i][0],p2[i][1],h+0.0005))) for i in idx]
+        f=bm.faces.new(vs);f.normal_update()
+        if (M.to_3x3()@f.normal).z<0:f.normal_flip()
+        f.material_index=mi;via+=fs;nuove+=1
+    bmesh.ops.delete(bm,geom=list(set(via)),context='FACES');bm.to_mesh(me);bm.free()
+    log('pedate rifatte',nuove)

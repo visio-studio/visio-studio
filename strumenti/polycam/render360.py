@@ -8,6 +8,7 @@ PUNTI=json.load(open(sys.argv[6]))
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=glb)
 sc=bpy.context.scene
+import os;sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)));import chiudi;chiudi.scala(sc,lambda *a:print(*a,flush=True))
 # facce gemelle di SketchUp: fronte col materiale vero e retro col bianco predefinito nello stesso punto, rivolte in
 # versi opposti. In Cycles si fanno ombra a vicenda (pavimenti e mobili neri): si tolgono i retri bianchi dove dall'altra
 # parte c'è un materiale vero
@@ -50,7 +51,7 @@ for ob in [o for o in sc.objects if o.type=='MESH']:
     for p_ in me.polygons:p_.use_smooth=False
 print('retri bianchi tolti',tolte,flush=True)
 # facce perse nell'esportazione (mobili con l'interno nero a vista): si richiudono i contorni aperti
-import os;sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)));import chiudi;chiudi.chiudi(sc,4,lambda *a:print(*a,flush=True))
+import os;sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)));import chiudi;chiudi.etichette(sc,lambda *a:print(*a,flush=True));chiudi.chiudi(sc,4,lambda *a:print(*a,flush=True))
 # da coordinate del modello (x, y su, z) a Blender (x, -z, y)
 B=lambda x,y,z:Vector((x,-z,y))
 # soffitto del piano camere (il modello non ha il tetto)
