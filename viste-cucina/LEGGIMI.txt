@@ -1,0 +1,8 @@
+Viste della cucina renderizzate dal modello SketchUp TRAVERSA DEFINITIVO (Blender Cycles).
+Da rendere fotorealistiche con Gemini SENZA cambiare il progetto:
+- pensili sopra il lavello: tre ante bianche, divise come le basi sotto;
+- basi tortora con lavello e piano cottura, colonne forno in legno scuro doghettato;
+- isola con piano in pietra chiara e fronte doghettato (doghe verticali);
+- pannello sulla parete di destra (visibile in cucina-2) = SPECCHIO FUME' ANTICATO, non parete colorata;
+- la striscia bianca sotto i pensili è una luce LED sottopensile: renderla come luce calda morbida, non come pannello bianco pieno.
+Non aggiungere né togliere mobili, non spostare le divisioni delle ante.
