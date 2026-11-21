@@ -49,6 +49,8 @@ for ob in [o for o in sc.objects if o.type=='MESH']:
         bmesh.ops.delete(bm,geom=[bm.faces[i] for i in set(via)],context='FACES');bm.to_mesh(me);bm.free();tolte+=len(set(via))
     for p_ in me.polygons:p_.use_smooth=False
 print('retri bianchi tolti',tolte,flush=True)
+# facce perse nell'esportazione (mobili con l'interno nero a vista): si richiudono i contorni aperti
+import os;sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)));import chiudi;chiudi.chiudi(sc,4,lambda *a:print(*a,flush=True))
 # da coordinate del modello (x, y su, z) a Blender (x, -z, y)
 B=lambda x,y,z:Vector((x,-z,y))
 # soffitto del piano camere (il modello non ha il tetto)
