@@ -25,7 +25,7 @@ const json = (dati, stato = 200) => new Response(JSON.stringify(dati), {
 const errore = (msg, stato = 400) => json({ ok: false, errore: msg }, stato);
 const testo = (v, max) => String(v == null ? '' : v).replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, max);
 const listaIng = a => Array.isArray(a) ? ORDINE_ING.filter(i => a.includes(i)) : [];
-const prezzo = (v, d) => { const n = Number(v); return Number.isFinite(n) && n >= 0 && n <= 500 ? r2(n) : d; };
+const prezzo = (v, d) => { if (v == null || v === '') return d; const n = Number(v); return Number.isFinite(n) && n >= 0 && n <= 500 ? r2(n) : d; };
 const tavoloValido = t => { const n = Math.floor(Number(t)); return n >= 1 && n <= 60 ? n : 0; };
 const eur = v => v.toLocaleString('it-IT', { style: 'currency', currency: 'EUR' });
 const escH = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
