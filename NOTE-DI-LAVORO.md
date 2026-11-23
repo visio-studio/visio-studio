@@ -549,6 +549,25 @@ nel modello i tag sono tutti vuoti), confronto col rilievo riscalato. Strumenti 
 Il modello è circa il 4-5 % più grande del rilievo: segnalato al cliente sulla pagina.
 Da fare: render nuovi della cucina (specchio fumé anticato al posto del pannello azzurro).
 
+**Progetto Mario** (23 novembre 2026) → `/area-mr26`, codice **`Mario26`** (i codici
+sono senza maiuscole: va bene anche `mario26`). Pagina snella: modello 3D in pagina,
+anteprime dall'alto, confronto oggi/domani; niente preventivo né render per ora.
+Sorgente: `curigliano daniel.skp` (380 MB, sul Desktop, non nel repo) con più varianti
+vecchie, una planimetria 2D importata (il DWG «Rilievo stato attuale») e la variante
+definitiva, riconoscibile dalla scritta 3D «definitivo» (un componente con quel nome)
+appoggiata accanto. Per trovarla: `strumenti/polycam/skp-radici.mjs` elenca gli oggetti
+di primo livello con l'ingombro; la definitiva è il blocco a x −181…−160, z −34…−13.
+Esportata con `skp-esporta.mjs file.skp radici.json out.glb -181 -160 -34 -13 definitivo`
+(toglie anche la geometria libera del livello principale, che è delle altre varianti),
+poi `strip-uv.mjs` **senza togliere le normali** (con le normali da ricalcolare il browser
+si bloccava per minuti su un blocco da 300 mila triangoli) e `gltf-transform optimize`
+come per Casa Traversa → `area-mr26/3d/progetto.glb`, 18 MB.
+Rilievo: due catture Polycam scaricate in DAE e convertite con `converti.py` in `sa`
+(appartamento intero col terrazzo) e `sb` (terrazzo e locale accanto); non sono allineate
+al modello né fra loro. Anteprime in `area-mr26/img/`, catturate dal visore con `?nui`
+(che abilita `preserveDrawingBuffer` per leggere il canvas).
+Da fare: allineare il rilievo al modello (`allinea.py`), render, piante quotate.
+
 Codice pubblico di esempio: **`visio`** → `/esempio` (Villa Ferrara), suggerito
 in chiaro nel menu stesso.
 

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Modello 3D — Progetto Mario · VISIO Studio</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+/* Progetto Mario: modello SketchUp definitivo e due scansioni Polycam separate, una alla volta */
+:root{--bg:#0A0A0A;--panel:rgba(14,14,14,.86);--ink:#fff;--muted:#8a8a8a;--accent:#C9A96E;--on-accent:#0A0A0A;--line:rgba(255,255,255,.12);--sans:'Inter',sans-serif;color-scheme:dark}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans);overflow:hidden}
+[hidden]{display:none!important}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;outline:none;touch-action:none}
+.panel{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));top:calc(16px + env(safe-area-inset-top,0px));width:280px;max-height:calc(100% - 110px);overflow:auto;background:var(--panel);border:1px solid var(--line);padding:14px 16px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.k{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin:0 0 4px}
+h1{font:300 26px/1.1 'Cormorant Garamond',serif;margin:0 0 4px}
+.sub{color:var(--muted);font-size:12px;margin:0 0 4px}
+.grp{margin:12px 0 0}.grp>span{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+button{font:inherit;font-size:12.5px;padding:6px 11px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+#info{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));pointer-events:none;display:flex}
+#info>div{background:var(--panel);border:1px solid var(--line);padding:8px 12px;font-size:12.5px;max-width:100%}
+a.back{color:var(--accent);text-decoration:none;font-size:12px}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+#tg{display:none;flex:none;margin-top:2px}
+.panel.chiuso .pb{display:none}
+.emb #tg{display:inline-block}
+@media (max-width:640px){.panel{left:calc(10px + env(safe-area-inset-left,0px));right:calc(10px + env(safe-area-inset-right,0px));top:calc(10px + env(safe-area-inset-top,0px));width:auto;max-height:50%;padding:10px 12px}#tg{display:inline-block}h1{font-size:20px;margin:0}.sub{display:none}#info{left:calc(10px + env(safe-area-inset-left,0px));right:calc(10px + env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px))}#info>div{font-size:12px;padding:6px 10px}}
+</style>
+</head>
+<body>
+<main>
+<canvas id="c" tabindex="0" aria-label="Modello 3D navigabile della casa: progetto e rilievo dello stato attuale"></canvas>
+<div class="panel" id="pn">
+  <div class="ph"><div><a class="back" href="../">← Torna al progetto</a>
+  <p class="k">Progetto Mario · 3D</p>
+  <h1 id="tit">Il progetto in 3D</h1></div><button id="tg" aria-expanded="true" aria-controls="pb">Viste</button></div>
+  <div class="pb" id="pb">
+  <p class="sub" id="sub">Il modello SketchUp definitivo e le due scansioni Polycam dello stato attuale, in scala reale. Le misure si confermano al rilievo.</p>
+  <div class="grp"><span>Progetto</span><div class="seg"><button data-s="pg" aria-pressed="true" id="bPg">Modello SketchUp</button></div></div>
+  <div class="grp" id="gPiani"><span>Pianta</span><div class="seg"><button id="pT" aria-pressed="false">Senza soffitto</button><button id="pTutto" aria-pressed="true">Tutto</button></div></div>
+  <div class="grp"><span>Rilievo di oggi (Polycam)</span><div class="seg" id="sel"><button data-s="sa" aria-pressed="false">Appartamento</button><button data-s="sb" aria-pressed="false">Terrazzo e locale</button></div></div>
+  <div class="grp"><span>Vista</span><div class="seg"><button id="v3" aria-pressed="true">3D</button><button id="vT" aria-pressed="false">Dall'alto</button></div></div>
+  <div class="grp"><span>Taglio in altezza: <b id="cutv">tutto</b></span><input id="cut" type="range" min="0.6" max="7" step="0.05" value="7" aria-label="Altezza del taglio orizzontale"></div>
+  </div>
+</div>
+<div id="info"><div id="msg">Caricamento del rilievo…</div></div>
+<script type="importmap">{"imports":{"three":"./lib/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from './lib/OrbitControls.js';
+const $=id=>document.getElementById(id);
+const qs=new URLSearchParams(location.search);const TOUCH=matchMedia('(pointer:coarse)').matches;
+const HINT=TOUCH?'Un dito per ruotare · due dita per zoom e spostamento':'Trascina per ruotare · rotella per lo zoom · tasto destro per spostare';
+if(qs.has('emb')){document.documentElement.classList.add('emb');const b=document.querySelector('.back');b.textContent='Apri a schermo intero ↗';b.href=location.pathname;b.target='_top';}
+const pn=$('pn'),tg=$('tg');const chiudi=c=>{pn.classList.toggle('chiuso',c);tg.setAttribute('aria-expanded',!c);tg.textContent=c?'Viste':'Chiudi';};
+tg.onclick=()=>chiudi(!pn.classList.contains('chiuso'));chiudi(innerWidth<=640);
+const cv=$('c');const r=new THREE.WebGLRenderer({canvas:cv,antialias:true,preserveDrawingBuffer:qs.has('nui')});r.setPixelRatio(Math.min(devicePixelRatio,2));r.localClippingEnabled=true;
+if('outputColorSpace' in r)r.outputColorSpace=THREE.SRGBColorSpace;
+const sc=new THREE.Scene();sc.background=new THREE.Color(0x121212);
+// luci solo per il modello di progetto (le scansioni hanno materiali che non le usano)
+sc.add(new THREE.HemisphereLight(0xffffff,0x6a6258,1.7));const sole=new THREE.DirectionalLight(0xfff4e6,1.5);sole.position.set(6,12,8);sc.add(sole);
+const cam=new THREE.PerspectiveCamera(45,1,0.05,300);const ctl=new OrbitControls(cam,cv);ctl.enableDamping=true;ctl.maxPolarAngle=Math.PI*0.62;
+const clip=new THREE.Plane(new THREE.Vector3(0,-1,0),7);
+let dirty=true;const kick=()=>dirty=true;ctl.addEventListener('change',kick);
+function size(){const w=innerWidth,h=innerHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();kick();}addEventListener('resize',size);size();
+// ogni scansione: json con i blocchi, bin con posizioni e uv a 16 bit, una texture per blocco
+const CACHE={};let cur=null,M=null,top=false;
+// modello SketchUp: GLB compresso (meshopt); le normali si ricalcolano qui tenendo gli spigoli vivi
+async function caricaProgetto(){const [{GLTFLoader},{MeshoptDecoder},{toCreasedNormals}]=await Promise.all([import('./lib/loaders/GLTFLoader.js'),import('./lib/libs/meshopt_decoder.module.js'),import('./lib/utils/BufferGeometryUtils.js')]);
+ const g=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('progetto.glb');const root=g.scene;
+ root.traverse(o=>{if(!o.isMesh)return;if(!o.geometry.attributes.normal)o.geometry=toCreasedNormals(o.geometry,Math.PI/6);
+  (Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{mt.side=THREE.DoubleSide;mt.clippingPlanes=[clip];});});
+ const bb=new THREE.Box3().setFromObject(root);const c=bb.getCenter(new THREE.Vector3());root.position.set(-c.x,-bb.min.y,-c.z);
+ const gr=new THREE.Group();gr.add(root);const h=bb.max.y-bb.min.y;
+ return {g:gr,root,m:{min:[bb.min.x-c.x,0,bb.min.z-c.z],max:[bb.max.x-c.x,h,bb.max.z-c.z]}};}
+async function carica(n){if(n==='pg')return caricaProgetto();const m=await (await fetch(n+'.json')).json();const buf=await (await fetch(m.bin)).arrayBuffer();
+ const g0=new THREE.Group();const tl=new THREE.TextureLoader();const ps=[];
+ for(const e of m.mesh){const q=new Uint16Array(buf,e.pos,e.nv*3),u=new Uint16Array(buf,e.uv,e.nv*2),idx=new Uint16Array(buf,e.idx,e.ni);
+  const P=new Float32Array(e.nv*3);for(let k=0;k<P.length;k++){const a=k%3;P[k]=e.min[a]+q[k]/65535*(e.max[a]-e.min[a]);}
+  const U=new Float32Array(e.nv*2);for(let k=0;k<U.length;k++)U[k]=u[k]/65535;
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(P,3));g.setAttribute('uv',new THREE.BufferAttribute(U,2));g.setIndex(new THREE.BufferAttribute(idx,1));
+  ps.push(new Promise(res=>{const t=tl.load(e.tex,()=>{kick();res();},undefined,res);if('colorSpace' in t)t.colorSpace=THREE.SRGBColorSpace;t.flipY=false;
+   g0.add(new THREE.Mesh(g,new THREE.MeshBasicMaterial({map:t,side:THREE.DoubleSide,clippingPlanes:[clip]})));}));}
+ await Promise.all(ps);return {g:g0,m};}
+function inquadra(){const mn=M.min,mx=M.max,cx=(mn[0]+mx[0])/2,cz=(mn[2]+mx[2])/2,sx=mx[0]-mn[0],sz=mx[2]-mn[2],sy=mx[1]-mn[1];
+ const t=Math.tan(cam.fov*Math.PI/360),a=cam.aspect,lungoZ=sz>sx;
+ if(top){// il lato lungo va in orizzontale sullo schermo
+  const W=lungoZ?sz:sx,H=lungoZ?sx:sz;const d=Math.max(H/2,W/2/a)/t*1.12+Math.min(sy,clip.constant);
+  ctl.target.set(cx,0,cz);cam.position.set(cx+(lungoZ?0.001:0),d,cz+(lungoZ?0:0.001));}
+ else{const intera=false,hy=intera?sy:Math.min(sy,clip.constant);// la scala si guarda di lato, i piani dall'alto in diagonale
+  const R=Math.hypot(sx,sz,hy)/2;const d=R/Math.min(t,t*a)*(intera?0.95:(a<1?0.95:0.72));
+  const az=lungoZ?0.95:0.55,el=intera?0.22:0.66;ctl.target.set(cx,mn[1]+hy*(intera?0.5:0.3),cz);
+  cam.position.set(cx+d*Math.cos(el)*Math.sin(az),ctl.target.y+d*Math.sin(el),cz+d*Math.cos(el)*Math.cos(az));}
+ ctl.update();kick();}
+let curN='pg';async function mostra(n){curN=n;document.querySelectorAll('#sel button,#bPg').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===n));
+ $('msg').textContent=n==='pg'?'Caricamento del modello di progetto (18 MB)…':'Caricamento del rilievo…';
+ try{if(!CACHE[n])CACHE[n]=carica(n);const s=await CACHE[n];if(cur)sc.remove(cur);cur=s.g;M=s.m;sc.add(cur);
+  const alto=M.max[1];$('cut').max=Math.ceil(alto*20)/20;$('cut').value=n==='pg'&&!top?$('cut').max:(n==='pg'?2.6:(top?2.2:2.3));taglia();piani();inquadra();$('msg').textContent=HINT;}
+ catch(e){$('msg').textContent='Rilievo non disponibile';}}
+function taglia(){const v=+$('cut').value,tutto=!M||v>=M.max[1]-0.01;clip.constant=tutto?99:v;$('cutv').textContent=tutto?'tutto':v.toFixed(2).replace('.',',')+' m';kick();if(typeof piani==='function')piani();}
+function piani(){const pg=M&&cur&&$('bPg').getAttribute('aria-pressed')==='true';$('gPiani').hidden=!pg;const v=+$('cut').value,tutto=v>=+$('cut').max-0.01;
+ $('pT').setAttribute('aria-pressed',pg&&!tutto&&Math.abs(v-2.6)<0.01);$('pTutto').setAttribute('aria-pressed',pg&&tutto);}
+$('cut').oninput=()=>{taglia();piani();};
+$('pT').onclick=()=>{$('cut').value=2.6;taglia();piani();};
+$('pTutto').onclick=()=>{$('cut').value=$('cut').max;taglia();piani();};
+document.querySelectorAll('#sel button,#bPg').forEach(b=>b.onclick=()=>mostra(b.dataset.s));
+$('v3').onclick=()=>{top=false;$('v3').setAttribute('aria-pressed',true);$('vT').setAttribute('aria-pressed',false);inquadra();};
+$('vT').onclick=()=>{top=true;$('vT').setAttribute('aria-pressed',true);$('v3').setAttribute('aria-pressed',false);if(+$('cut').value>2.4){$('cut').value=2.2;taglia();}inquadra();};
+(function loop(){requestAnimationFrame(loop);if(ctl.update())dirty=true;if(dirty){r.render(sc,cam);dirty=false;}})();
+const s0=qs.get('s');await mostra(['pg','sa','sb'].includes(s0)?s0:'pg');
+if(qs.has('top'))$('vT').click();
+// parametri per le immagini di anteprima: ?nui nasconde i pannelli, ?cut=2.2 taglia
+if(qs.has('nui'))for(const e of document.querySelectorAll('.panel,#info'))e.hidden=true;
+if(qs.get('cut')){$('cut').value=qs.get('cut');taglia();}
+document.title=document.title;window.PRONTO=true;
+</script>
+</main>
+</body>
+</html>

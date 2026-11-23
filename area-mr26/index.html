@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Progetto Mario — Il vostro progetto · VISIO Studio</title>
+<meta name="description" content="Progetto Mario: il modello 3D del progetto definitivo e il rilievo Polycam della casa com'è oggi.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/font/visio.css">
+<style>
+:root { --gold:#C9A96E; --dark:#0A0A0A; --dark2:#0F0F0F; --dark3:#141414; --light:#FAFAF8; --text:#1A1A1A; --border:#E0DDD8; }
+* { margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased; }
+html { scroll-behavior:smooth;overflow-x:clip;max-width:100%; }
+body { background:var(--dark);color:#fff;font-family:'Inter',sans-serif;font-weight:300;overflow-x:clip; }
+a { color:inherit;text-decoration:none; }
+.serif { font-family:'Cormorant Garamond',serif; }
+img { display:block;max-width:100%; }
+a:focus-visible,button:focus-visible,input:focus-visible+span { outline:2px solid var(--gold);outline-offset:3px; }
+
+/* navbar */
+#pnav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(10,10,10,.8);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:.5px solid rgba(255,255,255,.07); }
+#pnav .pn-name { font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:4px; }
+#pnav .pn-by { display:flex;align-items:center;gap:11px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.55);transition:color .3s; }
+#pnav .pn-by:hover { color:rgba(255,255,255,.85); }
+#pnav .nl-logo { height:20px;width:auto;display:block; }
+#pnav .nl-logo > * { fill:none;stroke:rgba(255,255,255,.6);stroke-width:8;stroke-linejoin:round;transition:stroke .3s; }
+#pnav .pn-by:hover .nl-logo > * { stroke:var(--gold); }
+
+/* copertina */
+#hero { position:relative;height:100vh;height:100svh;min-height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center; }
+#hero img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+#hero::after { content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.6),rgba(10,10,10,.25) 45%,rgba(10,10,10,.85)); }
+.hero-in { position:relative;z-index:2;padding:0 24px; }
+.hero-in p.k { font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px; }
+.hero-in h1 { font-family:'Cormorant Garamond',serif;font-size:clamp(42px,8vw,86px);font-weight:300;line-height:1.02;letter-spacing:2px; }
+.hero-in p.s { font-size:12px;color:rgba(255,255,255,.75);margin-top:16px;letter-spacing:1px; }
+.hero-scroll { position:absolute;bottom:34px;left:0;right:0;z-index:2;text-align:center;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55); }
+
+/* sezioni */
+section { padding:96px 40px; }
+.wrap { max-width:1060px;margin:0 auto; }
+.slab { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px; }
+h2.st { font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4.4vw,46px);font-weight:300;line-height:1.1;margin-bottom:18px; }
+h2.st em { font-style:italic;color:var(--gold); }
+p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:600px; }
+.chiara { background:var(--light);color:var(--text); }
+.chiara .slab,.chiara h2.st em { color:#7a5f30; }
+.chiara p.sd { color:#5f5f5f; }
+
+
+/* rilievo 3D */
+#rilievo { background:var(--dark);padding-bottom:0; }
+#m3box { position:relative;margin-top:44px;height:min(720px,78vh);height:min(720px,78svh);overflow:hidden;border-top:.5px solid rgba(255,255,255,.08);background:#121212; }
+#m3box > img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+#m3f { position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#121212; }
+#m3tap { position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:22%;background:transparent;border:0;cursor:pointer;font:inherit; }
+#m3tap span { font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,10,.82);border:.5px solid var(--gold);padding:13px 22px; }
+#m3fine { position:absolute;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:2;font:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,10,.85);border:.5px solid var(--gold);padding:10px 14px;cursor:pointer; }
+.m3cta { position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(10,10,10,.1),rgba(10,10,10,.6)); }
+.m3cta p { font-size:11px;color:rgba(255,255,255,.8);text-align:center;padding:0 20px; }
+.m3bar { margin-top:18px;font-size:11px;color:rgba(255,255,255,.55);line-height:1.8; }
+.m3bar a { color:var(--gold); }
+.vgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:28px;padding-bottom:96px; }
+.vgrid img { width:100%;aspect-ratio:4/3;object-fit:cover;background:#121212; }
+figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);padding:10px 0 4px;line-height:1.6; }
+.chiara figcaption { color:#5f5f5f; }
+
+/* tour 360 */
+
+/* oggi e domani */
+.pair { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:40px; }
+.pair img { width:100%;aspect-ratio:4/3;object-fit:cover;background:#121212; }
+
+/* chiusura */
+#fine { background:var(--dark2);text-align:center;border-top:.5px solid rgba(255,255,255,.08); }
+#fine h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:300;margin-bottom:14px; }
+#fine h2 em { font-style:italic;color:var(--gold); }
+#fine p { font-size:12px;color:rgba(255,255,255,.62);line-height:1.9;max-width:460px;margin:0 auto 28px; }
+.btn { display:inline-block;border:.5px solid var(--gold);color:var(--gold);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:15px 34px;transition:background .3s,color .3s;background:rgba(10,10,10,.6); }
+.btn:hover { background:var(--gold);color:var(--dark); }
+footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.55); }
+
+@media(max-width:900px){
+  section { padding:64px 20px; }
+  #pnav { padding:14px 20px; }
+  .vgrid,.pair { grid-template-columns:1fr; }
+  .vgrid { padding-bottom:64px; }
+  footer { padding:20px;justify-content:center;text-align:center; }
+}
+</style>
+</head>
+<body>
+<nav id="pnav">
+  <span class="pn-name serif">PROGETTO MARIO</span>
+  <a href="/" class="pn-by" aria-label="a cura di VISIO Studio — vai al sito">a cura di
+    <svg class="nl-logo" viewBox="262 177 366 188" xmlns="http://www.w3.org/2000/svg" aria-label="VISIO">
+      <polygon points="330.86 351.03 309.45 351.03 273.78 187.16 302.65 188.05 336.67 345.49 330.86 351.03"/>
+      <polygon points="372.84 310.98 372.84 187.16 344.16 187.16 344.16 338.34 372.84 310.98"/>
+      <polygon points="351.46 351.13 372.84 351.4 372.84 330.72 351.46 351.13"/>
+      <polyline points="415.49 215.83 415.49 215.83 415.49 269.8 386.12 298.03 386.12 187.16 467.94 187.16 467.94 215.83 415.49 215.83"/>
+      <polyline points="438.57 322.36 438.57 268.19 467.94 240.04 467.94 351.03 386.12 351.03 386.12 322.36 438.57 322.36"/>
+      <polygon points="502.59 187.16 484.77 187.16 484.77 204.16 502.59 187.16"/>
+      <polygon points="513.44 196.54 513.44 351.4 484.77 351.03 484.77 223.9 513.44 196.54"/>
+      <polyline points="562.86 215.83 562.86 215.83 562.86 302.72 533.49 330.39 533.49 187.16 615.31 187.16 586.57 215.83 562.86 215.83"/>
+      <polyline points="585.94 323.99 585.94 323.99 585.94 237.33 615.31 209.54 615.31 352.66 533.49 352.66 562.29 323.99 585.94 323.99"/>
+    </svg></a>
+</nav>
+
+<main>
+
+<header id="hero">
+  <img src="img/progetto-3d.jpg" alt="Il modello 3D del progetto: la casa vista dall'alto in diagonale, con le stanze arredate e il terrazzo con la pergola">
+  <div class="hero-in">
+    <p class="k">Proposta di progetto</p>
+    <h1 class="serif">Progetto Mario</h1>
+    <p class="s">Il progetto definitivo in 3D e il rilievo della casa com'è oggi</p>
+  </div>
+  <p class="hero-scroll">Scorri per vedere il progetto ↓</p>
+</header>
+
+<section id="rilievo">
+  <div class="wrap">
+    <p class="slab">Modello 3D · progetto e rilievo</p>
+    <h2 class="st">La casa <em>in 3D</em>, com'è oggi e come sarà.</h2>
+    <p class="sd">Si apre sul modello SketchUp della versione definitiva del progetto, con le stanze, gli arredi e il terrazzo con la pergola: si gira, si guarda dall'alto e si toglie il soffitto con il taglio in altezza. Nello stesso pannello ci sono le due scansioni Polycam fatte in casa, cioè la casa com'è oggi: l'appartamento con il terrazzo e il terrazzo con il locale accanto. Le misure definitive si confermano al rilievo.</p>
+  </div>
+  <div id="m3box">
+    <img src="img/progetto-alto.jpg" alt="Il modello 3D del progetto visto dall'alto, tagliato sotto il soffitto: le stanze arredate e il terrazzo" loading="lazy">
+    <div class="m3cta">
+      <a class="btn" href="3d/">Apri il modello 3D</a>
+      <p>Il modello si carica qui quando arrivi a questa sezione (circa 18 MB).</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="m3bar">Progetto e rilievo di oggi si scelgono nel pannello del modello. <a href="3d/">Apri a schermo intero ↗</a></p>
+    <div class="vgrid">
+      <figure><a href="3d/?top"><img src="img/progetto-alto.jpg" alt="Pianta del progetto definitivo ricavata dal modello 3D, tagliata sotto il soffitto" loading="lazy"></a><figcaption>Il progetto, dall'alto</figcaption></figure>
+      <figure><a href="3d/?s=sa&amp;top"><img src="img/rilievo-alto.jpg" alt="Pianta dell'appartamento com'è oggi, ricavata dalla scansione Polycam" loading="lazy"></a><figcaption>L'appartamento oggi, dall'alto</figcaption></figure>
+      <figure><a href="3d/?s=sb&amp;top"><img src="img/terrazzo-alto.jpg" alt="Il terrazzo e il locale accanto com'è oggi, dalla seconda scansione Polycam" loading="lazy"></a><figcaption>Terrazzo e locale oggi, dall'alto</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="oggi" class="chiara">
+  <div class="wrap">
+    <p class="slab">Oggi e domani</p>
+    <h2 class="st">Dalla casa di oggi <em>al progetto</em>.</h2>
+    <p class="sd">A sinistra il rilievo Polycam, la casa così com'è; a destra la versione definitiva del progetto. Toccate un'immagine per aprirla nel modello 3D e girarla come volete.</p>
+    <div class="pair">
+      <figure><a href="3d/?s=sa"><img src="img/rilievo-3d.jpg" alt="La scansione Polycam dell'appartamento com'è oggi, vista in 3D" loading="lazy"></a><figcaption>Oggi · rilievo Polycam</figcaption></figure>
+      <figure><a href="3d/"><img src="img/progetto-3d.jpg" alt="Il modello 3D del progetto definitivo, visto in diagonale dall'alto" loading="lazy"></a><figcaption>Domani · progetto definitivo</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="fine">
+  <div class="wrap">
+    <h2 class="serif">Il progetto è <em>sempre qui</em>.</h2>
+    <p>Questa pagina si aggiorna insieme al lavoro: render, piante quotate e disegni esecutivi arriveranno qui.</p>
+    <a href="/#contatti" class="btn">Scrivici</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>Michelessi Corporation Srl · P.IVA 03294220599</span>
+  <span>info@visiorender.it · +39 342 668 4232</span>
+</footer>
+
+<script>
+// Modello 3D in pagina: si carica quando la sezione si avvicina. Sui touch un velo lascia scorrere la pagina
+// finché non si tocca «Tocca per esplorare»; «Fine» lo rimette.
+(function(){const box=document.getElementById('m3box');const touch=matchMedia('(pointer:coarse)').matches;let fatto=false,io=null;
+ function avvia(){if(fatto)return;fatto=true;if(io)io.disconnect();removeEventListener('scroll',vicino);
+  const cta=box.querySelector('.m3cta');if(cta)cta.remove();
+  const f=document.createElement('iframe');f.id='m3f';f.title='Modello 3D navigabile del progetto Mario';f.src='3d/?emb';f.allow='fullscreen';
+  f.addEventListener('load',()=>{const im=box.querySelector('img');if(im)setTimeout(()=>im.remove(),1500);});box.append(f);
+  if(touch){const tap=document.createElement('button');tap.type='button';tap.id='m3tap';tap.innerHTML='<span>Tocca per esplorare il modello</span>';
+   const fine=document.createElement('button');fine.type='button';fine.id='m3fine';fine.textContent='Fine';fine.style.display='none';
+   tap.onclick=()=>{tap.style.display='none';fine.style.display='block';};fine.onclick=()=>{tap.style.display='';fine.style.display='none';};box.append(tap,fine);}}
+ function vicino(){if(box.getBoundingClientRect().top<innerHeight+300)avvia();}
+ if('IntersectionObserver' in window){io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting||e.boundingClientRect.top<0))avvia();},{rootMargin:'300px 0px'});io.observe(box);}
+ addEventListener('scroll',vicino,{passive:true});
+ box.querySelector('.m3cta a').addEventListener('click',e=>{if(innerWidth>640){e.preventDefault();avvia();}});})();
+</script>
+</body>
+</html>
