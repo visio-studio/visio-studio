@@ -15,5 +15,7 @@
   // Le classi SQLite sono comprese nel piano gratuito; la migrazione la applica "wrangler deploy".
   "durable_objects": { "bindings": [ { "name": "PIZZERIA", "class_name": "Pizzeria" } ] },
   "migrations": [ { "tag": "pizza-v1", "new_sqlite_classes": ["Pizzeria"] } ],
+  // Riepilogo serale della demo pizzeria: ogni notte alle 00:00 UTC (01:00 in inverno, 02:00 in estate a Roma).
+  "triggers": { "crons": ["0 0 * * *"] },
   "observability": { "enabled": true }
 }

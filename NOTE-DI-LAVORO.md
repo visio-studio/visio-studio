@@ -738,6 +738,28 @@ servizio di VISIO** e non è collegata al sito: niente link, `noindex` (meta e
   «Inforna», «Pronto» e «Servito» spostano insieme tutto il tavolo
   (`staff/stato` con `ids`). Un ordine arrivato quando il resto del tavolo è già
   in forno resta una scheda a parte, segnata «Aggiunta».
+- **App camerieri** (`#cameriere`, stesso PIN di cucina e gestione): «Da fare» con
+  chiamate dei tavoli e comande pronte (suono e vibrazione dopo «Attiva avvisi»,
+  solo a pagina aperta: niente notifiche a telefono bloccato), tavoli, coperti,
+  conto diviso alla romana o per telefono (ogni telefono ha un id in
+  `localStorage`, campo `dev` dell'ordine), «Prendi l'ordine» per il tavolo
+  (stessa pagina del cliente, ordine segnato `cameriere`), schermo sempre acceso.
+- **Coperti**: impostazione in gestione (`cliente` = chiesti al primo ordine,
+  `cameriere`, `no`); stanno nella chiave `tav:N` del Durable Object fino alla
+  chiusura del conto. Il prezzo del coperto si cambia nella scheda Menu.
+- **Menu modificabile dal titolare** (gestione → Menu): prezzi, pizze nascoste,
+  pizze nuove, pizza del giorno, supplementi, coperto. Le modifiche stanno nella
+  chiave `menu` del Durable Object sopra `listino.json` (`menuUnito` in
+  `worker/pizza.js`); le pagine le leggono da `/api/pizza/menu`.
+- **Stima dell'attesa** per il cliente: mediana degli ultimi ordini arrivati a
+  «pronto» (12 minuti se non ce ne sono) + 45 secondi per ogni pizza arrivata
+  prima e non ancora in forno. È dichiarata come stima.
+- **Filtro allergeni** sul telefono («Evita: …»): nasconde pizze e voci che li
+  contengono secondo il menu, con l'invito ad avvisare sempre il personale.
+- **Riepilogo serale via email**: cron `0 0 * * *` in `wrangler.jsonc` →
+  `scheduled` in `worker/index.js` → email via Resend (stessa `RESEND_API_KEY`
+  dei moduli; mittente `PIZZA_MAIL_FROM` o `MAIL_FROM`) all'indirizzo scelto in
+  gestione → Impostazioni. Ultime 20 ore; niente email se non ci sono ordini.
 - **Listino**: tutto in `pizza/listino.json` (preso dal PDF del menu dell'11/11/2026):
   pizze con prezzo e ingredienti, ingredienti per categoria con allergeni, resto del
   menu. Lo leggono **sia la pagina sia il Worker** (`import` in `worker/pizza.js`):

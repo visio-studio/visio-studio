@@ -2,7 +2,7 @@
    Tutte le pagine e i file sono serviti direttamente come asset; il Worker gira solo per /api/*
    (run_worker_first): l'invio dei moduli e la demo per pizzerie (/api/pizza/*, vedi pizza.js). */
 import { inviaModulo } from './modulo.js';
-import { gestisciPizza, Pizzeria } from './pizza.js';
+import { gestisciPizza, riepilogoSerale, Pizzeria } from './pizza.js';
 
 export { Pizzeria };
 
@@ -20,5 +20,9 @@ export default {
     if (pathname.startsWith('/api/pizza/')) return gestisciPizza(request, env);
     if (pathname.startsWith('/api/')) return json({ ok: false, errore: 'non trovato' }, 404);
     return env.ASSETS.fetch(request);
+  },
+  // cron di wrangler.jsonc: riepilogo serale della demo pizzeria via email (se l'indirizzo e' impostato)
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(riepilogoSerale(env));
   }
 };

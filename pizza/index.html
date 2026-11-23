@@ -348,6 +348,61 @@ details.cat>.grid{padding:0 10px 10px}
 .esa-h{margin:4px 0 6px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 #k-esa-chips .chips+.esa-h{margin-top:12px}
 .tk li.vv .ln{font-size:15.5px;font-weight:700}
+/* ===== App camerieri, conto, allergeni, pizza del giorno, editor del menu ===== */
+.wbody{display:grid;gap:22px;padding-block:16px 40px}
+.todo{display:grid;gap:8px}
+.todo-i{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.todo-i.crit{border-color:var(--crit);background:var(--crit-soft)}
+.todo-i.warn{border-color:var(--warn);background:var(--warn-soft)}
+.todo-i b{display:block;font-size:16px}
+.todo-i span{display:block;font-size:13.5px}
+.todo-i small{display:block;font-size:12.5px;color:var(--muted)}
+.todo-i .btn{flex:none}
+.tgrid.sm{grid-template-columns:repeat(auto-fill,minmax(112px,1fr))}
+.tgrid.sm .tt{min-height:96px}
+.wbanner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:12px;background:var(--warn-soft);font-size:14px}
+.conto{display:grid;gap:4px;font-size:14.5px}
+.conto div{display:flex;justify-content:space-between;gap:12px}
+.conto span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}
+.conto .tt2{padding-top:7px;border-top:1px dashed var(--line);font-size:18px;font-weight:800}
+.copr{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.copr small{font-size:12.5px}
+.divi{display:grid;gap:3px;padding:10px 12px;border-radius:12px;background:var(--bg);font-size:14.5px;font-variant-numeric:tabular-nums}
+.divi small{font-size:12.5px;color:var(--muted)}
+.svc button[aria-pressed="true"]{border-color:var(--cobalt);background:var(--cobalt-soft)}
+.stima{margin:0;padding:10px 12px;border-radius:12px;background:var(--cobalt-soft);font-size:14px}
+.evita{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 12px}
+.evita .lab{margin-right:2px;font-size:13px;font-weight:700;color:var(--muted)}
+.evita .chip{padding:5px 10px;font-size:13px}
+.evita .chip[aria-pressed="true"]{background:var(--crit);border-color:var(--crit);color:var(--surface)}
+.evita-n{flex-basis:100%;margin:2px 0 0;font-size:13px;color:var(--muted)}
+.evid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;width:100%;padding:14px 16px;border:2px solid var(--tomato);border-radius:16px;background:var(--surface);text-align:left;cursor:pointer}
+.evid:disabled{opacity:.5;cursor:not-allowed}
+.evid .bd{grid-column:1/-1;justify-self:start;padding:2px 9px;border-radius:999px;background:var(--tomato);color:var(--on-tomato);font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.evid b{font-family:var(--f-display);font-size:21px;font-weight:400}
+.evid .pp{font-weight:800;font-variant-numeric:tabular-nums}
+.evid .nt{grid-column:1/-1;font-size:14px}
+.evid .ds{grid-column:1/-1;font-size:13px;color:var(--muted)}
+#g-evid:empty{display:none}
+.ed{display:grid;gap:14px}
+.set{display:grid;gap:12px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.set h3{margin:0;font-size:16px;letter-spacing:0;text-transform:none;color:var(--ink)}
+.set details.cat{background:var(--bg)}
+.ed-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 92px;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.ed-row:first-child{border-top:0}
+.ed-row input[type=text]{width:92px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);text-align:right;font-variant-numeric:tabular-nums}
+.ed-row label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.ed-row.off .en{color:var(--muted);text-decoration:line-through}
+.ed-bar{position:sticky;bottom:calc(8px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 -8px 24px -16px rgba(0,0,0,.4)}
+.field{display:grid;gap:4px;font-size:13px;font-weight:700;color:var(--muted)}
+.field input,.field select{padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-size:15px;font-weight:500}
+.frow{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px}
+.ingpick{display:flex;flex-wrap:wrap;gap:6px}
+.ingpick .chip{padding:5px 10px;font-size:13px}
+.radios{display:grid;gap:8px}
+.radios label{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer}
+.radios input{margin-top:4px}
+.radios small{display:block;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -380,8 +435,13 @@ details.cat>.grid{padding:0 10px 10px}
       <div class="row"><button type="button" class="btn" data-go="cucina">Apri la cucina</button></div>
     </article>
     <article class="hc">
+      <h2>Camerieri</h2>
+      <p>Sul telefono del cameriere: chiamate dei tavoli e pizze pronte da portare con suono e vibrazione, coperti, conto diviso, ordine al posto del cliente.</p>
+      <div class="row"><button type="button" class="btn" data-go="cameriere">Apri l'app camerieri</button></div>
+    </article>
+    <article class="hc">
       <h2>Gestione</h2>
-      <p>La sala in tempo reale, le analisi di cosa si ordina e cosa no, i QR da stampare per ogni tavolo.</p>
+      <p>La sala in tempo reale, le analisi di cosa si ordina e cosa no, il menu da modificare (prezzi, pizza del giorno), i coperti, il riepilogo serale via email e i QR da stampare.</p>
       <div class="row"><button type="button" class="btn" data-go="gestione">Apri la gestione</button></div>
     </article>
     <article class="hc">
@@ -422,9 +482,12 @@ details.cat>.grid{padding:0 10px 10px}
     </section>
     <div class="wrap content">
       <p class="state" id="g-state"></p>
+      <div class="wbanner" id="g-wb" hidden></div>
+      <div id="g-evid"></div>
       <section>
         <h2>Le pizze</h2>
         <p class="hint">Scegline una e la vedi qui sopra. Poi puoi aggiungere o togliere ingredienti.</p>
+        <div class="evita" id="g-evita"></div>
         <div class="tabs ptabs" role="tablist" aria-label="Tipo di pizza" id="ptabs"></div>
         <div class="plist" id="plist"></div>
       </section>
@@ -473,6 +536,31 @@ details.cat>.grid{padding:0 10px 10px}
   </div>
 </section>
 
+<!-- ====================== CAMERIERI ====================== -->
+<section class="view" id="v-cameriere" hidden>
+  <header class="sbar"><div class="wrap">
+    <h1>Camerieri</h1>
+    <div class="r">
+      <button type="button" class="btn2 sm" id="w-avvisi" aria-pressed="false">Attiva avvisi</button>
+      <button type="button" class="btn2 sm" id="w-schermo" aria-pressed="false">Tieni acceso lo schermo</button>
+      <button type="button" class="btn2 sm" data-go="">Esci</button>
+    </div>
+  </div></header>
+  <div class="wrap wbody">
+    <p class="state" id="w-state"></p>
+    <section>
+      <div class="sh2"><h2>Da fare</h2><span class="cnt" id="w-n"></span></div>
+      <p class="hint">Chiamate dei tavoli e comande pronte, dalla più vecchia. Con gli avvisi attivi suonano e, dove il telefono lo permette, vibrano.</p>
+      <div class="todo" id="w-todo"></div>
+    </section>
+    <section>
+      <h2>Tavoli</h2>
+      <p class="hint">Tocca un tavolo per coperti, conto (anche diviso), ordine al posto del cliente e chiusura.</p>
+      <div class="tgrid sm" id="w-tables"></div>
+    </section>
+  </div>
+</section>
+
 <!-- ====================== GESTIONE ====================== -->
 <section class="view" id="v-gestione" hidden>
   <header class="sbar"><div class="wrap wide">
@@ -480,7 +568,8 @@ details.cat>.grid{padding:0 10px 10px}
     <div class="tabs" role="tablist" aria-label="Sezioni">
       <button type="button" role="tab" id="t-sala" aria-selected="true" aria-controls="m-sala">Sala</button>
       <button type="button" role="tab" id="t-analisi" aria-selected="false" aria-controls="m-analisi">Analisi</button>
-      <button type="button" role="tab" id="t-qr" aria-selected="false" aria-controls="m-qr">Tavoli e QR</button>
+      <button type="button" role="tab" id="t-menu" aria-selected="false" aria-controls="m-menu">Menu</button>
+      <button type="button" role="tab" id="t-qr" aria-selected="false" aria-controls="m-qr">Impostazioni</button>
     </div>
     <div class="r"><button type="button" class="btn2 sm" data-go="">Esci</button></div>
   </div></header>
@@ -509,7 +598,10 @@ details.cat>.grid{padding:0 10px 10px}
       <p class="simnote" id="a-simnote" hidden>Stai guardando <b>dati simulati</b>, generati per far vedere come sarà il report dopo un mese di servizio. Non sono ordini veri.</p>
       <div id="a-body"></div>
     </div>
+    <div id="m-menu" role="tabpanel" aria-labelledby="t-menu" hidden></div>
     <div id="m-qr" role="tabpanel" aria-labelledby="t-qr" hidden>
+      <div class="ed" id="m-imp"></div>
+      <h2 style="margin:22px 0 10px">Tavoli e QR</h2>
       <div class="qhead">
         <label for="q-n">Tavoli in sala<input type="number" id="q-n" min="1" max="60" step="1" value="12"></label>
         <button type="button" class="btn2" id="q-save">Salva</button>
@@ -582,14 +674,20 @@ const VIS={
   noci:{s:'noci',z:.07,n:10,l:9,ic:3},polvere_olive:{s:'polvere_olive',z:.25,n:5,l:10},pepe:{s:'pepe',z:.25,n:5,l:11},
   origano:{s:'origano',z:.25,n:5,l:4},aglio:{s:'aglio',z:.09,n:8,l:4}
 };
-async function loadListino(){
-  const r=await fetch('listino.json',{cache:'no-cache'});if(!r.ok)throw new Error('listino');
-  L=await r.json();
-  ING=L.ingredienti;ORDINE_ING=Object.keys(ING);
+let menuRev=-1;
+function setMenu(m){
+  L=m;ING=L.ingredienti;ORDINE_ING=Object.keys(ING);
   PIZZE=L.pizze;PIZ=Object.fromEntries(PIZZE.map(p=>[p.id,p]));
   VOCI=L.voci;VOC=Object.fromEntries(VOCI.map(v=>[v.id,v]));
   SEZ_VOCI=[...new Set(VOCI.map(v=>v.sez))];
 }
+// Il menu arriva dal Worker (listino + modifiche del titolare); se non risponde, dal file.
+async function loadListino(){
+  try{const r=await fetch('/api/pizza/menu',{cache:'no-store'});if(r.ok){const j=await r.json();if(j&&j.menu){menuRev=j.menuRev||0;setMenu(j.menu);return}}}catch(e){}
+  const r=await fetch('listino.json',{cache:'no-cache'});if(!r.ok)throw new Error('listino');
+  setMenu(await r.json());
+}
+async function reloadMenu(){try{await loadListino()}catch(e){return}onMenuChanged()}
 const sortIng=a=>ORDINE_ING.filter(i=>a.includes(i));
 function breve(id){const n=ING[id]?ING[id].nome:id,w=n.split(' ');return w.length>1&&/^[A-Z]/.test(w[1])?n:n.charAt(0).toLowerCase()+n.slice(1)}
 const allNomi=a=>a.map(x=>(L.allergeni[x]||'').toLowerCase()).filter(Boolean).join(', ');
@@ -626,7 +724,7 @@ $$('dialog').forEach(d=>{d.addEventListener('click',e=>{if(e.target===d||e.targe
 
 /* ===================== ARCHIVIO (Worker /api/pizza) ===================== */
 const API='/api/pizza/';
-const live={orders:[],calls:[],tavoli:12,esauriti:new Set(),ready:false,err:null};
+const live={orders:[],calls:[],tavoli:12,esauriti:new Set(),ready:false,err:null,sessioni:{},attesa:null,cop:'cliente',email:''};
 const fresh=new Set(),omap=new Map(),cmap=new Map();
 let rev=0,scope=null,pollT=0,polling=false,firstLoad=true,pin=store.get('pizza-pin')||'';
 const tavoloOk=t=>{const n=Math.floor(Number(t));return n>=1&&n<=60?n:0};
@@ -648,6 +746,8 @@ function setScope(s){
 function applyConfig(c){
   if(!c)return;
   live.tavoli=tavoloOk(c.tavoli)||12;
+  if(c.coperti)live.cop=c.coperti;if(c.email!=null)live.email=c.email;
+  if(c.menuRev!=null&&menuRev>=0&&c.menuRev!==menuRev){menuRev=c.menuRev;reloadMenu()}
   const es=new Set((Array.isArray(c.esauriti)?c.esauriti:[]).filter(i=>ING[i]||VOC[i]));
   const chg=[...es].sort().join()!==[...live.esauriti].sort().join();live.esauriti=es;
   if(chg)onEsauriti();
@@ -665,6 +765,7 @@ async function poll(){
       for(const c of j.chiamate)cmap.set(c.id,c);
       rev=j.rev;firstLoad=false;
       live.orders=[...omap.values()];live.calls=[...cmap.values()].filter(c=>!c.gestita);
+      live.sessioni=j.sessioni||{};live.attesa=j.attesa||null;
       live.ready=true;live.err=null;applyConfig(j.config);
       if(nw&&view==='cucina')ding();
       renderAll();
@@ -696,6 +797,7 @@ function route(){
   if((m=/^tavolo-(\d{1,2})$/.exec(h))&&+m[1]>=1)show('tavolo',+m[1]);
   else if(h==='cucina')show('cucina');
   else if(h==='gestione')show('gestione');
+  else if(h==='cameriere')show('cameriere');
   else show('hub');
 }
 function go(name){if(location.hash.slice(1)===name)route();else location.hash=name}
@@ -704,7 +806,7 @@ function show(v,n){
   $$('.view').forEach(e=>e.hidden=e.id!=='v-'+v);
   $$('dialog').forEach(d=>{if(d.open)closeD(d)});
   if(v==='tavolo'){setScope(n);enterGuest(n)}
-  else if(v==='cucina'||v==='gestione')setScope('staff');
+  else if(v==='cucina'||v==='gestione'||v==='cameriere')setScope('staff');
   else{setScope(null);loadCfg()}
   renderAll();window.scrollTo(0,0);
 }
@@ -717,6 +819,7 @@ function renderAll(){
   else if(view==='tavolo')renderGuestLive();
   else if(view==='cucina')renderKitchen();
   else if(view==='gestione')renderManager();
+  else if(view==='cameriere')renderWaiter();
 }
 function renderHub(){
   const s=$('#hub-t'),cur=+s.value||1;
@@ -820,40 +923,60 @@ if('ResizeObserver' in window)new ResizeObserver(resize).observe(cv.parentElemen
 addEventListener('resize',resize);
 
 /* ===================== TAVOLO ===================== */
-const G={da:'margherita',sel:new Set(),cart:[],built:false,tab:'rosse'};
+const G={da:'margherita',sel:new Set(),cart:[],built:false,tab:'rosse',evita:new Set(store.get('pizza-evita')||[]),coperti:2};
+const DEV=(()=>{let d=store.get('pizza-dev');if(!d){d=Math.random().toString(36).slice(2,10);store.set('pizza-dev',d)}return d})();
+const camMode=()=>{try{return sessionStorage.getItem('pizza-cam')===String(T)}catch(e){return false}};
 let shown=0,tw=0,lastPrice=null;
 const curInfo=()=>pizzaInfo(G.da,sortIng([...G.sel]));
+const evitaHit=all=>(all||[]).filter(a=>G.evita.has(a));
 function buildGuest(){
   if(G.built)return;G.built=true;
   buildDrawOrder();
   $('#g-locale').textContent=[L.locale,L.sede].filter(Boolean).join(' · ');
-  // schede del menu
-  $('#ptabs').innerHTML=L.sezioni_pizze.map(s=>`<button type="button" role="tab" data-tab="${s.id}" aria-selected="false">${esc(s.nome)}</button>`).join('');
   $('#ptabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b){G.tab=b.dataset.tab;renderPizzaList()}});
   $('#plist').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b&&!b.disabled)applyPizza(PIZ[b.dataset.p])});
-  // ingredienti per categoria
+  $('#g-evid').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b&&!b.disabled)applyPizza(PIZ[b.dataset.p])});
+  $('#g-evita').addEventListener('click',e=>{const b=e.target.closest('[data-al]');if(!b)return;const a=+b.dataset.al;G.evita.has(a)?G.evita.delete(a):G.evita.add(a);store.set('pizza-evita',[...G.evita]);renderEvita();updateGuest()});
   const plus='<svg viewBox="0 0 24 24"><path class="p" d="M12 6v12M6 12h12"/><path class="k" d="M6 12.5l4 4 8-9"/></svg>';
   $('#groups').innerHTML=L.categorie.map(cat=>`<details class="cat" data-cat="${cat.id}"><summary>${esc(cat.nome)}<span class="n"></span></summary><div class="grid">${ORDINE_ING.filter(id=>ING[id].cat===cat.id).map(id=>`<button type="button" class="ing" id="ing-${id}" data-id="${id}" aria-pressed="false"><canvas aria-hidden="true"></canvas><span class="in"><span class="nm">${esc(ING[id].nome)}</span><span class="nt">${ING[id].all.length?`<span>${esc(allNomi(ING[id].all))}</span>`:''}<span class="esa-tag" hidden>finito</span></span></span><span class="pr"></span><span class="tg" aria-hidden="true">${plus}</span></button>`).join('')}</div></details>`).join('');
   $('#groups').addEventListener('click',e=>{const b=e.target.closest('.ing');if(b)toggle(b.dataset.id)});
-  // resto del menu
-  $('#voci').innerHTML=SEZ_VOCI.map(sez=>`<details class="cat"><summary>${esc(sez)}<span class="n" data-vn="${esc(sez)}"></span></summary><div class="vlist">${VOCI.filter(v=>v.sez===sez).map(v=>`<div class="vrow" data-v="${v.id}"><span class="vn">${esc(v.nome)}</span>${v.desc?`<span class="vd">${esc(v.desc)}</span>`:''}${v.all.length?`<span class="vd">Allergeni: ${esc(allNomi(v.all))}</span>`:''}<div class="vr"><span class="vp">${eur.format(v.prezzo)}</span><div class="step" role="group" aria-label="Quantità di ${esc(v.nome)}"><button type="button" data-vq="-1" aria-label="Uno in meno">−</button><output>0</output><button type="button" data-vq="1" aria-label="Uno in più">+</button></div></div></div>`).join('')}</div></details>`).join('');
+  buildVoci();
   $('#voci').addEventListener('click',e=>{const b=e.target.closest('[data-vq]');if(b)changeVoce(b.closest('[data-v]').dataset.v,+b.dataset.vq)});
-  $('#g-foot').textContent=`Allergeni (numeri del menu): ${Object.entries(L.allergeni).map(([k,v])=>k+' '+v.toLowerCase()).join(', ')}. Coperto ${eur.format(L.coperto)} a persona. Per allergie e intolleranze scrivilo nelle note o chiedi al personale.`;
   $('#g-add').addEventListener('click',addPizza);
   $('#g-cart').addEventListener('click',()=>openCart());
   $('#g-svc').addEventListener('click',()=>openStatus());
+  $('#g-wb').addEventListener('click',e=>{if(e.target.closest('[data-esci-cam]')){try{sessionStorage.removeItem('pizza-cam')}catch(err){}go('cameriere')}});
   loadAssets();
+  renderEvita();renderEvidenza();
   applyPizza(PIZ.margherita||PIZZE[0],RM?0:300);
+}
+function buildVoci(){
+  $('#voci').innerHTML=SEZ_VOCI.map(sez=>`<details class="cat"><summary>${esc(sez)}<span class="n" data-vn="${esc(sez)}"></span></summary><div class="vlist">${VOCI.filter(v=>v.sez===sez).map(v=>`<div class="vrow" data-v="${v.id}"><span class="vn">${esc(v.nome)}</span>${v.desc?`<span class="vd">${esc(v.desc)}</span>`:''}${v.all.length?`<span class="vd">Allergeni: ${esc(allNomi(v.all))}</span>`:''}<div class="vr"><span class="vp">${eur.format(v.prezzo)}</span><div class="step" role="group" aria-label="Quantità di ${esc(v.nome)}"><button type="button" data-vq="-1" aria-label="Uno in meno">−</button><output>0</output><button type="button" data-vq="1" aria-label="Uno in più">+</button></div></div></div>`).join('')}</div></details>`).join('');
+  $('#g-foot').textContent=`Allergeni (numeri del menu): ${Object.entries(L.allergeni).map(([k,v])=>k+' '+v.toLowerCase()).join(', ')}. Coperto ${eur.format(L.coperto)} a persona. Per allergie e intolleranze scrivilo nelle note e avvisa sempre il personale.`;
+}
+function renderEvita(){
+  const pres=new Set();[...PIZZE,...VOCI].forEach(x=>(x.all||[]).forEach(a=>pres.add(a)));
+  const lista=Object.keys(L.allergeni).map(Number).filter(a=>pres.has(a));
+  const nasc=PIZZE.filter(p=>evitaHit(p.all).length).length;
+  $('#g-evita').innerHTML=`<span class="lab">Evita:</span>${lista.map(a=>`<button type="button" class="chip" data-al="${a}" aria-pressed="${G.evita.has(a)}">${esc(L.allergeni[a])}</button>`).join('')}${G.evita.size?`<p class="evita-n">${G.evita.has(9)?'Tutte le pizze del menu contengono glutine: chiedi al personale. ':''}${nasc?`${nasc===1?'Una pizza nascosta':nasc+' pizze nascoste'} perché le contengono, secondo il menu.`:''} In caso di allergia avvisa sempre il personale.</p>`:''}`;
+}
+function renderEvidenza(){
+  const ev=L.evidenza&&PIZ[L.evidenza.id];
+  if(!ev){$('#g-evid').innerHTML='';return}
+  const off=pizzaOff(ev)||evitaHit(ev.all).length;
+  $('#g-evid').innerHTML=`<button type="button" class="evid" data-p="${ev.id}" ${off?'disabled':''}><span class="bd">Pizza del giorno</span><b>${esc(ev.nome)}</b><span class="pp">${eur.format(ev.prezzo)}</span>${L.evidenza.nota?`<span class="nt">${esc(L.evidenza.nota)}</span>`:''}<span class="ds">${esc(ev.desc||'')}</span></button>`;
 }
 function enterGuest(n){
   if(!L)return;
   buildGuest();
   $('#g-table').textContent='Tavolo '+n;
-  G.cart=(store.get('pizza-ordine2-t'+n)||[]).filter(l=>l&&(l.tipo==='voce'?VOC[l.id]:PIZ[l.da]));
+  const cam=camMode(),wb=$('#g-wb');wb.hidden=!cam;
+  if(cam)wb.innerHTML=`<span><b>Ordine del cameriere</b> per il tavolo ${n}: quello che invii arriva in cucina come gli altri ordini del tavolo.</span><button type="button" class="btn2 sm" data-esci-cam>Torna ai tavoli</button>`;
+  G.cart=(store.get((cam?'pizza-cam-ordine-t':'pizza-ordine2-t')+n)||[]).filter(l=>l&&(l.tipo==='voce'?VOC[l.id]:PIZ[l.da]));
   lastPrice=null;updateGuest();updateBar();swapBase();
   requestAnimationFrame(resize);
 }
-function saveCart(){store.set('pizza-ordine2-t'+T,G.cart)}
+function saveCart(){store.set((camMode()?'pizza-cam-ordine-t':'pizza-ordine2-t')+T,G.cart)}
 function paintPrice(v){const t=eur.format(r2(v));$('#price').textContent=t;$('#bar-price').textContent=t}
 function setPrice(v){
   cancelAnimationFrame(tw);
@@ -866,8 +989,9 @@ function floatDelta(d){const el=document.createElement('span');el.className='del
 const pizzaOff=p=>p.ing.some(i=>live.esauriti.has(i))||live.esauriti.has(p.id);
 function renderPizzaList(){
   const cur=curInfo();
-  $$('#ptabs [data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===G.tab)));
-  $('#plist').innerHTML=PIZZE.filter(p=>p.sez===G.tab).map(p=>{const off=pizzaOff(p);return`<button type="button" class="prow" data-p="${p.id}" aria-pressed="${cur.base.id===p.id}" ${off?'disabled':''}><b>${esc(p.nome)}</b><span class="pp">${eur.format(p.prezzo)}</span><span class="pdsc">${esc(p.desc)}</span><span class="al">${off?'Non disponibile ora':'Allergeni: '+esc(allNomi(p.all))}</span></button>`}).join('');
+  $('#ptabs').innerHTML=L.sezioni_pizze.filter(s=>PIZZE.some(p=>p.sez===s.id)).map(s=>`<button type="button" role="tab" data-tab="${s.id}" aria-selected="${s.id===G.tab}">${esc(s.nome)}</button>`).join('');
+  const vis=PIZZE.filter(p=>p.sez===G.tab&&!evitaHit(p.all).length);
+  $('#plist').innerHTML=vis.length?vis.map(p=>{const off=pizzaOff(p);return`<button type="button" class="prow" data-p="${p.id}" aria-pressed="${cur.base.id===p.id}" ${off?'disabled':''}><b>${esc(p.nome)}</b><span class="pp">${eur.format(p.prezzo)}</span><span class="pdsc">${esc(p.desc||'')}</span><span class="al">${off?'Non disponibile ora':'Allergeni: '+esc(allNomi(p.all))}</span></button>`}).join(''):'<p class="empty">Nessuna pizza di questo gruppo senza gli allergeni che hai scelto di evitare.</p>';
 }
 function updateGuest(){
   if(!G.built)return;
@@ -875,24 +999,25 @@ function updateGuest(){
   const d=lastPrice==null?0:r2(info.prezzo-lastPrice);lastPrice=info.prezzo;
   setPrice(info.prezzo);if(d&&!RM)floatDelta(d);
   $('#pn').textContent=info.nome;
-  $('#pd').textContent=info.exact?info.base.desc:ingDesc(ing);
-  $('#pa').textContent='Allergeni: '+allNomi(info.all);
+  $('#pd').textContent=info.exact?(info.base.desc||ingDesc(ing)):ingDesc(ing);
+  const hit=evitaHit(info.all);
+  $('#pa').textContent='Allergeni: '+allNomi(info.all)+(hit.length?' · contiene ciò che vuoi evitare':'');
   cv.setAttribute('aria-label','Anteprima: '+info.nome+'. '+(info.exact?info.base.desc:ingDesc(ing)));
   const inBase=new Set(info.base.ing);
   $$('#groups .ing').forEach(b=>{
-    const id=b.dataset.id,on=G.sel.has(id),fin=live.esauriti.has(id),pr=b.querySelector('.pr');
-    b.setAttribute('aria-pressed',String(on));b.disabled=fin&&!on;b.querySelector('.esa-tag').hidden=!fin;
+    const id=b.dataset.id,on=G.sel.has(id),fin=live.esauriti.has(id),ev=evitaHit(ING[id].all).length>0,pr=b.querySelector('.pr');
+    b.setAttribute('aria-pressed',String(on));b.disabled=(fin||ev)&&!on;b.querySelector('.esa-tag').hidden=!fin;
     pr.className='pr'+(inBase.has(id)?(on?' inc':' tolto'):'');
     pr.textContent=inBase.has(id)?(on?'nella pizza':'tolto'):(ING[id].supp?'+'+eur.format(ING[id].supp):'gratis');
   });
   $$('#groups details.cat').forEach(dt=>{const n=[...dt.querySelectorAll('.ing')].filter(b=>G.sel.has(b.dataset.id)).length;dt.querySelector('.n').textContent=n?(n===1?'1 sulla pizza':n+' sulla pizza'):''});
   $('#cnt').textContent=info.add.length||info.rem.length?[info.add.length?`${info.add.length} ${info.add.length===1?'aggiunta':'aggiunte'}`:'',info.rem.length?`${info.rem.length} ${info.rem.length===1?'tolto':'tolti'}`:''].filter(Boolean).join(' · '):'';
-  renderPizzaList();
+  renderPizzaList();renderEvidenza();
   renderVoci();
 }
 function renderVoci(){
-  $$('#voci .vrow').forEach(r=>{const id=r.dataset.v,q=(G.cart.find(l=>l.tipo==='voce'&&l.id===id)||{}).qty||0,off=live.esauriti.has(id);r.querySelector('output').textContent=q;r.classList.toggle('off',off);r.querySelector('[data-vq="1"]').disabled=off;r.querySelector('[data-vq="-1"]').disabled=!q});
-  $$('#voci [data-vn]').forEach(s=>{const n=G.cart.filter(l=>l.tipo==='voce'&&VOC[l.id].sez===s.dataset.vn).reduce((t,l)=>t+l.qty,0);s.textContent=n?n+' nell\'ordine':''});
+  $$('#voci .vrow').forEach(r=>{const id=r.dataset.v;if(!VOC[id])return;const q=(G.cart.find(l=>l.tipo==='voce'&&l.id===id)||{}).qty||0,off=live.esauriti.has(id);r.hidden=evitaHit(VOC[id].all).length>0&&!q;r.querySelector('output').textContent=q;r.classList.toggle('off',off);r.querySelector('[data-vq="1"]').disabled=off;r.querySelector('[data-vq="-1"]').disabled=!q});
+  $$('#voci [data-vn]').forEach(s=>{const n=G.cart.filter(l=>l.tipo==='voce'&&VOC[l.id]&&VOC[l.id].sez===s.dataset.vn).reduce((t,l)=>t+l.qty,0);s.textContent=n?n+' nell\'ordine':''});
 }
 function animateTo(next,delay){
   const now=performance.now();let k=0;
@@ -954,43 +1079,65 @@ function tableOrders(n){return live.orders.filter(o=>Number(o.tavolo)===n&&!o.ch
 const STEPS=[['nuovo','Ricevuto'],['forno','In forno'],['pronto','Pronto'],['servito','Al tavolo']];
 function tracker(stato){const i=Math.max(0,STEPS.findIndex(s=>s[0]===stato));return`<ol class="track" aria-label="Stato: ${STEPS[i][1]}">${STEPS.map((s,k)=>`<li class="${k<i?'done':k===i?'now':''}">${s[1]}</li>`).join('')}</ol>`}
 const lineFinita=l=>l.tipo==='voce'?live.esauriti.has(l.id):l.ing.some(i=>live.esauriti.has(i));
+const copertiDi=n=>{const s=live.sessioni&&live.sessioni[n];return s&&s.coperti?s.coperti:0};
+// conto di un tavolo: ordini + coperti (se la pizzeria li fa pagare)
+function conto(n){
+  const os=tableOrders(n),ord=r2(os.reduce((t,o)=>t+(Number(o.totale)||0),0)),cop=live.cop==='no'?0:copertiDi(n);
+  return{os,ord,cop,copTot:r2(cop*L.coperto),tot:r2(ord+cop*L.coperto)};
+}
+function contoHTML(c){
+  return`<div class="conto"><div><span>Ordini</span><span>${eur.format(c.ord)}</span></div>${live.cop!=='no'?`<div><span>${c.cop?`Coperto · ${c.cop} × ${eur.format(L.coperto)}`:'Coperto: non ancora indicato'}</span><span>${c.cop?eur.format(c.copTot):''}</span></div>`:''}<div class="tt2"><span>Totale</span><span>${eur.format(c.tot)}</span></div></div>`;
+}
+function stimaHTML(){
+  const os=tableOrders(T);if(!os.length)return'';
+  if(os.every(o=>o.stato==='servito'))return'';
+  if(os.every(o=>o.stato==='pronto'||o.stato==='servito'))return'<p class="stima"><b>È pronto:</b> arriva al tavolo tra un attimo.</p>';
+  const a=live.attesa;if(!a)return'';
+  return`<p class="stima"><b>Stima: circa ${a.min}–${a.max} minuti.</b> È una stima, non una promessa: dipende da quante comande ha la cucina in quel momento${a.davanti?` (ora ci sono ${a.davanti} pizze prima delle vostre)`:''}.</p>`;
+}
 function renderSheet(){
-  const body=$('#sh-body');
+  const body=$('#sh-body'),cam=camMode();
   if(sheetMode==='cart'){
-    $('#sh-title').textContent='Il tuo ordine';
+    $('#sh-title').textContent=cam?'Ordine del tavolo '+T:'Il tuo ordine';
     if(!G.cart.length){body.innerHTML=`<p class="empty">L'ordine è vuoto. Scegli una pizza e premi «Aggiungi la pizza», oppure aggiungi fritti e bevande dal menu.</p>`;return}
     if(document.activeElement&&document.activeElement.id==='g-note')return;
-    const bad=G.cart.some(lineFinita);
+    const bad=G.cart.some(lineFinita),cop=copertiDi(T);
+    const chiedi=!cop&&(live.cop==='cliente'||(cam&&live.cop!=='no'));
+    const copRiga=live.cop==='no'?'':cop?`<p class="hint" style="margin:0">Al tavolo: ${cop} coperti (${eur.format(L.coperto)} a persona, nel conto del tavolo).</p>`:chiedi?`<div class="copr"><span><b>Quanti siete al tavolo?</b><br><small class="hint">Serve per il coperto (${eur.format(L.coperto)} a persona). Basta indicarlo una volta per tutto il tavolo.</small></span><div class="step" role="group" aria-label="Persone al tavolo"><button type="button" data-cop="-1" aria-label="Uno in meno">−</button><output id="g-cop">${G.coperti}</output><button type="button" data-cop="1" aria-label="Uno in più">+</button></div></div>`:`<p class="hint" style="margin:0">Il coperto (${eur.format(L.coperto)} a persona) lo segna il cameriere nel conto del tavolo.</p>`;
     body.innerHTML=`<ul class="lines">${G.cart.map((l,i)=>`<li class="cl">${l.tipo==='pizza'?`<img src="${esc(l.thumb)}" alt="">`:`<span class="vi" aria-hidden="true">${esc(VOC[l.id].sez.charAt(0))}</span>`}<div><b>${esc(l.nome)}</b><small>${esc(l.tipo==='pizza'?ingDesc(l.ing):VOC[l.id].sez)}</small>${lineFinita(l)?'<small style="color:var(--crit);font-weight:700">Contiene qualcosa che è finito: toglilo</small>':''}</div><div class="r"><span>${eur.format(l.prezzo*l.qty)}</span><div class="step" role="group" aria-label="Quantità di ${esc(l.nome)}"><button type="button" data-q="-1" data-i="${i}" aria-label="Uno in meno">−</button><output>${l.qty}</output><button type="button" data-q="1" data-i="${i}" aria-label="Uno in più">+</button></div></div></li>`).join('')}</ul>
+    ${copRiga}
     <div><label class="fl" for="g-note">Note per la cucina</label><textarea id="g-note" rows="2" maxlength="300" placeholder="Es. ben cotta, tagliata a spicchi, allergie">${esc(store.get('pizza-nota-t'+T)||'')}</textarea></div>
-    <div class="tot"><span>Totale</span><span>${eur.format(cartTotal())}</span></div>
-    <p class="hint" style="margin:0">Coperto escluso (${eur.format(L.coperto)} a persona).</p>
+    <div class="tot"><span>Questo ordine</span><span>${eur.format(cartTotal())}</span></div>
     <button type="button" class="cta" id="g-send" ${bad?'disabled':''}><span>Invia in cucina</span><span class="ct">${eur.format(cartTotal())}</span></button>`;
     $$('[data-q]',body).forEach(b=>b.addEventListener('click',()=>{const l=G.cart[+b.dataset.i];l.qty=Math.min(20,l.qty+(+b.dataset.q));if(l.qty<1)G.cart.splice(+b.dataset.i,1);saveCart();updateBar();renderVoci();renderSheet()}));
+    $$('[data-cop]',body).forEach(b=>b.addEventListener('click',()=>{G.coperti=Math.max(1,Math.min(40,G.coperti+(+b.dataset.cop)));$('#g-cop').textContent=G.coperti}));
     $('#g-note').addEventListener('input',e=>store.set('pizza-nota-t'+T,e.target.value));
     $('#g-send').addEventListener('click',sendOrder);
   }else if(sheetMode==='sent'){
     $('#sh-title').textContent='Ordine inviato';
     const o=live.orders.find(x=>x.id===lastSent);
-    body.innerHTML=`<div class="ok"><span class="okm">${SVG.check}</span><h2>La cucina ha la tua comanda</h2><p>Tavolo ${T}. Qui vedi quando va in forno e quando arriva. Gli altri al tavolo possono ordinare dal loro telefono: in cucina finisce tutto nella stessa comanda.</p></div>${tracker(o?o.stato:'nuovo')}<button type="button" class="btn2" data-close>Torna al menu</button>`;
+    body.innerHTML=`<div class="ok"><span class="okm">${SVG.check}</span><h2>La cucina ha la ${cam?'comanda':'tua comanda'}</h2><p>Tavolo ${T}. ${cam?'È nella stessa comanda degli altri ordini del tavolo.':'Qui vedi quando va in forno e quando arriva. Gli altri al tavolo possono ordinare dal loro telefono: in cucina finisce tutto nella stessa comanda.'}</p></div>${tracker(o?o.stato:'nuovo')}${stimaHTML()}${cam?'<button type="button" class="btn" data-esci-cam2>Torna ai tavoli</button>':'<button type="button" class="btn2" data-close>Torna al menu</button>'}`;
+    const x=body.querySelector('[data-esci-cam2]');if(x)x.addEventListener('click',()=>{try{sessionStorage.removeItem('pizza-cam')}catch(e){}closeD(sheet);go('cameriere')});
   }else{
     $('#sh-title').textContent='Tavolo '+T;
-    const os=tableOrders(T),tot=r2(os.reduce((t,o)=>t+(Number(o.totale)||0),0));
-    const callOpen=t=>live.calls.some(c=>Number(c.tavolo)===T&&c.tipo===t);
-    body.innerHTML=`${os.length?os.map(o=>`<article class="ordc"><header><b>Ordine delle ${hm(o.creato)}</b><span>${eur.format(Number(o.totale)||0)}</span></header><ul>${(o.righe||[]).map(r=>`<li>${Number(r.qty)||1} × ${esc(r.nome)}</li>`).join('')}</ul>${tracker(o.stato)}</article>`).join(''):'<p class="empty">Nessun ordine aperto per questo tavolo.</p>'}
-    ${os.length?`<div class="tot"><span>Conto del tavolo</span><span>${eur.format(tot)}</span></div><p class="hint" style="margin:0">Coperto escluso (${eur.format(L.coperto)} a persona).</p>`:''}
+    const c=conto(T);
+    const callOpen=t=>live.calls.some(x=>Number(x.tavolo)===T&&x.tipo===t);
+    body.innerHTML=`${stimaHTML()}${c.os.length?c.os.map(o=>`<article class="ordc"><header><b>Ordine delle ${hm(o.creato)}${o.dev===DEV?' · dal tuo telefono':''}</b><span>${eur.format(Number(o.totale)||0)}</span></header><ul>${(o.righe||[]).map(r=>`<li>${Number(r.qty)||1} × ${esc(r.nome)}</li>`).join('')}</ul>${tracker(o.stato)}</article>`).join(''):'<p class="empty">Nessun ordine aperto per questo tavolo.</p>'}
+    ${c.os.length?contoHTML(c):''}
     <div class="svc"><button type="button" class="btn2" data-call="cameriere" ${callOpen('cameriere')?'disabled':''}>${callOpen('cameriere')?'Cameriere avvisato':'Chiama il cameriere'}</button><button type="button" class="btn2" data-call="conto" ${callOpen('conto')?'disabled':''}>${callOpen('conto')?'Conto richiesto':'Chiedi il conto'}</button></div>`;
     $$('[data-call]',body).forEach(b=>b.addEventListener('click',async()=>{b.disabled=true;const ok=await write(()=>api('chiamate',{tavolo:T,tipo:b.dataset.call}),b.dataset.call==='conto'?'Conto richiesto: arriva il cameriere.':'Il cameriere è stato avvisato.');if(!ok)b.disabled=false}));
   }
 }
 async function sendOrder(){
-  const btn=$('#g-send');
+  const btn=$('#g-send'),cam=camMode();
   if(G.cart.some(lineFinita)){toast('Nell\'ordine c\'è qualcosa che è finito.');return}
   btn.disabled=true;btn.firstElementChild.textContent='Invio in corso…';
   const righe=G.cart.map(l=>l.tipo==='voce'?{tipo:'voce',id:l.id,qty:l.qty}:{tipo:'pizza',da:l.da,ing:l.ing,qty:l.qty});
   const nota=($('#g-note').value||'').trim().slice(0,300);
+  const body={tavolo:T,righe,nota,dev:cam?'cam':DEV,cameriere:cam};
+  if($('#g-cop'))body.coperti=G.coperti;
   let ref=null;
-  const ok=await write(async()=>{ref=await api('ordini',{tavolo:T,righe,nota})});
+  const ok=await write(async()=>{ref=await api('ordini',body)});
   if(ok){lastSent=ref&&ref.id;G.cart=[];saveCart();store.set('pizza-nota-t'+T,'');updateBar();renderVoci();sheetMode='sent';renderSheet();say('Ordine inviato alla cucina')}
   else{btn.disabled=false;btn.firstElementChild.textContent='Invia in cucina'}
 }
@@ -1080,7 +1227,7 @@ setInterval(()=>{$$('[data-since]').forEach(el=>{const ms=+el.dataset.since,c=ag
 
 /* ===================== GESTIONE ===================== */
 let mTab='sala',period='30',sim=false,simData=null;
-$$('.sbar [role=tab]').forEach(b=>b.addEventListener('click',()=>{mTab=b.id.slice(2);renderManager()}));
+$$('#v-gestione .sbar [role=tab]').forEach(b=>b.addEventListener('click',()=>{mTab=b.id.slice(2);renderManager()}));
 function tableState(n){
   const os=tableOrders(n),calls=live.calls.filter(c=>Number(c.tavolo)===n);
   let st='libero';
@@ -1091,38 +1238,58 @@ function tableState(n){
 }
 const ST={libero:['p-mute','Libero'],cucina:['p-info','In cucina'],servire:['p-warn','Da servire'],servito:['p-good','Servito']};
 function renderManager(){
-  $$('.sbar [role=tab]').forEach(b=>b.setAttribute('aria-selected',String(b.id==='t-'+mTab)));
-  $('#m-sala').hidden=mTab!=='sala';$('#m-analisi').hidden=mTab!=='analisi';$('#m-qr').hidden=mTab!=='qr';
+  $$('#v-gestione .sbar [role=tab]').forEach(b=>b.setAttribute('aria-selected',String(b.id==='t-'+mTab)));
+  ['sala','analisi','menu','qr'].forEach(k=>$('#m-'+k).hidden=mTab!==k);
   $('#m-state').textContent=dbProblem();
   if(!L)return;
-  if(mTab==='sala')renderSala();else if(mTab==='analisi')renderAnalisi();else renderQR();
+  if(mTab==='sala')renderSala();else if(mTab==='analisi')renderAnalisi();else if(mTab==='menu')renderMenuEditor();else{renderQR();renderImpostazioni()}
   if($('#tsheet').open)renderTable();
 }
-function renderSala(){
-  const calls=[...live.calls].sort((a,b)=>a.creato-b.creato);
-  $('#m-calls').innerHTML=calls.map(c=>`<div class="call"><span><span class="pill p-crit">${SVG.bell}${c.tipo==='conto'?'Chiede il conto':'Chiama il cameriere'}</span> <b>Tavolo ${Number(c.tavolo)||'?'}</b> · da ${ago(c.creato)}</span><button type="button" class="btn2 sm" data-done="${esc(c.id)}">Fatto</button></div>`).join('');
+function tilesHTML(){
   const out=[];
   for(let n=1;n<=live.tavoli;n++){
-    const s=tableState(n),[cls,lab]=ST[s.st];
-    out.push(`<button type="button" class="tt${s.calls.length?' alert':s.st!=='libero'?' busy':''}" data-t="${n}" aria-label="Tavolo ${n}: ${lab}${s.calls.length?', con una richiesta':''}"><span class="n">${n}</span><span class="pill ${cls}">${lab}</span>${s.calls.length?`<span class="pill p-crit">${SVG.bell}${s.calls.some(c=>c.tipo==='conto')?'Chiede il conto':'Chiama'}</span>`:''}${s.os.length?`<span class="m"><span>${s.pz} ${s.pz===1?'pizza':'pizze'}</span><span>${eur.format(s.tot)}</span></span><span class="m"><span>da ${ago(s.since)}</span></span>`:''}</button>`);
+    const s=tableState(n),[cls,lab]=ST[s.st],cop=copertiDi(n);
+    out.push(`<button type="button" class="tt${s.calls.length?' alert':s.st!=='libero'?' busy':''}" data-t="${n}" aria-label="Tavolo ${n}: ${lab}${s.calls.length?', con una richiesta':''}"><span class="n">${n}</span><span class="pill ${cls}">${lab}</span>${s.calls.length?`<span class="pill p-crit">${SVG.bell}${s.calls.some(c=>c.tipo==='conto')?'Chiede il conto':'Chiama'}</span>`:''}${s.os.length?`<span class="m"><span>${s.pz} ${s.pz===1?'pizza':'pizze'}</span><span>${eur.format(s.tot)}</span></span><span class="m"><span>da ${ago(s.since)}</span>${cop?`<span>${cop} pers.</span>`:''}</span>`:''}</button>`);
   }
-  $('#m-tables').innerHTML=out.join('');
+  return out.join('');
+}
+const callHTML=(c,attr)=>`<div class="call"><span><span class="pill p-crit">${SVG.bell}${c.tipo==='conto'?'Chiede il conto':'Chiama il cameriere'}</span> <b>Tavolo ${Number(c.tavolo)||'?'}</b> · da ${ago(c.creato)}</span><button type="button" class="btn2 sm" ${attr}="${esc(c.id)}">Fatto</button></div>`;
+function renderSala(){
+  $('#m-calls').innerHTML=[...live.calls].sort((a,b)=>a.creato-b.creato).map(c=>callHTML(c,'data-done')).join('');
+  $('#m-tables').innerHTML=tilesHTML();
 }
 $('#m-calls').addEventListener('click',e=>{const b=e.target.closest('[data-done]');if(b){b.disabled=true;write(()=>api('staff/chiamata',{id:b.dataset.done},true))}});
-let tsN=0,closeArm=false;
-$('#m-tables').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;tsN=+b.dataset.t;closeArm=false;renderTable();openD($('#tsheet'))});
+let tsN=0,closeArm=false,splitMode='';
+function openTable(n){tsN=n;closeArm=false;splitMode='';renderTable();openD($('#tsheet'))}
+$('#m-tables').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b)openTable(+b.dataset.t)});
+function dividiHTML(c){
+  if(!splitMode)return'';
+  if(splitMode==='romana'){
+    const n=Math.max(1,c.cop||2),q=Math.ceil(c.tot/n*100)/100;
+    return`<div class="divi"><b>Alla romana: ${n} ${n===1?'persona':'persone'}</b><span>${eur.format(q)} a testa</span><small>${c.cop?'Calcolato sui coperti del tavolo.':'Coperti non indicati: diviso per 2. Indicali qui sopra per il conto giusto.'} Arrotondato al centesimo in su.</small></div>`;
+  }
+  const g=new Map();
+  for(const o of c.os){const k=o.dev||'?';g.set(k,(g.get(k)||0)+(Number(o.totale)||0))}
+  let i=0;
+  return`<div class="divi"><b>Per telefono</b>${[...g.entries()].map(([k,v])=>`<span>${k==='cam'?'Ordinato dal cameriere':'Telefono '+(++i)}: ${eur.format(r2(v))}</span>`).join('')}${c.cop?`<small>A ciascuno va aggiunto il coperto: ${eur.format(L.coperto)} a persona.</small>`:''}</div>`;
+}
 function renderTable(){
-  const s=tableState(tsN),[cls,lab]=ST[s.st];
+  const s=tableState(tsN),[cls,lab]=ST[s.st],c=conto(tsN),cop=copertiDi(tsN),src=live.sessioni[tsN]&&live.sessioni[tsN].da;
   $('#ts-title').textContent='Tavolo '+tsN;
   $('#ts-body').innerHTML=`<div><span class="pill ${cls}">${lab}</span></div>
-  ${s.calls.map(c=>`<div class="call"><span><span class="pill p-crit">${SVG.bell}${c.tipo==='conto'?'Chiede il conto':'Chiama il cameriere'}</span> da ${ago(c.creato)}</span><button type="button" class="btn2 sm" data-tdone="${esc(c.id)}">Fatto</button></div>`).join('')}
-  ${s.os.length?s.os.map(o=>`<article class="ordc"><header><b>Ordine delle ${hm(o.creato)}</b><span>${eur.format(Number(o.totale)||0)}</span></header><ul>${(o.righe||[]).map(r=>`<li>${Number(r.qty)||1} × ${esc(r.nome)}</li>`).join('')}</ul>${o.nota?`<p class="hint" style="margin:0">Nota: ${esc(o.nota)}</p>`:''}${tracker(o.stato)}${o.stato==='pronto'?`<button type="button" class="btn2 sm" data-serve="${esc(o.id)}">Segna come servito</button>`:''}</article>`).join(''):'<p class="empty">Tavolo libero: nessun ordine aperto.</p>'}
-  ${s.os.length?`<div class="tot"><span>Conto</span><span>${eur.format(s.tot)}</span></div><p class="hint" style="margin:0">Più il coperto: ${eur.format(L.coperto)} a persona.</p><button type="button" class="cta" id="ts-close"><span>${closeArm?'Conferma: conto pagato, libera il tavolo':'Chiudi il conto e libera il tavolo'}</span><span class="ct">${eur.format(s.tot)}</span></button>${closeArm?'<button type="button" class="btn2" id="ts-cancel">Annulla</button>':''}`:''}`;
+  ${s.calls.map(x=>callHTML(x,'data-tdone')).join('')}
+  ${live.cop!=='no'?`<div class="copr"><span><b>Coperti</b><br><small class="hint">${cop?(src==='cliente'?'Indicati dal cliente':'Indicati dal cameriere'):'Non ancora indicati'} · ${eur.format(L.coperto)} a persona</small></span><div class="step" role="group" aria-label="Coperti del tavolo ${tsN}"><button type="button" data-tcop="-1" aria-label="Uno in meno">−</button><output>${cop}</output><button type="button" data-tcop="1" aria-label="Uno in più">+</button></div></div>`:''}
+  <button type="button" class="btn" id="ts-ordina">Prendi l'ordine per questo tavolo</button>
+  ${s.os.length?s.os.map(o=>`<article class="ordc"><header><b>Ordine delle ${hm(o.creato)}${o.cameriere?' · dal cameriere':''}</b><span>${eur.format(Number(o.totale)||0)}</span></header><ul>${(o.righe||[]).map(r=>`<li>${Number(r.qty)||1} × ${esc(r.nome)}</li>`).join('')}</ul>${o.nota?`<p class="hint" style="margin:0">Nota: ${esc(o.nota)}</p>`:''}${tracker(o.stato)}${o.stato==='pronto'?`<button type="button" class="btn2 sm" data-serve="${esc(o.id)}">Segna come servito</button>`:''}</article>`).join(''):'<p class="empty">Nessun ordine aperto.</p>'}
+  ${s.os.length?`${contoHTML(c)}<div class="svc"><button type="button" class="btn2 sm" data-split="romana" aria-pressed="${splitMode==='romana'}">Dividi alla romana</button><button type="button" class="btn2 sm" data-split="telefono" aria-pressed="${splitMode==='telefono'}">Dividi per telefono</button></div>${dividiHTML(c)}<button type="button" class="cta" id="ts-close"><span>${closeArm?'Conferma: conto pagato, libera il tavolo':'Chiudi il conto e libera il tavolo'}</span><span class="ct">${eur.format(c.tot)}</span></button>${closeArm?'<button type="button" class="btn2" id="ts-cancel">Annulla</button>':''}`:''}`;
 }
 $('#ts-body').addEventListener('click',async e=>{
   const t=e.target.closest('button');if(!t)return;
   if(t.dataset.tdone){t.disabled=true;await write(()=>api('staff/chiamata',{id:t.dataset.tdone},true))}
   else if(t.dataset.serve){t.disabled=true;await write(()=>api('staff/stato',{id:t.dataset.serve,stato:'servito'},true))}
+  else if(t.dataset.tcop){const n=Math.max(0,Math.min(40,copertiDi(tsN)+(+t.dataset.tcop)));live.sessioni[tsN]=n?{coperti:n,da:'cameriere'}:undefined;renderTable();await write(()=>api('staff/coperti',{tavolo:tsN,coperti:n},true))}
+  else if(t.dataset.split){splitMode=splitMode===t.dataset.split?'':t.dataset.split;renderTable()}
+  else if(t.id==='ts-ordina'){try{sessionStorage.setItem('pizza-cam',String(tsN))}catch(err){}closeD($('#tsheet'));go('tavolo-'+tsN)}
   else if(t.id==='ts-cancel'){closeArm=false;renderTable()}
   else if(t.id==='ts-close'){
     if(!closeArm){closeArm=true;renderTable();return}
@@ -1130,6 +1297,126 @@ $('#ts-body').addEventListener('click',async e=>{
     const ok=await write(()=>api('staff/chiudi',{tavolo:tsN},true));
     closeArm=false;if(ok){toast('Tavolo '+tsN+' libero.');closeD($('#tsheet'))}
   }
+});
+
+/* ===================== APP CAMERIERI ===================== */
+let wSound=false,wLock=null,wSeen=null;
+function waiterTodo(){
+  const items=[];
+  for(const c of live.calls)items.push({k:'c:'+c.id,t:c.creato,crit:true,tav:Number(c.tavolo),txt:c.tipo==='conto'?'Chiede il conto':'Chiama il cameriere',id:c.id});
+  const byT=new Map();
+  for(const o of live.orders.filter(o=>!o.chiuso&&o.stato==='pronto')){const t=Number(o.tavolo);if(!byT.has(t))byT.set(t,[]);byT.get(t).push(o)}
+  for(const [t,os] of byT)items.push({k:'p:'+os.map(o=>o.id).sort().join(','),t:Math.min(...os.map(o=>o.pronto||o.creato)),tav:t,txt:'Pronto da portare',ids:os.map(o=>o.id),righe:mergeLines(os)});
+  return items.sort((a,b)=>a.t-b.t);
+}
+function renderWaiter(){
+  $('#w-state').textContent=dbProblem();
+  if(!L)return;
+  const items=waiterTodo();
+  $('#w-n').textContent=items.length?items.length+' da fare':'';
+  $('#w-todo').innerHTML=items.length?items.map(x=>`<div class="todo-i ${x.crit?'crit':'warn'}"><div><b>Tavolo ${x.tav} · ${esc(x.txt)}</b>${x.righe?`<span>${x.righe.map(r=>`${Number(r.qty)||1}× ${esc(r.tipo==='voce'?r.nome:(PIZ[r.da]?PIZ[r.da].nome:r.nome)+(r.add&&r.add.length?' +':''))}`).join(', ')}</span>`:''}<small>da ${ago(x.t)}</small></div>${x.crit?`<button type="button" class="btn sm" data-wdone="${esc(x.id)}">Fatto</button>`:`<button type="button" class="btn sm" data-wserve="${esc(x.ids.join(','))}">Servito</button>`}</div>`).join(''):'<p class="empty">Niente da fare. Le chiamate dei tavoli e le pizze pronte arrivano qui.</p>';
+  $('#w-tables').innerHTML=tilesHTML();
+  // avvisi: suono e vibrazione per ogni novita' dopo il primo caricamento
+  const keys=new Set(items.map(x=>x.k));
+  if(wSeen&&live.ready){const nuovi=items.filter(x=>!wSeen.has(x.k));if(nuovi.length){if(wSound){ding(true);try{navigator.vibrate&&navigator.vibrate([180,80,180])}catch(e){}}toast(nuovi.map(x=>`Tavolo ${x.tav}: ${x.txt.toLowerCase()}`).join(' · '))}}
+  if(live.ready)wSeen=keys;
+}
+$('#w-todo').addEventListener('click',e=>{
+  const a=e.target.closest('[data-wdone]'),b=e.target.closest('[data-wserve]');
+  if(a){a.disabled=true;write(()=>api('staff/chiamata',{id:a.dataset.wdone},true))}
+  if(b){b.disabled=true;write(()=>api('staff/stato',{ids:b.dataset.wserve.split(','),stato:'servito'},true))}
+});
+$('#w-tables').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b)openTable(+b.dataset.t)});
+$('#w-avvisi').addEventListener('click',e=>{
+  wSound=!wSound;e.currentTarget.setAttribute('aria-pressed',String(wSound));e.currentTarget.textContent=wSound?'Avvisi attivi':'Attiva avvisi';
+  if(wSound){try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();audio.resume();ding(true);navigator.vibrate&&navigator.vibrate(120)}catch(err){}}
+});
+async function wakeOn(){try{wLock=await navigator.wakeLock.request('screen');wLock.addEventListener('release',()=>{wLock=null})}catch(e){wLock=null;toast('Questo telefono non permette di tenere lo schermo acceso.');setWake(false)}}
+function setWake(on){const b=$('#w-schermo');b.setAttribute('aria-pressed',String(on));b.textContent=on?'Schermo sempre acceso':'Tieni acceso lo schermo';if(!on&&wLock){wLock.release();wLock=null}}
+$('#w-schermo').addEventListener('click',e=>{const on=e.currentTarget.getAttribute('aria-pressed')!=='true';setWake(on);if(on){if('wakeLock' in navigator)wakeOn();else{toast('Questo telefono non permette di tenere lo schermo acceso.');setWake(false)}}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&$('#w-schermo').getAttribute('aria-pressed')==='true'&&!wLock&&'wakeLock' in navigator)wakeOn()});
+
+/* ===================== MENU (titolare) ===================== */
+let base=null,draft=null,draftDirty=false,nuovaIng=new Set();
+async function loadBase(){if(!base){const r=await fetch('listino.json',{cache:'no-cache'});base=await r.json()}return base}
+function makeDraft(){
+  const prezzi={},supp={};
+  base.pizze.forEach(p=>{prezzi[p.id]=PIZ[p.id]?PIZ[p.id].prezzo:p.prezzo});
+  base.voci.forEach(v=>{prezzi[v.id]=VOC[v.id]?VOC[v.id].prezzo:v.prezzo});
+  Object.keys(base.ingredienti).forEach(id=>{supp[id]=ING[id]?ING[id].supp:base.ingredienti[id].supp});
+  return{prezzi,supp,nascoste:[...(L.nascoste||[])],nuove:PIZZE.filter(p=>p.nuova).map(p=>({id:p.id,sez:p.sez,nome:p.nome,prezzo:p.prezzo,ing:p.ing})),evidenza:L.evidenza?{...L.evidenza}:null,coperto:L.coperto};
+}
+async function renderMenuEditor(){
+  const box=$('#m-menu');
+  if(!draft){box.innerHTML='<p class="hint">Carico il menu…</p>';try{await loadBase()}catch(e){box.innerHTML='<p class="empty">Non riesco a caricare il menu.</p>';return}draft=makeDraft();draftDirty=false}
+  if(box.contains(document.activeElement)&&document.activeElement.matches('input,select,textarea'))return;
+  const D=draft,hid=new Set(D.nascoste),num=v=>String(v).replace('.',',');
+  const row=(id,nome,val,kind,canHide)=>`<div class="ed-row${hid.has(id)?' off':''}"><span class="en">${esc(nome)}</span><input type="text" inputmode="decimal" aria-label="Prezzo di ${esc(nome)}" data-ed="${kind}" data-id="${id}" value="${num(val)}">${canHide?`<label><input type="checkbox" data-hide="${id}" ${hid.has(id)?'':'checked'}> nel menu</label>`:'<span></span>'}</div>`;
+  const allP=[...base.pizze,...D.nuove];
+  box.innerHTML=`<div class="ed">
+    <section class="set"><h3>Pizza del giorno</h3><p class="hint" style="margin:0">Compare in cima al menu dei tavoli, con una frase vostra.</p>
+      <div class="frow"><label class="field">Pizza<select id="ed-ev"><option value="">Nessuna</option>${allP.filter(p=>!hid.has(p.id)).map(p=>`<option value="${p.id}" ${D.evidenza&&D.evidenza.id===p.id?'selected':''}>${esc(p.nome)}</option>`).join('')}</select></label><label class="field" style="flex:1;min-width:200px">Frase (facoltativa)<input id="ed-evn" maxlength="140" value="${esc(D.evidenza?D.evidenza.nota:'')}" placeholder="Es. con i fiori di zucca di stamattina"></label></div></section>
+    <section class="set"><h3>Coperto</h3><div class="ed-row"><span class="en">Coperto a persona</span><input type="text" inputmode="decimal" aria-label="Coperto a persona" data-ed="coperto" data-id="coperto" value="${num(D.coperto)}"><span></span></div></section>
+    <section class="set"><h3>Pizze</h3><p class="hint" style="margin:0">Cambia un prezzo o togli la spunta per nasconderla dal menu dei tavoli.</p>
+      ${base.sezioni_pizze.map(s=>`<details class="cat"><summary>${esc(s.nome)}</summary><div class="vlist">${base.pizze.filter(p=>p.sez===s.id).map(p=>row(p.id,p.nome,D.prezzi[p.id],'prezzi',true)).join('')}</div></details>`).join('')}
+      ${D.nuove.length?`<details class="cat" open><summary>Aggiunte da voi</summary><div class="vlist">${D.nuove.map((p,i)=>`<div class="ed-row"><span class="en">${esc(p.nome)}<small class="hint" style="display:block">${esc(ingDesc(p.ing))}</small></span><input type="text" inputmode="decimal" aria-label="Prezzo di ${esc(p.nome)}" data-ed="nuova" data-id="${i}" value="${num(p.prezzo)}"><button type="button" class="lnk" data-delnuova="${i}">Togli</button></div>`).join('')}</div></details>`:''}
+    </section>
+    <section class="set"><h3>Aggiungi una pizza</h3>
+      <div class="frow"><label class="field" style="flex:1;min-width:180px">Nome<input id="nw-nome" maxlength="40" placeholder="Es. Fiori e alici"></label><label class="field">Tipo<select id="nw-sez">${base.sezioni_pizze.map(s=>`<option value="${s.id}" ${s.id==='speciali'?'selected':''}>${esc(s.nome)}</option>`).join('')}</select></label><label class="field">Prezzo<input id="nw-prezzo" inputmode="decimal" placeholder="10,00" style="width:100px"></label></div>
+      <p class="hint" style="margin:0">Ingredienti (gli allergeni si calcolano da soli):</p>
+      ${base.categorie.map(c=>`<div><p class="esa-h">${esc(c.nome)}</p><div class="ingpick">${Object.keys(base.ingredienti).filter(id=>base.ingredienti[id].cat===c.id).map(id=>`<button type="button" class="chip" data-nwi="${id}" aria-pressed="${nuovaIng.has(id)}">${esc(base.ingredienti[id].nome)}</button>`).join('')}</div></div>`).join('')}
+      <div><button type="button" class="btn2" id="nw-add">Aggiungi al menu</button></div></section>
+    <section class="set"><h3>Ripieni, fritti, dolci e bevande</h3>
+      ${[...new Set(base.voci.map(v=>v.sez))].map(sz=>`<details class="cat"><summary>${esc(sz)}</summary><div class="vlist">${base.voci.filter(v=>v.sez===sz).map(v=>row(v.id,v.nome,D.prezzi[v.id],'prezzi',true)).join('')}</div></details>`).join('')}</section>
+    <section class="set"><h3>Supplementi per le aggiunte</h3><p class="hint" style="margin:0">Quanto costa aggiungere un ingrediente a una pizza del menu. Togliere resta gratis.</p>
+      ${base.categorie.map(c=>`<details class="cat"><summary>${esc(c.nome)}</summary><div class="vlist">${Object.keys(base.ingredienti).filter(id=>base.ingredienti[id].cat===c.id).map(id=>row(id,base.ingredienti[id].nome,D.supp[id],'supp',false)).join('')}</div></details>`).join('')}</section>
+    <div class="ed-bar"><span class="hint" style="margin:0" id="ed-msg">${draftDirty?'Ci sono modifiche non salvate.':'Le modifiche arrivano sui tavoli pochi secondi dopo il salvataggio.'}</span><span class="row" style="display:flex;gap:8px"><button type="button" class="btn2" id="ed-undo" ${draftDirty?'':'disabled'}>Annulla</button><button type="button" class="btn" id="ed-save" ${draftDirty?'':'disabled'}>Salva il menu</button></span></div>
+  </div>`;
+}
+const parseEur=v=>{const n=Number(String(v).replace(/\s|€/g,'').replace(',','.'));return Number.isFinite(n)&&n>=0&&n<=500?Math.round(n*100)/100:null};
+function setDirty(){draftDirty=true;const m=$('#ed-msg');if(m)m.textContent='Ci sono modifiche non salvate.';['#ed-undo','#ed-save'].forEach(s=>{const b=$(s);if(b)b.disabled=false})}
+$('#m-menu').addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.ed){const v=parseEur(t.value);if(v==null){toast('Prezzo non valido: usa un numero, per esempio 9,50.');return}
+    if(t.dataset.ed==='coperto')draft.coperto=v;else if(t.dataset.ed==='nuova')draft.nuove[+t.dataset.id].prezzo=v;else draft[t.dataset.ed][t.dataset.id]=v;setDirty()}
+  else if(t.dataset.hide){const id=t.dataset.hide,s=new Set(draft.nascoste);t.checked?s.delete(id):s.add(id);draft.nascoste=[...s];t.closest('.ed-row').classList.toggle('off',!t.checked);setDirty()}
+  else if(t.id==='ed-ev'||t.id==='ed-evn'){const id=$('#ed-ev').value;draft.evidenza=id?{id,nota:$('#ed-evn').value.trim()}:null;setDirty()}
+});
+$('#m-menu').addEventListener('click',async e=>{
+  const t=e.target.closest('button');if(!t)return;
+  if(t.dataset.nwi){const id=t.dataset.nwi;nuovaIng.has(id)?nuovaIng.delete(id):nuovaIng.add(id);t.setAttribute('aria-pressed',String(nuovaIng.has(id)))}
+  else if(t.id==='nw-add'){
+    const nome=$('#nw-nome').value.trim(),pr=parseEur($('#nw-prezzo').value),ing=Object.keys(base.ingredienti).filter(i=>nuovaIng.has(i));
+    if(!nome||pr==null||!ing.length){toast('Servono nome, prezzo e almeno un ingrediente.');return}
+    draft.nuove.push({id:'',sez:$('#nw-sez').value,nome,prezzo:pr,ing});nuovaIng=new Set();setDirty();renderMenuEditor();toast('Aggiunta: ricordati di salvare il menu.');
+  }
+  else if(t.dataset.delnuova!=null){const p=draft.nuove.splice(+t.dataset.delnuova,1)[0];if(draft.evidenza&&p&&draft.evidenza.id===p.id)draft.evidenza=null;setDirty();renderMenuEditor()}
+  else if(t.id==='ed-undo'){draft=makeDraft();draftDirty=false;renderMenuEditor()}
+  else if(t.id==='ed-save'){
+    t.disabled=true;
+    const ok=await write(async()=>{const j=await api('staff/menu',draft,true);setMenu(j.menu);onMenuChanged()},'Menu salvato: è già sui tavoli.');
+    if(ok){draft=makeDraft();draftDirty=false;renderMenuEditor()}else t.disabled=false;
+  }
+});
+function onMenuChanged(){
+  if(G.built){buildVoci();renderEvita();updateGuest()}
+  if(view==='gestione'&&mTab==='menu'&&!draftDirty){draft=null}
+  renderAll();
+}
+
+/* ===================== IMPOSTAZIONI ===================== */
+function renderImpostazioni(){
+  const box=$('#m-imp');if(box.contains(document.activeElement)&&document.activeElement.matches('input'))return;
+  box.innerHTML=`<section class="set"><h3>Coperti</h3><p class="hint" style="margin:0">Chi indica quante persone ci sono al tavolo. Il coperto vale ${eur.format(L.coperto)} a persona (si cambia nella scheda Menu).</p>
+    <div class="radios">${[['cliente','Li indica il cliente','Al primo ordine del tavolo il telefono chiede «Quanti siete?». Il cameriere può sempre correggerli.'],['cameriere','Li segna il cameriere','Dalla scheda del tavolo, nell\'app dei camerieri o qui in Sala.'],['no','Niente coperto','Il conto è solo quello che si ordina.']].map(([v,t,d])=>`<label><input type="radio" name="impcop" value="${v}" ${live.cop===v?'checked':''}><span><b>${t}</b><small>${d}</small></span></label>`).join('')}</div></section>
+  <section class="set"><h3>Riepilogo serale via email</h3><p class="hint" style="margin:0">Ogni notte, dopo la chiusura, arriva un'email con incasso, pizze vendute, quelle mai ordinate, le aggiunte più richieste e gli esauriti della serata.</p>
+    <div class="frow"><label class="field" style="flex:1;min-width:220px">Indirizzo email<input type="email" id="imp-email" value="${esc(live.email||'')}" placeholder="titolare@pizzeria.it"></label><button type="button" class="btn2" id="imp-email-save">Salva</button><button type="button" class="btn2" id="imp-email-test" ${live.email?'':'disabled'}>Manda ora una prova</button></div></section>`;
+}
+$('#m-imp').addEventListener('change',e=>{if(e.target.name==='impcop'){const v=e.target.value;write(()=>api('staff/config',{coperti:v},true),'Coperti: impostazione salvata.')}});
+$('#m-imp').addEventListener('click',async e=>{
+  const t=e.target.closest('button');if(!t)return;
+  if(t.id==='imp-email-save'){const v=$('#imp-email').value.trim();await write(()=>api('staff/config',{email:v},true),v?'Riepilogo serale attivo: arriva a '+v+'.':'Riepilogo serale spento.')}
+  if(t.id==='imp-email-test'){t.disabled=true;try{const j=await api('staff/riepilogo',{},true);toast(j.ok?'Email di prova inviata a '+j.inviato+'.':'Non inviata: '+(j.errore||'errore'))}catch(err){toast('Non inviata: '+(err.errore||'errore di rete'))}t.disabled=false}
 });
 
 /* ---- Analisi ---- */
