@@ -239,6 +239,7 @@ textarea{display:block;width:100%;min-height:60px;resize:vertical;padding:10px 1
 .tk .rem{color:var(--crit)}
 .tk .il{font-size:13px;color:var(--muted)}
 .tk .flags{display:flex;flex-wrap:wrap;gap:6px}
+.tk .tk-sub{margin:-4px 0 0;font-size:12.5px;color:var(--muted)}
 .tk .nota{margin:0;padding:8px 10px;border-radius:10px;background:var(--warn-soft);color:var(--ink);font-size:14px;font-weight:600}
 .tk footer{display:flex;gap:8px;align-items:center}
 .tk footer .btn{flex:1}
@@ -389,6 +390,7 @@ details.cat>.grid{padding:0 10px 10px}
         <li><span>Apri <b>la cucina</b> su un computer e <b>un tavolo</b> sul telefono.</span></li>
         <li><span>Dal telefono componi una pizza, aggiungila all'ordine e premi <b>Invia in cucina</b>.</span></li>
         <li><span>La comanda compare in cucina con il numero del tavolo. Premi <b>Inforna</b> e poi <b>Pronto</b>: il telefono mostra lo stato.</span></li>
+        <li><span>Ordina anche da un secondo telefono sullo stesso tavolo: in cucina gli ordini si uniscono in <b>una sola comanda</b> per tavolo.</span></li>
       </ol>
     </article>
     <p class="note" id="hub-note" hidden></p>
@@ -970,7 +972,7 @@ function renderSheet(){
   }else if(sheetMode==='sent'){
     $('#sh-title').textContent='Ordine inviato';
     const o=live.orders.find(x=>x.id===lastSent);
-    body.innerHTML=`<div class="ok"><span class="okm">${SVG.check}</span><h2>La cucina ha la tua comanda</h2><p>Tavolo ${T}. Qui vedi quando va in forno e quando arriva.</p></div>${tracker(o?o.stato:'nuovo')}<button type="button" class="btn2" data-close>Torna al menu</button>`;
+    body.innerHTML=`<div class="ok"><span class="okm">${SVG.check}</span><h2>La cucina ha la tua comanda</h2><p>Tavolo ${T}. Qui vedi quando va in forno e quando arriva. Gli altri al tavolo possono ordinare dal loro telefono: in cucina finisce tutto nella stessa comanda.</p></div>${tracker(o?o.stato:'nuovo')}<button type="button" class="btn2" data-close>Torna al menu</button>`;
   }else{
     $('#sh-title').textContent='Tavolo '+T;
     const os=tableOrders(T),tot=r2(os.reduce((t,o)=>t+(Number(o.totale)||0),0));
@@ -1038,25 +1040,41 @@ function lineHTML(r){
 function righeOrdinate(o){const rr=Array.isArray(o.righe)?o.righe:[];return[...rr.filter(r=>r.tipo!=='voce'),...rr.filter(r=>r.tipo==='voce').sort((a,b)=>SEZ_VOCI.indexOf(a.sez)-SEZ_VOCI.indexOf(b.sez))]}
 function ageClass(ms){const m=(Date.now()-ms)/60000;return m>=15?'crit':m>=10?'warn':''}
 function ageHTML(ms){const c=ageClass(ms);return`<span class="age${c?' pill p-'+c:''}" data-since="${Number(ms)||0}">${c==='crit'?SVG.alert:c?SVG.clock:''}<span class="t">${c==='crit'?'In ritardo · ':''}${ago(ms)}</span></span>`}
+// Una comanda per tavolo: gli ordini mandati dai vari telefoni dello stesso tavolo, nello stesso stato,
+// diventano una sola scheda con le quantita' sommate. Un'aggiunta arrivata quando il resto del tavolo
+// e' gia' in forno resta una scheda a parte, segnata come aggiunta.
+const STI={nuovo:0,forno:1,pronto:2};
+const lineKey=r=>r.tipo==='voce'?'v|'+r.id:'p|'+r.da+'|'+(Array.isArray(r.ing)?r.ing.join('.'):'');
+function mergeLines(orders){
+  const m=new Map();
+  for(const o of orders)for(const r of (Array.isArray(o.righe)?o.righe:[])){const k=lineKey(r),q=Math.max(1,Number(r.qty)||1);if(m.has(k))m.get(k).qty+=q;else m.set(k,Object.assign({},r,{qty:q}))}
+  return righeOrdinate({righe:[...m.values()]});
+}
 function renderKitchen(){
   $('#k-state').textContent=dbProblem();
   if(!L)return;
   renderEsa();
-  const act=live.orders.filter(o=>!o.chiuso&&KNEXT[o.stato]).sort((a,b)=>a.creato-b.creato);
+  const act=live.orders.filter(o=>!o.chiuso&&KNEXT[o.stato]);
   for(const st of ['nuovo','forno','pronto']){
-    const list=act.filter(o=>o.stato===st);
-    $('#k-n-'+st).textContent=list.length;
-    $('#k-'+st).innerHTML=list.length?list.map(o=>{
-      const nx=KNEXT[st],since=st==='nuovo'?o.creato:st==='forno'?(o.forno||o.creato):(o.pronto||o.creato);
-      return`<article class="tk${fresh.has(o.id)?' new':''}" data-id="${esc(o.id)}"><header><span class="tn">Tavolo ${Number(o.tavolo)||'?'}</span>${ageHTML(since)}</header><ol>${righeOrdinate(o).map(lineHTML).join('')}</ol>${o.nota?`<p class="nota">Nota: ${esc(o.nota)}</p>`:''}<footer><button type="button" class="btn${st==='nuovo'?' hot':''}" data-k="${nx[0]}">${nx[1]}</button>${KPREV[st]?`<button type="button" class="lnk" data-k="${KPREV[st]}">Indietro</button>`:''}</footer></article>`;
+    const byT=new Map();
+    for(const o of act.filter(o=>o.stato===st)){const t=Number(o.tavolo)||0;if(!byT.has(t))byT.set(t,[]);byT.get(t).push(o)}
+    const cards=[...byT.entries()].map(([t,os])=>{os.sort((a,b)=>a.creato-b.creato);return{t,os,since:Math.min(...os.map(o=>st==='nuovo'?o.creato:st==='forno'?(o.forno||o.creato):(o.pronto||o.creato)))}}).sort((a,b)=>a.since-b.since);
+    $('#k-n-'+st).textContent=cards.length;
+    $('#k-'+st).innerHTML=cards.length?cards.map(c=>{
+      const nx=KNEXT[st],ids=c.os.map(o=>o.id);
+      const altri=act.filter(o=>Number(o.tavolo)===c.t&&!ids.includes(o.id));
+      const avanti=altri.filter(o=>STI[o.stato]>STI[st]),dietro=altri.filter(o=>STI[o.stato]<STI[st]);
+      const tag=avanti.length?`<span class="pill p-warn">Aggiunta: il resto del tavolo è già ${avanti.some(o=>o.stato==='pronto')?'pronto':'in forno'}</span>`:dietro.length?`<span class="pill p-info">Questo tavolo ha anche un'aggiunta da preparare</span>`:'';
+      const note=c.os.filter(o=>o.nota).map(o=>`<p class="nota">${c.os.length>1?hm(o.creato)+' · ':'Nota: '}${esc(o.nota)}</p>`).join('');
+      return`<article class="tk${c.os.some(o=>fresh.has(o.id))?' new':''}" data-ids="${esc(ids.join(','))}"><header><span class="tn">Tavolo ${c.t||'?'}</span>${ageHTML(c.since)}</header><p class="tk-sub">${c.os.length>1?`${c.os.length} ordini uniti, da telefoni diversi · `:''}dalle ${hm(c.os[0].creato)}</p>${tag?`<div class="flags">${tag}</div>`:''}<ol>${mergeLines(c.os).map(lineHTML).join('')}</ol>${note}<footer><button type="button" class="btn${st==='nuovo'?' hot':''}" data-k="${nx[0]}">${nx[1]}</button>${KPREV[st]?`<button type="button" class="lnk" data-k="${KPREV[st]}">Indietro</button>`:''}</footer></article>`;
     }).join(''):`<p class="kempty">${st==='nuovo'?'Nessuna comanda in attesa.':st==='forno'?'Niente in forno.':'Niente da servire.'}</p>`;
   }
 }
 $('#v-cucina').addEventListener('click',async e=>{
   const b=e.target.closest('[data-k]');if(!b)return;
-  const id=b.closest('[data-id]').dataset.id,to=b.dataset.k;
-  fresh.delete(id);b.disabled=true;
-  await write(()=>api('staff/stato',{id,stato:to},true));
+  const ids=b.closest('[data-ids]').dataset.ids.split(',').filter(Boolean),to=b.dataset.k;
+  ids.forEach(id=>fresh.delete(id));b.disabled=true;
+  await write(()=>api('staff/stato',{ids,stato:to},true));
 });
 setInterval(()=>{$$('[data-since]').forEach(el=>{const ms=+el.dataset.since,c=ageClass(ms),want='age'+(c?' pill p-'+c:'');if(el.className!==want)el.outerHTML=ageHTML(ms);else{const t=el.querySelector('.t');if(t)t.textContent=(c==='crit'?'In ritardo · ':'')+ago(ms)}})},1000);
 

@@ -118,14 +118,20 @@ export class Pizzeria extends DurableObject {
       return json({ ok: true, id: c.id });
     }
     if (via === 'staff/stato') {
-      const o = this.ordine(b.id);
-      if (!o) return errore('ordine non trovato', 404);
+      // la cucina sposta insieme tutti gli ordini della comanda di un tavolo (ids), o uno solo (id)
       if (!STATI.includes(b.stato)) return errore('stato non valido');
-      o.stato = b.stato;
-      if (b.stato !== 'nuovo' && b.stato !== 'servito') o[b.stato] = ora;
-      if (b.stato === 'servito') o.servito = ora;
-      this.salvaOrdine(o);
-      return json({ ok: true });
+      const ids = (Array.isArray(b.ids) ? b.ids : [b.id]).map(String).slice(0, 60);
+      let n = 0;
+      for (const id of ids) {
+        const o = this.ordine(id);
+        if (!o) continue;
+        o.stato = b.stato;
+        if (b.stato === 'forno' || b.stato === 'pronto') o[b.stato] = ora;
+        if (b.stato === 'servito') o.servito = ora;
+        this.salvaOrdine(o);
+        n++;
+      }
+      return n ? json({ ok: true, aggiornati: n }) : errore('ordine non trovato', 404);
     }
     if (via === 'staff/chiamata') {
       const r = this.sql.exec('SELECT dati FROM chiamate WHERE id = ?', String(b.id)).toArray()[0];

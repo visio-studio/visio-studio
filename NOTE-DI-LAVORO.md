@@ -732,6 +732,12 @@ servizio di VISIO** e non è collegata al sito: niente link, `noindex` (meta e
   poi ne segue lo stato. `#cucina` mostra le comande e gli «esauriti», `#gestione`
   la sala, le analisi (pizze mai ordinate, aggiunte più richieste…) e i cartellini
   QR in PDF. `/pizza/` senza hash è l'indice.
+- **Una comanda per tavolo**: ogni telefono manda il suo ordine (resta separato
+  per il conto e le analisi), ma in cucina gli ordini dello stesso tavolo e nello
+  stesso stato diventano una sola scheda con le quantità sommate e tutte le note;
+  «Inforna», «Pronto» e «Servito» spostano insieme tutto il tavolo
+  (`staff/stato` con `ids`). Un ordine arrivato quando il resto del tavolo è già
+  in forno resta una scheda a parte, segnata «Aggiunta».
 - **Listino**: tutto in `pizza/listino.json` (preso dal PDF del menu dell'11/11/2026):
   pizze con prezzo e ingredienti, ingredienti per categoria con allergeni, resto del
   menu. Lo leggono **sia la pagina sia il Worker** (`import` in `worker/pizza.js`):
