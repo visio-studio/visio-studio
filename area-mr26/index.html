@@ -74,6 +74,16 @@ figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rg
 .pair { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:40px; }
 .pair img { width:100%;aspect-ratio:4/3;object-fit:cover;background:#121212; }
 
+/* render: colonne che rispettano il formato di ogni immagine */
+#render { background:var(--dark2); }
+.vtit { font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin:64px 0 18px; }
+.vtit em { font-style:italic;color:var(--gold); }
+.rcol { columns:3 260px;column-gap:3px; }
+.rcol.r2 { columns:2 300px; }
+.rcol figure { break-inside:avoid;margin-bottom:12px; }
+.rcol img { width:100%;height:auto;background:#121212;transition:opacity .3s; }
+.rcol a:hover img { opacity:.88; }
+
 /* chiusura */
 #fine { background:var(--dark2);text-align:center;border-top:.5px solid rgba(255,255,255,.08); }
 #fine h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:300;margin-bottom:14px; }
@@ -112,11 +122,11 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 <main>
 
 <header id="hero">
-  <img src="img/progetto-3d.jpg" alt="Il modello 3D del progetto: la casa vista dall'alto in diagonale, con le stanze arredate e il terrazzo con la pergola">
+  <img src="render/soggiorno.jpg" alt="Render del soggiorno visto dal corridoio: soffitto a doghe di legno con la luce fra le doghe, giardino interno con le piante e parquet a spina">
   <div class="hero-in">
     <p class="k">Proposta di progetto</p>
     <h1 class="serif">Progetto Mario</h1>
-    <p class="s">Il progetto definitivo in 3D e il rilievo della casa com'è oggi</p>
+    <p class="s">I render della casa, il progetto definitivo in 3D e il rilievo di com'è oggi</p>
   </div>
   <p class="hero-scroll">Scorri per vedere il progetto ↓</p>
 </header>
@@ -144,14 +154,54 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   </div>
 </section>
 
+<section id="render">
+  <div class="wrap">
+    <p class="slab">Render</p>
+    <h2 class="st">La casa, <em>stanza per stanza</em>.</h2>
+    <p class="sd">Le immagini del progetto: forme, arredi su misura, materiali e luci sono quelli proposti; tessili, quadri e oggetti sono indicativi. Toccate un'immagine per vederla grande.</p>
+
+    <h3 class="vtit">Zona <em>giorno</em></h3>
+    <div class="rcol">
+      <figure><a href="render/soggiorno.jpg"><img src="render/soggiorno.jpg" alt="Il soggiorno visto dal corridoio: soffitto a doghe di legno illuminate, giardino interno con le piante e i ciottoli, divano e parete TV" loading="lazy"></a><figcaption>Il soggiorno dal corridoio, con il giardino interno</figcaption></figure>
+      <figure><a href="render/camino.jpg"><img src="render/camino.jpg" alt="Il camino passante rivestito in pietra chiara su fondo nero, con due poltrone in tessuto e legno" loading="lazy"></a><figcaption>Il camino passante in pietra</figcaption></figure>
+      <figure><a href="render/ingresso-camino.jpg"><img src="render/ingresso-camino.jpg" alt="Il camino visto dall'ingresso, con gli armadi a muro e le vetrate a telaio nero sulla destra" loading="lazy"></a><figcaption>Il camino dall'ingresso, con le vetrate a telaio nero</figcaption></figure>
+      <figure><a href="render/cucina.jpg"><img src="render/cucina.jpg" alt="La cucina lineare con ante scure, schienale in pietra illuminato, cantinetta del vino e bancone con gli sgabelli" loading="lazy"></a><figcaption>La cucina, con la cantinetta e il bancone</figcaption></figure>
+    </div>
+
+    <h3 class="vtit">Le <em>camere</em> e lo studio</h3>
+    <div class="rcol">
+      <figure><a href="render/camera.jpg"><img src="render/camera.jpg" alt="La camera matrimoniale con il camino nella lastra di marmo, lo specchio e la porta finestra sul balcone" loading="lazy"></a><figcaption>La camera, con il camino nel marmo</figcaption></figure>
+      <figure><a href="render/camera-alto.jpg"><img src="render/camera-alto.jpg" alt="La camera matrimoniale vista dall'alto: armadio, letto, camino e porta finestra" loading="lazy"></a><figcaption>La camera, dall'alto</figcaption></figure>
+      <figure><a href="render/cameretta.jpg"><img src="render/cameretta.jpg" alt="La cameretta con la testata a listelli di legno, l'armadio bianco e la scrivania" loading="lazy"></a><figcaption>La cameretta</figcaption></figure>
+      <figure><a href="render/cameretta-alto.jpg"><img src="render/cameretta-alto.jpg" alt="La cameretta vista dall'alto: letto, armadio, scrivania e TV" loading="lazy"></a><figcaption>La cameretta, dall'alto</figcaption></figure>
+      <figure><a href="render/studio.jpg"><img src="render/studio.jpg" alt="Lo studio con la libreria illuminata a tutta altezza, la scrivania in vetro e la poltrona in pelle" loading="lazy"></a><figcaption>Lo studio, con la libreria illuminata</figcaption></figure>
+      <figure><a href="render/studio-alto.jpg"><img src="render/studio-alto.jpg" alt="Lo studio visto dall'alto: pensili, scrivania, libreria e poltrona" loading="lazy"></a><figcaption>Lo studio, dall'alto</figcaption></figure>
+    </div>
+
+    <h3 class="vtit">I <em>bagni</em></h3>
+    <div class="rcol r2">
+      <figure><a href="render/bagno-marmo.jpg"><img src="render/bagno-marmo.jpg" alt="Il bagno in marmo bianco venato, con sanitari e lavabo neri, doccia in vetro e specchio illuminato" loading="lazy"></a><figcaption>Il bagno in marmo, con i sanitari neri</figcaption></figure>
+      <figure><a href="render/bagno-marmo-alto.jpg"><img src="render/bagno-marmo-alto.jpg" alt="Il bagno in marmo visto dall'alto, con la doccia e il lavabo" loading="lazy"></a><figcaption>Il bagno in marmo, dall'alto</figcaption></figure>
+      <figure><a href="render/bagno-legno.jpg"><img src="render/bagno-legno.jpg" alt="Il bagno con la finestra sul giardino, il mobile sospeso in legno e lo specchio ovale illuminato" loading="lazy"></a><figcaption>Il bagno con la finestra sul giardino</figcaption></figure>
+      <figure><a href="render/bagno-legno-alto.jpg"><img src="render/bagno-legno-alto.jpg" alt="Il bagno con la finestra sul giardino visto dall'alto, con la doccia e il mobile alto" loading="lazy"></a><figcaption>Lo stesso bagno, dall'alto</figcaption></figure>
+    </div>
+
+    <h3 class="vtit">La casa <em>dall'alto</em></h3>
+    <div class="rcol r2">
+      <figure><a href="render/assonometria.jpg"><img src="render/assonometria.jpg" alt="Assonometria della casa arredata, senza soffitti: zona giorno, cucina, camere, bagni e terrazzi" loading="lazy"></a><figcaption>Tutta la casa arredata</figcaption></figure>
+      <figure><a href="render/pianta-render.jpg"><img src="render/pianta-render.jpg" alt="Pianta arredata della casa vista dall'alto, con il soggiorno, il pranzo, le camere e i bagni" loading="lazy"></a><figcaption>La pianta arredata</figcaption></figure>
+    </div>
+  </div>
+</section>
+
 <section id="oggi" class="chiara">
   <div class="wrap">
     <p class="slab">Oggi e domani</p>
     <h2 class="st">Dalla casa di oggi <em>al progetto</em>.</h2>
-    <p class="sd">A sinistra il rilievo Polycam, la casa così com'è; a destra la versione definitiva del progetto. Toccate un'immagine per aprirla nel modello 3D e girarla come volete.</p>
+    <p class="sd">A sinistra il rilievo Polycam, la casa così com'è; a destra la versione definitiva del progetto, arredata. Toccate il rilievo per aprirlo nel modello 3D e girarlo come volete.</p>
     <div class="pair">
       <figure><a href="3d/?s=sa"><img src="img/rilievo-3d.jpg" alt="La scansione Polycam dell'appartamento com'è oggi, vista in 3D" loading="lazy"></a><figcaption>Oggi · rilievo Polycam</figcaption></figure>
-      <figure><a href="3d/"><img src="img/progetto-3d.jpg" alt="Il modello 3D del progetto definitivo, visto in diagonale dall'alto" loading="lazy"></a><figcaption>Domani · progetto definitivo</figcaption></figure>
+      <figure><a href="render/assonometria.jpg"><img src="render/assonometria.jpg" alt="Assonometria della casa arredata secondo il progetto definitivo" loading="lazy"></a><figcaption>Domani · progetto definitivo</figcaption></figure>
     </div>
   </div>
 </section>
@@ -159,7 +209,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 <section id="fine">
   <div class="wrap">
     <h2 class="serif">Il progetto è <em>sempre qui</em>.</h2>
-    <p>Questa pagina si aggiorna insieme al lavoro: render, piante quotate e disegni esecutivi arriveranno qui.</p>
+    <p>Questa pagina si aggiorna insieme al lavoro: piante quotate, disegni esecutivi e nuove viste arriveranno qui.</p>
     <a href="/#contatti" class="btn">Scrivici</a>
   </div>
 </section>

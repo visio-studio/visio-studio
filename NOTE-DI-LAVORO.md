@@ -550,8 +550,11 @@ Il modello è circa il 4-5 % più grande del rilievo: segnalato al cliente sulla
 Da fare: render nuovi della cucina (specchio fumé anticato al posto del pannello azzurro).
 
 **Progetto Mario** (23 novembre 2026) → `/area-mr26`, codice **`Mario26`** (i codici
-sono senza maiuscole: va bene anche `mario26`). Pagina snella: modello 3D in pagina,
-anteprime dall'alto, confronto oggi/domani; niente preventivo né render per ora.
+sono senza maiuscole: va bene anche `mario26`). Pagina: copertina sul soggiorno, modello 3D in pagina,
+anteprime dall'alto, render «stanza per stanza» (zona giorno, camere e studio, bagni,
+casa dall'alto: 16 immagini in `area-mr26/render/`, colonne che rispettano il formato),
+confronto oggi/domani; niente preventivo per ora. In due render dall'alto (studio,
+camera) il simbolo di Gemini nell'angolo è stato tolto ritagliando il bordo in basso.
 Sorgente: `curigliano daniel.skp` (380 MB, sul Desktop, non nel repo) con più varianti
 vecchie, una planimetria 2D importata (il DWG «Rilievo stato attuale») e la variante
 definitiva, riconoscibile dalla scritta 3D «definitivo» (un componente con quel nome)
