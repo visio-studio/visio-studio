@@ -84,6 +84,16 @@ figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rg
 .rcol img { width:100%;height:auto;background:#121212;transition:opacity .3s; }
 .rcol a:hover img { opacity:.88; }
 
+/* confronto ante scure / chiare */
+#ba { position:relative;margin:28px auto 0;overflow:hidden;aspect-ratio:1/1;max-width:680px; }
+#ba img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+#ba-top { position:absolute;inset:0; }
+#ba-line { position:absolute;top:0;bottom:0;width:2px;background:var(--gold);transform:translateX(-1px);pointer-events:none; }
+#ba-r { position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0; }
+.ba-l,.ba-r { position:absolute;top:14px;font-size:9px;letter-spacing:3px;text-transform:uppercase;background:rgba(10,10,10,.7);padding:7px 12px;pointer-events:none; }
+.ba-l { left:14px; } .ba-r { right:14px;color:var(--gold); }
+.cnote { font-size:12px;color:rgba(255,255,255,.55);line-height:1.8;margin:14px auto 0;max-width:680px; }
+
 /* chiusura */
 #fine { background:var(--dark2);text-align:center;border-top:.5px solid rgba(255,255,255,.08); }
 #fine h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:300;margin-bottom:14px; }
@@ -165,8 +175,18 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
       <figure><a href="render/soggiorno.jpg"><img src="render/soggiorno.jpg" alt="Il soggiorno visto dal corridoio: soffitto a doghe di legno illuminate, giardino interno con le piante e i ciottoli, divano e parete TV" loading="lazy"></a><figcaption>Il soggiorno dal corridoio, con il giardino interno</figcaption></figure>
       <figure><a href="render/camino.jpg"><img src="render/camino.jpg" alt="Il camino passante rivestito in pietra chiara su fondo nero, con due poltrone in tessuto e legno" loading="lazy"></a><figcaption>Il camino passante in pietra</figcaption></figure>
       <figure><a href="render/ingresso-camino.jpg"><img src="render/ingresso-camino.jpg" alt="Il camino visto dall'ingresso, con gli armadi a muro e le vetrate a telaio nero sulla destra" loading="lazy"></a><figcaption>Il camino dall'ingresso, con le vetrate a telaio nero</figcaption></figure>
+      <figure><a href="render/ingresso.jpg"><img src="render/ingresso.jpg" alt="L'ingresso con gli armadi bianchi a tutta altezza, la vetrata scorrevole a telaio nero sul soggiorno e la cucina sullo sfondo" loading="lazy"></a><figcaption>L'ingresso, con la vetrata sul soggiorno</figcaption></figure>
       <figure><a href="render/cucina.jpg"><img src="render/cucina.jpg" alt="La cucina lineare con ante scure, schienale in pietra illuminato, cantinetta del vino e bancone con gli sgabelli" loading="lazy"></a><figcaption>La cucina, con la cantinetta e il bancone</figcaption></figure>
     </div>
+
+    <div id="ba">
+      <img src="render/cucina-chiara.jpg" alt="La cucina con le ante chiare, stessa inquadratura" loading="lazy">
+      <div id="ba-top"><img src="render/cucina.jpg" alt="La cucina con le ante scure" loading="lazy"></div>
+      <div id="ba-line" aria-hidden="true"></div>
+      <span class="ba-l">Ante scure</span><span class="ba-r">Ante chiare</span>
+      <input id="ba-r" type="range" min="0" max="100" value="50" aria-label="Confronto tra la cucina con ante scure e con ante chiare">
+    </div>
+    <p class="cnote">Trascinate per confrontare la cucina con le ante scure e con le ante chiare: schienale in pietra, bancone e cantinetta restano gli stessi.</p>
 
     <h3 class="vtit">Le <em>camere</em> e lo studio</h3>
     <div class="rcol">
@@ -236,6 +256,9 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
  if('IntersectionObserver' in window){io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting||e.boundingClientRect.top<0))avvia();},{rootMargin:'300px 0px'});io.observe(box);}
  addEventListener('scroll',vicino,{passive:true});
  box.querySelector('.m3cta a').addEventListener('click',e=>{if(innerWidth>640){e.preventDefault();avvia();}});})();
+// Confronto cucina: ante scure a sinistra del cursore, chiare a destra
+(function(){const r=document.getElementById('ba-r'),t=document.getElementById('ba-top'),l=document.getElementById('ba-line');
+ function set(v){t.style.clipPath='inset(0 '+(100-v)+'% 0 0)';l.style.left=v+'%';}r.addEventListener('input',()=>set(r.value));set(r.value);})();
 </script>
 </body>
 </html>
