@@ -720,28 +720,41 @@ posti — piede delle pagine, informativa, JSON-LD (`legalName`, `vatID`,
 
 ---
 
-## Demo per pizzerie — `/pizza/` (20 novembre 2026)
+## Demo per pizzerie — `/pizza/` (20 novembre 2026, menu vero dal 23 novembre)
 
-Prova reale per un cliente pizzeria, **non è un servizio di VISIO** e non è
-collegata al sito: niente link, `noindex` (meta e `X-Robots-Tag` in `_headers`),
-fuori da sitemap e `llms.txt`.
+Prova reale per un cliente pizzeria (**Il Presidente, Via Milazzo**), **non è un
+servizio di VISIO** e non è collegata al sito: niente link, `noindex` (meta e
+`X-Robots-Tag` in `_headers`), fuori da sitemap e `llms.txt`.
 
 - **Cosa fa**: il QR sul tavolo apre `visiorender.it/pizza/#tavolo-N`; il cliente
-  compone la pizza (che si disegna dal vivo), la invia e ne segue lo stato.
-  `#cucina` mostra le comande (da preparare / in forno / pronte), `#gestione` la
-  sala, le analisi e i cartellini QR in PDF. `/pizza/` senza hash è l'indice.
+  sceglie una delle 43 pizze del menu (rosse, bianche, speciali), la vede comporsi,
+  aggiunge o toglie ingredienti, aggiunge ripieni, fritti, dolci e bevande e invia;
+  poi ne segue lo stato. `#cucina` mostra le comande e gli «esauriti», `#gestione`
+  la sala, le analisi (pizze mai ordinate, aggiunte più richieste…) e i cartellini
+  QR in PDF. `/pizza/` senza hash è l'indice.
+- **Listino**: tutto in `pizza/listino.json` (preso dal PDF del menu dell'11/11/2026):
+  pizze con prezzo e ingredienti, ingredienti per categoria con allergeni, resto del
+  menu. Lo leggono **sia la pagina sia il Worker** (`import` in `worker/pizza.js`):
+  i prezzi si cambiano solo lì. Regola del prezzo: pizza del menu + supplemento
+  delle aggiunte, togliere è gratis; se gli ingredienti coincidono con un'altra
+  pizza del menu vale quella. **I supplementi (`supp`) non sono nel menu: sono
+  provvisori, da far confermare alla pizzeria.**
+- **Da chiarire con la pizzeria** (riportati come stampati): il coperto compare a
+  2,50 € e a 2,00 € (in pagina si usa 2,50); allergeni dubbi su Mr. Duplo (5 =
+  pesce, mancano le nocciole), Tiramisù (mancano le uova), Dubai chocolate
+  (pistacchio). Corretti refusi evidenti (Delizia, lemon curd, Spinelli).
 - **Dati**: un Durable Object con SQLite (`worker/pizza.js`, classe `Pizzeria`,
   binding `PIZZERIA` e migrazione `pizza-v1` in `wrangler.jsonc`). Le pagine
-  leggono `/api/pizza/stato` ogni 2,5 secondi. Il prezzo lo ricalcola il server:
-  **il listino sta in due posti** (`worker/pizza.js` e il blocco LISTINO in
-  `pizza/index.html`) e va cambiato in entrambi.
+  leggono `/api/pizza/stato` ogni 2,5 secondi.
 - **PIN del personale**: se nel Worker c'è il segreto `PIZZA_PIN` (Cloudflare →
   visio-studio → Settings → Variables and secrets), cucina e gestione lo chiedono.
   Senza segreto sono aperte a chi conosce l'indirizzo: va bene per la prova, non
   per l'uso vero.
-- **Immagini**: base e ingredienti sono rese procedurali (`strumenti/pizza-render.py`),
-  non foto. Font, libreria QR e jsPDF stanno in `pizza/` (nessuna richiesta a terzi).
+- **Immagini**: basi, creme e 50 ingredienti sono rese procedurali
+  (`strumenti/pizza-render.py pizza/img`, circa 6 minuti), non foto. In
+  `pizza/index.html` la tabella `VIS` dice quale immagine, quanto grande e su
+  quale strato disegnare ogni ingrediente del listino. Font, libreria QR e jsPDF
+  stanno in `pizza/` (nessuna richiesta a terzi).
 - **Per toglierla**: cancellare `pizza/`, `worker/pizza.js`, le righe in
   `worker/index.js` e, in `wrangler.jsonc`, il binding; la migrazione resta e se ne
   aggiunge una con `deleted_classes: ["Pizzeria"]`.
-

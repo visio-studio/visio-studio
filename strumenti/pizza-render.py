@@ -578,7 +578,11 @@ def g_friarielli(n, s):
     return finish(rgb, m, (0.025, 0.045, 0.03, 0.45))
 
 
-def g_pomodorini(n, s):
+POM_ROSSO = ('#E0412A', '#A9170E', '#F0A04E', '#F7E3A6', '#F2856A')
+POM_GIALLO = ('#F2BE2E', '#D99210', '#F7D86E', '#FBF0C0', '#F8D888')
+
+
+def g_pomodorini(n, s, pal=POM_ROSSO):
     m = blob(n, .26 * n, .05, s, kmax=6, sx=1.05, sy=.95, rot=s)
     d = edt(m)
     dm = d.max()
@@ -586,20 +590,20 @@ def g_pomodorini(n, s):
     rr = np.hypot(xx, yy) / (.26 * n)
     th = np.arctan2(yy, xx) + s
     h = dome(d, .12 * n, .05 * n, .5) + fbm(m.shape, [2 * SS], s) * .002 * n
-    alb = np.broadcast_to(C('#E0412A'), m.shape + (3,)).copy()
+    alb = np.broadcast_to(C(pal[0]), m.shape + (3,)).copy()
     skin = 1 - sstep(.015 * n, .03 * n, d)
-    alb = mix(alb, C('#A9170E'), skin)
+    alb = mix(alb, C(pal[1]), skin)
     loc = np.zeros(m.shape)
     for k in range(3):
         a_ = k * TAU / 3
         ex, ey = math.cos(a_) * .5, math.sin(a_) * .5
         e = np.hypot(rr * np.cos(th) - ex, (rr * np.sin(th) - ey) * 1.3)
         loc = np.maximum(loc, 1 - sstep(.22, .32, e))
-    alb = mix(alb, C('#F0A04E'), loc * .8)
+    alb = mix(alb, C(pal[2]), loc * .8)
     seeds = sstep(1.7, 2.2, noise(m.shape, 1.0 * SS, s + 1)) * loc
-    alb = mix(alb, C('#F7E3A6'), seeds)
+    alb = mix(alb, C(pal[3]), seeds)
     core = 1 - sstep(.08, .16, rr)
-    alb = mix(alb, C('#F2856A'), core * .7)
+    alb = mix(alb, C(pal[4]), core * .7)
     alb = mix(alb, C('#3A1408'), sstep(1.9, 2.5, fbm(m.shape, [2 * SS, 4 * SS], s + 3)) * .6 * skin)
     rgb = shade(alb, h, gloss=.7, shin=60, amb=.5, ao=.3, edge_dark=.15, d=d, specc=(1, 1, 1))
     return finish(rgb, m, (0.025, 0.04, 0.03, 0.45))
@@ -621,28 +625,418 @@ def g_olive(n, s):
     return finish(rgb, m, (0.02, 0.035, 0.025, 0.42))
 
 
+# ------------------------------------------------- ingredienti del menu (novembre 2026)
+def full(h, n):
+    return np.broadcast_to(C(h), (n, n, 3)).copy()
+
+
+def g_stracciatella(n, s):
+    r = np.random.default_rng(s)
+    pool = nd.gaussian_filter(blob(n, .3 * n, .45, s, kmax=11), 2 * SS)
+    d = edt(pool)
+    fib = nd.gaussian_filter1d(noise((n, n), 1.0 * SS, s + 1), 8 * SS, axis=1)
+    fib = nd.rotate(fib, r.uniform(0, 180), reshape=False, mode='reflect')
+    fib = (fib - fib.mean()) / (fib.std() + 1e-9)
+    h = nd.gaussian_filter(dome(d, .1 * n, .02 * n, .6) + np.clip(fib, 0, None) * .006 * n, .7 * SS)
+    alb = mix(full('#F1ECE0', n), C('#FFFFFF'), sstep(-.2, 1.2, fib))
+    rgb = shade(alb, h, gloss=.55, shin=40, amb=.62, ao=.3, aos=2 * SS, d=d, specc=(1, 1, 1))
+    return finish(rgb, pool * (.78 + .22 * np.clip(d / (.04 * n), 0, 1)), (0.01, 0.02, 0.02, 0.18))
+
+
+def g_burrata(n, s):
+    r = np.random.default_rng(s)
+    m = blob(n, .32 * n, .12, s, kmax=7)
+    d = edt(m)
+    xx, yy = grid(n)
+    ox, oy = r.uniform(-.08, .08, 2) * n
+    op = 1 - sstep(.08 * n, .15 * n, np.hypot(xx - ox, yy - oy) + fbm(m.shape, [3 * SS], s) * .025 * n)
+    h = dome(d, .3 * n, .16 * n, .5) - op * .035 * n + op * fbm(m.shape, [2 * SS], s + 1) * .004 * n
+    alb = mix(full('#FDFDFB', n), C('#F2E9D4'), op)
+    tr = sstep(2.0, 2.5, noise(m.shape, 1 * SS, s + 2)) * (.25 + op)
+    alb = mix(alb, C('#2B2018'), np.clip(tr, 0, 1) * .9)
+    rgb = shade(alb, h, gloss=.6 - op * .3, shin=45, amb=.6, ao=.4, aos=3 * SS, edge_dark=.2, d=d, specc=(1, 1, 1))
+    return finish(rgb, m, (0.035, 0.06, 0.05, 0.45))
+
+
+def flakes(n, s, count, rmin, rmax, palette, spread=.3, jit=.45, elong=1.0, hgt=.006, gloss=.15, shin=20, shadow=(0.01, 0.016, 0.012, 0.35), amb=.55):
+    r = np.random.default_rng(s)
+    mi = Image.new('L', (n, n), 0); ci = Image.new('L', (n, n), 0)
+    dm, dc = ImageDraw.Draw(mi), ImageDraw.Draw(ci)
+    for _ in range(count):
+        a = r.uniform(0, TAU); d = math.sqrt(r.uniform()) * spread * n
+        cx, cy = n / 2 + math.cos(a) * d, n / 2 + math.sin(a) * d
+        rad = r.uniform(rmin, rmax) * n; k = int(r.integers(5, 9))
+        th = np.sort(r.uniform(0, TAU, k)); rr = rad * (1 + r.uniform(-jit, jit, k)); rot = r.uniform(0, TAU)
+        xs, ys = np.cos(th) * rr * elong, np.sin(th) * rr
+        pts = [(cx + x * math.cos(rot) - y * math.sin(rot), cy + x * math.sin(rot) + y * math.cos(rot)) for x, y in zip(xs, ys)]
+        dm.polygon(pts, fill=255); dc.polygon(pts, fill=1 + int(r.integers(0, len(palette))))
+    m = nd.gaussian_filter(np.asarray(mi, float) / 255, .6 * SS)
+    idx = np.asarray(ci).astype(int)
+    pal = np.array([C(p) for p in palette])
+    alb = nd.gaussian_filter(pal[np.clip(idx - 1, 0, len(palette) - 1)], (.5 * SS, .5 * SS, 0))
+    d = edt(m)
+    h = dome(d, .01 * n, hgt * n, .6) + fbm(m.shape, [1 * SS], s) * .001 * n
+    rgb = shade(alb, h, gloss=gloss, shin=shin, amb=amb, ao=.2, aos=2 * SS, d=d)
+    return finish(rgb, m, shadow)
+
+
+def g_pecorino(n, s):
+    return flakes(n, s, 70, .008, .022, ['#F3E7C4', '#EAD9A8', '#F8F0D8'], spread=.3)
+
+
+def g_pepe(n, s):
+    return flakes(n, s, 70, .003, .007, ['#1E1A16', '#2E2620', '#3A2F25'], spread=.33, hgt=.002, shadow=(0.004, 0.006, 0.005, 0.2))
+
+
+def g_origano(n, s):
+    return flakes(n, s, 60, .004, .011, ['#5E6B2E', '#6F7A3A', '#4E5A24'], spread=.33, hgt=.002, shadow=(0.004, 0.006, 0.005, 0.2))
+
+
+def g_polvere_olive(n, s):
+    return flakes(n, s, 110, .003, .008, ['#2A1D22', '#3A2A30', '#1E1418'], spread=.32, hgt=.002, shadow=(0.004, 0.006, 0.005, 0.15))
+
+
+def g_granella(n, s):
+    return flakes(n, s, 45, .008, .02, ['#8DB04A', '#A5C25E', '#6E8C34', '#B8A47A'], spread=.3, gloss=.2)
+
+
+def g_tarallo(n, s):
+    return flakes(n, s, 40, .01, .03, ['#D9A85E', '#E8C07A', '#C58C45', '#F0D49A'], spread=.3, jit=.5, hgt=.008)
+
+
+def g_cipolla_croccante(n, s):
+    return flakes(n, s, 32, .01, .028, ['#8A4E1E', '#A8662A', '#6E3A14'], spread=.28, elong=2.2, gloss=.25)
+
+
+def g_aglio(n, s):
+    return flakes(n, s, 6, .05, .07, ['#F3EBD3', '#EEE2C2'], spread=.18, jit=.1, elong=1.35, hgt=.004, gloss=.4, shin=30)
+
+
+def g_wurstel(n, s):
+    m = blob(n, .25 * n, .04, s, kmax=6, sx=1.06, sy=.96, rot=s)
+    d = edt(m); rn = 1 - d / d.max()
+    h = dome(d, .06 * n, .02 * n, .6) + .02 * n * rn ** 4 + fbm(m.shape, [4 * SS], s) * .001 * n
+    alb = mix(full('#E3A285', n), C('#D88C6C'), np.clip(fbm(m.shape, [3 * SS, 8 * SS], s + 1) * .3 + .3, 0, 1))
+    skin = 1 - sstep(.012 * n, .024 * n, d)
+    alb = mix(alb, C('#9C4A2A'), skin)
+    alb = mix(alb, C('#F2C2A8'), sstep(1.6, 2.2, noise(m.shape, 1.2 * SS, s + 2)) * .5 * (1 - skin))
+    alb = mix(alb, C('#6E2E16'), sstep(1.5, 2.2, fbm(m.shape, [3 * SS], s + 3)) * (rn > .5) * .5)
+    rgb = shade(alb, h, gloss=.45, shin=40, amb=.55, ao=.1, d=d, specc=(1, .92, .85))
+    return finish(rgb, m, (0.02, 0.035, 0.025, 0.4))
+
+
+def g_mortadella(n, s):
+    r = np.random.default_rng(s)
+    m = blob(n, .33 * n, .14, s, kmax=7, rot=s)
+    d = edt(m)
+    h = dome(d, .02 * n, .006 * n) + fbm(m.shape, [14 * SS, 28 * SS], s) * .006 * n
+    alb = mix(full('#F2B7B4', n), C('#E99E9B'), np.clip(fbm(m.shape, [5 * SS, 12 * SS], s + 1) * .3 + .3, 0, 1))
+    xx, yy = grid(n)
+    fat = np.zeros(m.shape); pis = np.zeros(m.shape)
+    for i in range(16):
+        a_, rr_ = r.uniform(0, TAU), math.sqrt(r.uniform()) * .27 * n
+        cx, cy, w_ = math.cos(a_) * rr_, math.sin(a_) * rr_, r.uniform(.012, .028) * n
+        rot = r.uniform(0, TAU)
+        u = (xx - cx) * math.cos(rot) + (yy - cy) * math.sin(rot); v = -(xx - cx) * math.sin(rot) + (yy - cy) * math.cos(rot)
+        if i < 12:
+            fat = np.maximum(fat, 1 - sstep(w_ * .8, w_, np.maximum(np.abs(u), np.abs(v))))
+        else:
+            pis = np.maximum(pis, 1 - sstep(w_ * .5, w_ * .7, np.hypot(u, v * 1.4)))
+    alb = mix(alb, C('#FBF1EA'), fat * .95)
+    alb = mix(alb, C('#7FA046'), pis * .9)
+    rgb = shade(alb, h, gloss=.3, shin=30, amb=.62, ao=.03, aos=10 * SS, edge_dark=.08, d=d)
+    return finish(rgb, m, (0.012, 0.02, 0.02, 0.25))
+
+
+def g_lonza(n, s):
+    m = blob(n, .3 * n, .12, s, kmax=7, sx=1.2, sy=.75, rot=s * 1.3)
+    d = edt(m)
+    h = dome(d, .02 * n, .006 * n) + fbm(m.shape, [12 * SS, 24 * SS], s) * .01 * n
+    alb = mix(full('#B6434A', n), C('#8E2E38'), np.clip(fbm(m.shape, [4 * SS, 10 * SS], s + 1) * .35 + .3, 0, 1))
+    alb = mix(alb, C('#E8A9A8'), (1 - sstep(.04, .14, np.abs(fbm(m.shape, [3 * SS, 8 * SS], s + 2)))) * .35)
+    fat = (1 - sstep(.03 * n, .06 * n, d)) * sstep(-.2, .5, fbm(m.shape, [30 * SS], s + 3))
+    alb = mix(alb, C('#F7E7DE'), fat)
+    rgb = shade(alb, h, gloss=.35, shin=34, amb=.58, ao=.15, aos=8 * SS, edge_dark=.1, d=d)
+    return finish(rgb, m, (0.012, 0.02, 0.02, 0.28))
+
+
+def g_guanciale(n, s):
+    r = np.random.default_rng(s)
+    rot = r.uniform(0, TAU)
+    pts = np.array([[-.3, -.07], [.3, -.08], [.31, .08], [-.29, .07]]) * n + r.uniform(-.015, .015, (4, 2)) * n
+    m = poly_mask(n, place(n, pts, rot), 1.2 * SS)
+    d = edt(m)
+    xx, yy = grid(n)
+    v = (-xx * math.sin(rot) + yy * math.cos(rot)) / (.08 * n)
+    h = dome(d, .05 * n, .03 * n, .6) + np.sin(v * 3) * .003 * n + fbm(m.shape, [2 * SS, 5 * SS], s) * .003 * n
+    layer = .5 + .5 * np.sin(v * 2.6 + fbm(m.shape, [6 * SS], s + 1) * .8)
+    alb = mix(full('#F0D9B5', n), C('#A04A2A'), sstep(.45, .65, layer))
+    crisp = 1 - sstep(.0, .035 * n, d)
+    alb = mix(alb, C('#C37A35'), np.clip(crisp * .8 + fbm(m.shape, [3 * SS], s + 2) * .2, 0, 1))
+    alb = mix(alb, C('#6A2E12'), sstep(1.6, 2.3, fbm(m.shape, [2 * SS], s + 3)) * .6)
+    rgb = shade(alb, h, gloss=.5, shin=36, amb=.5, ao=.3, aos=3 * SS, edge_dark=.15, d=d, specc=(1, .92, .8))
+    return finish(rgb, m, (0.02, 0.035, 0.025, 0.42))
+
+
+def g_porchetta(n, s):
+    m = blob(n, .3 * n, .1, s, kmax=7, sx=1.08, sy=.94, rot=s)
+    d = edt(m)
+    xx, yy = grid(n)
+    th = np.arctan2(yy, xx); rr = np.hypot(xx, yy) / (.3 * n)
+    sp = .5 + .5 * np.sin(rr * 18 - th + fbm(m.shape, [5 * SS], s) * 1.2)
+    h = dome(d, .03 * n, .008 * n) + sp * .002 * n + fbm(m.shape, [10 * SS], s + 1) * .006 * n
+    alb = mix(full('#E7C3A6', n), C('#F3E2CF'), sstep(.55, .8, sp))
+    alb = mix(alb, C('#C98F6E'), sstep(.0, .3, sp) * .4)
+    alb = mix(alb, C('#4E5A26'), sstep(2.0, 2.5, noise(m.shape, .9 * SS, s + 2)) * sstep(.25, .1, np.abs(sp - .5)) * .8)
+    crack = 1 - sstep(.02 * n, .045 * n, d)
+    alb = mix(alb, C('#9A5622'), crack)
+    alb = mix(alb, C('#6A3410'), crack * sstep(1.0, 2.0, fbm(m.shape, [2 * SS], s + 3)) * .7)
+    h = h + crack * fbm(m.shape, [1.5 * SS], s + 4) * .003 * n
+    rgb = shade(alb, h, gloss=.3, shin=30, amb=.55, ao=.25, aos=3 * SS, edge_dark=.1, d=d)
+    return finish(rgb, m, (0.015, 0.025, 0.02, 0.3))
+
+
+def g_polpette(n, s):
+    m = blob(n, .25 * n, .1, s, kmax=7)
+    d = edt(m)
+    h = dome(d, .25 * n, .17 * n, .5) + fbm(m.shape, [1.2 * SS, 3 * SS], s) * .006 * n
+    alb = mix(full('#8A4E2E', n), C('#5E2E16'), np.clip(fbm(m.shape, [2 * SS, 6 * SS], s + 1) * .4 + .3, 0, 1))
+    alb = mix(alb, C('#B07A4A'), sstep(1.5, 2.2, fbm(m.shape, [1.2 * SS], s + 2)) * .5)
+    rgb = shade(alb, h, gloss=.4, shin=30, amb=.45, ao=.6, aos=2 * SS, edge_dark=.25, d=d, specc=(1, .9, .75))
+    return finish(rgb, m, (0.03, 0.05, 0.04, 0.5))
+
+
+def g_tonno(n, s):
+    r = np.random.default_rng(s)
+    m = np.zeros((n, n))
+    for i in range(4):
+        a_, rr_ = r.uniform(0, TAU), r.uniform(0, .12) * n
+        m = np.maximum(m, blob(n, r.uniform(.1, .15) * n, .35, s * 10 + i, kmax=8, cx=math.cos(a_) * rr_, cy=math.sin(a_) * rr_, sx=1.3, sy=.8, rot=r.uniform(0, TAU)))
+    d = edt(m)
+    fl = nd.rotate(nd.gaussian_filter1d(noise((n, n), 1 * SS, s + 1), 5 * SS, axis=0), r.uniform(0, 180), reshape=False, mode='reflect')
+    fl = (fl - fl.mean()) / (fl.std() + 1e-9)
+    h = dome(d, .06 * n, .03 * n, .6) + fl * .004 * n
+    alb = mix(full('#D4B097', n), C('#B98E74'), np.clip(fl * .3 + .3, 0, 1))
+    alb = mix(alb, C('#E8CDB8'), sstep(.8, 1.8, fl) * .6)
+    rgb = shade(alb, h, gloss=.45, shin=34, amb=.55, ao=.5, aos=2 * SS, edge_dark=.2, d=d, specc=(1, .97, .9))
+    return finish(rgb, m, (0.02, 0.035, 0.025, 0.4))
+
+
+def g_porcini(n, s):
+    r = np.random.default_rng(s)
+    rot = r.uniform(-.5, .5) + (math.pi if s % 2 else 0)
+    th = np.linspace(math.pi, TAU, 80)
+    capw, caph = .32 * n * r.uniform(.9, 1.1), .17 * n
+    cap = np.stack([np.cos(th) * capw, np.sin(th) * caph], 1)
+    sw = .17 * n
+    stem = np.array([[capw * .7, .01 * n], [sw, .04 * n], [sw * 1.15, .2 * n], [0, .27 * n], [-sw * 1.15, .2 * n], [-sw, .04 * n], [-capw * .7, .01 * n]])
+    pts = np.concatenate([cap, stem]) + np.array([0, -.04 * n])
+    m = poly_mask(n, place(n, pts, rot), .9 * SS)
+    d = edt(m)
+    xx, yy = grid(n)
+    vy = -xx * math.sin(rot) + yy * math.cos(rot)
+    capzone = sstep(.0 * n, -.04 * n, vy)
+    h = dome(d, .05 * n, .014 * n, .6) + fbm(m.shape, [6 * SS], s) * .0015 * n
+    alb = mix(full('#EFE3C8', n), C('#D8C4A0'), np.clip(fbm(m.shape, [5 * SS], s + 1) * .3 + .2, 0, 1))
+    alb = mix(alb, C('#9A6A3E'), capzone * .45)
+    alb = mix(alb, C('#5E361C'), np.clip((1 - sstep(.0, .07 * n, d)) * capzone * 1.3, 0, 1))
+    alb = mix(alb, C('#9A7044'), sstep(1.5, 2.3, fbm(m.shape, [2 * SS, 5 * SS], s + 2)) * .4)
+    rgb = shade(alb, h, gloss=.3, shin=28, amb=.55, ao=.3, edge_dark=.1, d=d)
+    return finish(rgb, m, (0.015, 0.025, 0.02, 0.32))
+
+
+def g_fiori_zucca(n, s):
+    r = np.random.default_rng(s)
+    rot = r.uniform(0, TAU)
+    m = poly_mask(n, place(n, leaf_outline(n, .76, .14, s, lobes=3, lobe_amt=.35, tip=.6), rot), .8 * SS)
+    d = edt(m)
+    xx, yy = grid(n); cr, sr = math.cos(rot), math.sin(rot)
+    u = (xx * cr + yy * sr) / (.38 * n); v = (-xx * sr + yy * cr) / (.14 * n)
+    veins = np.exp(-((((v * 3) % 1) - .5) / .12) ** 2) * sstep(.95, .3, np.abs(u))
+    h = dome(d, .05 * n, .02 * n, .5) + veins * .003 * n + fbm(m.shape, [5 * SS], s) * .004 * n
+    alb = mix(full('#F4A62A', n), C('#E07612'), sstep(-.6, .9, u + fbm(m.shape, [8 * SS], s + 1) * .3))
+    alb = mix(alb, C('#F9D06A'), veins * .4)
+    alb = mix(alb, C('#6E8A2E'), sstep(-.6, -.95, u) * .9)
+    alb = mix(alb, C('#8A4A10'), sstep(1.7, 2.4, fbm(m.shape, [2 * SS], s + 2)) * .35)
+    rgb = shade(alb, h, gloss=.35, shin=30, amb=.55, ao=.3, edge_dark=.1, d=d)
+    return finish(rgb, m * .97, (0.02, 0.035, 0.025, 0.38))
+
+
+def g_zucchine(n, s):
+    m = blob(n, .24 * n, .05, s, kmax=6, sx=1.04, sy=.96, rot=s)
+    d = edt(m)
+    xx, yy = grid(n); rr = np.hypot(xx, yy) / (.24 * n)
+    h = dome(d, .05 * n, .012 * n, .6) + fbm(m.shape, [3 * SS], s) * .0015 * n
+    alb = mix(full('#E8E3B0', n), C('#D6D08E'), np.clip(fbm(m.shape, [4 * SS], s + 1) * .3 + .3, 0, 1))
+    alb = mix(alb, C('#C4BE7A'), sstep(.45, .3, rr) * sstep(1.4, 2.0, noise(m.shape, 1.2 * SS, s + 2)) * .6)
+    alb = mix(alb, C('#2F5E22'), 1 - sstep(.01 * n, .025 * n, d))
+    alb = mix(alb, C('#9A7A3A'), sstep(1.4, 2.1, fbm(m.shape, [3 * SS, 7 * SS], s + 3)) * .55)
+    rgb = shade(alb, h, gloss=.45, shin=34, amb=.55, ao=.15, d=d)
+    return finish(rgb, m, (0.015, 0.025, 0.02, 0.32))
+
+
+def sticks(n, s, count, length, width, c1, c2, burn, spread=.12, gloss=.35):
+    r = np.random.default_rng(s)
+    m = np.zeros((n, n)); h = np.zeros((n, n)); t = np.zeros((n, n))
+    for i in range(count):
+        rot = r.uniform(0, TAU); off = r.uniform(-spread, spread, 2) * n
+        L = length * n * r.uniform(.75, 1.1); W = width * n * r.uniform(.8, 1.15)
+        pts = np.array([[-L / 2, -W / 2], [L / 2, -W / 2], [L / 2, W / 2], [-L / 2, W / 2]]) + r.uniform(-.004, .004, (4, 2)) * n
+        sm = poly_mask(n, place(n, pts, rot) + off, .9 * SS)
+        sel = sm > .5
+        h = np.where(sel, dome(edt(sm), W / 2, W * .35, .5) + i * .002 * n, h)
+        t = np.where(sel, r.uniform(), t)
+        m = np.maximum(m, sm)
+    d = edt(m)
+    h = nd.gaussian_filter(h, .7 * SS)
+    alb = mix(full(c1, n), C(c2), np.clip(t * .6 + fbm(m.shape, [2 * SS], s) * .2, 0, 1))
+    alb = mix(alb, C(burn), sstep(1.3, 2.1, fbm(m.shape, [2 * SS, 4 * SS], s + 1)) * .5)
+    rgb = shade(alb, h, gloss=gloss, shin=30, amb=.5, ao=.8, aos=2 * SS, edge_dark=.25, d=d, specc=(1, .95, .8))
+    return finish(rgb, m, (0.02, 0.035, 0.025, 0.45))
+
+
+def g_patatine(n, s):
+    return sticks(n, s, 4, .42, .07, '#EFC768', '#E0AE48', '#A8682A')
+
+
+def g_zucchine_fritte(n, s):
+    return sticks(n, s, 9, .34, .035, '#D9BE6A', '#BFA552', '#7A6A2A')
+
+
+def g_patate(n, s):
+    m = blob(n, .27 * n, .07, s, kmax=6, sx=1.1, sy=.9, rot=s)
+    d = edt(m)
+    h = dome(d, .03 * n, .008 * n, .6) + fbm(m.shape, [8 * SS], s) * .004 * n
+    alb = mix(full('#F2D58A', n), C('#E6BC5E'), np.clip(fbm(m.shape, [5 * SS], s + 1) * .3 + .3, 0, 1))
+    alb = mix(alb, C('#B9772E'), (1 - sstep(.0, .04 * n, d)) * .7)
+    alb = mix(alb, C('#8A5222'), sstep(1.5, 2.2, fbm(m.shape, [2 * SS, 5 * SS], s + 2)) * .5)
+    rgb = shade(alb, h, gloss=.4, shin=30, amb=.55, ao=.15, d=d, specc=(1, .95, .8))
+    return finish(rgb, m, (0.012, 0.02, 0.02, 0.28))
+
+
+def g_crocchetta(n, s):
+    r = np.random.default_rng(s)
+    m = blob(n, .14 * n, .08, s, kmax=6, sx=2.3, sy=1.0, rot=r.uniform(0, TAU))
+    d = edt(m)
+    cr = fbm(m.shape, [.9 * SS, 2 * SS], s + 1)
+    h = dome(d, .14 * n, .09 * n, .5) + cr * .004 * n
+    alb = mix(full('#D9963E', n), C('#B86E26'), np.clip(cr * .3 + .4, 0, 1))
+    alb = mix(alb, C('#F0C070'), sstep(1.2, 2.0, cr) * .6)
+    rgb = shade(alb, h, gloss=.3, shin=26, amb=.5, ao=.5, aos=1.5 * SS, edge_dark=.25, d=d, specc=(1, .92, .8))
+    return finish(rgb, m, (0.03, 0.05, 0.04, 0.5))
+
+
+def g_cipolla_caramellata(n, s):
+    r = np.random.default_rng(s)
+    im = Image.new('L', (n, n), 0); dr = ImageDraw.Draw(im)
+    for _ in range(7):
+        a0 = r.uniform(0, TAU); cx, cy = n / 2 + r.uniform(-.1, .1) * n, n / 2 + r.uniform(-.1, .1) * n
+        rad = r.uniform(.08, .2) * n; span = r.uniform(1.2, 2.6); sq = r.uniform(.6, 1)
+        pts = [(cx + math.cos(t) * rad, cy + math.sin(t) * rad * sq) for t in np.linspace(a0, a0 + span, 30)]
+        dr.line(pts, fill=255, width=int(r.uniform(.02, .035) * n), joint='curve')
+    m = nd.gaussian_filter(np.asarray(im, float) / 255, .8 * SS)
+    d = edt(m)
+    h = dome(d, .02 * n, .012 * n, .5)
+    alb = mix(full('#B8732E', n), C('#7E4214'), np.clip(fbm(m.shape, [3 * SS, 7 * SS], s) * .4 + .3, 0, 1))
+    alb = mix(alb, C('#D9A060'), sstep(1.2, 2.0, fbm(m.shape, [2 * SS], s + 1)) * .4)
+    rgb = shade(alb, h, gloss=.6, shin=44, amb=.5, ao=.6, aos=2 * SS, d=d, specc=(1, .9, .75))
+    return finish(rgb, m, (0.012, 0.02, 0.02, 0.3))
+
+
+def g_melanzane_fritte(n, s):
+    m = blob(n, .29 * n, .08, s, kmax=7, sx=1.12, sy=.9, rot=s)
+    d = edt(m)
+    h = dome(d, .04 * n, .01 * n, .6) + fbm(m.shape, [4 * SS], s) * .003 * n
+    alb = mix(full('#D9A55A', n), C('#B97A36'), np.clip(fbm(m.shape, [3 * SS, 8 * SS], s + 1) * .4 + .3, 0, 1))
+    ring = np.exp(-((d / d.max() - .45) / .12) ** 2)
+    alb = mix(alb, C('#7A4E22'), sstep(1.8, 2.3, noise(m.shape, 1.1 * SS, s + 2)) * ring * .7)
+    alb = mix(alb, C('#3E1C34'), (1 - sstep(.006 * n, .014 * n, d)) * .9)
+    rgb = shade(alb, h, gloss=.55, shin=40, amb=.55, ao=.2, edge_dark=.1, d=d, specc=(1, .93, .8))
+    return finish(rgb, m, (0.015, 0.025, 0.02, 0.32))
+
+
+def g_melanzane_funghetto(n, s):
+    r = np.random.default_rng(s)
+    xx, yy = grid(n)
+    m = np.zeros((n, n)); h = np.zeros((n, n)); sk = np.zeros((n, n))
+    for i in range(5):
+        rot = r.uniform(0, TAU); cx, cy = r.uniform(-.13, .13, 2) * n; w_ = r.uniform(.06, .09) * n
+        pts = np.array([[-w_, -w_], [w_, -w_], [w_, w_], [-w_, w_]]) + r.uniform(-.008, .008, (4, 2)) * n
+        sm = poly_mask(n, place(n, pts, rot) + np.array([cx, cy]), 1.4 * SS)
+        sel = sm > .5
+        h = np.where(sel, dome(edt(sm), w_ * .6, w_ * .5, .5) + i * .003 * n, h)
+        u = (xx - cx) * math.cos(rot) + (yy - cy) * math.sin(rot)
+        sk = np.where(sel, (u > w_ * .55) * 1.0, sk)
+        m = np.maximum(m, sm)
+    d = edt(m)
+    alb = mix(full('#D7B27A', n), C('#B8884A'), np.clip(fbm(m.shape, [2 * SS, 5 * SS], s) * .4 + .3, 0, 1))
+    alb = mix(alb, C('#3E1C34'), nd.gaussian_filter(sk, .8 * SS))
+    rgb = shade(alb, nd.gaussian_filter(h, .8 * SS), gloss=.5, shin=36, amb=.5, ao=.8, aos=2 * SS, edge_dark=.3, d=d, specc=(1, .93, .82))
+    return finish(rgb, m, (0.02, 0.035, 0.025, 0.42))
+
+
+def g_noci(n, s):
+    r = np.random.default_rng(s)
+    m = np.zeros((n, n))
+    for i, ox in enumerate((-.07, .07)):
+        m = np.maximum(m, blob(n, .12 * n, .3, s * 7 + i, kmax=9, cx=ox * n, sx=.8, sy=1.2))
+    m = np.clip(nd.rotate(m, r.uniform(0, 180), reshape=False, order=1), 0, 1)
+    d = edt(m)
+    gro = np.abs(fbm(m.shape, [2.5 * SS, 5 * SS], s + 1))
+    h = dome(d, .08 * n, .05 * n, .5) - (1 - sstep(.0, .25, gro)) * .008 * n
+    alb = mix(full('#A9763E', n), C('#6E4420'), 1 - sstep(.0, .3, gro))
+    alb = mix(alb, C('#C79A5E'), sstep(.6, 1.4, gro) * .4)
+    rgb = shade(alb, h, gloss=.3, shin=28, amb=.5, ao=.7, aos=1.5 * SS, edge_dark=.25, d=d)
+    return finish(rgb, m, (0.02, 0.035, 0.025, 0.45))
+
+
+def g_panna(n, s):
+    return cheese_pool(n, s, '#FFFFFF', '#F3EEE2', '#FFFFFF', '#F3EEE2', 0.0)
+
+
+def g_fonduta(n, s):
+    return cheese_pool(n, s, '#F6E2A0', '#E9C87A', '#F0D080', '#D9A848', 0.3)
+
+
+def g_pachino_giallo(n, s):
+    return g_pomodorini(n, s, POM_GIALLO)
+
+
 ING = {
+    # nome dello sprite: (funzione, lato in px). Piu' ingredienti del listino possono usare lo stesso sprite.
     'fiordilatte': (g_fiordilatte, 224), 'provola': (g_provola, 224), 'bufala': (g_bufala, 224),
-    'ricotta': (g_ricotta, 192), 'gorgonzola': (g_gorgonzola, 160), 'parmigiano': (g_parmigiano, 192),
+    'gorgonzola': (g_gorgonzola, 160), 'parmigiano': (g_parmigiano, 192),
     'salame': (g_salame, 192), 'cotto': (g_cotto, 224), 'salsiccia': (g_salsiccia, 176),
     'nduja': (g_nduja, 176), 'crudo': (g_crudo, 288), 'alici': (g_alici, 256),
-    'funghi': (g_funghi, 192), 'melanzane': (g_melanzane, 208), 'peperoni': (g_peperoni, 240),
-    'cipolla': (g_cipolla, 176), 'carciofi': (g_carciofi, 192), 'friarielli': (g_friarielli, 208),
+    'funghi': (g_funghi, 192), 'peperoni': (g_peperoni, 240),
+    'carciofi': (g_carciofi, 192), 'friarielli': (g_friarielli, 208),
     'pomodorini': (g_pomodorini, 144), 'olive': (g_olive, 128), 'rucola': (g_rucola, 256),
     'basilico': (g_basilico, 208),
+    'stracciatella': (g_stracciatella, 224), 'burrata': (g_burrata, 224), 'pecorino': (g_pecorino, 192),
+    'wurstel': (g_wurstel, 160), 'mortadella': (g_mortadella, 256), 'lonza': (g_lonza, 240),
+    'guanciale': (g_guanciale, 192), 'porchetta': (g_porchetta, 224), 'polpette': (g_polpette, 144),
+    'tonno': (g_tonno, 192), 'porcini': (g_porcini, 208), 'fiori_zucca': (g_fiori_zucca, 256),
+    'zucchine': (g_zucchine, 160), 'zucchine_fritte': (g_zucchine_fritte, 224), 'patate': (g_patate, 192),
+    'patatine': (g_patatine, 224), 'crocchetta': (g_crocchetta, 192),
+    'cipolla_caramellata': (g_cipolla_caramellata, 192), 'cipolla_croccante': (g_cipolla_croccante, 176),
+    'melanzane_fritte': (g_melanzane_fritte, 208), 'melanzane_funghetto': (g_melanzane_funghetto, 192),
+    'noci': (g_noci, 144), 'granella': (g_granella, 192), 'tarallo': (g_tarallo, 176),
+    'polvere_olive': (g_polvere_olive, 192), 'pepe': (g_pepe, 192), 'origano': (g_origano, 192),
+    'aglio': (g_aglio, 160), 'panna': (g_panna, 224), 'fonduta': (g_fonduta, 224),
+    'pachino_giallo': (g_pachino_giallo, 144),
 }
 
 
 # ------------------------------------------------------------------- basi
-DOUGH = {
-    'classico': dict(d='#F2DDB0', g='#DFA45A', b='#A9652C', c='#22130A', spots=1.0, bran=0, cen='#EED6A2'),
-    'integrale': dict(d='#DDBF91', g='#BF8644', b='#7E4720', c='#1E1108', spots=1.0, bran=1, cen='#D9BA8A'),
-    'sg': dict(d='#F6E7C2', g='#E8BD74', b='#BE8644', c='#4A2C14', spots=.5, bran=0, cen='#F3E2B8'),
+DOUGH = dict(d='#F2DDB0', g='#DFA45A', b='#A9652C', c='#22130A', cen='#EED6A2')
+CREME = {
+    'crema_pistacchi': ('#9DB45A', '#7E9A3E', 40), 'vellutata_zucchine': ('#B9C97C', '#97AB5C', 41),
+    'crema_zucca': ('#E8963A', '#D47528', 42), 'crema_funghi': ('#CDB28A', '#A88C64', 43),
 }
 
 
-def g_base(kind, imp, n=1920):
-    D = DOUGH[imp]
+def g_base(kind, ricotta=False, n=1920):
+    D = DOUGH
     r = np.random.default_rng(7)
     xx, yy = grid(n)
     rr = np.hypot(xx, yy)
@@ -656,7 +1050,7 @@ def g_base(kind, imp, n=1920):
     rim_c = .875 + .012 * fbm((n, n), [40 * SS], 31)
     w = np.where(rn > rim_c, .07, .1)
     prof = np.exp(-((rn - rim_c) / w) ** 2)
-    rimH = .09 * R * (1 + .22 * fbm((n, n), [25 * SS, 60 * SS], 11))
+    rimH = .09 * R * (1 + .22 * fbm((n, n), [25 * SS, 60 * SS], 11)) * (1.15 if ricotta else 1)
     lumps = fbm((n, n), [7 * SS, 16 * SS], 27)
     h = prof * (rimH + lumps * .01 * R)
     bub = np.zeros((n, n))
@@ -668,7 +1062,6 @@ def g_base(kind, imp, n=1920):
     h += bub * .02 * R
     h += fbm((n, n), [3 * SS, 7 * SS], 12) * .0007 * R
     h = nd.gaussian_filter(h, 1.0 * SS)
-    # colore del cornicione
     dough = C(D['d']); gold = C(D['g']); brown = C(D['b']); char = C(D['c'])
     top = np.clip(h / (.09 * R), 0, 1.2)
     tone = fbm((n, n), [14 * SS, 35 * SS], 13)
@@ -678,18 +1071,25 @@ def g_base(kind, imp, n=1920):
     rimz = sstep(.79, .85, rn)
     leo = fbm((n, n), [4 * SS, 8 * SS], 14)
     spot = sstep(2.25, 2.7, leo + top * .5) * rimz
-    if D['spots'] < 1:
-        spot *= .5
     halo = sstep(1.6, 2.25, leo + top * .5) * rimz * (1 - spot)
     alb = mix(alb, brown * .7, halo * .55)
     alb = mix(alb, char, spot * .92)
     flour = sstep(2.4, 2.9, noise((n, n), .8 * SS, 15)) * sstep(.9, .96, rn)
     alb = mix(alb, C('#F7F1E3'), flour * .6)
-    if D['bran']:
-        bran = sstep(2.1, 2.6, noise((n, n), .9 * SS, 16))
-        alb = mix(alb, C('#5E3A1E'), bran * .55)
     gloss = np.full((n, n), .05)
-    # centro
+    if ricotta:
+        # ricotta che affiora dalle crepe del cornicione ripieno
+        r2 = np.random.default_rng(99)
+        rc = np.zeros((n, n))
+        for _ in range(34):
+            a_, d_ = r2.uniform(0, TAU), r2.uniform(.86, .91) * R
+            cx, cy = math.cos(a_) * d_, math.sin(a_) * d_
+            br = r2.uniform(.012, .03) * R
+            rc = np.maximum(rc, np.exp(-(((xx - cx) ** 2 + (yy - cy) ** 2) / br ** 2)))
+        rcm = sstep(.35, .7, rc + fbm((n, n), [2 * SS], 98) * .1)
+        alb = mix(alb, C('#F8F4EA'), rcm * .95)
+        h = h + rcm * .004 * R
+        gloss = gloss + rcm * .15
     sedge = R * (.8 + .012 * fbm((n, n), [40 * SS], 17)) + fbm((n, n), [12 * SS], 18) * .006 * R
     centre = sstep(2 * SS, -4 * SS, rr - sedge)
     if kind == 'rossa':
@@ -734,8 +1134,24 @@ def g_base(kind, imp, n=1920):
     return im.convert('RGBa').resize((n // SS, n // SS), Image.LANCZOS).convert('RGBA')
 
 
+def g_crema(c1, c2, seed, n=1920):
+    """Strato di crema steso sul centro (stessa scala delle basi: raggio 0.47 n)."""
+    xx, yy = grid(n)
+    rr = np.hypot(xx, yy)
+    R = .47 * n
+    sedge = R * (.77 + .015 * fbm((n, n), [40 * SS], seed)) + fbm((n, n), [10 * SS], seed + 1) * .008 * R
+    a = sstep(3 * SS, -6 * SS, rr - sedge)
+    st = fbm((n, n), [5 * SS, 14 * SS, 36 * SS], seed + 2)
+    swirl = np.sin(np.arctan2(yy, xx) * 3 + rr / (.06 * R) + st * 1.5)
+    alb = mix(full(c1, n), C(c2), np.clip(st * .3 + .5 + swirl * .08, 0, 1))
+    h = .004 * R * a + st * .0012 * R + swirl * .0006 * R
+    rgb = shade(alb, h, gloss=.38, shin=36, amb=.58, specc=(1, .97, .92))
+    img = np.dstack([rgb, np.clip(a * .97, 0, 1)])
+    im = Image.fromarray((img * 255 + .5).astype(np.uint8), 'RGBA')
+    return im.convert('RGBa').resize((n // SS, n // SS), Image.LANCZOS).convert('RGBA')
+
+
 if __name__ == '__main__':
-    meta = {}
     for name, (fn, px) in ING.items():
         if ONLY and name not in ONLY and 'ing' not in ONLY:
             continue
@@ -744,10 +1160,13 @@ if __name__ == '__main__':
         for v in range(VARS):
             strip.paste(fn(n, 1000 + v * 17 + len(name)), (px * v, 0))
         strip.save(os.path.join(OUT, f'{name}.webp'), 'WEBP', quality=88, method=6)
-        meta[name] = px
         print(name, flush=True)
     if not ONLY or 'basi' in ONLY:
         for kind in ('rossa', 'bianca'):
-            for imp in DOUGH:
-                g_base(kind, imp).save(os.path.join(OUT, f'base-{kind}-{imp}.webp'), 'WEBP', quality=84, method=6)
-                print('base', kind, imp, flush=True)
+            g_base(kind).save(os.path.join(OUT, f'base-{kind}.webp'), 'WEBP', quality=84, method=6)
+            g_base(kind, True).save(os.path.join(OUT, f'base-{kind}-ricotta.webp'), 'WEBP', quality=84, method=6)
+            print('base', kind, flush=True)
+    if not ONLY or 'creme' in ONLY:
+        for name, (c1, c2, seed) in CREME.items():
+            g_crema(c1, c2, seed).save(os.path.join(OUT, f'{name}.webp'), 'WEBP', quality=84, method=6)
+            print('crema', name, flush=True)

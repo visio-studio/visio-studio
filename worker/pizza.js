@@ -4,21 +4,18 @@
    solo cio' che e' cambiato dopo la revisione N).
    Le azioni del personale (/api/pizza/staff/*) chiedono il PIN se nel Worker c'e' il
    segreto PIZZA_PIN; senza segreto sono aperte, va bene solo per la prova.
-   Il prezzo lo ricalcola sempre il server con il listino qui sotto: deve restare
-   allineato al LISTINO in pizza/index.html. */
+   Prezzi, pizze e ingredienti stanno in pizza/listino.json, letto anche dalla pagina:
+   il server ricalcola sempre il prezzo da li', il cliente non lo puo' cambiare. */
 import { DurableObject } from 'cloudflare:workers';
+import LISTINO from '../pizza/listino.json';
 
 const ORIGINI = /^https:\/\/([a-z0-9-]+\.)*(visiorender\.it|visiorender\.pages\.dev|workers\.dev)$|^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
-const BASI = { rossa: 4, bianca: 3.5 };
-const IMPASTI = { classico: 0, integrale: 1, sg: 2.5 };
-const ING = {
-  fiordilatte: 1.5, bufala: 3, provola: 1.5, ricotta: 1.5, gorgonzola: 1.5, parmigiano: 1.5,
-  salame: 2, cotto: 1.5, salsiccia: 2, nduja: 2.5, crudo: 3, alici: 2.5,
-  funghi: 1, melanzane: 1.5, peperoni: 1.5, cipolla: 1, carciofi: 1.5, friarielli: 2,
-  pomodorini: 1.5, olive: 1, rucola: 1, basilico: 0.5
-};
-const PRESET = ['margherita', 'diavola', 'capricciosa', 'bufalina', 'quattro', 'salsiccia', 'crudo'];
+const ING = LISTINO.ingredienti;
+const ORDINE_ING = Object.keys(ING);
+const PIZZE = LISTINO.pizze;
+const PIZ = Object.fromEntries(PIZZE.map(p => [p.id, p]));
+const VOC = Object.fromEntries(LISTINO.voci.map(v => [v.id, v]));
 const STATI = ['nuovo', 'forno', 'pronto', 'servito'];
 const MAX_ORDINI = 20000;
 
@@ -28,19 +25,29 @@ const json = (dati, stato = 200) => new Response(JSON.stringify(dati), {
 });
 const errore = (msg, stato = 400) => json({ ok: false, errore: msg }, stato);
 const testo = (v, max) => String(v == null ? '' : v).replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, max);
-const listaIng = a => Array.isArray(a) ? [...new Set(a.filter(i => typeof i === 'string' && ING[i] != null))].slice(0, 22) : [];
+const listaIng = a => Array.isArray(a) ? ORDINE_ING.filter(i => a.includes(i)) : [];
+function breve(id) { const n = ING[id].nome, w = n.split(' '); return w.length > 1 && /^[A-Z]/.test(w[1]) ? n : n.charAt(0).toLowerCase() + n.slice(1); }
 
+// Stessa regola della pagina: se gli ingredienti coincidono con una pizza del menu vale quella,
+// altrimenti prezzo della pizza di partenza + supplementi delle aggiunte (togliere e' gratis).
 function riga(r) {
   if (!r || typeof r !== 'object') return null;
-  if (BASI[r.base] == null || IMPASTI[r.imp] == null) return null;
-  const ing = listaIng(r.ing);
   const qty = Math.floor(Number(r.qty));
   if (!(qty >= 1 && qty <= 20)) return null;
-  const prezzo = r2(BASI[r.base] + IMPASTI[r.imp] + ing.reduce((t, i) => t + ING[i], 0));
-  return {
-    nome: testo(r.nome, 80) || 'Pizza', preset: PRESET.includes(r.preset) ? r.preset : null,
-    add: listaIng(r.add), rem: listaIng(r.rem), base: r.base, imp: r.imp, ing, prezzo, qty
-  };
+  if (r.tipo === 'voce') {
+    const v = VOC[r.id];
+    return v ? { tipo: 'voce', id: v.id, nome: v.nome, sez: v.sez, prezzo: v.prezzo, qty } : null;
+  }
+  const da = PIZ[r.da];
+  if (!da) return null;
+  const ing = listaIng(r.ing), set = new Set(ing);
+  const base = PIZZE.find(p => p.ing.length === set.size && p.ing.every(i => set.has(i))) || da;
+  const add = ing.filter(i => !base.ing.includes(i)), rem = base.ing.filter(i => !set.has(i));
+  let nome = base.nome;
+  if (add.length > 3) nome += ' + ' + add.length + ' ingredienti'; else if (add.length) nome += ' + ' + add.map(breve).join(', ');
+  if (rem.length > 2) nome += ' senza ' + rem.length + ' ingredienti'; else if (rem.length) nome += ' senza ' + rem.map(breve).join(', ');
+  const prezzo = r2(base.prezzo + add.reduce((t, i) => t + (ING[i].supp || 0), 0));
+  return { tipo: 'pizza', da: base.id, nome, add, rem, ing, prezzo, qty };
 }
 const tavoloValido = t => { const n = Math.floor(Number(t)); return n >= 1 && n <= 60 ? n : 0; };
 
@@ -86,10 +93,10 @@ export class Pizzeria extends DurableObject {
     if (via === 'ordini') {
       const tavolo = tavoloValido(b.tavolo);
       if (!tavolo) return errore('tavolo non valido');
-      const righe = (Array.isArray(b.righe) ? b.righe.slice(0, 20) : []).map(riga);
+      const righe = (Array.isArray(b.righe) ? b.righe.slice(0, 40) : []).map(riga);
       if (!righe.length || righe.some(r => !r)) return errore('ordine non valido');
       const esauriti = new Set(this.config().esauriti);
-      const finiti = [...new Set(righe.flatMap(r => r.ing.filter(i => esauriti.has(i))))];
+      const finiti = [...new Set(righe.flatMap(r => r.tipo === 'voce' ? (esauriti.has(r.id) ? [r.id] : []) : r.ing.filter(i => esauriti.has(i))))];
       if (finiti.length) return json({ ok: false, errore: 'ingrediente finito', finiti }, 409);
       const n = this.sql.exec('SELECT COUNT(*) AS n FROM ordini').toArray()[0].n;
       if (n >= MAX_ORDINI) return errore('archivio pieno', 507);
@@ -145,7 +152,7 @@ export class Pizzeria extends DurableObject {
         if (!n) return errore('numero di tavoli non valido');
         this.scrivi('tavoli', n);
       }
-      if (b.esauriti != null) this.scrivi('esauriti', listaIng(b.esauriti));
+      if (b.esauriti != null) this.scrivi('esauriti', Array.isArray(b.esauriti) ? [...new Set(b.esauriti.filter(i => ING[i] || VOC[i]))].slice(0, 200) : []);
       this.prossimaRev();
       return json({ ok: true, config: this.config() });
     }

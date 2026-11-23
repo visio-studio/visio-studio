@@ -110,29 +110,12 @@ mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56
 .content{display:grid;gap:32px;padding-block:24px 8px}
 .sh2{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 .cnt{font-size:13px;font-weight:700;color:var(--cobalt);font-variant-numeric:tabular-nums;white-space:nowrap}
-.presets{display:flex;flex-wrap:wrap;gap:8px}
 .chip{display:inline-flex;align-items:baseline;gap:7px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:14.5px;font-weight:600;cursor:pointer;transition:background-color .15s,border-color .15s,color .15s}
 .chip small{font-size:13px;font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums}
 .chip:hover{border-color:var(--muted)}
 .chip[aria-pressed="true"]{background:var(--cobalt);border-color:var(--cobalt);color:var(--on-cobalt)}
 .chip[aria-pressed="true"] small{color:inherit;opacity:.8}
 .chip:disabled{opacity:.45;cursor:not-allowed;text-decoration:line-through}
-.opts{display:grid;gap:18px}
-fieldset{border:0;margin:0;padding:0;min-width:0}
-legend{padding:0;margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
-.seg{display:grid;gap:8px;grid-template-columns:1fr 1fr}
-.seg.three{grid-template-columns:1fr}
-@media (min-width:560px){.seg.three{grid-template-columns:repeat(3,1fr)}}
-.opt{position:relative;display:block;cursor:pointer}
-.opt input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
-.ob{display:grid;grid-template-columns:1fr auto;gap:2px 10px;height:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);transition:border-color .15s,background-color .15s}
-.ob b{font-size:15px;font-weight:700}
-.ob em{font-style:normal;font-size:14px;font-weight:600;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.ob span{grid-column:1/-1;font-size:13px;color:var(--muted)}
-.opt:hover .ob{border-color:var(--muted)}
-.opt input:checked+.ob{border-color:var(--cobalt);background:var(--cobalt-soft);box-shadow:inset 0 0 0 1px var(--cobalt)}
-.opt input:checked+.ob em{color:var(--ink)}
-.opt input:focus-visible+.ob{outline:2px solid var(--cobalt);outline-offset:2px}
 .groups{display:grid;gap:22px}
 h3{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .grid{display:grid;grid-template-columns:1fr;gap:8px}
@@ -144,7 +127,6 @@ h3{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.12em;text-tran
 .in{display:flex;flex-direction:column;gap:1px;min-width:0}
 .in .nm{font-size:15px;font-weight:600;line-height:1.25}
 .in .nt{display:flex;flex-wrap:wrap;align-items:center;gap:3px 6px;font-size:12.5px;line-height:1.3;color:var(--muted)}
-.usc{padding:1px 7px;border-radius:999px;background:var(--good-soft);color:var(--good);font-size:11px;font-weight:700;letter-spacing:.03em}
 .esa-tag{padding:1px 7px;border-radius:999px;background:var(--crit-soft);color:var(--crit);font-size:11px;font-weight:700;letter-spacing:.03em}
 .pr{font-size:14px;font-weight:600;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
 .tg{display:grid;place-items:center;width:28px;height:28px;border:1.5px solid var(--line);border-radius:50%;color:var(--muted);transition:background-color .15s,border-color .15s,color .15s}
@@ -157,7 +139,6 @@ h3{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.12em;text-tran
 .ing[aria-pressed="true"] .tg .k{display:block}
 .ing:disabled{cursor:not-allowed;opacity:.55}
 .ing:disabled canvas{filter:grayscale(1)}
-.legend{margin:2px 0 16px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .gbar{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--bg);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) and (background:color-mix(in srgb,red 50%,blue)){.gbar{background:color-mix(in srgb,var(--bg) 84%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}}
 .gbar .wrap{display:grid;grid-template-columns:auto 1fr;gap:10px;padding-block:12px}
@@ -306,8 +287,8 @@ textarea{display:block;width:100%;min-height:60px;resize:vertical;padding:10px 1
 .vb .col:hover,.vb .col:focus-visible{background:var(--bg)}
 .vb .b{display:block;width:100%;border-radius:4px 4px 0 0;background:var(--bar)}
 .vb .lab{position:absolute;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
-.vb .x{display:flex;gap:2px;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
-.vb .x span{flex:1;min-width:0;text-align:center;overflow:visible;white-space:nowrap}
+.vb .xa{display:flex;gap:2px;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.vb .xa span{flex:1;min-width:0;text-align:center;overflow:visible;white-space:nowrap}
 details.tbl{margin-top:10px;font-size:13px}
 details.tbl summary{cursor:pointer;color:var(--muted);font-weight:600}
 .tw{overflow-x:auto}
@@ -328,6 +309,44 @@ details.tbl summary{cursor:pointer;color:var(--muted);font-weight:600}
 .qc .row{display:flex;gap:6px}
 .dl{display:grid;gap:12px}
 
+/* ===== Menu del locale ===== */
+.gid{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.gid .eyebrow{margin:0}
+.pa{margin:3px 0 0;font-size:12px;color:var(--muted)}
+.pa:empty{display:none}
+.ptabs{width:max-content;max-width:100%;margin-bottom:10px}
+.plist{display:grid;grid-template-columns:1fr;gap:6px}
+@media (min-width:600px){.plist{grid-template-columns:1fr 1fr}}
+.prow{display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:start;gap:3px 12px;width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-align:left;cursor:pointer;transition:border-color .15s,background-color .15s}
+.prow:hover{border-color:var(--muted)}
+.prow b{font-size:15.5px;line-height:1.25}
+.prow .pp{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.prow .pdsc{grid-column:1/-1;font-size:13px;line-height:1.35;color:var(--muted)}
+.prow .al{grid-column:1/-1;font-size:11.5px;color:var(--muted)}
+.prow[aria-pressed="true"]{border-color:var(--cobalt);background:var(--cobalt-soft);box-shadow:inset 0 0 0 1px var(--cobalt)}
+.prow:disabled{opacity:.5;cursor:not-allowed}
+details.cat{border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+details.cat>summary{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer;list-style:none;font-weight:700;font-size:15.5px}
+details.cat>summary::-webkit-details-marker{display:none}
+details.cat>summary .n{margin-left:auto;font-size:13px;font-weight:600;color:var(--cobalt);white-space:nowrap}
+details.cat>summary::after{content:"";flex:none;width:8px;height:8px;margin:0 4px 4px 6px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .15s}
+details.cat[open]>summary::after{transform:rotate(-135deg);margin-bottom:-4px}
+details.cat>.grid{padding:0 10px 10px}
+.groups{gap:10px}
+.ing .pr.inc{color:var(--good)}
+.ing .pr.tolto{color:var(--crit);text-decoration:line-through}
+.vlist{display:grid;padding:0 14px 4px}
+.vrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.vrow .vn{font-size:15px;font-weight:600}
+.vrow .vd{font-size:12.5px;color:var(--muted)}
+.vrow .vr{grid-row:1/span 3;grid-column:2;display:grid;justify-items:end;gap:6px}
+.vrow .vp{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.vrow.off{opacity:.5}
+.foot{margin:0;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.vi{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--stage);color:var(--cobalt);font-family:var(--f-display);font-size:22px}
+.esa-h{margin:4px 0 6px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+#k-esa-chips .chips+.esa-h{margin-top:12px}
+.tk li.vv .ln{font-size:15.5px;font-weight:700}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -347,7 +366,7 @@ details.tbl summary{cursor:pointer;color:var(--muted);font-weight:600}
   <div class="wrap hub">
     <article class="hc">
       <h2>Tavolo</h2>
-      <p>Quello che vede il cliente dopo aver inquadrato il QR del suo tavolo.</p>
+      <p>Quello che vede il cliente dopo aver inquadrato il QR del suo tavolo: il menu, la pizza che si compone, fritti, dolci e bevande.</p>
       <div class="row">
         <label class="sr" for="hub-t">Numero del tavolo</label>
         <select id="hub-t"></select>
@@ -369,7 +388,7 @@ details.tbl summary{cursor:pointer;color:var(--muted);font-weight:600}
       <ol class="steps">
         <li><span>Apri <b>la cucina</b> su un computer e <b>un tavolo</b> sul telefono.</span></li>
         <li><span>Dal telefono componi una pizza, aggiungila all'ordine e premi <b>Invia in cucina</b>.</span></li>
-        <li><span>La comanda compare in cucina con il numero del tavolo. Premi <b>Inforna</b> e poi <b>Pronta</b>: il telefono mostra lo stato.</span></li>
+        <li><span>La comanda compare in cucina con il numero del tavolo. Premi <b>Inforna</b> e poi <b>Pronto</b>: il telefono mostra lo stato.</span></li>
       </ol>
     </article>
     <p class="note" id="hub-note" hidden></p>
@@ -380,7 +399,7 @@ details.tbl summary{cursor:pointer;color:var(--muted);font-weight:600}
 <section class="view" id="v-tavolo" hidden>
   <header class="gtop"><div class="wrap">
     <div>
-      <span class="tchip" id="g-table">Tavolo 1</span>
+      <div class="gid"><span class="tchip" id="g-table">Tavolo 1</span><span class="eyebrow" id="g-locale"></span></div>
       <h1>Componi la tua <span>pizza</span></h1>
     </div>
     <div class="gsvc">
@@ -394,40 +413,36 @@ details.tbl summary{cursor:pointer;color:var(--muted);font-weight:600}
       <div class="wrap">
         <div class="pz"><canvas id="pz" role="img" aria-label="Anteprima della pizza"></canvas></div>
         <div class="cap">
-          <div class="l"><p class="pn" id="pn">Margherita</p><p class="pd" id="pd">Pomodoro, fior di latte, basilico</p></div>
-          <div class="pb" id="pb"><small>Prezzo</small><div class="price" id="price">6,00 €</div></div>
+          <div class="l"><p class="pn" id="pn">Margherita</p><p class="pd" id="pd"></p><p class="pa" id="pa"></p></div>
+          <div class="pb" id="pb"><small>Prezzo</small><div class="price" id="price"></div></div>
         </div>
       </div>
     </section>
     <div class="wrap content">
+      <p class="state" id="g-state"></p>
       <section>
-        <h2>Le classiche</h2>
-        <p class="hint">Parti da una ricetta e cambiala come vuoi.</p>
-        <div class="presets" id="presets"></div>
-      </section>
-      <section class="opts">
-        <h2>Base e impasto</h2>
-        <fieldset><legend>Base</legend><div class="seg">
-          <label class="opt"><input type="radio" name="base" id="b-rossa" value="rossa" checked><span class="ob"><b>Rossa</b><em>4,00 €</em><span>Pomodoro San Marzano</span></span></label>
-          <label class="opt"><input type="radio" name="base" id="b-bianca" value="bianca"><span class="ob"><b>Bianca</b><em>3,50 €</em><span>Olio EVO e sale</span></span></label>
-        </div></fieldset>
-        <fieldset><legend>Impasto</legend><div class="seg three">
-          <label class="opt"><input type="radio" name="imp" id="i-classico" value="classico" checked><span class="ob"><b>Classico</b><em>incluso</em><span>48 ore di lievitazione</span></span></label>
-          <label class="opt"><input type="radio" name="imp" id="i-integrale" value="integrale"><span class="ob"><b>Integrale</b><em>+1,00 €</em><span>Farina macinata a pietra</span></span></label>
-          <label class="opt"><input type="radio" name="imp" id="i-sg" value="sg"><span class="ob"><b>Senza glutine</b><em>+2,50 €</em><span>Mix di farine senza glutine</span></span></label>
-        </div></fieldset>
+        <h2>Le pizze</h2>
+        <p class="hint">Scegline una e la vedi qui sopra. Poi puoi aggiungere o togliere ingredienti.</p>
+        <div class="tabs ptabs" role="tablist" aria-label="Tipo di pizza" id="ptabs"></div>
+        <div class="plist" id="plist"></div>
       </section>
       <section>
-        <div class="sh2"><h2>Ingredienti</h2><span class="cnt" id="cnt">2 scelti</span></div>
-        <p class="legend"><span class="usc">in uscita</span> aggiunto a crudo, dopo la cottura</p>
+        <div class="sh2"><h2>Personalizza</h2><span class="cnt" id="cnt"></span></div>
+        <p class="hint">Togliere un ingrediente è gratis; aggiungerlo costa il supplemento indicato.</p>
         <div class="groups" id="groups"></div>
       </section>
+      <section>
+        <h2>Dal resto del menu</h2>
+        <p class="hint">Ripieni, fritti, dolci e bevande: arrivano con lo stesso ordine.</p>
+        <div class="groups" id="voci"></div>
+      </section>
+      <p class="foot" id="g-foot"></p>
     </div>
   </main>
   <div class="gbar" id="gbar">
     <div class="wrap solo" id="gbar-in">
       <button type="button" class="cartb" id="g-cart" hidden><b id="g-cart-n">Ordine · 0</b><span id="g-cart-t">0,00 €</span></button>
-      <button type="button" class="cta" id="g-add"><span>Aggiungi all'ordine</span><span class="ct" id="bar-price">6,00 €</span></button>
+      <button type="button" class="cta" id="g-add"><span>Aggiungi la pizza</span><span class="ct" id="bar-price"></span></button>
     </div>
   </div>
 </section>
@@ -438,14 +453,14 @@ details.tbl summary{cursor:pointer;color:var(--muted);font-weight:600}
     <h1>Cucina</h1>
     <div class="r">
       <button type="button" class="btn2 sm" id="k-sound" aria-pressed="false">Attiva avviso sonoro</button>
-      <button type="button" class="btn2 sm" id="k-esa-b" aria-expanded="false" aria-controls="k-esa">Ingredienti esauriti</button>
+      <button type="button" class="btn2 sm" id="k-esa-b" aria-expanded="false" aria-controls="k-esa">Esauriti</button>
       <button type="button" class="btn2 sm" data-go="">Esci</button>
     </div>
   </div></header>
   <div class="wrap wide kbody">
     <div class="esa" id="k-esa" hidden>
-      <p>Tocca un ingrediente finito: sparisce subito dal menu dei tavoli. Toccalo di nuovo quando torna disponibile.</p>
-      <div class="chips" id="k-esa-chips"></div>
+      <p>Tocca ciò che è finito: sparisce subito dal menu dei tavoli, insieme alle pizze che lo contengono. Toccalo di nuovo quando torna disponibile.</p>
+      <div id="k-esa-chips"></div>
     </div>
     <p class="state" id="k-state"></p>
     <div class="kcols">
@@ -531,7 +546,6 @@ const eur=new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'});
 const RM=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 const BASE_URL=location.origin+location.pathname;
 const IMG='img/';
-const START=Date.now();
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const r2=v=>Math.round(v*100)/100;
 const SVG={
@@ -541,87 +555,69 @@ const SVG={
   alert:'<svg viewBox="0 0 24 24"><path d="M12 4l9 16H3zM12 10v4M12 17v.5"/></svg>'
 };
 
-/* ===================== LISTINO ===================== */
-const BASES={rossa:{name:'Rossa',short:'pomodoro',price:4},bianca:{name:'Bianca',short:'base bianca',price:3.5}};
-const IMPASTI={classico:{name:'Classico',price:0},integrale:{name:'Integrale',price:1},sg:{name:'Senza glutine',price:2.5}};
-const GROUPS=[['formaggi','Formaggi'],['salumi','Salumi e pesce'],['verdure','Verdure']];
-// layer: ordine sulla pizza · size: diametro del pezzo in raggi della pizza · n: pezzi · ic: pezzi nell'icona
-const ING=[
- {id:'fiordilatte',g:'formaggi',name:'Fior di latte',note:'di Agerola',short:'fior di latte',price:1.5,layer:1,size:.16,n:12},
- {id:'bufala',g:'formaggi',name:'Mozzarella di bufala',note:'campana DOP',out:1,short:'bufala',price:3,layer:8,size:.14,n:7},
- {id:'provola',g:'formaggi',name:'Provola',note:'affumicata',short:'provola',price:1.5,layer:1,size:.15,n:10},
- {id:'ricotta',g:'formaggi',name:'Ricotta',note:'di bufala',short:'ricotta',price:1.5,layer:2,size:.1,n:8},
- {id:'gorgonzola',g:'formaggi',name:'Gorgonzola',note:'dolce DOP',short:'gorgonzola',price:1.5,layer:2,size:.085,n:11,ic:3},
- {id:'parmigiano',g:'formaggi',name:'Parmigiano',note:'Reggiano, a scaglie',out:1,short:'parmigiano',price:1.5,layer:10,size:.1,n:12,ic:2},
- {id:'salame',g:'salumi',name:'Salame piccante',note:'calabrese',short:'salame piccante',price:2,layer:3,size:.105,n:9},
- {id:'cotto',g:'salumi',name:'Prosciutto cotto',note:'alta qualità',short:'cotto',price:1.5,layer:3,size:.13,n:8},
- {id:'salsiccia',g:'salumi',name:'Salsiccia',note:'di suino, sbriciolata',short:'salsiccia',price:2,layer:3,size:.09,n:10},
- {id:'nduja',g:'salumi',name:"'Nduja",note:'di Spilinga',short:"'nduja",price:2.5,layer:2,size:.09,n:9},
- {id:'crudo',g:'salumi',name:'Prosciutto crudo',note:'di Parma, 18 mesi',out:1,short:'crudo',price:3,layer:8,size:.2,n:5},
- {id:'alici',g:'salumi',name:'Alici',note:'di Cetara',short:'alici',price:2.5,layer:5,size:.16,n:6},
- {id:'funghi',g:'verdure',name:'Funghi',note:'champignon',short:'funghi',price:1,layer:4,size:.1,n:10},
- {id:'melanzane',g:'verdure',name:'Melanzane',note:'grigliate',short:'melanzane',price:1.5,layer:3,size:.12,n:7},
- {id:'peperoni',g:'verdure',name:'Peperoni',note:'arrostiti',short:'peperoni',price:1.5,layer:4,size:.14,n:9},
- {id:'cipolla',g:'verdure',name:'Cipolla rossa',note:'di Tropea',short:'cipolla',price:1,layer:4,size:.1,n:10},
- {id:'carciofi',g:'verdure',name:'Carciofini',note:"sott'olio",short:'carciofini',price:1.5,layer:4,size:.1,n:7},
- {id:'friarielli',g:'verdure',name:'Friarielli',note:'ripassati in padella',short:'friarielli',price:2,layer:4,size:.12,n:9},
- {id:'pomodorini',g:'verdure',name:'Pomodorini',note:'del Piennolo',short:'pomodorini',price:1.5,layer:5,size:.075,n:10,ic:2},
- {id:'olive',g:'verdure',name:'Olive nere',note:'di Gaeta',short:'olive',price:1,layer:5,size:.07,n:14,ic:3},
- {id:'rucola',g:'verdure',name:'Rucola',note:'',out:1,short:'rucola',price:1,layer:9,size:.16,n:13},
- {id:'basilico',g:'verdure',name:'Basilico',note:'fresco',short:'basilico',price:.5,layer:11,size:.1,n:6}
-];
-const byId=Object.fromEntries(ING.map(i=>[i.id,i]));
-const ORDER=[...ING].sort((a,b)=>a.layer-b.layer);
-const PRESETS=[
- {id:'margherita',name:'Margherita',base:'rossa',ing:['fiordilatte','basilico']},
- {id:'diavola',name:'Diavola',base:'rossa',ing:['fiordilatte','salame']},
- {id:'capricciosa',name:'Capricciosa',base:'rossa',ing:['fiordilatte','cotto','funghi','carciofi','olive']},
- {id:'bufalina',name:'Bufalina',base:'rossa',ing:['bufala','basilico']},
- {id:'quattro',name:'Quattro formaggi',base:'bianca',ing:['fiordilatte','provola','gorgonzola','parmigiano']},
- {id:'salsiccia',name:'Salsiccia e friarielli',base:'bianca',ing:['provola','salsiccia','friarielli']},
- {id:'crudo',name:'Crudo e rucola',base:'rossa',ing:['fiordilatte','crudo','rucola','parmigiano']}
-];
-const PBY=Object.fromEntries(PRESETS.map(p=>[p.id,p]));
-const sortIng=a=>ING.filter(i=>a.includes(i.id)).map(i=>i.id);
-const linePrice=(base,imp,ing)=>r2(BASES[base].price+IMPASTI[imp].price+ing.reduce((t,id)=>t+(byId[id]?byId[id].price:0),0));
-const presetPrice=p=>linePrice(p.base,'classico',p.ing);
-function label(base,ing){
-  const sel=new Set(ing);
-  const ex=PRESETS.find(p=>p.base===base&&p.ing.length===sel.size&&p.ing.every(i=>sel.has(i)));
-  if(ex)return{nome:ex.name,preset:ex.id,add:[],rem:[]};
-  let best=null;
-  for(const p of PRESETS){
-    if(p.base!==base)continue;
-    const add=ing.filter(i=>!p.ing.includes(i)),rem=p.ing.filter(i=>!sel.has(i));
-    if(rem.length>1||add.length>2||rem.length>=p.ing.length)continue;
-    const c=add.length+rem.length*1.2;
-    if(!best||c<best.c)best={p,add,rem,c};
-  }
-  if(best){
-    let n=best.p.name;
-    if(best.add.length)n+=' + '+best.add.map(i=>byId[i].short).join(', ');
-    if(best.rem.length)n+=' senza '+best.rem.map(i=>byId[i].short).join(', ');
-    return{nome:n,preset:best.p.id,add:best.add,rem:best.rem};
-  }
-  return{nome:ing.length?'La tua pizza':(base==='rossa'?'Pizza rossa':'Pizza bianca'),preset:null,add:[],rem:[]};
+/* ===================== LISTINO (pizza/listino.json, condiviso con il Worker) ===================== */
+let L=null,ING={},ORDINE_ING=[],PIZ={},PIZZE=[],VOC={},VOCI=[],SEZ_VOCI=[];
+// Come si disegna ogni ingrediente: s = sprite in img/, z = diametro del pezzo in raggi della pizza,
+// n = pezzi, l = strato (piu' alto = sopra). t:'base' cambia la base, t:'crema' stende uno strato intero.
+const VIS={
+  pomodoro:{t:'base'},cornicione_ricotta:{t:'base'},
+  crema_pistacchi:{t:'crema',l:0},vellutata_zucchine:{t:'crema',l:0},crema_zucca:{t:'crema',l:0},crema_funghi:{t:'crema',l:0},
+  panna:{s:'panna',z:.15,n:9,l:.5},fonduta:{s:'fonduta',z:.15,n:9,l:6},
+  fiordilatte:{s:'fiordilatte',z:.16,n:12,l:1},bufala:{s:'bufala',z:.14,n:7,l:1.5},provola:{s:'provola',z:.15,n:10,l:1},
+  stracciatella:{s:'stracciatella',z:.16,n:8,l:8},burrata:{s:'burrata',z:.22,n:3,l:8},gorgonzola:{s:'gorgonzola',z:.085,n:11,l:2,ic:3},
+  pecorino:{s:'pecorino',z:.22,n:6,l:10},parmigiano:{s:'parmigiano',z:.1,n:12,l:10,ic:2},grana:{s:'parmigiano',z:.1,n:12,l:10,ic:2},
+  ventricina:{s:'salame',z:.105,n:9,l:3},cotto:{s:'cotto',z:.13,n:8,l:3},crudo:{s:'crudo',z:.2,n:5,l:8},salsiccia:{s:'salsiccia',z:.09,n:10,l:3},
+  wurstel:{s:'wurstel',z:.085,n:12,l:3,ic:2},mortadella:{s:'mortadella',z:.2,n:5,l:8},lonza:{s:'lonza',z:.18,n:6,l:8},guanciale:{s:'guanciale',z:.1,n:10,l:4},
+  porchetta:{s:'porchetta',z:.17,n:6,l:3},nduja:{s:'nduja',z:.09,n:9,l:2,ic:2},polpette:{s:'polpette',z:.07,n:10,l:4,ic:3},
+  alici:{s:'alici',z:.16,n:6,l:5},tonno:{s:'tonno',z:.11,n:8,l:4},
+  funghi:{s:'funghi',z:.1,n:10,l:4},porcini:{s:'porcini',z:.11,n:8,l:4},carciofini:{s:'carciofi',z:.1,n:7,l:4},olive:{s:'olive',z:.07,n:14,l:5,ic:3},
+  melanzane_fritte:{s:'melanzane_fritte',z:.13,n:7,l:3},melanzane_funghetto:{s:'melanzane_funghetto',z:.12,n:8,l:4},zucchine:{s:'zucchine',z:.085,n:12,l:4,ic:2},
+  peperoni:{s:'peperoni',z:.14,n:9,l:4},fiori_zucca:{s:'fiori_zucca',z:.18,n:6,l:4},pachino:{s:'pomodorini',z:.075,n:10,l:5,ic:2},
+  pachino_giallo:{s:'pachino_giallo',z:.075,n:10,l:5,ic:2},broccoletti:{s:'friarielli',z:.12,n:9,l:4},patate:{s:'patate',z:.1,n:10,l:3},
+  cipolla_caramellata:{s:'cipolla_caramellata',z:.12,n:8,l:4},rucola:{s:'rucola',z:.16,n:13,l:9},basilico:{s:'basilico',z:.1,n:6,l:11},
+  patatine:{s:'patatine',z:.16,n:7,l:6},crocchetta:{s:'crocchetta',z:.14,n:5,l:6},zucchine_fritte:{s:'zucchine_fritte',z:.15,n:8,l:6},
+  cipolla_croccante:{s:'cipolla_croccante',z:.16,n:7,l:10},tarallo:{s:'tarallo',z:.18,n:7,l:10},granella_pistacchi:{s:'granella',z:.2,n:7,l:10},
+  noci:{s:'noci',z:.07,n:10,l:9,ic:3},polvere_olive:{s:'polvere_olive',z:.25,n:5,l:10},pepe:{s:'pepe',z:.25,n:5,l:11},
+  origano:{s:'origano',z:.25,n:5,l:4},aglio:{s:'aglio',z:.09,n:8,l:4}
+};
+async function loadListino(){
+  const r=await fetch('listino.json',{cache:'no-cache'});if(!r.ok)throw new Error('listino');
+  L=await r.json();
+  ING=L.ingredienti;ORDINE_ING=Object.keys(ING);
+  PIZZE=L.pizze;PIZ=Object.fromEntries(PIZZE.map(p=>[p.id,p]));
+  VOCI=L.voci;VOC=Object.fromEntries(VOCI.map(v=>[v.id,v]));
+  SEZ_VOCI=[...new Set(VOCI.map(v=>v.sez))];
 }
-function describe(base,imp,ing){
-  let s=[BASES[base].short,...sortIng(ing).map(i=>byId[i].short)].join(', ');
-  s=s.charAt(0).toUpperCase()+s.slice(1);
-  if(imp!=='classico')s+=' · impasto '+IMPASTI[imp].name.toLowerCase();
-  return s;
+const sortIng=a=>ORDINE_ING.filter(i=>a.includes(i));
+function breve(id){const n=ING[id]?ING[id].nome:id,w=n.split(' ');return w.length>1&&/^[A-Z]/.test(w[1])?n:n.charAt(0).toLowerCase()+n.slice(1)}
+const allNomi=a=>a.map(x=>(L.allergeni[x]||'').toLowerCase()).filter(Boolean).join(', ');
+// Stessa regola del Worker: se gli ingredienti coincidono con una pizza del menu vale quella;
+// altrimenti prezzo della pizza di partenza + supplementi delle aggiunte (togliere e' gratis).
+function pizzaInfo(da,ing){
+  const set=new Set(ing);
+  const exact=PIZZE.find(p=>p.ing.length===set.size&&p.ing.every(i=>set.has(i)));
+  const base=exact||PIZ[da]||PIZZE[0];
+  const add=sortIng(ing.filter(i=>!base.ing.includes(i))),rem=base.ing.filter(i=>!set.has(i));
+  const prezzo=r2(base.prezzo+add.reduce((t,i)=>t+(ING[i].supp||0),0));
+  let nome=base.nome;
+  if(add.length>3)nome+=' + '+add.length+' ingredienti';else if(add.length)nome+=' + '+add.map(breve).join(', ');
+  if(rem.length>2)nome+=' senza '+rem.length+' ingredienti';else if(rem.length)nome+=' senza '+rem.map(breve).join(', ');
+  const all=new Set([9,...base.all]);add.forEach(i=>ING[i].all.forEach(a=>all.add(a)));
+  return{base,exact:!!exact,add,rem,prezzo,nome,all:[...all].sort((a,b)=>a-b)};
 }
+function ingDesc(ing){let s=sortIng(ing).map(breve).join(', ');return s?s.charAt(0).toUpperCase()+s.slice(1)+'.':'Solo impasto.'}
 
 /* ===================== UTILITA' ===================== */
 function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
 let toastT=0;
-function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,3200)}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,3400)}
 function say(msg){$('#live').textContent=msg}
 const hm=ms=>new Date(ms).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
 function ago(ms){const s=Math.max(0,Math.floor((Date.now()-ms)/1000));const m=Math.floor(s/60);return m<60?`${m}:${String(s%60).padStart(2,'0')}`:`${Math.floor(m/60)} h ${m%60} min`}
 const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}
+const imgCache={};
+function loadImg(src){if(!imgCache[src])imgCache[src]=new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src});return imgCache[src]}
 function openD(d){if(d.showModal){if(!d.open)d.showModal()}else d.setAttribute('open','')}
 function closeD(d){if(d.close)d.close();else d.removeAttribute('open')}
 $$('dialog').forEach(d=>{d.addEventListener('click',e=>{if(e.target===d||e.target.closest('[data-close]'))closeD(d)})});
@@ -630,7 +626,6 @@ $$('dialog').forEach(d=>{d.addEventListener('click',e=>{if(e.target===d||e.targe
 const API='/api/pizza/';
 const live={orders:[],calls:[],tavoli:12,esauriti:new Set(),ready:false,err:null};
 const fresh=new Set(),omap=new Map(),cmap=new Map();
-const dl=true;
 let rev=0,scope=null,pollT=0,polling=false,firstLoad=true,pin=store.get('pizza-pin')||'';
 const tavoloOk=t=>{const n=Math.floor(Number(t));return n>=1&&n<=60?n:0};
 async function api(path,body,staff){
@@ -651,7 +646,7 @@ function setScope(s){
 function applyConfig(c){
   if(!c)return;
   live.tavoli=tavoloOk(c.tavoli)||12;
-  const es=new Set((Array.isArray(c.esauriti)?c.esauriti:[]).filter(i=>byId[i]));
+  const es=new Set((Array.isArray(c.esauriti)?c.esauriti:[]).filter(i=>ING[i]||VOC[i]));
   const chg=[...es].sort().join()!==[...live.esauriti].sort().join();live.esauriti=es;
   if(chg)onEsauriti();
 }
@@ -687,7 +682,7 @@ async function write(fn,okMsg){
   try{await fn();if(okMsg)toast(okMsg);poll();return true}
   catch(e){
     const c=e&&e.code;
-    toast(c==='rete'?'Connessione assente. Riprova tra poco.':c==='pin'?'Serve il PIN del personale.':c===409?'È appena finito: '+(e.finiti||[]).map(i=>byId[i]?byId[i].short:i).join(', ')+'. Toglilo dall\'ordine.':c===507?'L\'archivio degli ordini è pieno.':'Operazione non riuscita. Riprova.');
+    toast(c==='rete'?'Connessione assente. Riprova tra poco.':c==='pin'?'Serve il PIN del personale.':c===409?'È appena finito: '+(e.finiti||[]).map(i=>ING[i]?breve(i):VOC[i]?VOC[i].nome:i).join(', ')+'. Toglilo dall\'ordine.':c===507?'L\'archivio degli ordini è pieno.':'Operazione non riuscita. Riprova.');
     poll();return false;
   }
 }
@@ -730,18 +725,21 @@ function renderHub(){
 /* ===================== MOTORE DELLA PIZZA ===================== */
 const cv=$('#pz'),ctx=cv.getContext('2d');
 let S=0,R=0,DPR=1,curBase=null,prevBase=null,baseT0=0,raf=0;
-const anim=new Map(),sprites={},bases={};
+const anim=new Map(),sprites={},creme={};
 const DUR=RM?1:460,STAG=RM?0:34,OUT=RM?1:240,BF=RM?1:320;
-function pieces(ing){
-  if(ing._p)return ing._p;
-  const r=rng(hash(ing.id)),P=[],maxR=.8-ing.size*.5;
-  for(let i=0;i<ing.n;i++){
+const pieceCache={};
+function pieces(id){
+  if(pieceCache[id])return pieceCache[id];
+  const v=VIS[id],r=rng(hash(id)),P=[],maxR=.8-v.z*.5;
+  for(let i=0;i<v.n;i++){
     let best=null,bd=-1;
     for(let k=0;k<14;k++){const a=r()*TAU,d=Math.sqrt(r())*maxR,x=Math.cos(a)*d,y=Math.sin(a)*d;let md=Infinity;for(const p of P){const dd=(p.x-x)**2+(p.y-y)**2;if(dd<md)md=dd}if(md>bd){bd=md;best={x,y}}}
-    best.sc=.86+r()*.28;best.v=i;P.push(best);
+    best.sc=.86+r()*.28;best.v=i+(hash(id)%5);P.push(best);
   }
-  return ing._p=P;
+  return pieceCache[id]=P;
 }
+let DRAW=[];
+function buildDrawOrder(){DRAW=Object.keys(VIS).filter(id=>ING[id]&&VIS[id].t!=='base').sort((a,b)=>VIS[a].l-VIS[b].l)}
 const clamp=k=>k<0?0:k>1?1:k;
 function render(now){
   raf=0;if(!S)return;
@@ -751,20 +749,27 @@ function render(now){
   if(prevBase&&curBase){const k=clamp((now-baseT0)/BF);c.drawImage(prevBase,0,0,S,S);c.globalAlpha=k;c.drawImage(curBase,0,0,S,S);c.globalAlpha=1;if(k<1)busy=true;else prevBase=null}
   else if(curBase)c.drawImage(curBase,0,0,S,S);
   else{c.fillStyle='rgba(120,100,70,.12)';c.beginPath();c.arc(cx,cy,R,0,TAU);c.fill()}
-  for(const ing of ORDER){
-    const st=anim.get(ing.id);if(!st)continue;
-    const sp=sprites[ing.id];if(!sp)continue;
-    const P=pieces(ing);let alive=false;
+  for(const id of DRAW){
+    const st=anim.get(id);if(!st)continue;
+    const v=VIS[id];
+    if(v.t==='crema'){
+      const im=creme[id];if(!im)continue;
+      const k=clamp((now-st.t0)/(st.on?DUR:OUT));const a=st.on?k:1-k;
+      if(k<1)busy=true;else if(!st.on){anim.delete(id);continue}
+      c.globalAlpha=a;c.drawImage(im,0,0,S,S);c.globalAlpha=1;continue;
+    }
+    const sp=sprites[v.s];if(!sp)continue;
+    const P=pieces(id);let alive=false;
     for(let i=0;i<P.length;i++){
       const p=P[i];let a=1,sc=1,dy=0;
       if(st.on){const k=clamp((now-st.t0-i*STAG)/DUR);if(k<=0){busy=true;continue}if(k<1){busy=true;const e=1-(1-k)**3;sc=1+.3*(1-e);a=Math.min(1,k*2.5);dy=-R*.05*(1-e)}}
       else{const k=clamp((now-st.t0-i*(RM?0:8))/OUT);if(k>=1)continue;busy=alive=true;a=1-k;sc=1-.12*k}
-      const w=ing.size*R*2/.7*p.sc*sc,v=p.v%sp.n;
+      const w=v.z*R*2/.7*p.sc*sc,vv=p.v%sp.n;
       c.globalAlpha=a;
-      c.drawImage(sp.img,v*sp.px,0,sp.px,sp.px,cx+p.x*R-w/2,cy+p.y*R+dy-w/2,w,w);
+      c.drawImage(sp.img,vv*sp.px,0,sp.px,sp.px,cx+p.x*R-w/2,cy+p.y*R+dy-w/2,w,w);
     }
     c.globalAlpha=1;
-    if(!st.on&&!alive)anim.delete(ing.id);
+    if(!st.on&&!alive)anim.delete(id);
   }
   if(busy)raf=requestAnimationFrame(render);
 }
@@ -776,70 +781,77 @@ function resize(){
   if(w===S&&d===DPR)return;
   S=w;R=S*.47;DPR=d;cv.width=cv.height=Math.round(S*DPR);kick();
 }
-function baseKey(){return`base-${G.base}-${G.imp}`}
-function ensureBase(k){if(!bases[k])bases[k]=loadImg(IMG+k+'.webp').catch(()=>null);return bases[k]}
+const baseKey=()=>'base-'+(G.sel.has('pomodoro')?'rossa':'bianca')+(G.sel.has('cornicione_ricotta')?'-ricotta':'');
 function swapBase(){
   const k=baseKey();
-  ensureBase(k).then(img=>{if(!img||k!==baseKey())return;if(curBase&&curBase!==img){prevBase=curBase;baseT0=performance.now()}curBase=img;kick()});
+  loadImg(IMG+k+'.webp').then(img=>{if(k!==baseKey())return;if(curBase&&curBase!==img){prevBase=curBase;baseT0=performance.now()}curBase=img;kick()}).catch(()=>{});
 }
-let spritesP=null;
-function loadSprites(){
-  if(spritesP)return spritesP;
-  spritesP=Promise.all(ING.map(ing=>loadImg(IMG+ing.id+'.webp').then(img=>{sprites[ing.id]={img,px:img.height,n:Math.max(1,Math.round(img.width/img.height))};drawIcon(ing);kick()}).catch(()=>{})));
-  return spritesP;
+let assetsP=null;
+function loadAssets(){
+  if(assetsP)return assetsP;
+  const names=[...new Set(Object.values(VIS).filter(v=>v.s).map(v=>v.s))];
+  const a=names.map(n=>loadImg(IMG+n+'.webp').then(img=>{sprites[n]={img,px:img.height,n:Math.max(1,Math.round(img.width/img.height))};Object.keys(VIS).filter(id=>VIS[id].s===n).forEach(drawIcon);kick()}).catch(()=>{}));
+  const b=Object.keys(VIS).filter(id=>VIS[id].t==='crema').map(id=>loadImg(IMG+id+'.webp').then(img=>{creme[id]=img;drawIcon(id);kick()}).catch(()=>{}));
+  const c=['base-rossa','base-bianca-ricotta'].map(k=>loadImg(IMG+k+'.webp').then(()=>{drawIcon('pomodoro');drawIcon('cornicione_ricotta')}).catch(()=>{}));
+  return assetsP=Promise.all([...a,...b,...c]);
 }
-function drawIcon(ing){
-  const el=document.querySelector(`#ing-${ing.id} canvas`),sp=sprites[ing.id];if(!el||!sp)return;
-  const k=Math.max(2,Math.min(3,window.devicePixelRatio||1)),Z=48;el.width=el.height=Z*k;
-  const c=el.getContext('2d');c.scale(k,k);
-  const g=c.createRadialGradient(20,19,2,24,24,24);g.addColorStop(0,'#F4E3BC');g.addColorStop(.75,'#E8CB90');g.addColorStop(1,'#CF9A58');
-  c.fillStyle=g;c.beginPath();c.arc(24,24,23,0,TAU);c.fill();
-  c.save();c.beginPath();c.arc(24,24,23,0,TAU);c.clip();
-  const n=ing.ic||1,pos=n===1?[[0,0]]:n===2?[[-6,-5],[6,5]]:[[-7,-6],[7,-5],[0,7]];
+function drawIcon(id){
+  const el=document.querySelector(`#ing-${id} canvas`);if(!el)return;
+  const v=VIS[id];if(!v)return;
+  const k=Math.max(2,Math.min(3,window.devicePixelRatio||1)),Z=48;
+  const ctx2=el.getContext('2d');
+  const drawDisc=()=>{el.width=el.height=Z*k;ctx2.setTransform(k,0,0,k,0,0);const g=ctx2.createRadialGradient(20,19,2,24,24,24);g.addColorStop(0,'#F4E3BC');g.addColorStop(.75,'#E8CB90');g.addColorStop(1,'#CF9A58');ctx2.fillStyle=g;ctx2.beginPath();ctx2.arc(24,24,23,0,TAU);ctx2.fill();ctx2.save();ctx2.beginPath();ctx2.arc(24,24,23,0,TAU);ctx2.clip()};
+  const crop=(img,fx,fy,fs)=>{drawDisc();const W=img.width;ctx2.drawImage(img,W*(fx-fs/2),W*(fy-fs/2),W*fs,W*fs,0,0,48,48);ctx2.restore()};
+  if(v.t==='crema'){if(creme[id])crop(creme[id],.5,.5,.28);return}
+  if(v.t==='base'){
+    const src=IMG+(id==='pomodoro'?'base-rossa':'base-bianca-ricotta')+'.webp';
+    loadImg(src).then(img=>id==='pomodoro'?crop(img,.5,.5,.28):crop(img,.9,.5,.2)).catch(()=>{});return;
+  }
+  const sp=sprites[v.s];if(!sp)return;
+  drawDisc();
+  const n=v.ic||1,pos=n===1?[[0,0]]:n===2?[[-6,-5],[6,5]]:[[-7,-6],[7,-5],[0,7]];
   const w=n===1?50:n===2?34:26;
-  pos.forEach(([x,y],i)=>c.drawImage(sp.img,(i%sp.n)*sp.px,0,sp.px,sp.px,24+x-w/2,24+y-w/2,w,w));
-  c.restore();
+  pos.forEach(([x,y],i)=>ctx2.drawImage(sp.img,(i%sp.n)*sp.px,0,sp.px,sp.px,24+x-w/2,24+y-w/2,w,w));
+  ctx2.restore();
 }
 if('ResizeObserver' in window)new ResizeObserver(resize).observe(cv.parentElement);
 addEventListener('resize',resize);
 
 /* ===================== TAVOLO ===================== */
-const G={base:'rossa',imp:'classico',sel:new Set(),cart:[],built:false};
-let shown=0,tw=0,lastUnit=null;
-const unit=()=>linePrice(G.base,G.imp,[...G.sel]);
+const G={da:'margherita',sel:new Set(),cart:[],built:false,tab:'rosse'};
+let shown=0,tw=0,lastPrice=null;
+const curInfo=()=>pizzaInfo(G.da,sortIng([...G.sel]));
 function buildGuest(){
   if(G.built)return;G.built=true;
+  buildDrawOrder();
+  $('#g-locale').textContent=[L.locale,L.sede].filter(Boolean).join(' · ');
+  // schede del menu
+  $('#ptabs').innerHTML=L.sezioni_pizze.map(s=>`<button type="button" role="tab" data-tab="${s.id}" aria-selected="false">${esc(s.nome)}</button>`).join('');
+  $('#ptabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b){G.tab=b.dataset.tab;renderPizzaList()}});
+  $('#plist').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b&&!b.disabled)applyPizza(PIZ[b.dataset.p])});
+  // ingredienti per categoria
   const plus='<svg viewBox="0 0 24 24"><path class="p" d="M12 6v12M6 12h12"/><path class="k" d="M6 12.5l4 4 8-9"/></svg>';
-  const host=$('#groups');
-  for(const [g,lab] of GROUPS){
-    const sec=document.createElement('div');sec.innerHTML=`<h3>${lab}</h3><div class="grid"></div>`;
-    const grid=sec.querySelector('.grid');
-    for(const ing of ING.filter(i=>i.g===g)){
-      const b=document.createElement('button');b.type='button';b.className='ing';b.id='ing-'+ing.id;b.dataset.id=ing.id;b.setAttribute('aria-pressed','false');
-      b.innerHTML=`<canvas aria-hidden="true"></canvas><span class="in"><span class="nm">${ing.name}</span><span class="nt">${ing.note?`<span>${ing.note}</span>`:''}${ing.out?'<span class="usc">in uscita</span>':''}<span class="esa-tag" hidden>esaurito</span></span></span><span class="pr">+${eur.format(ing.price)}</span><span class="tg" aria-hidden="true">${plus}</span>`;
-      b.addEventListener('click',()=>toggle(ing.id));grid.appendChild(b);
-    }
-    host.appendChild(sec);
-  }
-  const ph=$('#presets');
-  for(const p of PRESETS){const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.id=p.id;b.setAttribute('aria-pressed','false');b.innerHTML=`${p.name}<small>${eur.format(presetPrice(p))}</small>`;b.addEventListener('click',()=>applyPreset(p));ph.appendChild(b)}
-  $$('input[name=base]').forEach(i=>i.addEventListener('change',()=>{G.base=i.value;swapBase();updateGuest();say('Base '+BASES[i.value].name.toLowerCase())}));
-  $$('input[name=imp]').forEach(i=>i.addEventListener('change',()=>{G.imp=i.value;swapBase();updateGuest();say('Impasto '+IMPASTI[i.value].name.toLowerCase())}));
-  $('#g-add').addEventListener('click',addToCart);
+  $('#groups').innerHTML=L.categorie.map(cat=>`<details class="cat" data-cat="${cat.id}"><summary>${esc(cat.nome)}<span class="n"></span></summary><div class="grid">${ORDINE_ING.filter(id=>ING[id].cat===cat.id).map(id=>`<button type="button" class="ing" id="ing-${id}" data-id="${id}" aria-pressed="false"><canvas aria-hidden="true"></canvas><span class="in"><span class="nm">${esc(ING[id].nome)}</span><span class="nt">${ING[id].all.length?`<span>${esc(allNomi(ING[id].all))}</span>`:''}<span class="esa-tag" hidden>finito</span></span></span><span class="pr"></span><span class="tg" aria-hidden="true">${plus}</span></button>`).join('')}</div></details>`).join('');
+  $('#groups').addEventListener('click',e=>{const b=e.target.closest('.ing');if(b)toggle(b.dataset.id)});
+  // resto del menu
+  $('#voci').innerHTML=SEZ_VOCI.map(sez=>`<details class="cat"><summary>${esc(sez)}<span class="n" data-vn="${esc(sez)}"></span></summary><div class="vlist">${VOCI.filter(v=>v.sez===sez).map(v=>`<div class="vrow" data-v="${v.id}"><span class="vn">${esc(v.nome)}</span>${v.desc?`<span class="vd">${esc(v.desc)}</span>`:''}${v.all.length?`<span class="vd">Allergeni: ${esc(allNomi(v.all))}</span>`:''}<div class="vr"><span class="vp">${eur.format(v.prezzo)}</span><div class="step" role="group" aria-label="Quantità di ${esc(v.nome)}"><button type="button" data-vq="-1" aria-label="Uno in meno">−</button><output>0</output><button type="button" data-vq="1" aria-label="Uno in più">+</button></div></div></div>`).join('')}</div></details>`).join('');
+  $('#voci').addEventListener('click',e=>{const b=e.target.closest('[data-vq]');if(b)changeVoce(b.closest('[data-v]').dataset.v,+b.dataset.vq)});
+  $('#g-foot').textContent=`Allergeni (numeri del menu): ${Object.entries(L.allergeni).map(([k,v])=>k+' '+v.toLowerCase()).join(', ')}. Coperto ${eur.format(L.coperto)} a persona. Per allergie e intolleranze scrivilo nelle note o chiedi al personale.`;
+  $('#g-add').addEventListener('click',addPizza);
   $('#g-cart').addEventListener('click',()=>openCart());
   $('#g-svc').addEventListener('click',()=>openStatus());
-  const t0=performance.now();
-  PRESETS[0].ing.forEach((id,k)=>{G.sel.add(id);anim.set(id,{on:true,t0:t0+300+k*180})});
-  loadSprites();
+  loadAssets();
+  applyPizza(PIZ.margherita||PIZZE[0],RM?0:300);
 }
 function enterGuest(n){
+  if(!L)return;
   buildGuest();
   $('#g-table').textContent='Tavolo '+n;
-  G.cart=(store.get('pizza-ordine-t'+n)||[]).filter(l=>l&&BASES[l.base]&&IMPASTI[l.imp]&&Array.isArray(l.ing));
-  lastUnit=null;updateGuest();updateBar();swapBase();
+  G.cart=(store.get('pizza-ordine2-t'+n)||[]).filter(l=>l&&(l.tipo==='voce'?VOC[l.id]:PIZ[l.da]));
+  lastPrice=null;updateGuest();updateBar();swapBase();
   requestAnimationFrame(resize);
 }
-function saveCart(){store.set('pizza-ordine-t'+T,G.cart)}
+function saveCart(){store.set('pizza-ordine2-t'+T,G.cart)}
 function paintPrice(v){const t=eur.format(r2(v));$('#price').textContent=t;$('#bar-price').textContent=t}
 function setPrice(v){
   cancelAnimationFrame(tw);
@@ -849,33 +861,60 @@ function setPrice(v){
   tw=requestAnimationFrame(step);
 }
 function floatDelta(d){const el=document.createElement('span');el.className='delta'+(d<0?' neg':'');el.textContent=(d>0?'+':'−')+eur.format(Math.abs(d));el.setAttribute('aria-hidden','true');$('#pb').appendChild(el);el.addEventListener('animationend',()=>el.remove())}
+const pizzaOff=p=>p.ing.some(i=>live.esauriti.has(i))||live.esauriti.has(p.id);
+function renderPizzaList(){
+  const cur=curInfo();
+  $$('#ptabs [data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===G.tab)));
+  $('#plist').innerHTML=PIZZE.filter(p=>p.sez===G.tab).map(p=>{const off=pizzaOff(p);return`<button type="button" class="prow" data-p="${p.id}" aria-pressed="${cur.base.id===p.id}" ${off?'disabled':''}><b>${esc(p.nome)}</b><span class="pp">${eur.format(p.prezzo)}</span><span class="pdsc">${esc(p.desc)}</span><span class="al">${off?'Non disponibile ora':'Allergeni: '+esc(allNomi(p.all))}</span></button>`}).join('');
+}
 function updateGuest(){
-  const u=unit(),d=lastUnit==null?0:r2(u-lastUnit);lastUnit=u;
-  setPrice(u);if(d&&!RM)floatDelta(d);
-  const ing=sortIng([...G.sel]),lb=label(G.base,ing),desc=describe(G.base,G.imp,ing);
-  $('#pn').textContent=lb.nome;$('#pd').textContent=desc;cv.setAttribute('aria-label','Anteprima: '+lb.nome+'. '+desc);
-  $$('.ing').forEach(b=>{const id=b.dataset.id,ex=live.esauriti.has(id)&&!G.sel.has(id);b.setAttribute('aria-pressed',String(G.sel.has(id)));b.disabled=ex;b.querySelector('.esa-tag').hidden=!live.esauriti.has(id)});
-  $$('#presets .chip').forEach(b=>{const p=PBY[b.dataset.id];b.setAttribute('aria-pressed',String(lb.preset===p.id&&!lb.add.length&&!lb.rem.length));b.disabled=p.ing.some(i=>live.esauriti.has(i))});
-  const n=G.sel.size;$('#cnt').textContent=n===1?'1 scelto':n+' scelti';
+  if(!G.built)return;
+  const ing=sortIng([...G.sel]),info=pizzaInfo(G.da,ing);
+  const d=lastPrice==null?0:r2(info.prezzo-lastPrice);lastPrice=info.prezzo;
+  setPrice(info.prezzo);if(d&&!RM)floatDelta(d);
+  $('#pn').textContent=info.nome;
+  $('#pd').textContent=info.exact?info.base.desc:ingDesc(ing);
+  $('#pa').textContent='Allergeni: '+allNomi(info.all);
+  cv.setAttribute('aria-label','Anteprima: '+info.nome+'. '+(info.exact?info.base.desc:ingDesc(ing)));
+  const inBase=new Set(info.base.ing);
+  $$('#groups .ing').forEach(b=>{
+    const id=b.dataset.id,on=G.sel.has(id),fin=live.esauriti.has(id),pr=b.querySelector('.pr');
+    b.setAttribute('aria-pressed',String(on));b.disabled=fin&&!on;b.querySelector('.esa-tag').hidden=!fin;
+    pr.className='pr'+(inBase.has(id)?(on?' inc':' tolto'):'');
+    pr.textContent=inBase.has(id)?(on?'nella pizza':'tolto'):(ING[id].supp?'+'+eur.format(ING[id].supp):'gratis');
+  });
+  $$('#groups details.cat').forEach(dt=>{const n=[...dt.querySelectorAll('.ing')].filter(b=>G.sel.has(b.dataset.id)).length;dt.querySelector('.n').textContent=n?(n===1?'1 sulla pizza':n+' sulla pizza'):''});
+  $('#cnt').textContent=info.add.length||info.rem.length?[info.add.length?`${info.add.length} ${info.add.length===1?'aggiunta':'aggiunte'}`:'',info.rem.length?`${info.rem.length} ${info.rem.length===1?'tolto':'tolti'}`:''].filter(Boolean).join(' · '):'';
+  renderPizzaList();
+  renderVoci();
+}
+function renderVoci(){
+  $$('#voci .vrow').forEach(r=>{const id=r.dataset.v,q=(G.cart.find(l=>l.tipo==='voce'&&l.id===id)||{}).qty||0,off=live.esauriti.has(id);r.querySelector('output').textContent=q;r.classList.toggle('off',off);r.querySelector('[data-vq="1"]').disabled=off;r.querySelector('[data-vq="-1"]').disabled=!q});
+  $$('#voci [data-vn]').forEach(s=>{const n=G.cart.filter(l=>l.tipo==='voce'&&VOC[l.id].sez===s.dataset.vn).reduce((t,l)=>t+l.qty,0);s.textContent=n?n+' nell\'ordine':''});
+}
+function animateTo(next,delay){
+  const now=performance.now();let k=0;
+  for(const id of [...G.sel])if(!next.has(id)){G.sel.delete(id);if(VIS[id]&&VIS[id].t!=='base')anim.set(id,{on:false,t0:now})}
+  for(const id of sortIng([...next]))if(!G.sel.has(id)){G.sel.add(id);if(VIS[id]&&VIS[id].t!=='base')anim.set(id,{on:true,t0:now+(RM?0:(delay||0)+(k++)*110)})}
+}
+function applyPizza(p,delay){
+  if(!p)return;
+  G.da=p.id;G.tab=p.sez;
+  animateTo(new Set(p.ing.filter(i=>ING[i])),delay);
+  swapBase();kick();updateGuest();say(p.nome+' selezionata. Prezzo '+eur.format(p.prezzo));
 }
 function toggle(id){
-  const ing=byId[id],now=performance.now();
-  if(G.sel.has(id)){G.sel.delete(id);anim.set(id,{on:false,t0:now});say(ing.name+' tolto. Prezzo '+eur.format(unit()))}
-  else{if(live.esauriti.has(id))return;G.sel.add(id);anim.set(id,{on:true,t0:now});say(ing.name+' aggiunto. Prezzo '+eur.format(unit()))}
+  const now=performance.now(),ing=ING[id];
+  if(G.sel.has(id)){G.sel.delete(id);if(VIS[id].t!=='base')anim.set(id,{on:false,t0:now});say(ing.nome+' tolto')}
+  else{if(live.esauriti.has(id))return;G.sel.add(id);if(VIS[id].t!=='base')anim.set(id,{on:true,t0:now});say(ing.nome+' aggiunto')}
+  if(VIS[id].t==='base')swapBase();
+  const info=curInfo();if(info.exact)G.da=info.base.id; // diventata un'altra pizza del menu: si riparte da quella
   kick();updateGuest();
-}
-function applyPreset(p){
-  const now=performance.now();let k=0;
-  if(G.base!==p.base){G.base=p.base;$('#b-'+p.base).checked=true;swapBase()}
-  const next=new Set(p.ing);
-  for(const id of [...G.sel])if(!next.has(id)){G.sel.delete(id);anim.set(id,{on:false,t0:now})}
-  for(const id of p.ing)if(!G.sel.has(id)){G.sel.add(id);anim.set(id,{on:true,t0:now+(RM?0:(k++)*130)})}
-  kick();updateGuest();say(p.name+' selezionata');
 }
 function onEsauriti(){
   if(!G.built)return;
   const gone=[...G.sel].filter(id=>live.esauriti.has(id));
-  if(gone.length&&view==='tavolo'){const now=performance.now();gone.forEach(id=>{G.sel.delete(id);anim.set(id,{on:false,t0:now})});kick();toast((gone.length>1?'Sono finiti: ':'È finito: ')+gone.map(i=>byId[i].short).join(', ')+'. L\'abbiamo tolto dalla pizza.')}
+  if(gone.length&&view==='tavolo'){const now=performance.now();gone.forEach(id=>{G.sel.delete(id);if(VIS[id].t!=='base')anim.set(id,{on:false,t0:now})});swapBase();kick();toast((gone.length>1?'Sono finiti: ':'È finito: ')+gone.map(breve).join(', ')+'. L\'abbiamo tolto dalla pizza.')}
   updateGuest();
 }
 function thumb(){
@@ -883,41 +922,49 @@ function thumb(){
   const c=t.getContext('2d');c.imageSmoothingQuality='high';c.drawImage(cv,0,0,120,120);
   try{return t.toDataURL('image/webp',.8)}catch(e){return''}
 }
-function addToCart(){
-  const ing=sortIng([...G.sel]),lb=label(G.base,ing),key=[G.base,G.imp,ing.join('.')].join('|');
+function addPizza(){
+  const ing=sortIng([...G.sel]),info=pizzaInfo(G.da,ing),key='p|'+info.base.id+'|'+ing.join('.');
   const ex=G.cart.find(l=>l.key===key);
   if(ex)ex.qty=Math.min(20,ex.qty+1);
-  else G.cart.push({key,base:G.base,imp:G.imp,ing,nome:lb.nome,preset:lb.preset,add:lb.add,rem:lb.rem,prezzo:unit(),qty:1,thumb:thumb()});
-  saveCart();updateBar();
-  const b=$('#g-cart');b.classList.remove('pulse');void b.offsetWidth;b.classList.add('pulse');
-  toast('Aggiunta all\'ordine: '+lb.nome);
+  else G.cart.push({tipo:'pizza',key,da:info.base.id,ing,nome:info.nome,prezzo:info.prezzo,qty:1,thumb:thumb()});
+  saveCart();updateBar();pulse();
+  toast('Aggiunta all\'ordine: '+info.nome);
 }
+function changeVoce(id,dq){
+  const v=VOC[id];if(!v)return;
+  let l=G.cart.find(x=>x.tipo==='voce'&&x.id===id);
+  if(!l){if(dq<0||live.esauriti.has(id))return;l={tipo:'voce',key:'v|'+id,id,nome:v.nome,prezzo:v.prezzo,qty:0};G.cart.push(l)}
+  l.qty=Math.max(0,Math.min(20,l.qty+dq));if(!l.qty)G.cart.splice(G.cart.indexOf(l),1);
+  saveCart();updateBar();renderVoci();if(dq>0)pulse();
+}
+function pulse(){const b=$('#g-cart');b.classList.remove('pulse');void b.offsetWidth;b.classList.add('pulse')}
 const cartTotal=()=>r2(G.cart.reduce((t,l)=>t+l.prezzo*l.qty,0));
 const cartCount=()=>G.cart.reduce((t,l)=>t+l.qty,0);
 function updateBar(){
   const n=cartCount();$('#g-cart').hidden=!n;$('#gbar-in').classList.toggle('solo',!n);
-  $('#g-cart-n').textContent=`Ordine · ${n} ${n===1?'pizza':'pizze'}`;$('#g-cart-t').textContent=eur.format(cartTotal());
+  $('#g-cart-n').textContent=`Ordine · ${n}`;$('#g-cart-t').textContent=eur.format(cartTotal());
 }
 const sheet=$('#sheet');
 let sheetMode='cart',lastSent=null;
 function openCart(){sheetMode='cart';renderSheet();openD(sheet)}
 function openStatus(){sheetMode='status';renderSheet();openD(sheet)}
 function tableOrders(n){return live.orders.filter(o=>Number(o.tavolo)===n&&!o.chiuso).sort((a,b)=>b.creato-a.creato)}
-const STEPS=[['nuovo','Ricevuto'],['forno','In forno'],['pronto','Pronta'],['servito','Al tavolo']];
+const STEPS=[['nuovo','Ricevuto'],['forno','In forno'],['pronto','Pronto'],['servito','Al tavolo']];
 function tracker(stato){const i=Math.max(0,STEPS.findIndex(s=>s[0]===stato));return`<ol class="track" aria-label="Stato: ${STEPS[i][1]}">${STEPS.map((s,k)=>`<li class="${k<i?'done':k===i?'now':''}">${s[1]}</li>`).join('')}</ol>`}
+const lineFinita=l=>l.tipo==='voce'?live.esauriti.has(l.id):l.ing.some(i=>live.esauriti.has(i));
 function renderSheet(){
   const body=$('#sh-body');
   if(sheetMode==='cart'){
     $('#sh-title').textContent='Il tuo ordine';
-    if(!G.cart.length){body.innerHTML=`<p class="empty">L'ordine è vuoto. Componi una pizza e premi «Aggiungi all'ordine».</p>`;return}
-    const bad=G.cart.some(l=>l.ing.some(i=>live.esauriti.has(i)));
-    const noteVal=document.activeElement&&document.activeElement.id==='g-note'?null:(store.get('pizza-nota-t'+T)||'');
-    if(noteVal===null)return;
-    body.innerHTML=`<ul class="lines">${G.cart.map((l,i)=>`<li class="cl"><img src="${esc(l.thumb)}" alt=""><div><b>${esc(l.nome)}</b><small>${esc(describe(l.base,l.imp,l.ing))}</small>${l.ing.some(x=>live.esauriti.has(x))?'<small style="color:var(--crit);font-weight:700">Contiene un ingrediente finito: toglila e rifalla</small>':''}</div><div class="r"><span>${eur.format(l.prezzo*l.qty)}</span><div class="step" role="group" aria-label="Quantità di ${esc(l.nome)}"><button type="button" data-q="-1" data-i="${i}" aria-label="Una in meno">−</button><output>${l.qty}</output><button type="button" data-q="1" data-i="${i}" aria-label="Una in più">+</button></div></div></li>`).join('')}</ul>
-    <div><label class="fl" for="g-note">Note per la cucina</label><textarea id="g-note" rows="2" maxlength="300" placeholder="Es. ben cotta, tagliata a spicchi, allergie">${esc(noteVal)}</textarea></div>
+    if(!G.cart.length){body.innerHTML=`<p class="empty">L'ordine è vuoto. Scegli una pizza e premi «Aggiungi la pizza», oppure aggiungi fritti e bevande dal menu.</p>`;return}
+    if(document.activeElement&&document.activeElement.id==='g-note')return;
+    const bad=G.cart.some(lineFinita);
+    body.innerHTML=`<ul class="lines">${G.cart.map((l,i)=>`<li class="cl">${l.tipo==='pizza'?`<img src="${esc(l.thumb)}" alt="">`:`<span class="vi" aria-hidden="true">${esc(VOC[l.id].sez.charAt(0))}</span>`}<div><b>${esc(l.nome)}</b><small>${esc(l.tipo==='pizza'?ingDesc(l.ing):VOC[l.id].sez)}</small>${lineFinita(l)?'<small style="color:var(--crit);font-weight:700">Contiene qualcosa che è finito: toglilo</small>':''}</div><div class="r"><span>${eur.format(l.prezzo*l.qty)}</span><div class="step" role="group" aria-label="Quantità di ${esc(l.nome)}"><button type="button" data-q="-1" data-i="${i}" aria-label="Uno in meno">−</button><output>${l.qty}</output><button type="button" data-q="1" data-i="${i}" aria-label="Uno in più">+</button></div></div></li>`).join('')}</ul>
+    <div><label class="fl" for="g-note">Note per la cucina</label><textarea id="g-note" rows="2" maxlength="300" placeholder="Es. ben cotta, tagliata a spicchi, allergie">${esc(store.get('pizza-nota-t'+T)||'')}</textarea></div>
     <div class="tot"><span>Totale</span><span>${eur.format(cartTotal())}</span></div>
+    <p class="hint" style="margin:0">Coperto escluso (${eur.format(L.coperto)} a persona).</p>
     <button type="button" class="cta" id="g-send" ${bad?'disabled':''}><span>Invia in cucina</span><span class="ct">${eur.format(cartTotal())}</span></button>`;
-    $$('[data-q]',body).forEach(b=>b.addEventListener('click',()=>{const l=G.cart[+b.dataset.i];l.qty+=+b.dataset.q;if(l.qty<1)G.cart.splice(+b.dataset.i,1);saveCart();updateBar();renderSheet()}));
+    $$('[data-q]',body).forEach(b=>b.addEventListener('click',()=>{const l=G.cart[+b.dataset.i];l.qty=Math.min(20,l.qty+(+b.dataset.q));if(l.qty<1)G.cart.splice(+b.dataset.i,1);saveCart();updateBar();renderVoci();renderSheet()}));
     $('#g-note').addEventListener('input',e=>store.set('pizza-nota-t'+T,e.target.value));
     $('#g-send').addEventListener('click',sendOrder);
   }else if(sheetMode==='sent'){
@@ -929,26 +976,26 @@ function renderSheet(){
     const os=tableOrders(T),tot=r2(os.reduce((t,o)=>t+(Number(o.totale)||0),0));
     const callOpen=t=>live.calls.some(c=>Number(c.tavolo)===T&&c.tipo===t);
     body.innerHTML=`${os.length?os.map(o=>`<article class="ordc"><header><b>Ordine delle ${hm(o.creato)}</b><span>${eur.format(Number(o.totale)||0)}</span></header><ul>${(o.righe||[]).map(r=>`<li>${Number(r.qty)||1} × ${esc(r.nome)}</li>`).join('')}</ul>${tracker(o.stato)}</article>`).join(''):'<p class="empty">Nessun ordine aperto per questo tavolo.</p>'}
-    ${os.length?`<div class="tot"><span>Conto del tavolo</span><span>${eur.format(tot)}</span></div>`:''}
+    ${os.length?`<div class="tot"><span>Conto del tavolo</span><span>${eur.format(tot)}</span></div><p class="hint" style="margin:0">Coperto escluso (${eur.format(L.coperto)} a persona).</p>`:''}
     <div class="svc"><button type="button" class="btn2" data-call="cameriere" ${callOpen('cameriere')?'disabled':''}>${callOpen('cameriere')?'Cameriere avvisato':'Chiama il cameriere'}</button><button type="button" class="btn2" data-call="conto" ${callOpen('conto')?'disabled':''}>${callOpen('conto')?'Conto richiesto':'Chiedi il conto'}</button></div>`;
     $$('[data-call]',body).forEach(b=>b.addEventListener('click',async()=>{b.disabled=true;const ok=await write(()=>api('chiamate',{tavolo:T,tipo:b.dataset.call}),b.dataset.call==='conto'?'Conto richiesto: arriva il cameriere.':'Il cameriere è stato avvisato.');if(!ok)b.disabled=false}));
   }
 }
 async function sendOrder(){
   const btn=$('#g-send');
-  if(G.cart.some(l=>l.ing.some(i=>live.esauriti.has(i)))){toast('Nell\'ordine c\'è un ingrediente finito.');return}
+  if(G.cart.some(lineFinita)){toast('Nell\'ordine c\'è qualcosa che è finito.');return}
   btn.disabled=true;btn.firstElementChild.textContent='Invio in corso…';
-  const righe=G.cart.map(l=>({nome:l.nome,preset:l.preset,add:l.add,rem:l.rem,base:l.base,imp:l.imp,ing:l.ing,prezzo:l.prezzo,qty:l.qty}));
+  const righe=G.cart.map(l=>l.tipo==='voce'?{tipo:'voce',id:l.id,qty:l.qty}:{tipo:'pizza',da:l.da,ing:l.ing,qty:l.qty});
   const nota=($('#g-note').value||'').trim().slice(0,300);
   let ref=null;
   const ok=await write(async()=>{ref=await api('ordini',{tavolo:T,righe,nota})});
-  if(ok){lastSent=ref&&ref.id;G.cart=[];saveCart();store.set('pizza-nota-t'+T,'');updateBar();sheetMode='sent';renderSheet();say('Ordine inviato alla cucina')}
+  if(ok){lastSent=ref&&ref.id;G.cart=[];saveCart();store.set('pizza-nota-t'+T,'');updateBar();renderVoci();sheetMode='sent';renderSheet();say('Ordine inviato alla cucina')}
   else{btn.disabled=false;btn.firstElementChild.textContent='Invia in cucina'}
 }
 function renderGuestLive(){
+  $('#g-state').textContent=live.err?dbProblem():'';
   const act=tableOrders(T).filter(o=>o.stato!=='servito').length;
   const b=$('#g-badge');b.hidden=!act;b.textContent=act;
-  if(G.built)updateGuest();
   if(sheet.open)renderSheet();
 }
 
@@ -966,8 +1013,10 @@ function ding(force){
 $('#k-esa-b').addEventListener('click',e=>{const p=$('#k-esa');p.hidden=!p.hidden;e.currentTarget.setAttribute('aria-expanded',String(!p.hidden))});
 let esaBusy=false;
 function renderEsa(){
-  $('#k-esa-chips').innerHTML=ING.map(i=>`<button type="button" class="chip" data-esa="${i.id}" aria-pressed="${live.esauriti.has(i.id)}" ${esaBusy?'disabled':''}>${i.name}</button>`).join('');
-  $('#k-esa-b').textContent=live.esauriti.size?`Ingredienti esauriti (${live.esauriti.size})`:'Ingredienti esauriti';
+  if(!L)return;
+  const chip=(id,nome)=>`<button type="button" class="chip" data-esa="${id}" aria-pressed="${live.esauriti.has(id)}" ${esaBusy?'disabled':''}>${esc(nome)}</button>`;
+  $('#k-esa-chips').innerHTML=`<p class="esa-h">Ingredienti</p><div class="chips">${ORDINE_ING.map(id=>chip(id,ING[id].nome)).join('')}</div><p class="esa-h">Dal resto del menu</p><div class="chips">${VOCI.filter(v=>!/^(Vini|Bollicine|Amari)/.test(v.sez)).map(v=>chip(v.id,v.nome)).join('')}</div>`;
+  $('#k-esa-b').textContent=live.esauriti.size?`Esauriti (${live.esauriti.size})`:'Esauriti';
 }
 $('#k-esa-chips').addEventListener('click',async e=>{
   const b=e.target.closest('[data-esa]');if(!b||esaBusy)return;
@@ -976,24 +1025,22 @@ $('#k-esa-chips').addEventListener('click',async e=>{
   await write(()=>api('staff/config',{esauriti:[...next]},true));
   esaBusy=false;renderEsa();
 });
-const KNEXT={nuovo:['forno','Inforna'],forno:['pronto','Pronta'],pronto:['servito','Servita']};
+const KNEXT={nuovo:['forno','Inforna'],forno:['pronto','Pronto'],pronto:['servito','Servito']};
 const KPREV={forno:'nuovo',pronto:'forno'};
 function lineHTML(r){
-  const q=Math.max(1,Number(r.qty)||1),add=Array.isArray(r.add)?r.add:[],rem=Array.isArray(r.rem)?r.rem:[],ing=Array.isArray(r.ing)?r.ing.filter(i=>byId[i]):[];
-  const pre=r.preset&&PBY[r.preset]?PBY[r.preset]:null;
-  const title=pre?pre.name:(r.nome?String(r.nome):'Pizza');
-  const flags=[];
-  if(r.imp==='sg')flags.push(`<span class="pill p-crit">${SVG.alert}SENZA GLUTINE</span>`);
-  if(r.imp==='integrale')flags.push('<span class="pill p-info">Impasto integrale</span>');
-  if(r.base==='bianca'&&!(pre&&pre.base==='bianca'))flags.push('<span class="pill p-mute">Bianca</span>');
-  const df=pre?add.map(i=>byId[i]?`<span class="add">+ ${byId[i].short}</span>`:'').join('')+rem.map(i=>byId[i]?`<span class="rem">− ${byId[i].short}</span>`:'').join(''):'';
-  const b=BASES[r.base]?r.base:'rossa';
-  return`<li><div class="ln"><b>${q}×</b> ${esc(title)}</div>${df?`<div class="df">${df}</div>`:''}${flags.length?`<div class="flags">${flags.join('')}</div>`:''}<div class="il">${esc(describe(b,'classico',ing))}</div></li>`;
+  const q=Math.max(1,Number(r.qty)||1);
+  if(r.tipo==='voce')return`<li class="vv"><div class="ln"><b>${q}×</b> ${esc(r.nome)}</div><div class="il">${esc(r.sez||'')}</div></li>`;
+  const add=Array.isArray(r.add)?r.add.filter(i=>ING[i]):[],rem=Array.isArray(r.rem)?r.rem.filter(i=>ING[i]):[],ing=Array.isArray(r.ing)?r.ing.filter(i=>ING[i]):[];
+  const title=PIZ[r.da]?PIZ[r.da].nome:(r.nome?String(r.nome):'Pizza');
+  const df=add.map(i=>`<span class="add">+ ${esc(breve(i))}</span>`).join('')+rem.map(i=>`<span class="rem">− ${esc(breve(i))}</span>`).join('');
+  return`<li><div class="ln"><b>${q}×</b> ${esc(title)}</div>${df?`<div class="df">${df}</div>`:''}<div class="il">${esc(ingDesc(ing))}</div></li>`;
 }
+function righeOrdinate(o){const rr=Array.isArray(o.righe)?o.righe:[];return[...rr.filter(r=>r.tipo!=='voce'),...rr.filter(r=>r.tipo==='voce').sort((a,b)=>SEZ_VOCI.indexOf(a.sez)-SEZ_VOCI.indexOf(b.sez))]}
 function ageClass(ms){const m=(Date.now()-ms)/60000;return m>=15?'crit':m>=10?'warn':''}
 function ageHTML(ms){const c=ageClass(ms);return`<span class="age${c?' pill p-'+c:''}" data-since="${Number(ms)||0}">${c==='crit'?SVG.alert:c?SVG.clock:''}<span class="t">${c==='crit'?'In ritardo · ':''}${ago(ms)}</span></span>`}
 function renderKitchen(){
   $('#k-state').textContent=dbProblem();
+  if(!L)return;
   renderEsa();
   const act=live.orders.filter(o=>!o.chiuso&&KNEXT[o.stato]).sort((a,b)=>a.creato-b.creato);
   for(const st of ['nuovo','forno','pronto']){
@@ -1001,7 +1048,7 @@ function renderKitchen(){
     $('#k-n-'+st).textContent=list.length;
     $('#k-'+st).innerHTML=list.length?list.map(o=>{
       const nx=KNEXT[st],since=st==='nuovo'?o.creato:st==='forno'?(o.forno||o.creato):(o.pronto||o.creato);
-      return`<article class="tk${fresh.has(o.id)?' new':''}" data-id="${esc(o.id)}"><header><span class="tn">Tavolo ${Number(o.tavolo)||'?'}</span>${ageHTML(since)}</header><ol>${(o.righe||[]).map(lineHTML).join('')}</ol>${o.nota?`<p class="nota">Nota: ${esc(o.nota)}</p>`:''}<footer><button type="button" class="btn${st==='nuovo'?' hot':''}" data-k="${nx[0]}">${nx[1]}</button>${KPREV[st]?`<button type="button" class="lnk" data-k="${KPREV[st]}">Indietro</button>`:''}</footer></article>`;
+      return`<article class="tk${fresh.has(o.id)?' new':''}" data-id="${esc(o.id)}"><header><span class="tn">Tavolo ${Number(o.tavolo)||'?'}</span>${ageHTML(since)}</header><ol>${righeOrdinate(o).map(lineHTML).join('')}</ol>${o.nota?`<p class="nota">Nota: ${esc(o.nota)}</p>`:''}<footer><button type="button" class="btn${st==='nuovo'?' hot':''}" data-k="${nx[0]}">${nx[1]}</button>${KPREV[st]?`<button type="button" class="lnk" data-k="${KPREV[st]}">Indietro</button>`:''}</footer></article>`;
     }).join(''):`<p class="kempty">${st==='nuovo'?'Nessuna comanda in attesa.':st==='forno'?'Niente in forno.':'Niente da servire.'}</p>`;
   }
 }
@@ -1022,13 +1069,14 @@ function tableState(n){
   if(os.some(o=>o.stato==='nuovo'||o.stato==='forno'))st='cucina';
   else if(os.some(o=>o.stato==='pronto'))st='servire';
   else if(os.length)st='servito';
-  return{os,calls,st,tot:r2(os.reduce((t,o)=>t+(Number(o.totale)||0),0)),pz:os.reduce((t,o)=>t+(o.righe||[]).reduce((a,r)=>a+(Number(r.qty)||1),0),0),since:os.length?Math.min(...os.map(o=>o.creato)):0};
+  return{os,calls,st,tot:r2(os.reduce((t,o)=>t+(Number(o.totale)||0),0)),pz:os.reduce((t,o)=>t+(o.righe||[]).filter(r=>r.tipo!=='voce').reduce((a,r)=>a+(Number(r.qty)||1),0),0),since:os.length?Math.min(...os.map(o=>o.creato)):0};
 }
 const ST={libero:['p-mute','Libero'],cucina:['p-info','In cucina'],servire:['p-warn','Da servire'],servito:['p-good','Servito']};
 function renderManager(){
   $$('.sbar [role=tab]').forEach(b=>b.setAttribute('aria-selected',String(b.id==='t-'+mTab)));
   $('#m-sala').hidden=mTab!=='sala';$('#m-analisi').hidden=mTab!=='analisi';$('#m-qr').hidden=mTab!=='qr';
   $('#m-state').textContent=dbProblem();
+  if(!L)return;
   if(mTab==='sala')renderSala();else if(mTab==='analisi')renderAnalisi();else renderQR();
   if($('#tsheet').open)renderTable();
 }
@@ -1050,8 +1098,8 @@ function renderTable(){
   $('#ts-title').textContent='Tavolo '+tsN;
   $('#ts-body').innerHTML=`<div><span class="pill ${cls}">${lab}</span></div>
   ${s.calls.map(c=>`<div class="call"><span><span class="pill p-crit">${SVG.bell}${c.tipo==='conto'?'Chiede il conto':'Chiama il cameriere'}</span> da ${ago(c.creato)}</span><button type="button" class="btn2 sm" data-tdone="${esc(c.id)}">Fatto</button></div>`).join('')}
-  ${s.os.length?s.os.map(o=>`<article class="ordc"><header><b>Ordine delle ${hm(o.creato)}</b><span>${eur.format(Number(o.totale)||0)}</span></header><ul>${(o.righe||[]).map(r=>`<li>${Number(r.qty)||1} × ${esc(r.nome)}</li>`).join('')}</ul>${o.nota?`<p class="hint" style="margin:0">Nota: ${esc(o.nota)}</p>`:''}${tracker(o.stato)}${o.stato==='pronto'?`<button type="button" class="btn2 sm" data-serve="${esc(o.id)}">Segna come servita</button>`:''}</article>`).join(''):'<p class="empty">Tavolo libero: nessun ordine aperto.</p>'}
-  ${s.os.length?`<div class="tot"><span>Conto</span><span>${eur.format(s.tot)}</span></div><button type="button" class="cta" id="ts-close"><span>${closeArm?'Conferma: conto pagato, libera il tavolo':'Chiudi il conto e libera il tavolo'}</span><span class="ct">${eur.format(s.tot)}</span></button>${closeArm?'<button type="button" class="btn2" id="ts-cancel">Annulla</button>':''}`:''}`;
+  ${s.os.length?s.os.map(o=>`<article class="ordc"><header><b>Ordine delle ${hm(o.creato)}</b><span>${eur.format(Number(o.totale)||0)}</span></header><ul>${(o.righe||[]).map(r=>`<li>${Number(r.qty)||1} × ${esc(r.nome)}</li>`).join('')}</ul>${o.nota?`<p class="hint" style="margin:0">Nota: ${esc(o.nota)}</p>`:''}${tracker(o.stato)}${o.stato==='pronto'?`<button type="button" class="btn2 sm" data-serve="${esc(o.id)}">Segna come servito</button>`:''}</article>`).join(''):'<p class="empty">Tavolo libero: nessun ordine aperto.</p>'}
+  ${s.os.length?`<div class="tot"><span>Conto</span><span>${eur.format(s.tot)}</span></div><p class="hint" style="margin:0">Più il coperto: ${eur.format(L.coperto)} a persona.</p><button type="button" class="cta" id="ts-close"><span>${closeArm?'Conferma: conto pagato, libera il tavolo':'Chiudi il conto e libera il tavolo'}</span><span class="ct">${eur.format(s.tot)}</span></button>${closeArm?'<button type="button" class="btn2" id="ts-cancel">Annulla</button>':''}`:''}`;
 }
 $('#ts-body').addEventListener('click',async e=>{
   const t=e.target.closest('button');if(!t)return;
@@ -1074,22 +1122,26 @@ function since(){const t=dayStart(Date.now());return period==='oggi'?t:period===
 function simulate(){
   if(simData)return simData;
   const r=rng(2026),out=[],today=dayStart(Date.now()),W=[1.15,.55,.65,.7,.85,1.3,1.5];
-  const pw=[['margherita',30],['diavola',15],['capricciosa',7],['bufalina',9],['quattro',6],['salsiccia',8],['crudo',9],[null,16]];
-  const iw=Object.entries({fiordilatte:9,salame:6,funghi:6,cotto:5,salsiccia:5,peperoni:4,cipolla:4,olive:3,bufala:4,pomodorini:4,rucola:3,crudo:3,nduja:3.5,friarielli:3,melanzane:3,gorgonzola:2,parmigiano:2,provola:2,carciofi:1.5,basilico:3,ricotta:.25,alici:0});
+  const pw=Object.entries({margherita:22,diavola:12,capricciosa:6,regina:7,marinara:3,napoletana:2,boscaiola:5,parmigiana:4,mortade:6,presidente:5,vulcano:4,tarantella:3,quattro_formaggi:4,toto:3,crostino:2,patane:3,peppino:2,campagnola:2,margot:2,zia_margherita:2,wurstel_patate:2,wurstel:2,provola_pepe:2,margherita_scomposta:2,parmense:2,peperoni_salsiccia:2,ortolana:1.5,primavera:1,crocche:2,mortade2:3,presidentessa:1.5,paesana:1,zuccona:1,tonno_cipolla:1,ariccia:1.5,parmense2:2,boscaiola2:1.5,campagnola2:1,pomodoro_colori:1,provola_pepe_gialla:.5,lonza_zucchine:.3,nerano:0,fior_alice:0}).filter(([id])=>PIZ[id]);
+  const addW=Object.entries({bufala:3,ventricina:3,funghi:3,crudo:2,salsiccia:2,patatine:2,nduja:2,basilico:3,provola:1,olive:1,rucola:1,stracciatella:1}).filter(([id])=>ING[id]);
+  const vw={bevande:Object.entries({coca:5,coca_zero:3,electa:4,ferrarelle:3,raffo:4,nastro_media:4,nastro_piccola:2,peroni_rossa:2,fanta:1,sprite:1,aperol:1}),fritti:Object.entries({suppli:5,crocche_patate:4,fritto_misto:2,frittatina_classica:2,frittatina_carbonara:2,montanara_classica:2,patate_fritte:3,fiori_pastellati:1,crocchetta_mortadella:1}),dolci:Object.entries({tiramisu:4,dubai:3,mr_duplo:2,don_vito:1,imperiale:1,delizia_limone:1}),caffe:[['caffe',1]]};
+  for(const k in vw)vw[k]=vw[k].filter(([id])=>VOC[id]);
   const pick=arr=>{const tot=arr.reduce((t,a)=>t+a[1],0);let x=r()*tot;for(const a of arr){x-=a[1];if(x<=0)return a[0]}return arr[0][0]};
   for(let d=0;d<30;d++){
-    const day=today-d*864e5,dow=new Date(day).getDay(),n=Math.round((13+r()*7)*W[dow]);
+    const day=today-d*864e5,dow=new Date(day).getDay(),n=Math.round((12+r()*7)*W[dow]);
     for(let k=0;k<n;k++){
-      const dinner=r()<.74,h=dinner?19+Math.min(4.2,(r()+r()+r())/3*4.4):12+r()*2.6;
+      const dinner=r()<.78,h=dinner?19+Math.min(4.2,(r()+r()+r())/3*4.4):12+r()*2.6;
       const creato=day+Math.floor(h*3600e3);if(creato>Date.now())continue;
-      const righe=[],nl=1+Math.floor(r()*r()*4);
-      for(let j=0;j<nl;j++){
-        const pid=pick(pw);let base,ing;
-        if(pid){const p=PBY[pid];base=p.base;ing=[...p.ing];if(r()<.18){const extra=pick(iw);if(!ing.includes(extra))ing.push(extra)}}
-        else{base=r()<.8?'rossa':'bianca';ing=r()<.85?['fiordilatte']:[];const m=2+Math.floor(r()*3);for(let q=0;q<m;q++){const x=pick(iw);if(!ing.includes(x))ing.push(x)}}
-        ing=sortIng(ing);const imp=pick([['classico',82],['integrale',12],['sg',6]]),lb=label(base,ing);
-        righe.push({nome:lb.nome,preset:lb.preset,add:lb.add,rem:lb.rem,base,imp,ing,prezzo:linePrice(base,imp,ing),qty:r()<.12?2:1});
+      const righe=[],np=1+Math.floor(r()*r()*4);
+      for(let j=0;j<np;j++){
+        const p=PIZ[pick(pw)];let ing=[...p.ing];
+        if(r()<.2){const a=pick(addW);if(!ing.includes(a))ing.push(a)}
+        if(r()<.1&&ing.length>2)ing.splice(1+Math.floor(r()*(ing.length-1)),1);
+        ing=sortIng(ing);const info=pizzaInfo(p.id,ing);
+        righe.push({tipo:'pizza',da:info.base.id,nome:info.nome,add:info.add,rem:info.rem,ing,prezzo:info.prezzo,qty:r()<.1?2:1});
       }
+      const vv=(k,q)=>{const v=VOC[pick(vw[k])];righe.push({tipo:'voce',id:v.id,nome:v.nome,sez:v.sez,prezzo:v.prezzo,qty:q})};
+      vv('bevande',1+Math.floor(r()*np));if(r()<.5)vv('fritti',1+Math.floor(r()*2));if(r()<.25)vv('dolci',1);if(r()<.18)vv('caffe',1);
       const fo=creato+(2+r()*5)*60e3,pr=fo+(1.5+r()*2)*60e3+r()*r()*8*60e3;
       out.push({id:'sim'+d+'-'+k,tavolo:1+Math.floor(r()*12),righe,totale:r2(righe.reduce((t,x)=>t+x.prezzo*x.qty,0)),stato:'servito',creato,forno:fo,pronto:pr,chiuso:true});
     }
@@ -1098,17 +1150,19 @@ function simulate(){
 }
 function analyze(orders,from){
   const os=orders.filter(o=>o.creato>=from&&Array.isArray(o.righe));
-  const A={n:os.length,inc:0,pz:0,mod:0,prep:[],byP:new Map(),ing:Object.fromEntries(ING.map(i=>[i.id,0])),hours:new Array(24).fill(0),days:new Map(),imp:{classico:0,integrale:0,sg:0},dow:new Array(7).fill(0)};
+  const A={n:os.length,inc:0,pz:0,mod:0,prep:[],byP:new Map(),add:new Map(),rem:new Map(),voci:new Map(),hours:new Array(24).fill(0),days:new Map(),dow:new Array(7).fill(0)};
+  const inc=(m,k,q)=>m.set(k,(m.get(k)||0)+q);
   for(const o of os){
     const tot=Number(o.totale)||0,d=new Date(o.creato);A.inc+=tot;A.hours[d.getHours()]++;
-    const dk=dayStart(o.creato);A.days.set(dk,(A.days.get(dk)||0)+tot);A.dow[d.getDay()]+=tot;
+    inc(A.days,dayStart(o.creato),tot);A.dow[d.getDay()]+=tot;
     if(o.pronto>o.creato)A.prep.push(o.pronto-o.creato);
     for(const r of o.righe){
-      const q=Math.max(1,Number(r.qty)||1);A.pz+=q;
-      const nm=r.preset&&PBY[r.preset]?PBY[r.preset].name:'Personalizzate';A.byP.set(nm,(A.byP.get(nm)||0)+q);
-      if(!r.preset||(r.add&&r.add.length)||(r.rem&&r.rem.length))A.mod+=q;
-      for(const id of (Array.isArray(r.ing)?r.ing:[]))if(id in A.ing)A.ing[id]+=q;
-      if(r.imp in A.imp)A.imp[r.imp]+=q;
+      const q=Math.max(1,Number(r.qty)||1);
+      if(r.tipo==='voce'){if(VOC[r.id])inc(A.voci,r.id,q);continue}
+      A.pz+=q;
+      if(PIZ[r.da])inc(A.byP,r.da,q);
+      if((r.add&&r.add.length)||(r.rem&&r.rem.length))A.mod+=q;
+      (r.add||[]).forEach(i=>{if(ING[i])inc(A.add,i,q)});(r.rem||[]).forEach(i=>{if(ING[i])inc(A.rem,i,q)});
     }
   }
   A.inc=r2(A.inc);
@@ -1116,56 +1170,55 @@ function analyze(orders,from){
 }
 const pct=(a,b)=>b?Math.round(a/b*100):0;
 const DOW=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
-function hbars(rows,max,unitLab,total){
-  return`<ul class="hb">${rows.map(([lab,v,zero])=>`<li tabindex="0" data-tip="${esc(lab)} · ${v} ${unitLab}${total?` · ${pct(v,total)}% delle pizze`:''}"><span class="l">${esc(lab)}</span><span class="t">${v?`<span class="b" style="width:${Math.max(.6,v/max*100).toFixed(1)}%"></span>`:''}</span><span class="v">${v?v:`<span class="z">${zero||'0'}</span>`}</span></li>`).join('')}</ul>`;
+function hbars(rows,unitLab,total){
+  if(!rows.length)return'<p class="hint" style="margin:0">Niente in questo periodo.</p>';
+  const max=Math.max(1,...rows.map(r=>r[1]));
+  return`<ul class="hb">${rows.map(([lab,v])=>`<li tabindex="0" data-tip="${esc(lab)} · ${v} ${unitLab}${total?` · ${pct(v,total)}% delle pizze`:''}"><span class="l">${esc(lab)}</span><span class="t"><span class="b" style="width:${Math.max(.6,v/max*100).toFixed(1)}%"></span></span><span class="v">${v}</span></li>`).join('')}</ul>`;
 }
 function vbars(cols,fmt,tipFmt,aria,every){
   const max=Math.max(1,...cols.map(c=>c[1])),mi=cols.findIndex(c=>c[1]===max);
   every=every||(cols.length>16?Math.ceil(cols.length/8):1);
-  return`<div class="vb"><div class="plot" role="img" aria-label="${esc(aria)}">${cols.map(([lab,v],i)=>`<div class="col" tabindex="0" data-tip="${esc(tipFmt(lab,v))}">${v?`<span class="b" style="height:${(v/max*100).toFixed(1)}%"></span>`:''}${i===mi&&v?`<span class="lab" style="bottom:calc(${(v/max*100).toFixed(1)}% + 4px)">${esc(fmt(v))}</span>`:''}</div>`).join('')}</div><div class="x" aria-hidden="true">${cols.map(([lab],i)=>`<span>${i%every===0?esc(lab):''}</span>`).join('')}</div></div><details class="tbl"><summary>Vedi i numeri</summary><div class="tw"><table><tbody>${cols.map(([lab,v])=>`<tr><td>${esc(lab)}</td><td>${esc(fmt(v))}</td></tr>`).join('')}</tbody></table></div></details>`;
+  return`<div class="vb"><div class="plot" role="img" aria-label="${esc(aria)}">${cols.map(([lab,v],i)=>`<div class="col" tabindex="0" data-tip="${esc(tipFmt(lab,v))}">${v?`<span class="b" style="height:${(v/max*100).toFixed(1)}%"></span>`:''}${i===mi&&v?`<span class="lab" style="bottom:calc(${(v/max*100).toFixed(1)}% + 4px)">${esc(fmt(v))}</span>`:''}</div>`).join('')}</div><div class="xa" aria-hidden="true">${cols.map(([lab],i)=>`<span>${i%every===0?esc(lab):''}</span>`).join('')}</div></div><details class="tbl"><summary>Vedi i numeri</summary><div class="tw"><table><tbody>${cols.map(([lab,v])=>`<tr><td>${esc(lab)}</td><td>${esc(fmt(v))}</td></tr>`).join('')}</tbody></table></div></details>`;
 }
+const top=(m,nameOf,k)=>[...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,k).map(([id,v])=>[nameOf(id),v]);
 function renderAnalisi(){
   $$('#a-per [data-p]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.p===period)));
   $('#a-simnote').hidden=!sim;
   const src=sim?simulate():live.orders,from=since(),A=analyze(src,from),body=$('#a-body');
   if(!A.n){
-    body.innerHTML=`<p class="empty">${sim?'Nessun ordine simulato in questo periodo.':`Ancora nessun ordine ${period==='oggi'?'oggi':'in questo periodo'}. Quando i tavoli ordinano, qui vedi incassi, pizze più richieste, ingredienti mai scelti e orari di punta.`}</p>${sim?'':'<p class="hint" style="text-align:center;margin-top:10px">Per vedere come sarà il report, premi «Mostra dati simulati».</p>'}`;
+    body.innerHTML=`<p class="empty">${sim?'Nessun ordine simulato in questo periodo.':`Ancora nessun ordine ${period==='oggi'?'oggi':'in questo periodo'}. Quando i tavoli ordinano, qui vedi incassi, pizze più richieste, quelle mai ordinate e gli orari di punta.`}</p>${sim?'':'<p class="hint" style="text-align:center;margin-top:10px">Per vedere come sarà il report, premi «Mostra dati simulati».</p>'}`;
     return;
   }
   const prepMin=A.prep.length?A.prep.reduce((a,b)=>a+b,0)/A.prep.length/60000:null;
-  const ingRows=ING.map(i=>[i.name,A.ing[i.id]]).sort((a,b)=>b[1]-a[1]);
-  const zero=ingRows.filter(r=>!r[1]),low=ingRows.filter(r=>r[1]).slice(-3).reverse();
-  const pRows=[...A.byP.entries()].sort((a,b)=>b[1]-a[1]);
+  const pRows=top(A.byP,id=>PIZ[id].nome,15),mai=PIZZE.filter(p=>!A.byP.has(p.id));
   let h0=12,h1=23;for(let h=0;h<24;h++)if(A.hours[h]){h0=Math.min(h0,h);h1=Math.max(h1,h)}
   const hrs=[];for(let h=h0;h<=h1;h++)hrs.push([String(h).padStart(2,'0'),A.hours[h]]);
   const peak=hrs.reduce((a,b)=>b[1]>a[1]?b:a,hrs[0]);
   const days=[];
   if(period!=='oggi'){const first=period==='tutto'?Math.max(dayStart(Math.min(...src.map(o=>o.creato))),dayStart(Date.now())-59*864e5):from;for(let d=dayStart(Date.now());d>=first;d-=864e5)days.unshift([new Date(d).toLocaleDateString('it-IT',{day:'numeric',month:'short'}),r2(A.days.get(d)||0)])}
-  const best=A.dow.indexOf(Math.max(...A.dow)),spec=A.imp.integrale+A.imp.sg,tips=[];
+  const best=A.dow.indexOf(Math.max(...A.dow)),tips=[];
   if(pRows.length)tips.push(`La più ordinata è la <b>${esc(pRows[0][0])}</b>: ${pct(pRows[0][1],A.pz)}% delle pizze.`);
-  tips.push(`<b>${pct(A.mod,A.pz)}%</b> delle pizze è stato personalizzato rispetto alle classiche.`);
+  tips.push(`<b>${pct(A.mod,A.pz)}%</b> delle pizze è stato modificato rispetto al menu.`);
+  const ta=top(A.add,id=>ING[id].nome,1)[0];if(ta)tips.push(`L'aggiunta più richiesta è <b>${esc(ta[0].toLowerCase())}</b> (${ta[1]} volte): può valere una pizza del menu.`);
   if(peak&&peak[1])tips.push(`Il momento di punta è tra le <b>${peak[0]}:00</b> e le ${String(+peak[0]+1).padStart(2,'0')}:00.`);
-  if(zero.length)tips.push(`Mai ordinati: <b>${zero.map(z=>esc(z[0].toLowerCase())).join(', ')}</b>. Valuta se toglierli dal menu o proporli in una pizza del mese.`);
-  else if(low.length)tips.push(`I meno scelti sono <b>${low.map(z=>esc(z[0].toLowerCase())).join(', ')}</b>.`);
+  if(mai.length)tips.push(`${mai.length===1?'Una pizza non è':`${mai.length} pizze non sono`} mai state ordinate: <b>${mai.slice(0,6).map(p=>esc(p.nome)).join(', ')}</b>${mai.length>6?' e altre':''}. Valuta se toglierle o proporle in evidenza.`);
   if(period!=='oggi'&&days.length>=7&&A.dow[best])tips.push(`Il giorno più forte è il <b>${DOW[best]}</b>.`);
-  if(spec)tips.push(`<b>${pct(spec,A.pz)}%</b> chiede un impasto speciale (integrale o senza glutine).`);
   body.innerHTML=`
   <div class="kpis">
-    <div class="kpi"><small>Incasso</small><b>${eur.format(A.inc)}</b><span>${A.n} ${A.n===1?'ordine':'ordini'}</span></div>
+    <div class="kpi"><small>Incasso</small><b>${eur.format(A.inc)}</b><span>${A.n} ${A.n===1?'ordine':'ordini'}, coperti esclusi</span></div>
     <div class="kpi"><small>Pizze</small><b>${A.pz}</b><span>${(A.pz/A.n).toLocaleString('it-IT',{maximumFractionDigits:1})} per ordine</span></div>
     <div class="kpi"><small>Scontrino medio</small><b>${eur.format(r2(A.inc/A.n))}</b><span>per ordine</span></div>
-    <div class="kpi"><small>Tempo in cucina</small><b>${prepMin==null?'—':Math.round(prepMin)+' min'}</b><span>dall'ordine a «pronta»</span></div>
+    <div class="kpi"><small>Tempo in cucina</small><b>${prepMin==null?'—':Math.round(prepMin)+' min'}</b><span>dall'ordine a «pronto»</span></div>
   </div>
   <div class="cards">
     <section class="card wide2"><h3>Spunti</h3><p class="sub">Letti dagli ordini del periodo.</p><ul class="insight">${tips.map(t=>`<li>${t}</li>`).join('')}</ul></section>
-    <section class="card"><h3>Pizze più ordinate</h3><p class="sub">Le varianti contano nella classica di partenza.</p>${hbars(pRows,pRows[0][1],'pizze',A.pz)}</section>
-    <section class="card"><h3>Ingredienti: cosa si ordina e cosa no</h3><p class="sub">Su quante pizze sono finiti.</p>${hbars(ingRows.map(r=>[r[0],r[1],'mai ordinato']),ingRows[0][1]||1,'pizze',A.pz)}</section>
+    <section class="card"><h3>Pizze più ordinate</h3><p class="sub">Le prime ${pRows.length}; le varianti contano nella pizza di partenza.</p>${hbars(pRows,'pizze',A.pz)}</section>
+    <section class="card"><h3>Mai ordinate nel periodo</h3><p class="sub">${mai.length} su ${PIZZE.length} pizze del menu.</p>${mai.length?`<ul class="insight">${mai.map(p=>`<li>${esc(p.nome)} <span class="hint">· ${eur.format(p.prezzo)}</span></li>`).join('')}</ul>`:'<p class="hint" style="margin:0">Tutte le pizze sono state ordinate almeno una volta.</p>'}</section>
+    <section class="card"><h3>Aggiunte più richieste</h3><p class="sub">Ingredienti aggiunti a una pizza del menu.</p>${hbars(top(A.add,id=>ING[id].nome,10),'volte')}</section>
+    <section class="card"><h3>Tolti più spesso</h3><p class="sub">Ingredienti tolti da una pizza del menu.</p>${hbars(top(A.rem,id=>ING[id].nome,10),'volte')}</section>
+    <section class="card"><h3>Dal resto del menu</h3><p class="sub">Fritti, dolci e bevande più ordinati.</p>${hbars(top(A.voci,id=>VOC[id].nome,12),'pezzi')}</section>
     <section class="card"><h3>Ordini per ora</h3><p class="sub">Quando arrivano le comande.</p>${vbars(hrs,v=>String(v),(l,v)=>`${l}:00–${String(+l+1).padStart(2,'0')}:00 · ${v} ordini`,'Ordini per ora del giorno',2)}</section>
-    ${days.length?`<section class="card"><h3>Incasso per giorno</h3><p class="sub">Ultimi ${days.length} giorni.</p>${vbars(days,v=>eur.format(v),(l,v)=>`${l} · ${eur.format(v)}`,'Incasso per giorno')}</section>`:''}
-    <section class="card${days.length?' wide2':''}"><h3>Impasti</h3><p class="sub">Su ${A.pz} pizze.</p>
-      <div class="split" aria-hidden="true"><span style="flex:${A.imp.classico||0};background:var(--bar)"></span><span style="flex:${A.imp.integrale||0};background:var(--warn)"></span><span style="flex:${A.imp.sg||0};background:var(--crit)"></span></div>
-      <ul class="hb">${[['Classico',A.imp.classico,'var(--bar)'],['Integrale',A.imp.integrale,'var(--warn)'],['Senza glutine',A.imp.sg,'var(--crit)']].map(([l,v,c])=>`<li><span class="l"><i class="sw" style="background:${c}"></i>${l}</span><span class="t"></span><span class="v">${v} · ${pct(v,A.pz)}%</span></li>`).join('')}</ul>
-    </section>
+    ${days.length?`<section class="card wide2"><h3>Incasso per giorno</h3><p class="sub">Ultimi ${days.length} giorni.</p>${vbars(days,v=>eur.format(v),(l,v)=>`${l} · ${eur.format(v)}`,'Incasso per giorno')}</section>`:''}
   </div>`;
 }
 const tip=$('#tip');
@@ -1185,17 +1238,16 @@ function qrCanvas(text,px){
   for(let r=0;r<m;r++)for(let k=0;k<m;k++)if(q.isDark(r,k))x.fillRect((k+quiet)*cell,(r+quiet)*cell,cell,cell);
   return c;
 }
-let qrRendered=0,qrDl=null;
+let qrRendered=0;
 function renderQR(){
   const inp=$('#q-n');if(document.activeElement!==inp)inp.value=live.tavoli;
-  $('#q-pdf').hidden=!dl;
   $('#q-state').textContent=typeof qrcode!=='function'?'Il generatore di QR non si è caricato: ricarica la pagina.':'';
-  if(qrRendered===live.tavoli&&qrDl===!!dl)return;qrRendered=live.tavoli;qrDl=!!dl;
+  if(qrRendered===live.tavoli)return;qrRendered=live.tavoli;
   const g=$('#q-grid');g.innerHTML='';
   for(let n=1;n<=live.tavoli;n++){
     const card=document.createElement('div');card.className='qc';
     const c=qrCanvas(tableUrl(n),300);
-    card.innerHTML=`<b>Tavolo ${n}</b><span class="u">${esc(tableUrl(n))}</span><div class="row">${dl?`<button type="button" class="btn2 sm" data-png="${n}">Scarica</button>`:''}<button type="button" class="btn2 sm" data-open="${n}">Prova</button></div>`;
+    card.innerHTML=`<b>Tavolo ${n}</b><span class="u">${esc(tableUrl(n))}</span><div class="row"><button type="button" class="btn2 sm" data-png="${n}">Scarica</button><button type="button" class="btn2 sm" data-open="${n}">Prova</button></div>`;
     if(c){c.setAttribute('role','img');c.setAttribute('aria-label','Codice QR del tavolo '+n);card.prepend(c)}
     g.appendChild(card);
   }
@@ -1214,15 +1266,15 @@ async function cardCanvas(n){
   try{await document.fonts.ready}catch(e){}
   const W=1240,H=1748,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
   x.fillStyle='#FFFFFF';x.fillRect(0,0,W,H);
-  x.fillStyle='#121A44';x.fillRect(0,0,W,360);
+  x.fillStyle='#121A44';x.fillRect(0,0,W,380);
   x.fillStyle='#FFFFFF';x.textAlign='center';
-  x.font='700 46px Figtree, Arial, sans-serif';x.fillText('ORDINA DAL TAVOLO',W/2,120);
-  x.font='170px Shrikhand, Georgia, serif';x.fillText('Tavolo '+n,W/2,300);
-  const q=qrCanvas(tableUrl(n),860);if(q)x.drawImage(q,(W-860)/2,450,860,860);
-  x.fillStyle='#121A44';x.font='700 52px Figtree, Arial, sans-serif';x.fillText('Inquadra il codice con la fotocamera',W/2,1420);
+  x.font='700 44px Figtree, Arial, sans-serif';x.fillText(((L&&L.locale)||'').toUpperCase()||'ORDINA DAL TAVOLO',W/2,110);
+  x.font='170px Shrikhand, Georgia, serif';x.fillText('Tavolo '+n,W/2,310);
+  const q=qrCanvas(tableUrl(n),860);if(q)x.drawImage(q,(W-860)/2,460,860,860);
+  x.fillStyle='#121A44';x.font='700 52px Figtree, Arial, sans-serif';x.fillText('Inquadra il codice con la fotocamera',W/2,1430);
   x.fillStyle='#566089';x.font='500 40px Figtree, Arial, sans-serif';
-  x.fillText('Componi la pizza come vuoi e inviala:',W/2,1495);x.fillText('arriva dritta in cucina, con il tuo tavolo.',W/2,1550);
-  x.fillStyle='#C93316';x.fillRect(W/2-60,1630,120,8);
+  x.fillText('Scegli la pizza, cambiala come vuoi e inviala:',W/2,1505);x.fillText('arriva dritta in cucina, con il tuo tavolo.',W/2,1560);
+  x.fillStyle='#C93316';x.fillRect(W/2-60,1640,120,8);
   return c;
 }
 function saveFile(name,data){
@@ -1241,14 +1293,15 @@ $('#q-pdf').addEventListener('click',async e=>{
       doc.addImage(c.toDataURL('image/jpeg',.9),'JPEG',x+4,y+4,97,140.5);
       if(k===0){doc.setDrawColor(190);doc.setLineDashPattern([1.5,1.5],0);doc.line(105,0,105,297);doc.line(0,148.5,210,148.5)}
     }
-    await saveFile('cartellini-qr-tavoli.pdf',doc.output('blob'));
+    saveFile('cartellini-qr-tavoli.pdf',doc.output('blob'));
   }catch(err){toast('Non sono riuscito a creare il PDF. Riprova.')}
   b.disabled=false;b.textContent=old;
 });
 
 /* ===================== AVVIO ===================== */
-route();
+loadListino().then(route).catch(()=>{route();toast('Non riesco a caricare il menu. Ricarica la pagina.')});
 })();
 </script>
+
 </body>
 </html>
