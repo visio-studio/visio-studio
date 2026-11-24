@@ -69,11 +69,25 @@ figcaption { font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rg
 .chiara figcaption { color:#5f5f5f; }
 
 /* tour 360 */
+#tour { background:var(--dark2); }
+.tgrid { display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:3px;margin-top:40px; }
+.tgrid a { position:relative;display:block;overflow:hidden; }
+.tgrid a:first-child { grid-row:1/3; }
+.tgrid img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
+.tgrid a:hover img { transform:scale(1.03); }
+.tgrid span { position:absolute;left:0;bottom:0;background:rgba(10,10,10,.8);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:9px 12px; }
+.tgrid .play { position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,transparent,rgba(10,10,10,.35)); }
+.tgrid .play b { font-weight:400;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);background:rgba(10,10,10,.82);border:.5px solid var(--gold);padding:14px 24px; }
 
 /* pianta arredata */
 .pfig { margin-top:40px;background:#fff;border:1px solid var(--border);padding:18px; }
 .pfig img { width:100%;height:auto; }
 .tdl { display:inline-block;margin-top:22px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#7a5f30;border-bottom:1px solid #7a5f30;padding-bottom:3px; }
+.ptit { font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin:72px 0 12px; }
+.ptit em { font-style:italic;color:#7a5f30; }
+.pgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px; }
+.pgrid a { display:block;background:#fff;border:1px solid var(--border);padding:10px; }
+.pgrid img { width:100%;aspect-ratio:4/3;object-fit:contain; }
 
 /* oggi e domani */
 .pair { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:40px; }
@@ -111,7 +125,8 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
 @media(max-width:900px){
   section { padding:64px 20px; }
   #pnav { padding:14px 20px; }
-  .vgrid,.pair { grid-template-columns:1fr; }
+  .vgrid,.pair,.pgrid { grid-template-columns:1fr; }
+  .tgrid { grid-template-columns:1fr 1fr;grid-template-rows:auto; } .tgrid a:first-child { grid-column:1/-1;grid-row:auto; } .tgrid img { aspect-ratio:16/10; }
   .vgrid { padding-bottom:64px; }
   footer { padding:20px;justify-content:center;text-align:center; }
 }
@@ -169,13 +184,35 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   </div>
 </section>
 
+<section id="tour">
+  <div class="wrap">
+    <p class="slab">Tour 360</p>
+    <h2 class="st">Dentro la casa, <em>stanza per stanza</em>.</h2>
+    <p class="sd">Un panorama a 360° per stanza, renderizzato dal modello di progetto con la luce calda del pomeriggio: si trascina per guardarsi intorno e si toccano i cerchi a terra per passare da una stanza all'altra. Forme, arredi e materiali sono quelli del progetto, con il parquet a spina di pesce; tessili e oggetti sono indicativi. Undici punti: soggiorno, pranzo, cucina, disimpegno, camera, cameretta, studio, i due bagni e i due terrazzi.</p>
+    <div class="tgrid">
+      <a href="3d/tour.html?p=pra"><img src="img/tour-pranzo.jpg" alt="Tour 360: il pranzo con il tavolo in marmo, il camino passante e il giardino interno, render del progetto" loading="lazy"><div class="play"><b>Entra nel tour 360</b></div></a>
+      <a href="3d/tour.html?p=sog"><img src="img/tour-soggiorno.jpg" alt="Tour 360: il soggiorno con il soffitto a travi di legno, il divano e la parete TV, render del progetto" loading="lazy"><span>Soggiorno</span></a>
+      <a href="3d/tour.html?p=cmt"><img src="img/tour-cameretta.jpg" alt="Tour 360: la cameretta con il letto e la scrivania, render del progetto" loading="lazy"><span>Cameretta</span></a>
+    </div>
+  </div>
+</section>
+
 <section id="pianta" class="chiara">
   <div class="wrap">
-    <p class="slab">Pianta arredata</p>
+    <p class="slab">Piante · arredata, ante e post operam</p>
     <h2 class="st">La casa <em>vista dall'alto</em>, con gli arredi.</h2>
     <p class="sd">La pianta del progetto definitivo, tagliata a 1,20 m dal pavimento: muri in nero, parquet a spina di pesce, arredi e superfici delle stanze. Si scarica in PDF, in scala 1:50 su foglio A2; la scala grafica la rende leggibile anche stampata più piccola. Misure e spessori dei muri si confermano al rilievo.</p>
     <figure class="pfig"><a href="scarica/Progetto_Mario_pianta_arredata.pdf"><img src="img/pianta-arredata.jpg" alt="Pianta arredata del progetto: zona giorno con pranzo, soggiorno e cucina, cameretta, camera, studio, due bagni e i terrazzi, con il parquet a spina di pesce e gli arredi visti dall'alto" loading="lazy"></a></figure>
     <a class="tdl" href="scarica/Progetto_Mario_pianta_arredata.pdf" download>Scarica la pianta arredata (PDF, 1,3 MB)</a>
+
+    <h3 class="ptit">Ante e post <em>operam</em></h3>
+    <p class="sd">Il rilievo Polycam di oggi è sovrapposto al progetto, allineato sui muri. Tre tavole in scala 1:50: lo stato attuale dalla scansione, il progetto e il confronto, con i muri che restano in grigio, quelli nuovi in rosso e quelli da demolire in giallo. Il confronto è indicativo: le demolizioni si verificano in sopralluogo, e misure e spessori si confermano al rilievo metrico.</p>
+    <div class="pgrid">
+      <figure><a href="img/ante.jpg"><img src="img/ante.jpg" alt="Stato attuale dalla scansione Polycam vista dall'alto: il terrazzo dove oggi c'è il pranzo, il locale grande dove andranno cucina e cameretta, il soggiorno, il bagno e la camera, con i muri in nero" loading="lazy"></a><figcaption>Stato attuale · ante operam</figcaption></figure>
+      <figure><a href="img/post.jpg"><img src="img/post.jpg" alt="Pianta di progetto arredata: muri in nero, parquet a spina di pesce e arredi" loading="lazy"></a><figcaption>Progetto · post operam</figcaption></figure>
+      <figure><a href="img/confronto.jpg"><img src="img/confronto.jpg" alt="Confronto fra rilievo e progetto: muri esistenti in grigio, muri nuovi in rosso, parti da demolire in giallo" loading="lazy"></a><figcaption>Demolizioni e costruzioni</figcaption></figure>
+    </div>
+    <a class="tdl" href="scarica/Progetto_Mario_piante_ante_post.pdf" download>Scarica le piante ante e post operam (PDF, 2,9 MB)</a>
   </div>
 </section>
 

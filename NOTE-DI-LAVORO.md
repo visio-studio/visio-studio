@@ -587,9 +587,24 @@ vera del GLB grezzo) + `pianta-mario.py` (muri del gruppo «Gruppo#20» campiti:
 stanze misurate riempiendole da un punto, con porte e finestre come barriera) + `impagina-mario.py` (reportlab, A2 1:50,
 cartiglio, scala grafica) → `area-mr26/scarica/Progetto_Mario_pianta_arredata.pdf`. Su questo PC Smart App Control blocca
 le DLL non firmate: niente SciPy né bpy da pip (si usa PIL per la morfologia).
-**Tour 360**: da fare con Cycles come per Traversa, ma serve Blender (lo zip ufficiale 5.3.0 è in `C:UsersPCTools`,
-impronta verificata, non ancora avviato).
-Da fare: tour 360, allineare il rilievo al modello (`allinea.py`), render nuovi, piante quotate.
+**Tour 360** (24/11): `area-mr26/3d/tour.html` + `3d/tour/` (11 panorami 4096 px, `punti.json`, `visibili.json`), fatti
+con `strumenti/polycam/render360-mario.py` in Blender 5.3 portatile (`C:\Users\PC\Tools\blender-5.3.0-windows-x64`,
+GPU RTX 5080 con OptiX: circa 2 minuti a panorama a 384 campioni). Parte da `finito.glb` (le finiture senza meshopt, che
+Blender non legge). Le facce gemelle a faccia singola diventano trasparenti dal retro (nodo Backfacing); i vetri e le
+finestre «Janela» (grigio al 50 %) sono lastre sottili trasparenti. Alcune stanze nel modello non hanno soffitto: lo script
+mette un tetto a 3,075 m dove si è dentro casa (muri in tutte le direzioni a 1,90 m) e sopra non c'è niente, allargato di
+30 cm; i terrazzi restano aperti. I punti si spostano da soli nel punto libero più vicino; l'ingresso (corridoio stretto)
+è escluso. Le porte del modello sono chiuse: i collegamenti fra stanze sono nell'array `PORTE` di `tour.html`.
+Luce: sole basso e caldo (22°, azimut 150°), cielo, un disco caldo a soffitto per stanza; `ESPO=-0.6 LUCE=45`.
+**Rilievo sovrapposto e piante ante/post** (24/11): scena Polycam unica «mario 2» (le due catture insieme, scaricata in GLB
+dal pulsante Download della scena). `triangoli-glb.mjs` → `allinea-mario.py` (solo numpy: muri = linee a 1,20 e 1,90 m,
+rotazione per correlazione FFT, poi ICP; risultato rotazione 20,5°, 60 % dei muri entro 15 cm) → vista dall'alto della
+scansione con `orto-mario.html?foto&mat4=…&riquadro=…` (stesso riquadro della pianta arredata) → `ante-post-mario.py`
+(muri di oggi = strisce non rilevate più strette di 50 cm fra zone rilevate; confronto esistenti/nuovi/da demolire) →
+`impagina-ante-post.py` → `area-mr26/scarica/Progetto_Mario_piante_ante_post.pdf` (3 tavole A2 1:50) e anteprime
+`img/ante.jpg`, `post.jpg`, `confronto.jpg`. Oggi il pranzo è un terrazzo e cucina + cameretta sono un unico locale. Le
+campiture gialle (da demolire) sono indicative: possono essere armadi rilevati come ingombri.
+Da fare: render nuovi (il progetto è cambiato), rilievo sovrapposto anche nel visore 3D, piante quotate.
 
 Codice pubblico di esempio: **`visio`** → `/esempio` (Villa Ferrara), suggerito
 in chiaro nel menu stesso.
