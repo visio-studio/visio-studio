@@ -575,7 +575,21 @@ Rilievo: due catture Polycam scaricate in DAE e convertite con `converti.py` in 
 (appartamento intero col terrazzo) e `sb` (terrazzo e locale accanto); non sono allineate
 al modello né fra loro. Anteprime in `area-mr26/img/`, catturate dal visore con `?nui`
 (che abilita `preserveDrawingBuffer` per leggere il canvas).
-Da fare: allineare il rilievo al modello (`allinea.py`), render, piante quotate.
+**Finiture e lampi (24/11/2026)**: OpenSKP esporta ogni faccia SketchUp con fronte e retro come due triangoli
+nello stesso punto (124 mila coppie su 950 mila): a doppia faccia il visore li disegnava insieme e ruotando lampeggiavano.
+`strumenti/polycam/finiture-mario.mjs` (sul GLB grezzo, prima di strip-uv e optimize) mette le coppie in primitive a
+faccia singola e il visore ora rispetta doubleSided del GLB invece di forzare DoubleSide; nello stesso passo il pavimento
+(texture laminato m227, m229) diventa parquet a spina di pesce in rovere a 45° (`spina.py`, piastrella 1,08 m, doghe
+9 x 54 cm), pareti e soffitti bianco caldo, il lato di sopra dei controsoffitti (grigio) chiaro, la vetrata azzurra vetro.
+Gli indici dei materiali valgono per il mario.skp del 24/11: se il file cambia, rifare l'inventario.
+**Pianta arredata PDF**: `orto-mario.html` (vista dall'alto a 200 px/m, taglio 1,20 m) + `sezione-glb.mjs` (sezione
+vera del GLB grezzo) + `pianta-mario.py` (muri del gruppo «Gruppo#20» campiti: zone più strette di 65 cm fra le linee;
+stanze misurate riempiendole da un punto, con porte e finestre come barriera) + `impagina-mario.py` (reportlab, A2 1:50,
+cartiglio, scala grafica) → `area-mr26/scarica/Progetto_Mario_pianta_arredata.pdf`. Su questo PC Smart App Control blocca
+le DLL non firmate: niente SciPy né bpy da pip (si usa PIL per la morfologia).
+**Tour 360**: da fare con Cycles come per Traversa, ma serve Blender (lo zip ufficiale 5.3.0 è in `C:UsersPCTools`,
+impronta verificata, non ancora avviato).
+Da fare: tour 360, allineare il rilievo al modello (`allinea.py`), render nuovi, piante quotate.
 
 Codice pubblico di esempio: **`visio`** → `/esempio` (Villa Ferrara), suggerito
 in chiaro nel menu stesso.

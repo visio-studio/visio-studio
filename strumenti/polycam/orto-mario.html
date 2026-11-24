@@ -1,0 +1,28 @@
+<!doctype html><meta charset=utf-8><style>body{margin:0;background:#fff}</style>
+<script type=importmap>{"imports":{"three":"../../area-mr26/3d/lib/three.module.js"}}</script>
+<script type=module>
+// Progetto Mario: vista dall'alto ortografica del modello per la pianta arredata.
+// ?px=200 (pixel per metro) &cut=1.2 (taglio sopra il pavimento) &glb=percorso ; facce singole o doppie come nel GLB.
+// Le campiture dei muri tagliati si aggiungono dopo, dalla sezione vera (sezione-glb.mjs, pianta-mario.py).
+// Finito, l'immagine è in window.IMG (data URL) e il titolo diventa «ok».
+import * as THREE from 'three';
+import {GLTFLoader} from '../../area-mr26/3d/lib/loaders/GLTFLoader.js';
+import {MeshoptDecoder} from '../../area-mr26/3d/lib/libs/meshopt_decoder.module.js';
+const q=new URLSearchParams(location.search);const PX=+(q.get('px')||200),CUT=+(q.get('cut')||1.2);
+const g=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(q.get('glb')||'../../area-mr26/3d/progetto.glb');
+const root=g.scene;root.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(root);
+const Y0=bb.min.y,M=0.4,X0=bb.min.x-M,X1=bb.max.x+M,Z0=bb.min.z-M,Z1=bb.max.z+M;
+// pavimento: la quota più frequente delle facce orizzontali basse (il modello non parte da zero)
+const W=Math.round((X1-X0)*PX),H=Math.round((Z1-Z0)*PX);
+const r=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});r.setPixelRatio(1);r.setSize(W,H);document.body.appendChild(r.domElement);
+r.localClippingEnabled=true;r.outputColorSpace=THREE.SRGBColorSpace;
+const sc=new THREE.Scene();sc.background=new THREE.Color(0xffffff);
+sc.add(new THREE.HemisphereLight(0xffffff,0xb0a898,2.4));const d=new THREE.DirectionalLight(0xfff6ea,0.9);d.position.set(-3,10,-4);sc.add(d);
+const piano=+(q.get('pav')||0.37);const clip=new THREE.Plane(new THREE.Vector3(0,-1,0),piano+CUT);
+root.traverse(o=>{if(!o.isMesh)return;const ms=Array.isArray(o.material)?o.material:[o.material];
+ ms.forEach(m=>{m.clippingPlanes=[clip];});});
+sc.add(root);
+const cam=new THREE.OrthographicCamera(X0,X1,-Z0,-Z1,0.1,200);cam.position.set(0,60,0);cam.up.set(0,0,-1);cam.lookAt(0,0,0);
+r.render(sc,cam);
+window.INFO={X0,X1,Z0,Z1,PX,W,H,Y0,bb:[bb.min.toArray(),bb.max.toArray()]};window.IMG=r.domElement.toDataURL('image/png');document.title='ok';
+</script>
