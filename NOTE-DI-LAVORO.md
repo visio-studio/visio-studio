@@ -565,6 +565,12 @@ Esportata con `skp-esporta.mjs file.skp radici.json out.glb -181 -160 -34 -13 de
 poi `strip-uv.mjs` **senza togliere le normali** (con le normali da ricalcolare il browser
 si bloccava per minuti su un blocco da 300 mila triangoli) e `gltf-transform optimize`
 come per Casa Traversa → `area-mr26/3d/progetto.glb`, 18 MB.
+**Aggiornato il 24/11/2026 con il nuovo `Documents/mario.skp` (148 MB)**: contiene solo
+la variante definitiva (niente copie vecchie né DWG), esportato intero con OpenSKP compresa
+la geometria libera del livello principale, che qui sono i **controsoffitti** (circa 120 m²
+fra 2,5 e 2,6 m dal pavimento, più una parte a 3 m). La pergola sul terrazzo non c'è più.
+Il visore apre il modello tagliato a 2,40 m («Senza soffitto», sotto i controsoffitti);
+«Tutto» li mostra.
 Rilievo: due catture Polycam scaricate in DAE e convertite con `converti.py` in `sa`
 (appartamento intero col terrazzo) e `sb` (terrazzo e locale accanto); non sono allineate
 al modello né fra loro. Anteprime in `area-mr26/img/`, catturate dal visore con `?nui`

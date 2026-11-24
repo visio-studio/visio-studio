@@ -103,13 +103,13 @@ function inquadra(){const mn=M.min,mx=M.max,cx=(mn[0]+mx[0])/2,cz=(mn[2]+mx[2])/
 let curN='pg';async function mostra(n){curN=n;document.querySelectorAll('#sel button,#bPg').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===n));
  $('msg').textContent=n==='pg'?'Caricamento del modello di progetto (18 MB)…':'Caricamento del rilievo…';
  try{if(!CACHE[n])CACHE[n]=carica(n);const s=await CACHE[n];if(cur)sc.remove(cur);cur=s.g;M=s.m;sc.add(cur);
-  const alto=M.max[1];$('cut').max=Math.ceil(alto*20)/20;$('cut').value=n==='pg'&&!top?$('cut').max:(n==='pg'?2.6:(top?2.2:2.3));taglia();piani();inquadra();$('msg').textContent=HINT;}
+  const alto=M.max[1];$('cut').max=Math.ceil(alto*20)/20;$('cut').value=n==='pg'?(top?2.2:2.4):(top?2.2:2.3);taglia();piani();inquadra();$('msg').textContent=HINT;}
  catch(e){$('msg').textContent='Rilievo non disponibile';}}
 function taglia(){const v=+$('cut').value,tutto=!M||v>=M.max[1]-0.01;clip.constant=tutto?99:v;$('cutv').textContent=tutto?'tutto':v.toFixed(2).replace('.',',')+' m';kick();if(typeof piani==='function')piani();}
 function piani(){const pg=M&&cur&&$('bPg').getAttribute('aria-pressed')==='true';$('gPiani').hidden=!pg;const v=+$('cut').value,tutto=v>=+$('cut').max-0.01;
- $('pT').setAttribute('aria-pressed',pg&&!tutto&&Math.abs(v-2.6)<0.01);$('pTutto').setAttribute('aria-pressed',pg&&tutto);}
+ $('pT').setAttribute('aria-pressed',pg&&!tutto&&Math.abs(v-2.4)<0.01);$('pTutto').setAttribute('aria-pressed',pg&&tutto);}
 $('cut').oninput=()=>{taglia();piani();};
-$('pT').onclick=()=>{$('cut').value=2.6;taglia();piani();};
+$('pT').onclick=()=>{$('cut').value=2.4;taglia();piani();};
 $('pTutto').onclick=()=>{$('cut').value=$('cut').max;taglia();piani();};
 document.querySelectorAll('#sel button,#bPg').forEach(b=>b.onclick=()=>mostra(b.dataset.s));
 $('v3').onclick=()=>{top=false;$('v3').setAttribute('aria-pressed',true);$('vT').setAttribute('aria-pressed',false);inquadra();};
