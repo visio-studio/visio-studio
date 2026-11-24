@@ -1,0 +1,8 @@
+# File binari: mai convertire gli a-capo (con core.autocrlf=true un PDF in ASCII verrebbe corrotto al checkout)
+*.pdf binary
+*.glb binary
+*.bin binary
+*.dwg binary
+*.zip binary
+*.skp binary
+*.usdz binary

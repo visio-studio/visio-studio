@@ -10,3 +10,4 @@ node_modules
 netlify.toml
 CLAUDE.md
 NOTE-DI-LAVORO.md
+.gitattributes
