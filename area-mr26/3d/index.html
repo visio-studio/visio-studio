@@ -10,7 +10,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="/font/visio.css">
 <style>
-/* Progetto Mario: modello SketchUp definitivo e due scansioni Polycam separate, una alla volta */
+/* Progetto Mario: modello SketchUp definitivo e scansione Polycam unica, una alla volta, nello stesso riferimento */
 :root{--bg:#0A0A0A;--panel:rgba(14,14,14,.86);--ink:#fff;--muted:#8a8a8a;--accent:#C9A96E;--on-accent:#0A0A0A;--line:rgba(255,255,255,.12);--sans:'Inter',sans-serif;color-scheme:dark}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans);overflow:hidden}
 [hidden]{display:none!important}
@@ -43,10 +43,10 @@ a.back{color:var(--accent);text-decoration:none;font-size:12px}
   <p class="k">Progetto Mario · 3D</p>
   <h1 id="tit">Il progetto in 3D</h1></div><button id="tg" aria-expanded="true" aria-controls="pb">Viste</button></div>
   <div class="pb" id="pb">
-  <p class="sub" id="sub">Il modello SketchUp definitivo e le due scansioni Polycam dello stato attuale, in scala reale. Le misure si confermano al rilievo.</p>
+  <p class="sub" id="sub">Il modello SketchUp definitivo e la scansione Polycam dello stato attuale, in scala reale e sovrapposti: passando dall'uno all'altro la casa resta nello stesso punto. Le misure si confermano al rilievo.</p>
   <div class="grp"><span>Progetto</span><div class="seg"><button data-s="pg" aria-pressed="true" id="bPg">Modello SketchUp</button></div></div>
   <div class="grp" id="gPiani"><span>Pianta</span><div class="seg"><button id="pT" aria-pressed="false">Senza soffitto</button><button id="pTutto" aria-pressed="true">Tutto</button></div></div>
-  <div class="grp"><span>Rilievo di oggi (Polycam)</span><div class="seg" id="sel"><button data-s="sa" aria-pressed="false">Appartamento</button><button data-s="sb" aria-pressed="false">Terrazzo e locale</button></div></div>
+  <div class="grp"><span>Rilievo di oggi (Polycam)</span><div class="seg" id="sel"><button data-s="sr" aria-pressed="false">Casa e terrazzo</button></div></div>
   <div class="grp"><span>Vista</span><div class="seg"><button id="v3" aria-pressed="true">3D</button><button id="vT" aria-pressed="false">Dall'alto</button></div></div>
   <div class="grp"><span>Taglio in altezza: <b id="cutv">tutto</b></span><input id="cut" type="range" min="0.6" max="7" step="0.05" value="7" aria-label="Altezza del taglio orizzontale"></div>
   </div>
@@ -119,7 +119,8 @@ document.querySelectorAll('#sel button,#bPg').forEach(b=>b.onclick=()=>mostra(b.
 $('v3').onclick=()=>{top=false;$('v3').setAttribute('aria-pressed',true);$('vT').setAttribute('aria-pressed',false);inquadra();};
 $('vT').onclick=()=>{top=true;$('vT').setAttribute('aria-pressed',true);$('v3').setAttribute('aria-pressed',false);if(+$('cut').value>2.4){$('cut').value=2.2;taglia();}inquadra();};
 (function loop(){requestAnimationFrame(loop);if(ctl.update())dirty=true;if(dirty){r.render(sc,cam);dirty=false;}})();
-const s0=qs.get('s');await mostra(['pg','sa','sb'].includes(s0)?s0:'pg');
+// sr = scansione unica (scena «mario 2»), già allineata al progetto da scena-a-blocchi.mjs; sa e sb erano le due scansioni vecchie
+const s0=qs.get('s');await mostra(['sr','sa','sb'].includes(s0)?'sr':'pg');
 if(qs.has('top'))$('vT').click();
 // parametri per le immagini di anteprima: ?nui nasconde i pannelli, ?cut=2.2 taglia
 if(qs.has('nui'))for(const e of document.querySelectorAll('.panel,#info'))e.hidden=true;
