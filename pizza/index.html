@@ -43,6 +43,7 @@ button,select,input,textarea{font:inherit;color:inherit}
 :is(button,select,input,textarea,[tabindex]):focus-visible{outline:2px solid var(--cobalt);outline-offset:2px}
 
 /* Bottoni */
+a.btn{text-decoration:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 18px;border:0;border-radius:12px;background:var(--cobalt);color:var(--on-cobalt);font-weight:700;cursor:pointer;transition:filter .15s,transform .12s}
 .btn:hover{filter:brightness(1.07)}
 .btn:active{transform:scale(.985)}
@@ -404,8 +405,8 @@ details.cat>.grid{padding:0 10px 10px}
 .radios input{margin-top:4px}
 .radios small{display:block;color:var(--muted)}
 /* ===== Tavolo su computer: pizza ferma a sinistra, menu e personalizzazione a destra ===== */
-@media (min-width:960px){
-#v-tavolo{--lw:clamp(440px,46vw,860px);--rw:760px;--pzw:min(calc(var(--lw) - 96px),calc(100vh - 300px),640px)}
+@media (min-width:820px){
+#v-tavolo{--lw:clamp(380px,46vw,860px);--rw:760px;--pzw:min(calc(var(--lw) - 96px),calc(100vh - 300px),640px)}
 #v-tavolo .stage{position:fixed;inset:0 auto 0 0;width:var(--lw);border-block:0;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
 #v-tavolo .stage .wrap{max-width:none;padding:24px 40px 112px;gap:16px}
 #v-tavolo .pz,#v-tavolo .cap{width:var(--pzw)}
@@ -417,6 +418,7 @@ details.cat>.grid{padding:0 10px 10px}
 #v-tavolo .gbar{right:auto;width:var(--lw);border-right:1px solid var(--line)}
 #v-tavolo .gbar .wrap{max-width:none;padding-left:40px;padding-right:40px}
 }
+@media (min-width:820px) and (max-width:1099px){#v-tavolo .plist,#v-tavolo .grid{grid-template-columns:1fr}#v-tavolo .gtop .wrap,#v-tavolo .content,#v-tavolo .stage .wrap,#v-tavolo .gbar .wrap{padding-left:24px;padding-right:24px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -457,6 +459,11 @@ details.cat>.grid{padding:0 10px 10px}
       <h2>Gestione</h2>
       <p>La sala in tempo reale, le analisi di cosa si ordina e cosa no, il menu da modificare (prezzi, pizza del giorno), i coperti, il riepilogo serale via email e i QR da stampare.</p>
       <div class="row"><button type="button" class="btn" data-go="gestione">Apri la gestione</button></div>
+    </article>
+    <article class="hc">
+      <h2>Presentazione</h2>
+      <p>Tre minuti animati che spiegano tutto, dal QR sul tavolo al riepilogo serale. Va avanti da sola; con le frecce o un tocco si va avanti e indietro.</p>
+      <div class="row"><a class="btn" href="presentazione/">Guarda la presentazione</a></div>
     </article>
     <article class="hc">
       <h2>Per provarla</h2>

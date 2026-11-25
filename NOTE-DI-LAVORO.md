@@ -840,6 +840,14 @@ servizio di VISIO** e non è collegata al sito: niente link, `noindex` (meta e
   `pizza/index.html` la tabella `VIS` dice quale immagine, quanto grande e su
   quale strato disegnare ogni ingrediente del listino. Font, libreria QR e jsPDF
   stanno in `pizza/` (nessuna richiesta a terzi).
+- **Presentazione animata** (`/pizza/presentazione/`, collegata dall'indice della
+  demo): 16 schermate che spiegano l'app alla pizzeria, circa 3 minuti, avanzano da
+  sole (frecce, tocco, spazio per la pausa, `#N` per aprire la schermata N). È un
+  solo file HTML con le schermate vere dell'app in `pizza/presentazione/img/` e la
+  pizza disegnata con gli stessi sprite di `pizza/img/`. Si adatta: 1920×1080 in
+  orizzontale, 1080×1920 in verticale. Con `?rec` gira su un orologio virtuale
+  (`window.__rec.step(ms)`), così si registra un video fotogramma per fotogramma
+  con Playwright + ffmpeg senza scatti. Se cambia l'app, rifare le schermate.
 - **Per toglierla**: cancellare `pizza/`, `worker/pizza.js`, le righe in
   `worker/index.js` e, in `wrangler.jsonc`, il binding; la migrazione resta e se ne
   aggiunge una con `deleted_classes: ["Pizzeria"]`.
