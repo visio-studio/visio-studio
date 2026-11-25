@@ -92,6 +92,26 @@ p.sd { font-size:13px;color:rgba(255,255,255,.62);line-height:1.95;max-width:560
 .arq { display:flex;gap:16px;align-items:center;margin-top:24px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.65); }
 .arq img { width:104px;height:104px;background:#fff;padding:6px;flex:none; }
 .arq[hidden] { display:none; }
+/* fasi dell'intervento: stato attuale e fasi successive, a partire dalla demolizione */
+#fasi { background:var(--light);color:var(--text); }
+#fasi .sd { color:#55504A; }
+.fgrid { display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:40px; }
+.fcard { background:#fff;border:.5px solid var(--border); }
+.fcard a.im { display:block;background:#fff; }
+.fcard a.im img { display:block;width:100%;height:auto; }
+.fcard .tx { padding:22px 24px 26px; }
+.fcard .k { font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#9A7A3E;margin-bottom:8px; }
+.fcard h3 { font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;line-height:1.1;margin-bottom:12px; }
+.fcard p,.fcard li { font-size:13px;line-height:1.75;color:#3A3631; }
+.fcard ul { margin:10px 0 0 18px; }
+.fcard .mq { display:flex;gap:26px;margin:16px 0 4px;flex-wrap:wrap; }
+.fcard .mq div b { display:block;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:34px;color:var(--text);line-height:1; }
+.fcard .mq div span { font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#77716A; }
+.fcard.f1 { border-color:#E0A526;box-shadow:inset 0 3px 0 #E0A526; }
+.fcard .bt { display:flex;gap:10px;flex-wrap:wrap;margin-top:18px; }
+.fcard .bt a { font-size:9.5px;letter-spacing:2px;text-transform:uppercase;border:.5px solid #9A7A3E;color:#7A5F30;padding:11px 16px;text-decoration:none; }
+.fcard .bt a:hover { background:#9A7A3E;color:#fff; }
+.fnext { margin-top:22px;font-size:12px;color:#77716A; }
 #cantiere { background:#0d0d0d;padding-bottom:0; }
 #cbox { position:relative;height:1050vh;margin:44px -40px 0; }
 #cfix { position:sticky;top:0;height:100vh;overflow:hidden;background:#0d0d0d; }
@@ -252,6 +272,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   #m3box { margin:36px -20px 0;height:72vh; }
   #cbox { margin:36px -20px 0;height:950vh; }
   .arg { grid-template-columns:1fr;gap:28px; }
+  .fgrid { grid-template-columns:1fr; }
   .pvgrid { grid-template-columns:1fr; }
   .cfgbox { grid-template-columns:1fr; }
   #pano #tmappa { width:120px; }
@@ -329,6 +350,42 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
   </div>
 </section>
 
+<section id="fasi">
+  <div class="wrap">
+    <p class="slab">Fasi dell'intervento</p>
+    <h2 class="st">Si parte dalla <em>demolizione</em>.</h2>
+    <p class="sd">I lavori si svolgeranno in più fasi. Qui sotto lo stato attuale del locale e la prima fase: le fasi successive si aggiungeranno man mano che vengono definite.</p>
+    <div class="fgrid">
+      <div class="fcard">
+        <a class="im" href="fasi/Nomentana_stato_attuale_EPT.pdf" target="_blank" rel="noopener"><img src="fasi/stato-attuale.jpg" alt="Pianta dello stato attuale del locale, planimetria EPT Rev01" loading="lazy" width="2573" height="1820"></a>
+        <div class="tx">
+          <p class="k">Stato attuale</p>
+          <h3>Il locale com'è oggi</h3>
+          <p>Planimetria EPT Rev01 in scala 1:100, con uffici, sala riunioni, reception e servizi esistenti. È il punto di partenza di tutte le fasi.</p>
+          <div class="bt"><a href="fasi/Nomentana_stato_attuale_EPT.pdf" target="_blank" rel="noopener">Pianta stato attuale · PDF</a></div>
+        </div>
+      </div>
+      <div class="fcard f1">
+        <a class="im" href="fasi/Nomentana_F1_demolizione.pdf" target="_blank" rel="noopener"><img src="fasi/fase1-demolizione.jpg" alt="Pianta dello stato attuale con evidenziata in giallo l'area della fase 1 di demolizione" loading="lazy" width="2573" height="1820"></a>
+        <div class="tx">
+          <p class="k">Fase 1 · Demolizione</p>
+          <h3>Via controsoffitto e pavimento</h3>
+          <p>Nell'area evidenziata in giallo si smantellano il controsoffitto e il pavimento esistenti.</p>
+          <div class="mq"><div><b>395,5</b><span>m² lordi</span></div><div><b>392</b><span>m² netti, esclusi i pilastri</span></div></div>
+          <ul>
+            <li>Rimozione del controsoffitto esistente</li>
+            <li>Rimozione del pavimento esistente</li>
+            <li>Carico, trasporto e smaltimento del materiale a discarica autorizzata</li>
+            <li>Locali interessati: uffici 1, 2, 3, 4, 5, 6, 8, 9, 10 e 11, sala riunioni, reception, servizio igienico e passaggi</li>
+          </ul>
+          <div class="bt"><a href="fasi/Nomentana_F1_demolizione.pdf" target="_blank" rel="noopener">Area fase 1 · PDF</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="fnext">Superfici misurate sulla planimetria, da verificare in sito prima dell'ordine dei lavori.</p>
+  </div>
+</section>
+
 <section id="cantiere">
   <div class="wrap">
     <p class="slab">Cantiere 4D</p>
@@ -363,7 +420,7 @@ footer { padding:24px 40px;border-top:.5px solid rgba(255,255,255,.06);display:f
     <p class="slab">Tavole tecniche</p>
     <h2 class="st">Le carte del <em>progetto</em>.</h2>
     <p class="sd">Piante, pianta quotata, controsoffitti e luci, dettagli dei locali, sezioni e pareti vetrate, dal modello 3D aggiornato. Clicca una tavola per aprire il PDF. Misure e quote sono di progetto, da confermare in cantiere.</p>
-    <div class="tdown"><a class="btn" href="scarica/Nomentana_pianta_quotata.pdf" target="_blank" rel="noopener">Pianta quotata · PDF</a><a class="btn" href="scarica/Nomentana_progetto_completo.dwg" download>Progetto completo · DWG</a><a class="btn" href="scarica/Nomentana_tavole_complete.pdf" target="_blank" rel="noopener">Tutte le tavole · PDF</a><a class="btn" href="scarica/Nomentana_DWG.zip" download>Tutti i DWG · ZIP</a><a class="btn" href="scarica/Nomentana_vetrate.pdf" target="_blank" rel="noopener">Pareti vetrate · PDF</a></div>
+    <div class="tdown"><a class="btn" href="fasi/Nomentana_stato_attuale_EPT.pdf" target="_blank" rel="noopener">Stato attuale · PDF</a><a class="btn" href="scarica/Nomentana_pianta_quotata.pdf" target="_blank" rel="noopener">Pianta quotata · PDF</a><a class="btn" href="scarica/Nomentana_progetto_completo.dwg" download>Progetto completo · DWG</a><a class="btn" href="scarica/Nomentana_tavole_complete.pdf" target="_blank" rel="noopener">Tutte le tavole · PDF</a><a class="btn" href="scarica/Nomentana_DWG.zip" download>Tutti i DWG · ZIP</a><a class="btn" href="scarica/Nomentana_vetrate.pdf" target="_blank" rel="noopener">Pareti vetrate · PDF</a></div>
     <h3 class="tg">Piante generali</h3>
     <div class="tgrid">
       <figure class="tcard"><a href="tavole/Nomentana_ante_operam_A2.pdf" target="_blank" rel="noopener"><img src="tavole/Nomentana_ante_operam_A2.jpg" alt="Pianta dello stato attuale" loading="lazy"><figcaption>Ante operam · 1:100</figcaption></a></figure>
