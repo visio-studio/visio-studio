@@ -571,9 +571,12 @@ la geometria libera del livello principale, che qui sono i **controsoffitti** (c
 fra 2,5 e 2,6 m dal pavimento, più una parte a 3 m). La pergola sul terrazzo non c'è più.
 Il visore apre il modello tagliato a 2,40 m («Senza soffitto», sotto i controsoffitti);
 «Tutto» li mostra.
-Rilievo: due catture Polycam scaricate in DAE e convertite con `converti.py` in `sa`
-(appartamento intero col terrazzo) e `sb` (terrazzo e locale accanto); non sono allineate
-al modello né fra loro. Anteprime in `area-mr26/img/`, catturate dal visore con `?nui`
+Rilievo (dal 25/11): una sola scansione, `sr`, cioè la scena Polycam «mario 2» che accorpa le due catture
+(le vecchie `sa` e `sb` sono state tolte; i link `?s=sa` e `?s=sb` aprono `sr`). Convertita con
+`strumenti/polycam/scena-a-blocchi.mjs` (GLB della scena → formato del visore, già allineata al modello con la matrice
+di `allinea-mario.py` e spostata come il progetto nel visore, così passando dall'uno all'altra la casa resta ferma)
++ `riduci-texture.py` (texture 4096 → 2048). Per l'ingombro del progetto va dato `finito.glb`: con il GLB compresso
+`getBounds` legge male le posizioni quantizzate. Anteprime in `area-mr26/img/`, catturate dal visore con `?nui`
 (che abilita `preserveDrawingBuffer` per leggere il canvas).
 **Finiture e lampi (24/11/2026)**: OpenSKP esporta ogni faccia SketchUp con fronte e retro come due triangoli
 nello stesso punto (124 mila coppie su 950 mila): a doppia faccia il visore li disegnava insieme e ruotando lampeggiavano.
