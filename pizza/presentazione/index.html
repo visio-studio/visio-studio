@@ -53,8 +53,8 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 @keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
 @keyframes fin{from{opacity:0}to{opacity:1}}
 @keyframes pop{0%{opacity:0;transform:scale(.6)}60%{opacity:1;transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
-.q1,.q2,.q3,.q4,.q5,.q6,.q7{opacity:0}
-.c1 .q1,.c2 .q2,.c3 .q3,.c4 .q4,.c5 .q5,.c6 .q6,.c7 .q7{animation:up .7s cubic-bezier(.2,.8,.2,1) both}
+.q1,.q2,.q3,.q4,.q5,.q6,.q7,.q8{opacity:0}
+.c1 .q1,.c2 .q2,.c3 .q3,.c4 .q4,.c5 .q5,.c6 .q6,.c7 .q7,.c8 .q8{animation:up .7s cubic-bezier(.2,.8,.2,1) both}
 /* verticale */
 .pt .tx{left:80px;right:80px;width:auto;top:120px;bottom:auto;height:780px;justify-content:flex-end;gap:24px}
 .pt .vis{left:50px;top:940px}
@@ -115,7 +115,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 .c1 .flow .q1,.c2 .flow .q2,.c3 .flow .q3,.c4 .flow .q4,.c5 .flow .q5{opacity:1;transition:opacity .6s}
 .rail{position:absolute;left:92px;top:96px;width:4px;height:690px;background:var(--line);border-radius:2px}
 .rail i{position:absolute;inset:0;background:var(--cobalt);transform-origin:0 0;transform:scaleY(0)}
-.on .rail i{animation:grow 5.6s .6s linear both}
+.on .rail i{animation:grow 7.2s 2.4s linear both}
 @keyframes grow{to{transform:scaleY(1)}}
 
 /* 3 · QR */
@@ -193,25 +193,27 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 #s6 .pa{left:60px;top:40px;opacity:0}
 #s6.c1 .pa{animation:up .8s cubic-bezier(.2,.8,.2,1) both}
 #s6 .pb{left:560px;top:40px;opacity:0}
-#s6.c4 .pb{animation:slin .9s .35s cubic-bezier(.2,.8,.2,1) both}
+#s6.c5 .pb{animation:slin .9s .35s cubic-bezier(.2,.8,.2,1) both}
 @keyframes slin{from{opacity:0;transform:translateX(90px)}to{opacity:1;transform:none}}
 #s6 .r1{left:6px;top:448px;width:324px;height:86px}
-#s6.c2 .r1{animation:ringin .5s both}#s6.c3 .r1{animation:ringout .3s both}
+#s6 .r0{left:6px;top:186px;width:324px;height:252px}
+#s6.c2 .r0{animation:ringin .5s both}#s6.c3 .r0{animation:ringout .3s both}
+#s6.c3 .r1{animation:ringin .5s both}#s6.c4 .r1{animation:ringout .3s both}
 #s6 .r2{left:8px;top:656px;width:320px;height:60px}
-#s6.c3 .r2{animation:ringin .5s both}#s6.c4 .r2{animation:ringout .3s .3s both}
+#s6.c4 .r2{animation:ringin .5s both}#s6.c5 .r2{animation:ringout .3s .3s both}
 #s6 .r3{left:6px;top:522px;width:324px;height:140px}
-#s6.c5 .r3{animation:ringin .5s both}
+#s6.c6 .r3{animation:ringin .5s both}
 @keyframes ringin{from{opacity:0;transform:scale(1.12)}to{opacity:1;transform:none}}
 @keyframes ringout{from{opacity:1}to{opacity:0;transform:scale(.96)}}
 #s6 .rp{left:228px;top:738px}
-#s6.c3 .rp{animation:rip .7s .5s ease-out both}
+#s6.c4 .rp{animation:rip .7s .5s ease-out both}
 #s6 .ch1{left:60px;top:812px;opacity:0}
-#s6.c2 .ch1{animation:up .5s both}#s6.c4 .ch1{animation:ringout .3s both}
+#s6.c3 .ch1{animation:up .5s both}#s6.c5 .ch1{animation:ringout .3s both}
 #s6 .ch2{left:560px;top:812px;opacity:0}
-#s6.c5 .ch2{animation:up .5s .2s both}
+#s6.c6 .ch2{animation:up .5s .2s both}
 #s6 .fly{position:absolute;left:190px;top:690px;width:84px;height:100px;border-radius:12px;background:var(--paper);box-shadow:0 14px 30px -8px rgba(18,26,68,.45);display:grid;place-items:center;opacity:0;z-index:5}
 #s6 .fly svg{width:46px;height:46px;color:var(--tomato)}
-#s6.c4 .fly{animation:fly1 1s cubic-bezier(.5,0,.3,1) both}
+#s6.c5 .fly{animation:fly1 1s cubic-bezier(.5,0,.3,1) both}
 @keyframes fly1{0%{opacity:0;transform:none}15%{opacity:1;transform:translateY(-30px) scale(1.1)}100%{opacity:0;transform:translate(720px,-640px) scale(.5) rotate(18deg)}}
 
 /* 7 · una comanda */
@@ -228,7 +230,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 #s7 .oc em{display:block;font-style:normal;font-size:15px;font-weight:700;color:var(--good)}
 #s7 .oc small{display:block;margin-top:8px;font-size:16px;color:var(--warn);font-weight:600;line-height:1.35}
 #s7 .dst{position:absolute;left:190px;top:330px;width:600px;height:520px;border:3px dashed #B9C2DE;border-radius:28px;display:grid;place-items:center;align-content:center;gap:14px;color:var(--muted);font-size:26px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:0}
-#s7.on .dst{animation:fin .6s 1.1s both}#s7.c2 .dst{animation:ringout .4s both}
+#s7.on .dst{animation:fin .6s 3.4s both}#s7.c2 .dst{animation:ringout .4s both}
 #s7 .dst svg{width:72px;height:72px;color:#9AA5CC}
 #s7 .tkw{position:absolute;left:190px;top:330px;width:600px;filter:drop-shadow(0 30px 40px rgba(18,26,68,.25));opacity:0}
 #s7.c2 .tkw{animation:pop .7s cubic-bezier(.2,.8,.2,1) both}
@@ -469,7 +471,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 2 · Come funziona -->
-<section class="sl" id="s2" data-dur="12000" data-cues="600,2000,3400,4800,6200">
+<section class="sl" id="s2" data-dur="12000" data-cues="2500,4600,6400,8000,9600">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">In breve</p>
@@ -489,7 +491,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 3 · QR -->
-<section class="sl" id="s3" data-dur="11500" data-cues="900,2100,3600,4500,6600,7600,8600">
+<section class="sl" id="s3" data-dur="12000" data-cues="2400,3500,5000,5700,9000,9800,10300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il cliente al tavolo</p>
@@ -507,7 +509,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 4 · Personalizza -->
-<section class="sl" id="s4" data-dur="15000" data-cues="3000,9300,11600">
+<section class="sl" id="s4" data-dur="15000" data-cues="4300,9400,12300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il cliente al tavolo</p>
@@ -539,7 +541,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 5 · Allergeni -->
-<section class="sl" id="s5" data-dur="11000" data-cues="2550,2900,3600,6000,7300">
+<section class="sl" id="s5" data-dur="12500" data-cues="5050,5400,8300,10000,11200">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il cliente al tavolo</p>
@@ -565,16 +567,16 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 6 · Ordina -->
-<section class="sl" id="s6" data-dur="13000" data-cues="600,1800,3800,4600,6600,8800,9800">
+<section class="sl" id="s6" data-dur="15500" data-cues="600,1300,5000,7400,8000,10700,12500,13300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il cliente al tavolo</p>
     <h2 class="rv" style="--d:.15s">Invia e <em>segue la sua pizza</em></h2>
     <p class="lead rv" style="--d:.35s">Pizze, fritti e bevande insieme, con le note per la cucina. Al primo ordine del tavolo chiede «Quanti siete?» per il coperto.</p>
-    <ul class="pts"><li class="q6">Vede quando va in forno e quando arriva</li><li class="q7">L'attesa è una stima, calcolata sui tempi reali della cucina</li></ul>
+    <ul class="pts"><li class="q7">Vede quando va in forno e quando arriva</li><li class="q8">L'attesa è una stima, calcolata sui tempi reali della cucina</li></ul>
   </div>
   <div class="vis">
-    <div class="ph pa"><div class="scr"><img src="img/g5-carrello.jpg" alt="Il carrello con i coperti"><div class="ring r1"></div><div class="ring r2"></div></div></div>
+    <div class="ph pa"><div class="scr"><img src="img/g5-carrello.jpg" alt="Il carrello con i coperti"><div class="ring r0"></div><div class="ring r1"></div><div class="ring r2"></div></div></div>
     <div class="rp"></div>
     <div class="fly"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6M9 16h3"/></svg></div>
     <div class="ph pb"><div class="scr"><img src="img/g7-inviato.jpg" alt="Ordine inviato con la stima di attesa"><div class="ring r3"></div></div></div>
@@ -584,7 +586,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 7 · Una comanda -->
-<section class="sl" id="s7" data-dur="14000" data-cues="3000,3500,8400,9600">
+<section class="sl" id="s7" data-dur="14000" data-cues="5300,5800,9600,11000">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">La cucina</p>
@@ -593,9 +595,9 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
     <ul class="pts"><li class="q3">Nessuna confusione tra i tavoli</li><li class="q4">Le modifiche arrivano scritte come le ha chieste il cliente</li></ul>
   </div>
   <div class="vis">
-    <div class="oc card" style="--d:.3s;--e:0s"><div class="who"><i style="background:#2340B8">L</i>Telefono di Luca</div><ul><li><span>2×</span> Margherita</li><li><span>2×</span> Coca-Cola</li></ul><small>Una delle due tagliata a spicchi per il bambino</small></div>
-    <div class="oc card" style="--d:.55s;--e:.12s"><div class="who"><i style="background:#C93316">S</i>Telefono di Sara</div><ul><li><span>1×</span> Diavola<em>+ funghi champignon</em></li><li><span>1×</span> Raffo Grezza</li></ul></div>
-    <div class="oc card" style="--d:.8s;--e:.24s"><div class="who"><i style="background:#2B7336">M</i>Telefono di Marco</div><ul><li><span>1×</span> Mortadè</li><li><span>2×</span> Crocchè di patate</li><li><span>1×</span> Acqua Electa</li></ul><small>Ben cotta</small></div>
+    <div class="oc card" style="--d:2.2s;--e:0s"><div class="who"><i style="background:#2340B8">L</i>Telefono di Luca</div><ul><li><span>2×</span> Margherita</li><li><span>2×</span> Coca-Cola</li></ul><small>Una delle due tagliata a spicchi per il bambino</small></div>
+    <div class="oc card" style="--d:2.6s;--e:.12s"><div class="who"><i style="background:#C93316">S</i>Telefono di Sara</div><ul><li><span>1×</span> Diavola<em>+ funghi champignon</em></li><li><span>1×</span> Raffo Grezza</li></ul></div>
+    <div class="oc card" style="--d:3s;--e:.24s"><div class="who"><i style="background:#2B7336">M</i>Telefono di Marco</div><ul><li><span>1×</span> Mortadè</li><li><span>2×</span> Crocchè di patate</li><li><span>1×</span> Acqua Electa</li></ul><small>Ben cotta</small></div>
     <div class="dst"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M20 4c2 6 10 9 10 19a10 10 0 0 1-20 0c0-5 3-8 5-10 0 4 2 6 4 6 0-5-2-9 1-15z"/></svg>Cucina</div>
     <div class="tkw"><div class="tk">
       <h6>Tavolo 4 <span>0:02</span></h6>
@@ -612,7 +614,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 8 · Cucina -->
-<section class="sl" id="s8" data-dur="13500" data-cues="6000,8000">
+<section class="sl" id="s8" data-dur="13500" data-cues="11400,12200">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">La cucina</p>
@@ -622,19 +624,20 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
   </div>
   <div class="vis">
     <div class="tab"><div class="vp" id="k8" style="width:936px;height:548px"><div class="lay" style="width:936px;height:548px"><img src="img/k1c.jpg" alt="La schermata della cucina">
-      <div class="ring" data-w="3000,5200" style="left:1%;top:48.5%;width:32%;height:8.5%"></div>
-      <div class="ring" data-w="3300,5200" style="left:1.6%;top:68.6%;width:13%;height:4.6%"></div>
-      <div class="ring" data-w="6200,7900" style="left:2%;top:26.4%;width:21%;height:4.6%"></div>
-      <div class="ring" data-w="9000,10700" style="left:35%;top:51.4%;width:24.5%;height:7.4%"></div>
-      <div class="ring" data-w="9300,10700" style="left:68%;top:50%;width:24.5%;height:7.4%"></div>
-      <div class="ring" data-w="11800,99999" style="left:86.4%;top:1.2%;width:9.8%;height:6%"></div>
+      <div class="ring" data-w="2800,5300" style="left:.6%;top:11.4%;width:14%;height:5.6%"></div>
+      <div class="ring" data-w="3500,5300" style="left:33.4%;top:11.4%;width:10.8%;height:5.6%"></div>
+      <div class="ring" data-w="4200,5300" style="left:66.4%;top:11.4%;width:17.4%;height:5.6%"></div>
+      <div class="ring" data-w="6400,7900" style="left:2%;top:26.4%;width:21%;height:4.6%"></div>
+      <div class="ring" data-w="8400,9800" style="left:35%;top:51.4%;width:24.5%;height:7.4%"></div>
+      <div class="ring" data-w="8700,9800" style="left:68%;top:50%;width:24.5%;height:7.4%"></div>
+      <div class="ring" data-w="10300,99999" style="left:86.4%;top:1.2%;width:9.8%;height:6%"></div>
     </div></div></div>
-    <div class="kcap" style="top:750px"><span data-w="0,2700">Tre colonne: da preparare, in forno, pronte da servire</span><span data-w="2800,5700">Tavolo 4: tre telefoni, una scheda. «+ funghi champignon» in evidenza</span><span data-w="5800,8500">Aggiunta del tavolo 7: «il resto del tavolo è già in forno»</span><span data-w="8600,11300">Un tocco sposta tutto il tavolo: Inforna, Pronto, Servito</span><span data-w="11400,99999">Esauriti: un tocco e spariscono da tutti i telefoni</span></div>
+    <div class="kcap" style="top:750px"><span data-w="0,5600">Tre colonne: da preparare, in forno, pronte da servire</span><span data-w="5700,8000">Aggiunta del tavolo 7: «il resto del tavolo è già in forno»</span><span data-w="8100,10000">Un tocco sposta tutto il tavolo: Inforna, Pronto, Servito</span><span data-w="10100,99999">Esauriti: un tocco e spariscono da tutti i telefoni</span></div>
   </div>
 </section>
 
 <!-- 9 · Camerieri -->
-<section class="sl" id="s9" data-dur="13000" data-cues="1200,4200,6500,7300,9000,10200">
+<section class="sl" id="s9" data-dur="13000" data-cues="2300,4400,6800,7400,7700,10200">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">La sala</p>
@@ -665,16 +668,16 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
   <div class="vis">
     <div class="win"><div class="bar"><i></i><i></i><i></i><span>visiorender.it/pizza/#gestione</span></div>
       <div class="vp" id="k10" style="width:980px;height:383px;border-radius:0"><div class="lay" style="width:980px;height:383px"><img src="img/m1c.jpg" alt="La sala vista dalla gestione">
-        <div class="ring" data-w="2700,5000" style="left:1%;top:15.5%;width:98%;height:28%"></div>
-        <div class="ring" data-w="6000,8300" style="left:15.2%;top:54%;width:13.6%;height:31.5%"></div>
-        <div class="ring" data-w="6200,8300" style="left:43.2%;top:54%;width:13.6%;height:31.5%"></div>
+        <div class="ring" data-w="3000,4500" style="left:1%;top:15.5%;width:98%;height:28%"></div>
+        <div class="ring" data-w="5200,8000" style="left:15.2%;top:54%;width:13.6%;height:31.5%"></div>
+        <div class="ring" data-w="5400,8000" style="left:43.2%;top:54%;width:13.6%;height:31.5%"></div>
       </div></div></div>
-    <div class="kcap" style="top:680px"><span data-w="0,2600">Ogni tavolo con il suo stato, a colpo d'occhio</span><span data-w="2700,5700">In alto: chi chiama il cameriere e chi chiede il conto</span><span data-w="5800,99999">Per ogni tavolo: pizze, conto, persone e da quanto è seduto</span></div>
+    <div class="kcap" style="top:680px"><span data-w="0,2700">Ogni tavolo con il suo stato, a colpo d'occhio</span><span data-w="2800,4600">In alto: chi chiama il cameriere e chi chiede il conto</span><span data-w="4700,99999">Per ogni tavolo: pizze, conto, persone e da quanto è seduto</span></div>
   </div>
 </section>
 
 <!-- 11 · Analisi -->
-<section class="sl" id="s11" data-dur="14000" data-cues="4500,6000,7500,9500">
+<section class="sl" id="s11" data-dur="14000" data-cues="6300,7400,8700,10300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il titolare</p>
@@ -699,7 +702,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 12 · Menu -->
-<section class="sl" id="s12" data-dur="13000" data-cues="6700,7000,7500,9200,10400">
+<section class="sl" id="s12" data-dur="13000" data-cues="6600,6900,7400,10100,11300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il titolare</p>
@@ -738,7 +741,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 13 · Email -->
-<section class="sl" id="s13" data-dur="10500" data-cues="1300,7200">
+<section class="sl" id="s13" data-dur="10500" data-cues="2500,7200">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il titolare</p>
@@ -770,12 +773,12 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
     <p class="lead rv" style="--d:.35s">Il cliente non lo può cambiare dal telefono: il sistema lo ricalcola sempre, a ogni ordine.</p>
   </div>
   <div class="vis"><div class="gr">
-    <div class="rg card" style="--d:.5s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 6.5A7 7 0 1 0 17 17.5M4 10.5h9M4 13.5h9"/></svg></div><b>Prezzo</b><p>Menu più i supplementi. Se diventa un'altra pizza del menu, vale quel prezzo.</p></div>
-    <div class="rg card" style="--d:1.1s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .8 3 3 3 6"/></svg></div><b>Coperto</b><p>Lo indica il cliente, il cameriere o nessuno: scegliete voi.</p></div>
-    <div class="rg card" style="--d:1.7s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></svg></div><b>Allergeni</b><p>Quelli del vostro menu. Le aggiunte li sommano, non si tolgono mai.</p></div>
-    <div class="rg card" style="--d:2.3s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></div><b>Esauriti</b><p>Spariscono dai telefoni. Un ordine che li contiene non parte.</p></div>
-    <div class="rg card" style="--d:2.9s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><b>Attesa</b><p>Dai tempi reali della cucina e dalle pizze in coda, presentata come stima.</p></div>
-    <div class="rg card" style="--d:3.5s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><b>Privacy</b><p>Nessun account, nessun dato personale, niente cookie di profilazione.</p></div>
+    <div class="rg card" style="--d:1.6s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 6.5A7 7 0 1 0 17 17.5M4 10.5h9M4 13.5h9"/></svg></div><b>Prezzo</b><p>Menu più i supplementi. Se diventa un'altra pizza del menu, vale quel prezzo.</p></div>
+    <div class="rg card" style="--d:4s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .8 3 3 3 6"/></svg></div><b>Coperto</b><p>Lo indica il cliente, il cameriere o nessuno: scegliete voi.</p></div>
+    <div class="rg card" style="--d:5.6s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></svg></div><b>Allergeni</b><p>Quelli del vostro menu. Le aggiunte li sommano, non si tolgono mai.</p></div>
+    <div class="rg card" style="--d:6.6s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></div><b>Esauriti</b><p>Spariscono dai telefoni. Un ordine che li contiene non parte.</p></div>
+    <div class="rg card" style="--d:7.4s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><b>Attesa</b><p>Dai tempi reali della cucina e dalle pizze in coda, presentata come stima.</p></div>
+    <div class="rg card" style="--d:8.4s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><b>Privacy</b><p>Nessun account, nessun dato personale, niente cookie di profilazione.</p></div>
   </div></div>
 </section>
 
@@ -791,12 +794,12 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
     <img class="cart" src="img/q1-cartellino.jpg" alt="Cartellino QR">
     <div class="cc">Si stampano dalla gestione: quattro cartellini A6 per foglio A4</div>
     <ul class="cl">
-      <li style="--d:.8s;--e:1.2s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Un tablet o un computer in cucina</li>
-      <li style="--d:1.6s;--e:2s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>I telefoni dei camerieri, Android o iPhone</li>
-      <li style="--d:2.4s;--e:2.8s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>I cartellini QR, uno per tavolo</li>
-      <li style="--d:3.2s;--e:3.6s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Il vostro listino definitivo, con i supplementi</li>
-      <li style="--d:4s;--e:4.4s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Un PIN per cucina, camerieri e gestione</li>
-      <li style="--d:4.8s;--e:5.2s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Una serata di prova con alcuni tavoli</li>
+      <li style="--d:2s;--e:2.4s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Un tablet o un computer in cucina</li>
+      <li style="--d:3.2s;--e:3.6s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>I telefoni dei camerieri, Android o iPhone</li>
+      <li style="--d:4.6s;--e:5s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>I cartellini QR, uno per tavolo</li>
+      <li style="--d:5.8s;--e:6.2s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Il vostro listino definitivo, con i supplementi</li>
+      <li style="--d:6.8s;--e:7.2s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Un PIN per cucina, camerieri e gestione</li>
+      <li style="--d:7.6s;--e:8s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Una serata di prova con alcuni tavoli</li>
     </ul>
   </div>
 </section>
@@ -882,7 +885,7 @@ const loadImg=src=>new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.o
 // piani: basi [quando, quale] e ingredienti [id, entra, esce]
 const PLANS={
   p1:{base:[[200,'base-rossa']],ing:[['fiordilatte',1000],['ventricina',2000],['funghi',3000]],rot:.05},
-  p4:{base:[[-1e5,'base-rossa']],ing:[['fiordilatte',-1e5,9000],['ventricina',-1e5],['funghi',2750],['basilico',5950]]},
+  p4:{base:[[-1e5,'base-rossa']],ing:[['fiordilatte',-1e5,8850],['ventricina',-1e5],['funghi',3850],['basilico',6950]]},
   p16:{base:[[300,'base-bianca-ricotta']],ing:[['fiordilatte',900],['pachino',1700],['tarallo',2500]],rot:-.04}
 };
 const DUR=620,STAG=42,OUT=300;
@@ -960,42 +963,42 @@ FR.s1=(t,s)=>drawPizza(s.cv[0],PLANS.p1,t);
 FR.s16=(t,s)=>drawPizza(s.cv[0],PLANS.p16,t);
 FR.s4=(t,s)=>{
   drawPizza(s.cv[0],PLANS.p4,t);
-  const R=s.rows,fun=t>=2750,bas=t>=5950,fdl=t<9000;
+  const R=s.rows,fun=t>=3850,bas=t>=6950,fdl=t<8850;
   R.funghi.classList.toggle('on',fun);R.basilico.classList.toggle('on',bas);
   R.fiordilatte.classList.toggle('on',fdl);R.fiordilatte.classList.toggle('off',!fdl);
-  const v=8.5+1*EO(seg(t,2750,3250))+.5*EO(seg(t,5950,6450));
+  const v=8.5+1*EO(seg(t,3850,4350))+.5*EO(seg(t,6950,7450));
   setText(s.q('#p4p'),eur(Math.round(v*100)/100));
   const m=[];if(fun)m.push('<span class="a">+ funghi champignon</span>');if(bas)m.push('<span class="a">+ basilico</span>');if(!fdl)m.push('<span class="r">senza fior di latte</span>');
   setHTML(s.q('#p4m'),m.join(', ')||'Pomodoro, fior di latte, ventricina piccante');
   const b=s.q('#p4b');let txt='',on=false;
-  if(t>=2750&&t<4900){txt='+1,00 €';on=true}else if(t>=5950&&t<8100){txt='+0,50 €';on=true}else if(t>=9000&&t<11800){txt='Togliere è gratis';on=true}
+  if(t>=3850&&t<6000){txt='+1,00 €';on=true}else if(t>=6950&&t<8500){txt='+0,50 €';on=true}else if(t>=8850&&t<11800){txt='Togliere è gratis';on=true}
   if(txt)setText(b,txt);b.classList.toggle('sh',on);
-  finger(s,t,[[0,0,s.q('.il')],[1800,2600,R.funghi.querySelector('.ck')],[5000,5800,R.basilico.querySelector('.ck')],[8100,8850,R.fiordilatte.querySelector('.ck')]],[2700,5900,8950],[1700,10000]);
+  finger(s,t,[[0,0,s.q('.il')],[2900,3700,R.funghi.querySelector('.ck')],[6000,6800,R.basilico.querySelector('.ck')],[7900,8700,R.fiordilatte.querySelector('.ck')]],[3800,6900,8800],[2700,10000]);
 };
-FR.s5=(t,s)=>finger(s,t,[[0,0,s.q('.al .ev')],[1500,2300,s.q('#p5c')]],[2500],[1300,3500]);
-FR.s8=(t,s)=>{kb(s.q('#k8'),t,[[0,1,.5,.5],[1800,1,.5,.5],[2900,1.9,.17,.66],[5200,1.9,.17,.66],[6100,2,.17,.3],[8000,2,.17,.3],[8900,1.55,.62,.33],[10800,1.55,.62,.33],[11600,1,.5,.5]]);windows(s,t)};
-FR.s10=(t,s)=>{kb(s.q('#k10'),t,[[0,1,.5,.5],[1600,1,.5,.5],[2600,1.7,.3,.26],[5000,1.7,.3,.26],[5900,1.75,.36,.7],[8300,1.75,.36,.7],[9200,1,.5,.5]]);windows(s,t)};
+FR.s5=(t,s)=>finger(s,t,[[0,0,s.q('.al .ev')],[3800,4700,s.q('#p5c')]],[4950],[3500,6000]);
+FR.s8=(t,s)=>{kb(s.q('#k8'),t,[[0,1,.5,.5],[5400,1,.5,.5],[6200,2,.17,.3],[7900,2,.17,.3],[8600,1.55,.62,.33],[9800,1.55,.62,.33],[10500,1,.5,.5]]);windows(s,t)};
+FR.s10=(t,s)=>{kb(s.q('#k10'),t,[[0,1,.5,.5],[2300,1,.5,.5],[3000,1.7,.3,.26],[4400,1.7,.3,.26],[5100,1.75,.36,.7],[8000,1.75,.36,.7],[8800,1,.5,.5]]);windows(s,t)};
 const TOP=[['Margherita',14],['Diavola',8],['Mortadè',5],['Capricciosa',4],['Il Presidente',4],['Tarantella',3]],ORE=[3,9,14,11,6,2];
 EN.s11=s=>{
   if(!s.built){s.q('#b11').innerHTML=TOP.map(([n,v])=>`<div class="br"><span>${n}</span><div class="tr"><i></i><b>${v}</b></div></div>`).join('');
     s.q('#h11').innerHTML=ORE.map(v=>`<i${v===14?' class="pk"':''}></i>`).join('');s.built=1}
 };
 FR.s11=(t,s)=>{
-  const k=EO(seg(t,500,2600));
+  const k=EO(seg(t,1800,3800));
   setText(s.q('#k11a'),eur(Math.round(642.5*k*2)/2));setText(s.q('#k11b'),String(Math.round(58*k)));
   setText(s.q('#k11c'),eur(Math.round(20.73*k*100)/100));setText(s.q('#k11d'),Math.round(11*k)+' min');
   const tr=s.q('#b11').querySelectorAll('.tr');const full=tr[0]?tr[0].clientWidth-60:300;
-  tr.forEach((el,i)=>{const kk=EO(seg(t,1400+i*160,2400+i*160)),w=full*TOP[i][1]/14*kk;el.firstChild.style.width=w+'px';el.lastChild.style.left=w+'px';el.lastChild.style.opacity=kk});
-  s.q('#h11').querySelectorAll('i').forEach((el,i)=>{el.style.height=(100*ORE[i]/14*EO(seg(t,7700+i*120,8500+i*120)))+'%'});
+  tr.forEach((el,i)=>{const kk=EO(seg(t,4800+i*160,5800+i*160)),w=full*TOP[i][1]/14*kk;el.firstChild.style.width=w+'px';el.lastChild.style.left=w+'px';el.lastChild.style.opacity=kk});
+  s.q('#h11').querySelectorAll('i').forEach((el,i)=>{el.style.height=(100*ORE[i]/14*EO(seg(t,8800+i*120,9600+i*120)))+'%'});
 };
 const FRASE='Con la ricotta fresca di giornata';
 FR.s12=(t,s)=>{
-  const tw=s.q('#e12t'),n=Math.round(FRASE.length*seg(t,1300,3300));
-  setText(tw.firstChild,FRASE.slice(0,n));tw.classList.toggle('fc',t>=1100&&t<3700);
-  const pr=s.q('#e12p');pr.classList.toggle('fc',t>=4300&&t<5500);
-  setText(pr.firstChild,t<4500?'7,00':t<4700?'':t<4900?'7':t<5100?'7,5':'7,50');
+  const tw=s.q('#e12t'),n=Math.round(FRASE.length*seg(t,3500,5000));
+  setText(tw.firstChild,FRASE.slice(0,n));tw.classList.toggle('fc',t>=3300&&t<5200);
+  const pr=s.q('#e12p');pr.classList.toggle('fc',t>=5300&&t<6200);
+  setText(pr.firstChild,t<5450?'7,00':t<5600?'':t<5750?'7':t<5900?'7,5':'7,50');
   const m=s.q('#e12m');setText(m,t<7500?'7,00 €':'7,50 €');m.classList.toggle('fl',t>=7500&&t<9000);
-  finger(s,t,[[0,0,s.q('#e12t')],[3500,4200,pr],[5600,6400,s.q('#e12s')]],[4300,6600],[3400,7200]);
+  finger(s,t,[[0,0,s.q('#e12t')],[4850,5250,pr],[5900,6400,s.q('#e12s')]],[5300,6500],[4700,7200]);
 };
 /* ---------- motore della presentazione ---------- */
 const SL=$$('.sl').map((el,i)=>({el,i,id:el.id,dur:+el.dataset.dur,cues:(el.dataset.cues||'').split(',').filter(Boolean).map(Number),
