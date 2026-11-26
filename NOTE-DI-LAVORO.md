@@ -851,6 +851,15 @@ servizio di VISIO** e non è collegata al sito: niente link, `noindex` (meta e
   orizzontale, 1080×1920 in verticale. Con `?rec` gira su un orologio virtuale
   (`window.__rec.step(ms)`), così si registra un video fotogramma per fotogramma
   con Playwright + ffmpeg senza scatti. Se cambia l'app, rifare le schermate.
+- **Voce della presentazione**: un mp3 per schermata in `pizza/presentazione/voce/`,
+  testi e durate in `voce.json`. Si generano con `strumenti/pizza-voce.py` (Piper,
+  open source, voce italiana «Paola» scaricata da Hugging Face; gratis, niente
+  account). All'apertura la pagina chiede «Guarda con la voce» o «Senza audio» (i
+  browser non fanno partire suoni senza un tocco); con la voce ogni schermata dura
+  almeno quanto la sua frase più un secondo. **Tranello della voce Paola**: sbaglia
+  «gli»/«glie» (toglie → «toie»), «gn» (ogni → «o in») e le parole «codice» e «app»:
+  i testi li evitano («elimina», «ciascun», «cu erre», «applicazioni»). Dopo aver
+  cambiato un testo conviene trascrivere l'audio (faster-whisper) per controllarlo.
 - **Per toglierla**: cancellare `pizza/`, `worker/pizza.js`, le righe in
   `worker/index.js` e, in `wrangler.jsonc`, il binding; la migrazione resta e se ne
   aggiunge una con `deleted_classes: ["Pizzeria"]`.

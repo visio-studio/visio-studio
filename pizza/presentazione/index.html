@@ -427,7 +427,18 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 #ui button:focus-visible{outline:2px solid #FFB39E;outline-offset:1px}
 #ui svg{width:22px;height:22px}
 #cnt{min-width:64px;text-align:center;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;opacity:.85}
-#load{position:fixed;inset:0;display:grid;place-items:center;background:#0E1A5C;color:#FFF8EC;font:400 44px var(--fd);z-index:60;transition:opacity .5s}
+#load{position:fixed;inset:0;display:grid;place-items:center;align-content:center;gap:18px;padding:24px;text-align:center;background:radial-gradient(110% 95% at 50% 40%,#2D4BCB 0%,#1A2E8F 46%,#0E1A5C 100%);color:var(--cream);z-index:60;transition:opacity .5s;cursor:default}
+#load>*:not(.tiles){position:relative}
+#load .ls{margin:0;font-size:clamp(13px,2vw,17px);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#FFB39E}
+#load .lt{margin:0;font:400 clamp(46px,9vw,104px)/1 var(--fd)}
+#load .lb{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:14px;opacity:0;pointer-events:none;transition:opacity .4s}
+#load.pr .lb{opacity:1;pointer-events:auto}
+#load button{border:0;border-radius:999px;padding:16px 28px;font-size:18px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:10px}
+#load button:focus-visible{outline:3px solid #FFB39E;outline-offset:3px}
+#load .b1{background:var(--cream);color:var(--ink)}
+#load .b2{background:transparent;color:var(--cream);box-shadow:inset 0 0 0 2px rgba(255,248,236,.55)}
+#load .b1 svg{width:18px;height:18px;color:var(--tomato)}
+#load .lh{margin:4px 0 0;font-size:15px;color:rgba(255,248,236,.72);font-weight:500}
 #load.out{opacity:0;pointer-events:none}
 .rec #ui,.rec #load{display:none}
 .rec #deck{cursor:none}
@@ -435,7 +446,12 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </style>
 </head>
 <body>
-<div id="load">Pizza su Misura</div>
+<div id="load" class="dark"><div class="tiles"></div>
+  <p class="ls">Presentazione per Il Presidente</p>
+  <p class="lt">Pizza su Misura</p>
+  <div class="lb"><button type="button" class="b1" id="go-v"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>Guarda con la voce</button><button type="button" class="b2" id="go-m">Senza audio</button></div>
+  <p class="lh">Circa 3 minuti. Con le frecce o un tocco vai avanti e indietro.</p>
+</div>
 <div id="deck" role="region" aria-roledescription="presentazione" aria-label="Pizza su Misura">
 <div id="prog"></div>
 
@@ -808,6 +824,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
   <button id="bpl" aria-label="Pausa"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></button>
   <button id="bn" aria-label="Schermata successiva"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
   <span id="cnt">1 / 16</span>
+  <button id="bv" aria-label="Accendi la voce" aria-pressed="false"></button>
   <button id="bfs" aria-label="Schermo intero"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
 </nav>
 
@@ -818,6 +835,10 @@ const Q=new URLSearchParams(location.search),REC=Q.has('rec');
 if(REC)document.documentElement.classList.add('rec');
 const $=s=>document.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const deck=$('#deck');
+/* voce: un mp3 per schermata (voce/voce.json, generati con strumenti/pizza-voce.py) */
+let voiceOn=false;const recVoice=REC&&Q.has('voce');
+const aud=new Audio(),pre=new Audio();aud.preload=pre.preload='auto';
+const VST=500,VTAIL=1000;
 /* ---------- orologio: reale, oppure virtuale per registrare il video ---------- */
 let V=0;const now=REC?()=>V:()=>performance.now();
 const cl=k=>k<0?0:k>1?1:k,seg=(t,a,b)=>cl((t-a)/(b-a));
@@ -981,7 +1002,25 @@ const SL=$$('.sl').map((el,i)=>({el,i,id:el.id,dur:+el.dataset.dur,cues:(el.data
   fr:FR[el.id],en:EN[el.id],vis:el.querySelector('.vis'),fg:el.querySelector('.fg'),rp:el.querySelector('.rp'),cv:$$('canvas.pzc',el),
   ws:$$('[data-w]',el).map(e=>(e._w=e.dataset.w.split(',').map(Number),e)),
   rows:Object.fromEntries($$('.row[data-i]',el).map(r=>[r.dataset.i,r])),q(sel){return el.querySelector(sel)},fired:0,pt:-1}));
-const N=SL.length,TOTAL=SL.reduce((a,s)=>a+s.dur,0);
+const N=SL.length;
+const durOf=s=>(voiceOn||recVoice)&&s.vms?Math.max(s.dur,VST+s.vms+VTAIL):s.dur;
+const vsrc=s=>new URL('voce/'+s.vfile,location.href).href;
+function playVoice(s,off){
+  if(aud.src!==vsrc(s))aud.src=vsrc(s);
+  try{aud.currentTime=Math.max(0,off/1000)}catch(e){}
+  const p=aud.play();if(p&&p.catch)p.catch(()=>{s.vdone=1});
+}
+aud.addEventListener('ended',()=>{if(cur>=0)SL[cur].vdone=1});
+aud.addEventListener('error',()=>{if(cur>=0)SL[cur].vdone=1});
+const ICV={on:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5zM15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+  off:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5zM16 9.5l5 5M21 9.5l-5 5"/></svg>'};
+function setVoice(on){
+  voiceOn=on;const b=$('#bv');b.innerHTML=on?ICV.on:ICV.off;b.setAttribute('aria-pressed',on);b.setAttribute('aria-label',on?'Spegni la voce':'Accendi la voce');
+  if(cur<0)return;const s=SL[cur],t=(paused?pausedAt:now())-t0;
+  if(!on){aud.pause();return}
+  if(!s.vms)return;
+  if(t<VST){s.vstarted=0;s.vdone=0}else if(t<VST+s.vms){s.vstarted=1;s.vdone=0;if(!paused)playVoice(s,t-VST)}else{s.vstarted=1;s.vdone=1}
+}
 $('#prog').innerHTML=SL.map(()=>'<i><b></b></i>').join('');
 const bars=$$('#prog b');
 let cur=-1,t0=0,paused=false,pausedAt=0,ended=false;
@@ -991,7 +1030,8 @@ function go(i,start){
   const s=SL[i];
   s.el.classList.remove('on');[...s.el.classList].filter(c=>/^c\d+$/.test(c)).forEach(c=>s.el.classList.remove(c));
   void s.el.offsetWidth;s.el.classList.add('cur','on');
-  s.fired=0;s.pt=-1;cur=i;ended=false;
+  s.fired=0;s.pt=-1;cur=i;ended=false;s.vstarted=0;s.vdone=0;aud.pause();
+  if(voiceOn&&SL[i+1]&&SL[i+1].vfile){pre.src=vsrc(SL[i+1])}
   t0=start!=null?start:now();if(paused)pausedAt=now();
   deck.classList.toggle('dk',s.el.classList.contains('dark'));
   bars.forEach((b,j)=>b.style.transform=`scaleX(${j<i?1:0})`);
@@ -1004,15 +1044,17 @@ function tick(){
   if(cur<0)return;
   const s=SL[cur],t=(paused?pausedAt:now())-t0;
   while(s.fired<s.cues.length&&t>=s.cues[s.fired]){s.fired++;s.el.classList.add('c'+s.fired)}
+  if(voiceOn&&s.vms&&!s.vstarted&&!paused&&t>=VST){s.vstarted=1;playVoice(s,t-VST)}
   if(s.fr)s.fr(t,s);
   s.pt=t;
-  bars[cur].style.transform=`scaleX(${cl(t/s.dur)})`;
-  if(t>=s.dur&&!paused){if(cur<N-1)go(cur+1,t0+s.dur);else ended=true}
+  const D=durOf(s);
+  bars[cur].style.transform=`scaleX(${cl(t/D)})`;
+  if(t>=D&&!paused&&(!voiceOn||!s.vms||s.vdone||t>=D+6000)){if(cur<N-1)go(cur+1,REC||t-D<150?t0+D:now());else ended=true}
 }
 function loop(){tick();requestAnimationFrame(loop)}
 function setPause(p){
   if(p===paused)return;
-  if(p){pausedAt=now();paused=true}else{t0+=now()-pausedAt;paused=false;if(ended){go(0)}}
+  if(p){pausedAt=now();paused=true;aud.pause()}else{t0+=now()-pausedAt;paused=false;if(ended){go(0)}else{const s=SL[cur];if(voiceOn&&s.vstarted&&!s.vdone){const q=aud.play();if(q&&q.catch)q.catch(()=>{})}}}
   deck.classList.toggle('paused',paused);
   $('#bpl').innerHTML=paused?'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>':'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
   $('#bpl').setAttribute('aria-label',paused?'Riproduci':'Pausa');
@@ -1027,6 +1069,7 @@ function bindUI(){
   $('#bp').onclick=e=>{e.stopPropagation();go(cur-1);poke()};
   $('#bn').onclick=e=>{e.stopPropagation();go(cur+1);poke()};
   $('#bpl').onclick=e=>{e.stopPropagation();setPause(!paused);poke()};
+  $('#bv').onclick=e=>{e.stopPropagation();setVoice(!voiceOn);poke()};
   $('#bfs').onclick=e=>{e.stopPropagation();const d=document;if(d.fullscreenElement)d.exitFullscreen();else(d.documentElement.requestFullscreen||d.documentElement.webkitRequestFullscreen||(()=>{})).call(d.documentElement);poke()};
   $('#ui').addEventListener('click',e=>e.stopPropagation());
   let tx=null,ty=0,moved=false;
@@ -1036,7 +1079,7 @@ function bindUI(){
   addEventListener('keydown',e=>{
     if(e.key==='ArrowRight'||e.key==='PageDown'){go(cur+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(cur-1)}
     else if(e.key===' '||e.key==='k'){e.preventDefault();setPause(!paused)}else if(e.key==='f'){$('#bfs').click()}
-    else if(e.key==='Home'){go(0)}else if(e.key==='End'){go(N-1)}else return;poke()});
+    else if(e.key==='v'){setVoice(!voiceOn)}else if(e.key==='Home'){go(0)}else if(e.key==='End'){go(N-1)}else return;poke()});
   addEventListener('mousemove',poke);
   addEventListener('hashchange',()=>{const h=parseInt(location.hash.slice(1),10);if(h>=1&&h<=N&&h-1!==cur)go(h-1)});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)setPause(true)});
@@ -1053,10 +1096,22 @@ async function boot(){
   ];
   await Promise.race([Promise.all(tasks),new Promise(r=>setTimeout(r,REC?30000:7000))]);
   $$('canvas[data-icon]').forEach(c=>drawIcon(c,c.dataset.icon));
-  deck.classList.add('ok');$('#load').classList.add('out');
-  const h=parseInt(location.hash.slice(1),10);
-  if(REC){window.__rec={total:TOTAL,slides:SL.map(s=>s.dur),step(ms){V+=ms;tick();syncCss();return cur},ended:()=>ended};go(Q.has('s')?+Q.get('s')-1:0);syncCss();return}
-  bindUI();go(h>=1&&h<=N?h-1:0);poke();requestAnimationFrame(loop);
+  let hasV=false;
+  try{const r=await fetch('voce/voce.json',{cache:'no-cache'});if(r.ok){(await r.json()).forEach((v,i)=>{if(SL[i]&&v.ms){SL[i].vms=v.ms;SL[i].vfile=v.file;hasV=true}})}}catch(e){}
+  const h=parseInt(location.hash.slice(1),10),first=h>=1&&h<=N?h-1:0;
+  if(REC){deck.classList.add('ok');const durs=SL.map(durOf);let a=0;
+    window.__rec={total:durs.reduce((x,y)=>x+y,0),slides:durs,starts:durs.map(d=>(a+=d)-d),voce:SL.map(s=>s.vfile?{file:s.vfile,ms:s.vms,at:VST}:null),step(ms){V+=ms;tick();syncCss();return cur},ended:()=>ended};
+    go(Q.has('s')?+Q.get('s')-1:0);syncCss();return}
+  setVoice(false);
+  if(!hasV){$('#go-v').hidden=true;$('#bv').hidden=true;$('#go-m').textContent='Guarda la presentazione';$('#go-m').className='b1'}
+  const L=$('#load');L.classList.add('pr');(hasV?$('#go-v'):$('#go-m')).focus({preventScroll:true});
+  const start=withVoice=>{
+    L.classList.add('out');deck.classList.add('ok');bindUI();
+    go(first);
+    if(withVoice){setVoice(true);const s=SL[first];s.vstarted=1;s.vdone=0;t0=now()-VST;playVoice(s,0)}
+    poke();requestAnimationFrame(loop);
+  };
+  $('#go-v').onclick=()=>start(true);$('#go-m').onclick=()=>start(false);
 }
 window.__ready=boot();
 })();
