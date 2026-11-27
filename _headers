@@ -26,6 +26,10 @@
 /area-ct26/*
   X-Robots-Tag: noindex, nofollow
 
+# Presentazione dei servizi (pagina e PDF da inviare): non collegata al sito, fuori dai motori di ricerca
+/presentazione/*
+  X-Robots-Tag: noindex, nofollow
+
 # Area cliente progetto Mario: modello 3D e rilievo fuori dai motori di ricerca
 /area-mr26/*
   X-Robots-Tag: noindex, nofollow
