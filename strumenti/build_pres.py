@@ -20,6 +20,11 @@ for sid in deck['order']:
     h=re.sub(r'<x-icon name="(\w+)"[^>]*></x-icon>',lambda m:svg(m.group(1)),h)
     h=re.sub(r'<aside>.*?</aside>','',h,flags=re.S)
     assert '_blob' not in h and 'x-icon' not in h,sid
+    # copertina e contatti: velo scuro già nell'immagine, niente trasparenze nel PDF (alcuni lettori le colorano di rosa)
+    if 'class="shade"' in h:
+        h=h.replace('<div class="shade"></div>','')
+        h=re.sub(r'(<img class="bleed" src=")img/[0-9a-f]{10}\.jpg',lambda m:m.group(1)+'img/scuro-'+sid+'.jpg',h)
+        shutil.copy(S+'/scuro-'+sid+'.jpg',OUT+'/img/scuro-'+sid+'.jpg')
     parts.append('<div class="slot">'+h.strip()+'</div>')
 css=open(D+'/deck.css').read().replace('.ib x-icon','.ib svg')
 page='''<!doctype html>
@@ -37,7 +42,7 @@ html,body{margin:0;background:#0A0A0A}
 .slot>section img{display:block}
 .xi{width:42px;height:42px}
 table{border-collapse:collapse}
-.tab td,.tab th{padding:9px 14px;text-align:left;border-bottom:1px solid rgba(201,169,110,.25);font-weight:400}
+.tab td,.tab th{padding:9px 14px;text-align:left;border-bottom:1px solid #3D3529;font-weight:400}
 .tab th{font-weight:600}
 ul.lst{list-style:disc}
 #bar{position:fixed;right:16px;bottom:16px;z-index:9;display:flex;gap:8px}
@@ -49,6 +54,7 @@ ul.lst{list-style:disc}
  .slot{width:1920px!important;height:1080px!important;margin:0;page-break-after:always;break-after:page}
  .slot>section{transform:none!important}
  .arrive{animation:none!important}
+ .shot{box-shadow:none!important}
 }
 '''+css+'''
 </style></head><body>
