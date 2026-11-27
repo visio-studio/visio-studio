@@ -844,22 +844,41 @@ servizio di VISIO** e non è collegata al sito: niente link, `noindex` (meta e
   quale strato disegnare ogni ingrediente del listino. Font, libreria QR e jsPDF
   stanno in `pizza/` (nessuna richiesta a terzi).
 - **Presentazione animata** (`/pizza/presentazione/`, collegata dall'indice della
-  demo): 16 schermate che spiegano l'app alla pizzeria, circa 3 minuti, avanzano da
+  demo): 16 schermate che spiegano l'app a una pizzeria, circa 4 minuti, avanzano da
   sole (frecce, tocco, spazio per la pausa, `#N` per aprire la schermata N). È un
   solo file HTML con le schermate vere dell'app in `pizza/presentazione/img/` e la
   pizza disegnata con gli stessi sprite di `pizza/img/`. Si adatta: 1920×1080 in
   orizzontale, 1080×1920 in verticale. Con `?rec` gira su un orologio virtuale
   (`window.__rec.step(ms)`), così si registra un video fotogramma per fotogramma
   con Playwright + ffmpeg senza scatti. Se cambia l'app, rifare le schermate.
+  **È generica, senza il nome del cliente** (scelta del 27/11/2026, per poterla
+  mostrare ad altre pizzerie): le schermate sono state rifatte con il Worker in
+  locale e un `listino.json` modificato solo per l'occasione («La tua pizzeria»,
+  senza via; le pizze «Il Presidente» e «La Presidentessa» rinominate «Della casa»
+  e «Gorgonzola e noci»; pizza del giorno la Tarantella) e con il fuso del browser
+  spostato perché gli orari fossero di sera. La demo vera (`/pizza/`) resta quella
+  de Il Presidente, e il QR dell'ultima schermata porta lì.
 - **Voce della presentazione**: un mp3 per schermata in `pizza/presentazione/voce/`,
-  testi e durate in `voce.json`. Si generano con `strumenti/pizza-voce.py` (Piper,
-  open source, voce italiana «Paola» scaricata da Hugging Face; gratis, niente
-  account). All'apertura la pagina chiede «Guarda con la voce» o «Senza audio» (i
-  browser non fanno partire suoni senza un tocco); con la voce ogni schermata dura
-  almeno quanto la sua frase più un secondo. **Tranello della voce Paola**: sbaglia
-  «gli»/«glie» (toglie → «toie»), «gn» (ogni → «o in») e le parole «codice» e «app»:
-  i testi li evitano («elimina», «ciascun», «cu erre», «applicazioni»). Dopo aver
-  cambiato un testo conviene trascrivere l'audio (faster-whisper) per controllarlo.
+  testi e durate in `voce.json`. Dal 27/11/2026 è una voce da spot fatta con
+  **ElevenLabs (Eleven v4 Turbo) tramite Higgsfield**, voce preimpostata «Elena»
+  (`ca83ca7f-c186-493d-bd69-0d765fa861b2`), stabilità 0,35: tutte le 16 frasi in una
+  sola richiesta, così tono e volume restano uguali (circa 9 crediti Higgsfield per
+  2.900 caratteri). L'audio intero si divide in 16 file con
+  `strumenti/pizza-voce-dividi.py` (trascrive con faster-whisper e taglia nei
+  silenzi; `14=file.mp3` sostituisce una frase rifatta a parte, come è successo per
+  «ogni allergene», pronunciato male e rifatto al plurale). Prima c'era Piper con la
+  voce «Paola» (`strumenti/pizza-voce.py`, gratis ma piatta): resta come ripiego,
+  ma sbaglia «gli»/«glie», «gn», «codice» e «app», e i testi attuali li contengono.
+  All'apertura la pagina chiede «Guarda con la voce» o «Senza audio» (i browser non
+  fanno partire suoni senza un tocco); con la voce ogni schermata dura almeno quanto
+  la sua frase più un secondo. **Sincronia**: le animazioni sono scritte sui tempi
+  della prima voce; ogni `<section>` ha un `data-warp="vecchio:nuovo,…"` (ms dalla
+  partenza della schermata) che il motore usa per spostare cue e disegni sui tempi
+  della voce attuale (calcolato confrontando le parole delle due voci). I pochi
+  ritardi solo CSS (binario della schermata 2, schede della 7, tessere della 14,
+  elenco della 15) sono stati spostati a mano con la stessa corrispondenza. Se si
+  rifà la voce, rifare le ancore allo stesso modo. Dopo aver cambiato un testo
+  conviene trascrivere l'audio (faster-whisper) per controllarlo.
 - **Per toglierla**: cancellare `pizza/`, `worker/pizza.js`, le righe in
   `worker/index.js` e, in `wrangler.jsonc`, il binding; la migrazione resta e se ne
   aggiunge una con `deleted_classes: ["Pizzeria"]`.

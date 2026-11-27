@@ -115,7 +115,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 .c1 .flow .q1,.c2 .flow .q2,.c3 .flow .q3,.c4 .flow .q4,.c5 .flow .q5{opacity:1;transition:opacity .6s}
 .rail{position:absolute;left:92px;top:96px;width:4px;height:690px;background:var(--line);border-radius:2px}
 .rail i{position:absolute;inset:0;background:var(--cobalt);transform-origin:0 0;transform:scaleY(0)}
-.on .rail i{animation:grow 7.2s 2.4s linear both}
+.on .rail i{animation:grow 7.6s 2.8s linear both}
 @keyframes grow{to{transform:scaleY(1)}}
 
 /* 3 · QR */
@@ -230,7 +230,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 #s7 .oc em{display:block;font-style:normal;font-size:15px;font-weight:700;color:var(--good)}
 #s7 .oc small{display:block;margin-top:8px;font-size:16px;color:var(--warn);font-weight:600;line-height:1.35}
 #s7 .dst{position:absolute;left:190px;top:330px;width:600px;height:520px;border:3px dashed #B9C2DE;border-radius:28px;display:grid;place-items:center;align-content:center;gap:14px;color:var(--muted);font-size:26px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:0}
-#s7.on .dst{animation:fin .6s 3.4s both}#s7.c2 .dst{animation:ringout .4s both}
+#s7.on .dst{animation:fin .6s 2.9s both}#s7.c2 .dst{animation:ringout .4s both}
 #s7 .dst svg{width:72px;height:72px;color:#9AA5CC}
 #s7 .tkw{position:absolute;left:190px;top:330px;width:600px;filter:drop-shadow(0 30px 40px rgba(18,26,68,.25));opacity:0}
 #s7.c2 .tkw{animation:pop .7s cubic-bezier(.2,.8,.2,1) both}
@@ -449,19 +449,19 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </head>
 <body>
 <div id="load" class="dark"><div class="tiles"></div>
-  <p class="ls">Presentazione per Il Presidente</p>
+  <p class="ls">Per la tua pizzeria</p>
   <p class="lt">Pizza su Misura</p>
   <div class="lb"><button type="button" class="b1" id="go-v"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>Guarda con la voce</button><button type="button" class="b2" id="go-m">Senza audio</button></div>
-  <p class="lh">Circa 3 minuti. Con le frecce o un tocco vai avanti e indietro.</p>
+  <p class="lh">Circa 4 minuti. Con le frecce o un tocco vai avanti e indietro.</p>
 </div>
 <div id="deck" role="region" aria-roledescription="presentazione" aria-label="Pizza su Misura">
 <div id="prog"></div>
 
 <!-- 1 · Copertina -->
-<section class="sl dark" id="s1" data-dur="10000" data-cues="4200">
+<section class="sl dark" id="s1" data-dur="10000" data-warp="0:0,500:500,1000:1000,2300:2100,2600:2400,3200:3300,3700:3800,4400:4800,4800:5300,6200:6400,6600:6900,7100:7600,8200:7900,9400:9400,9700:9700,11576:10662" data-cues="4200">
   <div class="tiles"></div>
   <div class="tx">
-    <p class="kk rv">Proposta per Il Presidente · Via Milazzo</p>
+    <p class="kk rv">Ordini dal tavolo per pizzerie</p>
     <h1 class="rv" style="--d:.15s">Pizza su<br><em>Misura</em></h1>
     <p class="lead rv" style="--d:.45s">Il menu al tavolo, la comanda in cucina, la sala sotto controllo. Dal telefono, senza app da scaricare.</p>
     <p class="by rv" style="--d:.75s">VISIO Studio</p>
@@ -471,7 +471,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 2 · Come funziona -->
-<section class="sl" id="s2" data-dur="12000" data-cues="2500,4600,6400,8000,9600">
+<section class="sl" id="s2" data-dur="12000" data-warp="0:0,700:500,2700:3200,3200:3800,3500:4400,4800:5200,6700:6400,7100:6800,7500:7400,8200:8600,8600:9000,9000:9500,9700:10500,10200:11500,10800:12300,11498:13404" data-cues="2500,4600,6400,8000,9600">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">In breve</p>
@@ -491,7 +491,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 3 · QR -->
-<section class="sl" id="s3" data-dur="12000" data-cues="2400,3500,5000,5700,9000,9800,10300">
+<section class="sl" id="s3" data-dur="12000" data-warp="0:0,900:800,1400:1700,2000:2700,2300:3000,5600:5300,6000:5700,7100:6300,7800:7100,9100:8100,10100:9500,10923:11811" data-cues="2400,3500,5000,5700,9000,9800,10300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il cliente al tavolo</p>
@@ -502,14 +502,14 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
   <div class="vis">
     <img class="cart" src="img/q1-cartellino.jpg" alt="Cartellino QR del tavolo 4">
     <div class="ph"><div class="scr">
-      <div class="cam"><img src="img/q1-cartellino.jpg" alt=""><div class="vf"><i></i><i></i><i></i><i></i><b></b></div><div class="pill">Tavolo 4 · Il Presidente</div><div class="shut"></div></div>
+      <div class="cam"><img src="img/q1-cartellino.jpg" alt=""><div class="vf"><i></i><i></i><i></i><i></i><b></b></div><div class="pill">Tavolo 4 · La tua pizzeria</div><div class="shut"></div></div>
       <img class="app" src="img/g1-apertura.jpg" alt="Il menu del tavolo 4 sul telefono">
     </div></div>
   </div>
 </section>
 
 <!-- 4 · Personalizza -->
-<section class="sl" id="s4" data-dur="15000" data-cues="4300,9400,12300">
+<section class="sl" id="s4" data-dur="15000" data-warp="0:0,700:2400,1100:2900,1400:3300,2100:4100,2700:4700,3700:5600,4300:6000,5600:7100,6700:8200,7200:8700,9000:10200,11200:12000,12500:13200,12900:13800,13200:14200,13600:14600,14100:15300,14600:15800,15181:16487" data-cues="4300,9400,12300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il cliente al tavolo</p>
@@ -541,7 +541,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 5 · Allergeni -->
-<section class="sl" id="s5" data-dur="12500" data-cues="5050,5400,8300,10000,11200">
+<section class="sl" id="s5" data-dur="12500" data-warp="0:0,700:500,1000:1600,1400:2000,2000:2600,2500:3300,2900:3700,4600:4800,5100:5200,6100:6200,6800:7100,7100:7500,7800:8200,9200:9500,9600:9900,10100:10400,10600:11000,11000:11500,11419:12203" data-cues="5050,5400,8300,10000,11200">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il cliente al tavolo</p>
@@ -556,8 +556,8 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
       <div class="pr"><div class="t"><span>Crocchè</span><span>10,50 €</span></div><p>Fior di latte, panna, prosciutto cotto, crocchetta di patate</p><div class="a"><i>3</i><i>9</i><i>14</i></div></div>
       <div class="pr g"><div class="t"><span>Mortadè</span><span>10,50 €</span></div><p>Fior di latte, crema di pistacchi, mortadella, granella</p><div class="a"><i class="x">2</i><i>3</i><i>9</i></div></div>
       <div class="pr"><div class="t"><span>Nerano</span><span>10,00 €</span></div><p>Fior di latte, vellutata di zucchine, zucchine fritte</p><div class="a"><i>3</i><i>9</i></div></div>
-      <div class="pr g"><div class="t"><span>La Presidentessa</span><span>11,00 €</span></div><p>Fior di latte, gorgonzola, noci, guanciale</p><div class="a"><i class="x">2</i><i>3</i><i>9</i></div></div>
-      <div class="pr"><div class="t"><span>Il Presidente</span><span>11,00 €</span></div><p>Cornicione di ricotta, fior di latte, pachino, tarallo</p><div class="a"><i>3</i><i>9</i></div></div>
+      <div class="pr g"><div class="t"><span>Gorgonzola e noci</span><span>11,00 €</span></div><p>Fior di latte, gorgonzola, noci, guanciale</p><div class="a"><i class="x">2</i><i>3</i><i>9</i></div></div>
+      <div class="pr"><div class="t"><span>Della casa</span><span>11,00 €</span></div><p>Cornicione di ricotta, fior di latte, pachino, tarallo</p><div class="a"><i>3</i><i>9</i></div></div>
       <div class="pr"><div class="t"><span>Zia Margherita</span><span>10,00 €</span></div><p>Cornicione di ricotta, fior di latte, pomodoro, basilico</p><div class="a"><i>3</i><i>9</i></div></div>
       <div class="nb">Nascoste 2 pizze con frutta a guscio, secondo il menu. Per le allergie avvisa sempre il personale.</div>
     </div>
@@ -567,7 +567,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 6 · Ordina -->
-<section class="sl" id="s6" data-dur="15500" data-cues="600,1300,5000,7400,8000,10700,12500,13300">
+<section class="sl" id="s6" data-dur="15500" data-warp="0:0,500:500,1100:1200,1500:1700,2700:3700,3100:4000,3600:4500,4900:5700,5800:6600,6100:7000,6500:7300,7000:8300,8400:9600,8800:10100,9100:10600,9700:11300,10300:12000,10700:12700,11000:13100,11300:13400,14319:14240" data-cues="600,1300,5000,7400,8000,10700,12500,13300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il cliente al tavolo</p>
@@ -586,7 +586,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 7 · Una comanda -->
-<section class="sl" id="s7" data-dur="14000" data-cues="5300,5800,9600,11000">
+<section class="sl" id="s7" data-dur="14000" data-warp="0:0,700:600,1100:900,1400:1300,1900:2100,4000:3200,4300:3500,5600:4700,6000:5200,6300:5600,6600:6000,7100:6500,8000:7600,8600:8100,9200:9000,9600:9500,10800:10400,11600:11500,12000:12600,12500:13100,12800:13500,13378:14188" data-cues="5300,5800,9600,11000">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">La cucina</p>
@@ -595,9 +595,9 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
     <ul class="pts"><li class="q3">Nessuna confusione tra i tavoli</li><li class="q4">Le modifiche arrivano scritte come le ha chieste il cliente</li></ul>
   </div>
   <div class="vis">
-    <div class="oc card" style="--d:2.2s;--e:0s"><div class="who"><i style="background:#2340B8">L</i>Telefono di Luca</div><ul><li><span>2×</span> Margherita</li><li><span>2×</span> Coca-Cola</li></ul><small>Una delle due tagliata a spicchi per il bambino</small></div>
-    <div class="oc card" style="--d:2.6s;--e:.12s"><div class="who"><i style="background:#C93316">S</i>Telefono di Sara</div><ul><li><span>1×</span> Diavola<em>+ funghi champignon</em></li><li><span>1×</span> Raffo Grezza</li></ul></div>
-    <div class="oc card" style="--d:3s;--e:.24s"><div class="who"><i style="background:#2B7336">M</i>Telefono di Marco</div><ul><li><span>1×</span> Mortadè</li><li><span>2×</span> Crocchè di patate</li><li><span>1×</span> Acqua Electa</li></ul><small>Ben cotta</small></div>
+    <div class="oc card" style="--d:2.3s;--e:0s"><div class="who"><i style="background:#2340B8">L</i>Telefono di Luca</div><ul><li><span>2×</span> Margherita</li><li><span>2×</span> Coca-Cola</li></ul><small>Una delle due tagliata a spicchi per il bambino</small></div>
+    <div class="oc card" style="--d:2.5s;--e:.12s"><div class="who"><i style="background:#C93316">S</i>Telefono di Sara</div><ul><li><span>1×</span> Diavola<em>+ funghi champignon</em></li><li><span>1×</span> Raffo Grezza</li></ul></div>
+    <div class="oc card" style="--d:2.7s;--e:.24s"><div class="who"><i style="background:#2B7336">M</i>Telefono di Marco</div><ul><li><span>1×</span> Mortadè</li><li><span>2×</span> Crocchè di patate</li><li><span>1×</span> Acqua Electa</li></ul><small>Ben cotta</small></div>
     <div class="dst"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M20 4c2 6 10 9 10 19a10 10 0 0 1-20 0c0-5 3-8 5-10 0 4 2 6 4 6 0-5-2-9 1-15z"/></svg>Cucina</div>
     <div class="tkw"><div class="tk">
       <h6>Tavolo 4 <span>0:02</span></h6>
@@ -614,7 +614,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 8 · Cucina -->
-<section class="sl" id="s8" data-dur="13500" data-cues="11400,12200">
+<section class="sl" id="s8" data-dur="13500" data-warp="0:0,700:600,1000:1100,1500:1700,2600:2500,3600:3900,4400:4900,4700:5700,5200:6100,6500:7300,8400:9100,9000:9900,9300:10500,10100:11800,11000:13100,11600:13900,11900:14400,12516:15076" data-cues="11400,12200">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">La cucina</p>
@@ -637,7 +637,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 9 · Camerieri -->
-<section class="sl" id="s9" data-dur="13000" data-cues="2300,4400,6800,7400,7700,10200">
+<section class="sl" id="s9" data-dur="13000" data-warp="0:0,700:600,1100:1100,1600:1700,2400:2600,2800:2900,3900:3700,4300:4000,5100:4900,5800:5900,7200:7200,7900:8100,8900:9900,10200:11100,10700:11500,11200:12000,11900:13000,12804:13953" data-cues="2300,4400,6800,7400,7700,10200">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">La sala</p>
@@ -657,7 +657,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 10 · Sala -->
-<section class="sl" id="s10" data-dur="10500" data-cues="8000">
+<section class="sl" id="s10" data-dur="10500" data-warp="0:0,700:700,1100:1800,1800:2400,2200:3100,3000:4200,3600:5100,4000:5500,5500:8200,7200:10300,7900:11000,8337:11550" data-cues="8000">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il titolare</p>
@@ -677,7 +677,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 11 · Analisi -->
-<section class="sl" id="s11" data-dur="14000" data-cues="6300,7400,8700,10300">
+<section class="sl" id="s11" data-dur="14000" data-warp="0:0,800:1800,2000:3300,2600:4100,3000:4600,4000:5800,5200:6700,5500:7100,6200:8100,6600:8700,7500:9900,7800:10200,8900:11500,9200:11900,10900:13000,11400:14000,11800:14700,12100:15100,12908:15964" data-cues="6300,7400,8700,10300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il titolare</p>
@@ -702,7 +702,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 12 · Menu -->
-<section class="sl" id="s12" data-dur="13000" data-cues="6600,6900,7400,10100,11300">
+<section class="sl" id="s12" data-dur="13000" data-warp="0:0,700:600,1000:1000,1400:1400,3000:2700,3300:3000,4000:3900,4400:4300,5200:5200,5700:5800,6300:6500,7100:7700,8300:9000,8600:9500,11100:11700,11800:12400,12400:13000,12830:13561" data-cues="6600,6900,7400,10100,11300">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il titolare</p>
@@ -714,7 +714,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
     <div class="ed card">
       <div class="eh"><b class="serif">Gestione</b><span class="tabs"><i>Sala</i><i>Analisi</i><i class="a">Menu</i></span></div>
       <label>Pizza del giorno</label>
-      <div class="inp">Il Presidente<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+      <div class="inp">Tarantella<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
       <label>La vostra frase</label>
       <div class="inp" id="e12t"><span></span><i class="cr"></i></div>
       <label>Prezzi</label>
@@ -727,9 +727,9 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
     <div class="sync"><i></i><i></i><i></i></div>
     <div class="ph"><div class="scr app">
       <span class="tchip">Tavolo 4</span>
-      <div class="lc">Il Presidente · Via Milazzo</div>
+      <div class="lc">La tua pizzeria</div>
       <div class="ah">Componi la tua <em>pizza</em></div>
-      <div class="pdg"><span class="lab">Pizza del giorno</span><div class="t"><b>Il Presidente</b><span>11,00 €</span></div><div class="q">Con la ricotta fresca di giornata</div><small>Cornicione di ricotta, fior di latte, pachino rosso, tarallo</small></div>
+      <div class="pdg"><span class="lab">Pizza del giorno</span><div class="t"><b>Tarantella</b><span>11,50 €</span></div><div class="q">Con i porcini freschi di giornata</div><small>Fior di latte, funghi porcini, crudo di Parma, basilico</small></div>
       <div class="mr"><div class="t"><span>Margherita</span><span class="mp" id="e12m">7,00 €</span></div><small>Pomodoro, fior di latte</small></div>
       <div class="mr"><div class="t"><span>Marinara</span><span>6,00 €</span></div><small>Pomodoro, aglio, origano</small></div>
       <div class="mr"><div class="t"><span>Diavola</span><span>8,50 €</span></div><small>Pomodoro, fior di latte, ventricina piccante</small></div>
@@ -741,7 +741,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 13 · Email -->
-<section class="sl" id="s13" data-dur="10500" data-cues="2500,7200">
+<section class="sl" id="s13" data-dur="10500" data-warp="0:0,1400:1500,1800:1900,2500:2800,3000:3400,3300:3800,3600:4300,4000:4900,5100:6100,5800:7000,6100:7300,6800:8100,7100:8500,7900:9700,8200:10000,8781:10609" data-cues="2500,7200">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Il titolare</p>
@@ -753,7 +753,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
     <div class="ng"><div class="st"></div><div class="mn"></div>
       <div class="ck">00:00<small>Dopo la chiusura</small></div>
       <div class="em">
-        <div class="hd"><div class="av">P</div><div><b>Riepilogo della serata</b><span>Pizza su Misura · Il Presidente · sabato</span></div></div>
+        <div class="hd"><div class="av">P</div><div><b>Riepilogo della serata</b><span>Pizza su Misura · La tua pizzeria · sabato</span></div></div>
         <div class="ln" style="--d:.5s"><div class="big">642,50 €<small>incasso dagli ordini</small></div></div>
         <div class="ln kv" style="--d:.8s"><span><b>31</b> ordini</span><span><b>58</b> pizze</span><span><b>12</b> tavoli</span><span><b>11 min</b> in cucina</span></div>
         <div class="ln" style="--d:1.1s"><h6>Più ordinate</h6><p>Margherita 14 · Diavola 8 · Mortadè 5</p></div>
@@ -765,7 +765,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
 </section>
 
 <!-- 14 · Regole -->
-<section class="sl" id="s14" data-dur="11000">
+<section class="sl" id="s14" data-dur="11000" data-warp="0:0,700:500,1300:900,2500:2000,2900:2600,3300:3100,3600:3500,4400:4500,4900:5200,5400:5700,6300:6700,7100:7800,8600:9500,9000:10100,9400:10700,9800:11200,10714:12307">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Regole chiare</p>
@@ -773,17 +773,17 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
     <p class="lead rv" style="--d:.35s">Il cliente non lo può cambiare dal telefono: il sistema lo ricalcola sempre, a ogni ordine.</p>
   </div>
   <div class="vis"><div class="gr">
-    <div class="rg card" style="--d:1.6s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 6.5A7 7 0 1 0 17 17.5M4 10.5h9M4 13.5h9"/></svg></div><b>Prezzo</b><p>Menu più i supplementi. Se diventa un'altra pizza del menu, vale quel prezzo.</p></div>
+    <div class="rg card" style="--d:1.2s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 6.5A7 7 0 1 0 17 17.5M4 10.5h9M4 13.5h9"/></svg></div><b>Prezzo</b><p>Menu più i supplementi. Se diventa un'altra pizza del menu, vale quel prezzo.</p></div>
     <div class="rg card" style="--d:4s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .8 3 3 3 6"/></svg></div><b>Coperto</b><p>Lo indica il cliente, il cameriere o nessuno: scegliete voi.</p></div>
-    <div class="rg card" style="--d:5.6s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></svg></div><b>Allergeni</b><p>Quelli del vostro menu. Le aggiunte li sommano, non si tolgono mai.</p></div>
-    <div class="rg card" style="--d:6.6s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></div><b>Esauriti</b><p>Spariscono dai telefoni. Un ordine che li contiene non parte.</p></div>
-    <div class="rg card" style="--d:7.4s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><b>Attesa</b><p>Dai tempi reali della cucina e dalle pizze in coda, presentata come stima.</p></div>
-    <div class="rg card" style="--d:8.4s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><b>Privacy</b><p>Nessun account, nessun dato personale, niente cookie di profilazione.</p></div>
+    <div class="rg card" style="--d:5.9s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></svg></div><b>Allergeni</b><p>Quelli del vostro menu. Le aggiunte li sommano, non si tolgono mai.</p></div>
+    <div class="rg card" style="--d:7.1s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></div><b>Esauriti</b><p>Spariscono dai telefoni. Un ordine che li contiene non parte.</p></div>
+    <div class="rg card" style="--d:8.1s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><b>Attesa</b><p>Dai tempi reali della cucina e dalle pizze in coda, presentata come stima.</p></div>
+    <div class="rg card" style="--d:9.3s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><b>Privacy</b><p>Nessun account, nessun dato personale, niente cookie di profilazione.</p></div>
   </div></div>
 </section>
 
 <!-- 15 · Per partire -->
-<section class="sl" id="s15" data-dur="11000">
+<section class="sl" id="s15" data-dur="11000" data-warp="0:0,500:500,1100:1100,2100:2600,2600:3100,3300:4000,3800:4400,4700:5700,5200:6200,5800:7200,6100:7500,7300:8600,7700:9000,8400:10000,10061:12595">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Per partire</p>
@@ -794,18 +794,18 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
     <img class="cart" src="img/q1-cartellino.jpg" alt="Cartellino QR">
     <div class="cc">Si stampano dalla gestione: quattro cartellini A6 per foglio A4</div>
     <ul class="cl">
-      <li style="--d:2s;--e:2.4s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Un tablet o un computer in cucina</li>
-      <li style="--d:3.2s;--e:3.6s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>I telefoni dei camerieri, Android o iPhone</li>
-      <li style="--d:4.6s;--e:5s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>I cartellini QR, uno per tavolo</li>
-      <li style="--d:5.8s;--e:6.2s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Il vostro listino definitivo, con i supplementi</li>
-      <li style="--d:6.8s;--e:7.2s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Un PIN per cucina, camerieri e gestione</li>
-      <li style="--d:7.6s;--e:8s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Una serata di prova con alcuni tavoli</li>
+      <li style="--d:2.4s;--e:2.8s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Un tablet o un computer in cucina</li>
+      <li style="--d:3.9s;--e:4.3s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>I telefoni dei camerieri, Android o iPhone</li>
+      <li style="--d:5.6s;--e:6s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>I cartellini QR, uno per tavolo</li>
+      <li style="--d:7.2s;--e:7.6s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Il vostro listino definitivo, con i supplementi</li>
+      <li style="--d:8.1s;--e:8.5s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Un PIN per cucina, camerieri e gestione</li>
+      <li style="--d:8.9s;--e:9.3s"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-15"/></svg>Una serata di prova con alcuni tavoli</li>
     </ul>
   </div>
 </section>
 
 <!-- 16 · Provatela -->
-<section class="sl dark" id="s16" data-dur="12000" data-cues="1200">
+<section class="sl dark" id="s16" data-dur="12000" data-warp="0:0,500:500,1600:2000,2200:2600,2600:3400,3000:3800,3500:4400,3900:4900,4800:5800,5200:6400,5900:7400,6400:8000,7057:9068" data-cues="1200">
   <div class="tiles"></div>
   <div class="tx">
     <p class="kk rv">Provatela ora</p>
@@ -819,7 +819,7 @@ h2 em,h1 em{font-style:normal;color:var(--tomato)}
   </div>
 </section>
 
-<div id="foot"><span>Pizza su Misura · Il Presidente</span><span>VISIO Studio</span></div>
+<div id="foot"><span>Pizza su Misura</span><span>VISIO Studio</span></div>
 </div>
 
 <nav id="ui" aria-label="Comandi della presentazione">
@@ -978,7 +978,7 @@ FR.s4=(t,s)=>{
 FR.s5=(t,s)=>finger(s,t,[[0,0,s.q('.al .ev')],[3800,4700,s.q('#p5c')]],[4950],[3500,6000]);
 FR.s8=(t,s)=>{kb(s.q('#k8'),t,[[0,1,.5,.5],[5400,1,.5,.5],[6200,2,.17,.3],[7900,2,.17,.3],[8600,1.55,.62,.33],[9800,1.55,.62,.33],[10500,1,.5,.5]]);windows(s,t)};
 FR.s10=(t,s)=>{kb(s.q('#k10'),t,[[0,1,.5,.5],[2300,1,.5,.5],[3000,1.7,.3,.26],[4400,1.7,.3,.26],[5100,1.75,.36,.7],[8000,1.75,.36,.7],[8800,1,.5,.5]]);windows(s,t)};
-const TOP=[['Margherita',14],['Diavola',8],['Mortadè',5],['Capricciosa',4],['Il Presidente',4],['Tarantella',3]],ORE=[3,9,14,11,6,2];
+const TOP=[['Margherita',14],['Diavola',8],['Mortadè',5],['Capricciosa',4],['Regina',4],['Tarantella',3]],ORE=[3,9,14,11,6,2];
 EN.s11=s=>{
   if(!s.built){s.q('#b11').innerHTML=TOP.map(([n,v])=>`<div class="br"><span>${n}</span><div class="tr"><i></i><b>${v}</b></div></div>`).join('');
     s.q('#h11').innerHTML=ORE.map(v=>`<i${v===14?' class="pk"':''}></i>`).join('');s.built=1}
@@ -991,7 +991,7 @@ FR.s11=(t,s)=>{
   tr.forEach((el,i)=>{const kk=EO(seg(t,4800+i*160,5800+i*160)),w=full*TOP[i][1]/14*kk;el.firstChild.style.width=w+'px';el.lastChild.style.left=w+'px';el.lastChild.style.opacity=kk});
   s.q('#h11').querySelectorAll('i').forEach((el,i)=>{el.style.height=(100*ORE[i]/14*EO(seg(t,8800+i*120,9600+i*120)))+'%'});
 };
-const FRASE='Con la ricotta fresca di giornata';
+const FRASE='Con i porcini freschi di giornata';
 FR.s12=(t,s)=>{
   const tw=s.q('#e12t'),n=Math.round(FRASE.length*seg(t,3500,5000));
   setText(tw.firstChild,FRASE.slice(0,n));tw.classList.toggle('fc',t>=3300&&t<5200);
@@ -1005,6 +1005,9 @@ const SL=$$('.sl').map((el,i)=>({el,i,id:el.id,dur:+el.dataset.dur,cues:(el.data
   fr:FR[el.id],en:EN[el.id],vis:el.querySelector('.vis'),fg:el.querySelector('.fg'),rp:el.querySelector('.rp'),cv:$$('canvas.pzc',el),
   ws:$$('[data-w]',el).map(e=>(e._w=e.dataset.w.split(',').map(Number),e)),
   rows:Object.fromEntries($$('.row[data-i]',el).map(r=>[r.dataset.i,r])),q(sel){return el.querySelector(sel)},fired:0,pt:-1}));
+/* voce: data-warp="vecchio:nuovo,…" porta i tempi scritti per la prima voce su quelli della voce attuale */
+function lin(t,X,Y){if(!X||!X.length)return t;if(t<=X[0])return Y[0]+t-X[0];for(let i=1;i<X.length;i++)if(t<=X[i])return Y[i-1]+(Y[i]-Y[i-1])*(t-X[i-1])/(X[i]-X[i-1]);return Y[Y.length-1]+t-X[X.length-1]}
+SL.forEach(s=>{const w=(s.el.dataset.warp||'').split(',').filter(Boolean).map(x=>x.split(':').map(Number));s.wo=w.map(x=>x[0]);s.wn=w.map(x=>x[1]);s.dur=Math.round(lin(s.dur,s.wo,s.wn))});
 const N=SL.length;
 const durOf=s=>(voiceOn||recVoice)&&s.vms?Math.max(s.dur,VST+s.vms+VTAIL):s.dur;
 const vsrc=s=>new URL('voce/'+s.vfile,location.href).href;
@@ -1045,10 +1048,10 @@ function go(i,start){
 }
 function tick(){
   if(cur<0)return;
-  const s=SL[cur],t=(paused?pausedAt:now())-t0;
-  while(s.fired<s.cues.length&&t>=s.cues[s.fired]){s.fired++;s.el.classList.add('c'+s.fired)}
+  const s=SL[cur],t=(paused?pausedAt:now())-t0,tw=lin(t,s.wn,s.wo);
+  while(s.fired<s.cues.length&&tw>=s.cues[s.fired]){s.fired++;s.el.classList.add('c'+s.fired)}
   if(voiceOn&&s.vms&&!s.vstarted&&!paused&&t>=VST){s.vstarted=1;playVoice(s,t-VST)}
-  if(s.fr)s.fr(t,s);
+  if(s.fr)s.fr(tw,s);
   s.pt=t;
   const D=durOf(s);
   bars[cur].style.transform=`scaleX(${cl(t/D)})`;
